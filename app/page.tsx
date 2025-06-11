@@ -57,14 +57,14 @@ export default function HomePage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white" onClick={handleGetDiagnosis}>
+                <Button size="lg" className="bg-green-600 hover:bg-green-700" onClick={handleGetDiagnosis}>
                   <Upload className="w-5 h-5 mr-2" />
                   Tashxis olish
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-white hover:bg-white hover:text-blue-600"
+                  className="border-white text-black hover:bg-white hover:text-blue-600"
                   onClick={handleUploadAnalysis}
                 >
                   <Brain className="w-5 h-5 mr-2" />
