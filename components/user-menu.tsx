@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslations } from 'next-intl'
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -19,6 +20,7 @@ import { useRouter } from "next/navigation"
 
 export function UserMenu() {
   const { user, isLoggedIn, logout } = useAppContext()
+  const t = useTranslations('UserMenu')
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
   const router = useRouter()
@@ -64,19 +66,19 @@ export function UserMenu() {
             <Link href="/dashboard">
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
-                <span>Shaxsiy kabinet</span>
+                <span>{t('dashboard')}</span>
               </DropdownMenuItem>
             </Link>
             <Link href="/dashboard?tab=settings">
               <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
-                <span>Sozlamalar</span>
+                <span>{t('settings')}</span>
               </DropdownMenuItem>
             </Link>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
-              <span>Chiqish</span>
+              <span>{t('logout')}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -88,10 +90,10 @@ export function UserMenu() {
     <>
       <div className="flex items-center space-x-4">
         <Button variant="outline" size="sm" onClick={openLoginModal}>
-          Kirish
+          {t('login')}
         </Button>
         <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={openRegisterModal}>
-          Ro'yxatdan o'tish
+          {t('register')}
         </Button>
       </div>
 

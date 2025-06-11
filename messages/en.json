@@ -1,0 +1,230 @@
+{
+  "Index": {
+    "hero": {
+      "title": "Artificial Intelligence for",
+      "titleHighlight": "your health",
+      "description": "Upload your analysis, get diagnosis and doctor recommendations. Fast and accurate diagnosis with AI assistance.",
+      "getDiagnosis": "Get Diagnosis",
+      "uploadAnalysis": "Upload Analysis",
+      "emergencyHelp": "Emergency Help"
+    },
+    "features": {
+      "title": "How It Works?",
+      "description": "Get professional medical analysis and doctor recommendations in 4 simple steps",
+      "uploadAnalysis": "Upload Analysis",
+      "aiAnalysis": "AI Analysis",
+      "findDoctor": "Find Doctor",
+      "consultation": "Consultation",
+      "aiDiagnosis": {
+        "title": "Reliable and Secure",
+        "description": "All data is encrypted and stored according to medical standards"
+      },
+      "doctorConsultation":{
+        "title": "Available 24/7",
+        "description": "Get diagnosis and emergency help services anytime"
+      },
+      "emergencyHelp":{
+        "title": "Professional Doctors",
+        "description": "Direct connection with experienced specialists"
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works?",
+      "description": "Get professional medical analysis and doctor recommendations in 4 simple steps",
+      "step1": {
+        "title": "1. Upload Analysis",
+        "description": "Upload your medical analyses, images or describe your symptoms"
+      },
+      "step2": {
+        "title": "2. AI Analysis",
+        "description": "Artificial Intelligence performs deep analysis of your data"
+      },
+      "step3": {
+        "title": "3. Find Doctor",
+        "description": "We recommend specialists suitable for your condition"
+      },
+      "step4": {
+        "title": "4. Consultation",
+        "description": "Schedule online or offline consultation with the doctor"
+      }
+    },
+    "whyDiagnoAI": {
+      "title": "Why Diagno AI?",
+      "feature1": {
+        "title": "Reliable and Secure",
+        "description": "All data is encrypted and stored according to medical standards"
+      },
+      "feature2": {
+        "title": "24/7 Available",
+        "description": "Get diagnosis and emergency help services anytime"
+      },
+      "feature3": {
+        "title": "Professional Doctors",
+        "description": "Direct connection with experienced specialists"
+      }
+    },
+    "testimonials": {
+      "title": "User Reviews",
+      "description":"",
+      "testimonial1": {
+        "name": "Anvar Karimov",
+        "location": "Tashkent",
+        "text": "\"Got quick and accurate diagnosis with Diagno AI. Doctor recommendations were very helpful.\"",
+        "content": "\"Got quick and accurate diagnosis with Diagno AI. Doctor recommendations were very helpful.\""
+      ,
+      "role": " Doctor"
+
+      },
+      "testimonial2": {
+        "name": "Malika Rahimova",
+        "location": "Samarkand",
+        "text": "\"The emergency help section saved my life. Very fast and professional service.\"",
+        "content": "\"Got quick and accurate diagnosis with Diagno AI. Doctor recommendations were very helpful.\""
+      ,
+      "role": " Doctor"
+
+      },
+      "testimonial3": {
+        "name": "Bobur Toshmatov",
+        "location": "Bukhara",
+        "text": "\"AI analysis was very accurate. Online consultation with the doctor was convenient.\""
+        ,"content": "\"Got quick and accurate diagnosis with Diagno AI. Doctor recommendations were very helpful.\""
+        ,
+      "role": " Doctor"
+
+      }
+    },
+    "cta": {
+      "title": "Take care of your health today",
+      "description": "Get quick diagnosis with AI and connect with professional doctors",
+      "primaryButton": "Get Free Diagnosis",
+      "secondaryButton": "Learn More"
+    }
+  },
+  "common": {
+    "appName": "Diagno AI",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "aiDiagnosis": "AI Diagnosis",
+    "doctors": "Doctors",
+    "emergencyHelp": "Emergency Help",
+    "recommendedProviders": "Recommended Providers",
+    "dashboard": "Dashboard"
+  },
+  "Auth": {
+    "login": {
+      "title": "Login",
+      "description": "Login to access Diagno AI platform",
+      "email": "Email",
+      "emailPlaceholder": "email@example.com",
+      "password": "Password",
+      "submit": "Login",
+      "cancel": "Cancel",
+      "loading": "Logging in..."
+    },
+    "register": {
+      "title": "Register",
+      "description": "Create an account to use Diagno AI platform",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "John Doe",
+      "email": "Email",
+      "emailPlaceholder": "email@example.com",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Register",
+      "cancel": "Cancel",
+      "loading": "Registering...",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Login here"
+    },
+    "errors": {
+      "loginFailed": "Login failed. Please check your credentials.",
+      "registrationFailed": "Registration failed. Please try again.",
+      "passwordMismatch": "Passwords do not match",
+      "general": "An error occurred. Please try again."
+    }
+  },
+  "Language": {
+    "switchLanguage": "Switch language",
+    "uzbek": "O'zbekcha",
+    "english": "English"
+  },
+  "UserMenu": {
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register"
+  },
+  "Footer": {
+    "brand": "Diagno AI",
+    "description": "AI-powered medical diagnosis and doctor recommendations platform",
+    "services": {
+      "title": "Services",
+      "aiDiagnosis": "AI Diagnosis",
+      "emergencyHelp": "Emergency Help",
+      "doctors": "Doctors",
+      "consultation": "Consultation"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About Us",
+      "contact": "Contact",
+      "careers": "Careers",
+      "blog": "Blog"
+    },
+    "help": {
+      "title": "Help",
+      "support": "Support",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "faq": "FAQ"
+    }
+  },
+  "RecommendedProviders": {
+    "analysisSummaryTitle": "Based on your diagnosis",
+    "analysisSummaryDescription": "Viral Infection (ARVI) - Confidence: 87%",
+    "analysisSummaryBadge": "Matching specialists found",
+    "analysisSummaryText": "Based on your symptoms, the following doctors are recommended. AI analysis has selected the most suitable specialists.",
+    "filters": "Filters",
+    "searchLabel": "Search",
+    "searchPlaceholder": "Doctor name...",
+    "cityLabel": "City",
+    "cityPlaceholder": "Select city",
+    "cityTashkent": "Tashkent",
+    "citySamarkand": "Samarkand",
+    "cityBukhara": "Bukhara",
+    "cityNamangan": "Namangan",
+    "specialtyLabel": "Specialty",
+    "specialtyPlaceholder": "Select specialty",
+    "specialtyTerapevt": "Therapist",
+    "specialtyKardiolog": "Cardiologist",
+    "specialtyNevropatolog": "Neurologist",
+    "specialtyPediatr": "Pediatrician",
+    "ratingLabel": "Rating",
+    "ratingPlaceholder": "Select rating",
+    "rating45": "4.5+ stars",
+    "rating40": "4.0+ stars",
+    "rating35": "3.5+ stars",
+    "clearFilters": "Clear filters",
+    "recommendedDoctorsTitle": "Recommended doctors ({count})",
+    "sortMatch": "By match",
+    "sortRating": "By rating",
+    "sortDistance": "By distance",
+    "sortPrice": "By price",
+    "doctorExperience": "{years} years experience",
+    "doctorReviews": "({count} reviews)",
+    "doctorConsultation": "/ consultation",
+    "call": "Call",
+    "bookAppointment": "Book appointment",
+    "seeMoreDoctors": "See more doctors",
+    "toastCalling": "Calling {doctorName}...",
+    "toastBooked": "Appointment booked with {doctorName}",
+    "toastFiltersCleared": "Filters cleared"
+  }
+}

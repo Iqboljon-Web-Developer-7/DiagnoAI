@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useTranslations } from 'next-intl'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -26,6 +27,7 @@ interface RegisterModalProps {
 
 export function RegisterModal({ isOpen, onClose, onSuccess, onLoginClick }: RegisterModalProps) {
   const { login } = useAppContext()
+  const t = useTranslations('Auth')
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -38,7 +40,7 @@ export function RegisterModal({ isOpen, onClose, onSuccess, onLoginClick }: Regi
     setError("")
 
     if (password !== confirmPassword) {
-      setError("Parollar mos kelmadi")
+      setError(t('errors.passwordMismatch'))
       return
     }
 
@@ -52,10 +54,10 @@ export function RegisterModal({ isOpen, onClose, onSuccess, onLoginClick }: Regi
         onSuccess?.()
         onClose()
       } else {
-        setError("Ro'yxatdan o'tish muvaffaqiyatsiz tugadi.")
+        setError(t('errors.registrationFailed'))
       }
     } catch (err) {
-      setError("Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.")
+      setError(t('errors.general'))
     } finally {
       setIsLoading(false)
     }
@@ -65,35 +67,35 @@ export function RegisterModal({ isOpen, onClose, onSuccess, onLoginClick }: Regi
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Ro'yxatdan o'tish</DialogTitle>
-          <DialogDescription>Diagno AI platformasidan foydalanish uchun ro'yxatdan o'ting</DialogDescription>
+          <DialogTitle>{t('register.title')}</DialogTitle>
+          <DialogDescription>{t('register.description')}</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="name">To'liq ism</Label>
+              <Label htmlFor="name">{t('register.fullName')}</Label>
               <Input
                 id="name"
                 type="text"
-                placeholder="Anvar Karimov"
+                placeholder={t('register.fullNamePlaceholder')}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('register.email')}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="email@example.com"
+                placeholder={t('register.emailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="password">Parol</Label>
+              <Label htmlFor="password">{t('register.password')}</Label>
               <Input
                 id="password"
                 type="password"
@@ -103,7 +105,7 @@ export function RegisterModal({ isOpen, onClose, onSuccess, onLoginClick }: Regi
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="confirmPassword">Parolni tasdiqlang</Label>
+              <Label htmlFor="confirmPassword">{t('register.confirmPassword')}</Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -114,29 +116,31 @@ export function RegisterModal({ isOpen, onClose, onSuccess, onLoginClick }: Regi
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
           </div>
-          <DialogFooter className="flex flex-col space-y-2 sm:space-y-0 sm:flex-row">
-            <div className="flex items-center text-sm mr-auto">
-              <span>Hisobingiz bormi?</span>
-              <Button type="button" variant="link" className="p-0 h-auto ml-1" onClick={onLoginClick}>
-                Kirish
-              </Button>
-            </div>
-            <div className="flex space-x-2">
-              <Button type="button" variant="outline" onClick={onClose}>
-                Bekor qilish
-              </Button>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Ro'yxatdan o'tish...
-                  </>
-                ) : (
-                  "Ro'yxatdan o'tish"
-                )}
-              </Button>
-            </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose}>
+              {t('register.cancel')}
+            </Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t('register.loading')}
+                </>
+              ) : (
+                t('register.submit')
+              )}
+            </Button>
           </DialogFooter>
+          <div className="mt-4 text-center text-sm text-gray-500">
+            {t('register.haveAccount')}{" "}
+            <button
+              type="button"
+              className="text-blue-600 hover:underline"
+              onClick={onLoginClick}
+            >
+              {t('register.loginLink')}
+            </button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

@@ -2,35 +2,38 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Brain, Shield, Clock, Users, Award, Globe, Heart, CheckCircle } from "lucide-react"
 import Link from "next/link"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+
+import AlisherKarimovImage from "@/assets/images/doctor/doctor-man-1.jpg"
+import DilnozaRahimovaImage from "@/assets/images/doctor/doctor-woman-1.jpg"
+import BoburToshmatovImage from "@/assets/images/doctor/doctor-man-2.jpg"
+import MalikaUsmonovaImage from "@/assets/images/doctor/doctor-woman-2.jpg"
 
 export default function AboutPage() {
   const teamMembers = [
     {
       name: "Dr. Alisher Karimov",
       role: "Bosh shifokor, Asoschisi",
-      image: "/placeholder.svg?height=200&width=200",
+      image: AlisherKarimovImage.src,
       description:
         "20 yillik tajribaga ega kardiolog. Diagno AI platformasining g'oyasi va asosiy konsepsiyasini ishlab chiqqan.",
     },
     {
       name: "Dilnoza Rahimova",
       role: "Bosh texnologiya direktori",
-      image: "/placeholder.svg?height=200&width=200",
+      image: DilnozaRahimovaImage.src,
       description: "Sun'iy intellekt va tibbiy ma'lumotlar tahlili bo'yicha mutaxassis. MIT bitiruvchisi.",
     },
     {
       name: "Dr. Bobur Toshmatov",
       role: "Tibbiy maslahatchi",
-      image: "/placeholder.svg?height=200&width=200",
+      image: BoburToshmatovImage.src,
       description:
         "Terapevt va jamoat salomatligi bo'yicha mutaxassis. Jahon sog'liqni saqlash tashkiloti bilan hamkorlik qilgan.",
     },
     {
       name: "Malika Usmonova",
       role: "Mahsulot menejeri",
-      image: "/placeholder.svg?height=200&width=200",
+      image: MalikaUsmonovaImage.src,
       description: "Tibbiy dasturiy ta'minot va foydalanuvchi tajribasi bo'yicha 8 yillik tajribaga ega mutaxassis.",
     },
   ]
@@ -65,8 +68,6 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -212,7 +213,7 @@ export default function AboutPage() {
                   <img
                     src={member.image || "/placeholder.svg"}
                     alt={member.name}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-48 object-cover object-top"
                   />
                   <div className="p-6">
                     <h3 className="text-lg font-bold text-gray-900 mb-1">{member.name}</h3>
@@ -287,7 +288,7 @@ export default function AboutPage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-blue-600"
+                className="border-white hover:bg-white hover:text-blue-600"
               >
                 Vakansiyalar
               </Button>
@@ -296,7 +297,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <Footer />
     </div>
   )
 }

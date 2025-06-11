@@ -18,6 +18,8 @@ export default function EmergencyHelpPage() {
   const [showSuccessToast, setShowSuccessToast] = useState(false)
   const [toastMessage, setToastMessage] = useState("")
   const [selectedEmergency, setSelectedEmergency] = useState<string | null>(null)
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
 
   const handleEmergencyAnalysis = () => {
     setIsAnalyzing(true)
@@ -54,8 +56,26 @@ export default function EmergencyHelpPage() {
   }
 
   const handleUploadFile = () => {
-    setToastMessage("Fayl yuklash oynasi ochildi")
-    setShowSuccessToast(true)
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = 'image/*'
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0]
+      if (file) {
+        setSelectedImage(file)
+        // Create preview URL
+        const reader = new FileReader()
+        reader.onloadend = () => {
+          setImagePreview(reader.result as string)
+        }
+        reader.readAsDataURL(file)
+        setToastMessage("Rasm muvaffaqiyatli yuklandi")
+        setShowSuccessToast(true)
+        // Add image info to symptoms
+        setSymptoms((prev) => prev + (prev ? ", " : "") + `Rasm yuklandi: ${file.name}`)
+      }
+    }
+    input.click()
   }
 
   const handleFindHospital = () => {
@@ -150,6 +170,22 @@ export default function EmergencyHelpPage() {
                   className="min-h-32 border-red-200 focus:border-red-400"
                 />
 
+                {imagePreview && (
+                  <div className="relative border border-red-200 rounded-lg p-2">
+                    <img src={imagePreview} alt="Uploaded" className="max-h-48 mx-auto rounded" />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="absolute top-2 right-2 h-8 w-8 p-0"
+                      onClick={() => {
+                        setSelectedImage(null)
+                        setImagePreview(null)
+                      }}
+                    >
+                      ×
+                    </Button>
+                  </div>
+                )}
                 <div className="flex space-x-3">
                   <Button
                     variant="outline"
@@ -370,9 +406,6 @@ export default function EmergencyHelpPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
-
       {showSuccessToast && <SuccessToast message={toastMessage} onClose={() => setShowSuccessToast(false)} />}
     </div>
   )

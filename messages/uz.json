@@ -1,0 +1,227 @@
+{
+  "Index": {
+    "emergency": {
+      "title": "Shoshiling tibbiy yordam! "
+    },
+    "hero": {
+      "title": "Sizning salomatligingiz uchun",
+      "titleHighlight": "sun'iy intellekt",
+      "description": "Tahlillaringizni yuklang, tashxis va shifokor tavsiyalarini oling. Sun'iy intellekt yordamida tez va aniq tashxis.",
+      "getDiagnosis": "Tashxis olish",
+      "uploadAnalysis": "Tahlil yuklash",
+      "emergencyHelp": "Shoshilinch yordam"
+    },
+    "features": {
+      "title": "Nega Diagno AI?",
+      "description": "4 oddiy qadamda professional tibbiy tahlil va shifokor tavsiyalarini oling",
+      "uploadAnalysis": "Tahlil yuklash",
+      "aiAnalysis": "AI tahlil",
+      "findDoctor": "Shifokor topish",
+      "consultation": "Konsultatsiya",
+      "aiDiagnosis": {
+        "title": "Ishonchli va xavfsiz",
+        "description": "Barcha ma'lumotlar shifrlangan va tibbiy standartlarga mos ravishda saqlanadi"
+      },
+      "doctorConsultation": {
+        "title": "24/7 mavjud",
+        "description": "Istalgan vaqtda tashxis olish va shoshilinch yordam xizmatlari"
+      },
+      "emergencyHelp": {
+        "title": "Professional shifokorlar",
+        "description": "Tajribali mutaxassislar bilan to'g'ridan-to'g'ri bog'lanish imkoniyati"
+      }
+    },
+    "howItWorks": {
+      "title": "Bu qanday ishlaydi?",
+      "description": "4 ta oddiy qadam orqali professional tibbiy tahlil va shifokor tavsiyalarini oling",
+      "step1": {
+        "title": "1. Tahlil yuklash",
+        "description": "Tibbiy tahlillaringiz, rasmlaringizni yuklang yoki alomatlaringizni tasvirlang"
+      },
+      "step2": {
+        "title": "2. AI tahlil",
+        "description": "Sun'iy intellekt ma'lumotlaringizni chuqur tahlil qiladi"
+      },
+      "step3": {
+        "title": "3. Shifokor topish",
+        "description": "Holatizga mos mutaxassislarni tavsiya qilamiz"
+      },
+      "step4": {
+        "title": "4. Konsultatsiya",
+        "description": "Shifokor bilan onlayn yoki oflayn konsultatsiya belgilang"
+      }
+    },
+    "whyDiagnoAI": {
+      "title": "Nega Diagno AI?",
+      "feature1": {
+        "title": "Ishonchli va Xavfsiz",
+        "description": "Barcha ma'lumotlar tibbiy standartlarga muvofiq shifrlangan va saqlanadi"
+      },
+      "feature2": {
+        "title": "24/7 Mavjud",
+        "description": "Istalgan vaqtda tashxis va shoshilinch yordam xizmatlarini oling"
+      },
+      "feature3": {
+        "title": "Professional shifokorlar",
+        "description": "Tajribali mutaxassislar bilan to'g'ridan-to'g'ri aloqa"
+      }
+    },
+    "testimonials": {
+      "title": "Foydalanuvchi sharhlari",
+      "description": "",
+      "testimonial1": {
+        "name": "Anvar Karimov",
+        "location": "Toshkent",
+        "text": "\"Diagno AI yordamida tez va aniq tashxis oldim. Shifokor tavsiyalari juda foydali bo'ldi.\"",
+        "content": "\"Diagno AI yordamida tez va aniq tashxis oldim. Shifokor tavsiyalari juda foydali bo'ldi.\"",
+        "role": "Doktor"
+      },
+      "testimonial2": {
+        "name": "Malika Rahimova",
+        "location": "Samarqand",
+        "text": "\"Shoshilinch yordam bo'limi hayotimni saqlab qoldi. Juda tez va professional xizmat.\"",
+        "content": "\"Shoshilinch yordam bo'limi hayotimni saqlab qoldi. Juda tez va professional xizmat.\"",
+        "role": " Doktor"
+      },
+      "testimonial3": {
+        "name": "Bobur Toshmatov",
+        "location": "Buxoro",
+        "text": "\"AI tahlili juda aniq edi. Shifokor bilan onlayn konsultatsiya qulay bo'ldi.\"",
+        "content": "\"AI tahlili juda aniq edi. Shifokor bilan onlayn konsultatsiya qulay bo'ldi.\"",
+        "role": " Doktor"
+      }
+    },
+    "cta": {
+      "title": "Bugun salomatligingiz haqida qayg'uring",
+      "description": "AI yordamida tez tashxis oling va professional shifokorlar bilan bog'laning",
+      "primaryButton": "Bepul tashxis olish",
+      "secondaryButton": "Batafsil ma'lumot"
+    }
+  },
+  "common": {
+    "appName": "Diagno AI",
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik",
+    "success": "Muvaffaqiyatli"
+  },
+  "navigation": {
+    "home": "Bosh sahifa",
+    "about": "Biz haqimizda",
+    "aiDiagnosis": "AI tashxis",
+    "doctors": "Shifokorlar",
+    "emergencyHelp": "Shoshilinch yordam",
+    "recommendedProviders": "Tavsiya etilgan provayderlar",
+    "dashboard": "Boshqaruv paneli"
+  },
+  "Auth": {
+    "login": {
+      "title": "Kirish",
+      "description": "Diagno AI platformasiga kirish",
+      "email": "Elektron pochta",
+      "emailPlaceholder": "email@example.com",
+      "password": "Parol",
+      "submit": "Kirish",
+      "cancel": "Bekor qilish",
+      "loading": "Kirish..."
+    },
+    "register": {
+      "title": "Ro'yxatdan o'tish",
+      "description": "Diagno AI platformasidan foydalanish uchun hisob yarating",
+      "fullName": "To'liq ism",
+      "fullNamePlaceholder": "Anvar Karimov",
+      "email": "Elektron pochta",
+      "emailPlaceholder": "email@example.com",
+      "password": "Parol",
+      "confirmPassword": "Parolni tasdiqlang",
+      "submit": "Ro'yxatdan o'tish",
+      "cancel": "Bekor qilish",
+      "loading": "Ro'yxatdan o'tish...",
+      "haveAccount": "Hisobingiz bormi?",
+      "loginLink": "Bu yerda kiring"
+    },
+    "errors": {
+      "loginFailed": "Kirish muvaffaqiyatsiz. Iltimos, ma'lumotlaringizni tekshiring.",
+      "registrationFailed": "Ro'yxatdan o'tish muvaffaqiyatsiz. Iltimos, qayta urinib ko'ring.",
+      "passwordMismatch": "Parollar mos kelmaydi",
+      "general": "Xatolik yuz berdi. Iltimos, qayta urinib ko'ring."
+    }
+  },
+  "Language": {
+    "switchLanguage": "Tilni o'zgartirish",
+    "uzbek": "O'zbekcha",
+    "english": "English"
+  },
+  "UserMenu": {
+    "dashboard": "Boshqaruv paneli",
+    "settings": "Sozlamalar",
+    "logout": "Chiqish",
+    "login": "Kirish",
+    "register": "Ro'yxatdan o'tish"
+  },
+  "Footer": {
+    "brand": "Diagno AI",
+    "description": "Sun'iy intellekt yordamida tibbiy tashxis va shifokor tavsiyalari platformasi",
+    "services": {
+      "title": "Xizmatlar",
+      "aiDiagnosis": "AI tashxis",
+      "emergencyHelp": "Shoshilinch yordam",
+      "doctors": "Shifokorlar",
+      "consultation": "Konsultatsiya"
+    },
+    "company": {
+      "title": "Kompaniya",
+      "about": "Biz haqimizda",
+      "contact": "Aloqa",
+      "careers": "Karyera",
+      "blog": "Blog"
+    },
+    "help": {
+      "title": "Yordam",
+      "support": "Qo'llab-quvvatlash",
+      "privacy": "Maxfiylik siyosati",
+      "terms": "Foydalanish shartlari",
+      "faq": "Ko'p so'raladigan savollar"
+    }
+  },
+  "RecommendedProviders": {
+    "analysisSummaryTitle": "Sizning tashxisingiz asosida",
+    "analysisSummaryDescription": "Viral Infeksiya (ARVI) - Ishonchlilik: 87%",
+    "analysisSummaryBadge": "Mos mutaxassislar topildi",
+    "analysisSummaryText": "Sizning holatingizdagi simptomlar asosida quyidagi shifokorlar tavsiya etiladi. AI tahlili natijasida eng mos mutaxassislar tanlab berilgan.",
+    "filters": "Filtrlar",
+    "searchLabel": "Qidiruv",
+    "searchPlaceholder": "Shifokor nomi...",
+    "cityLabel": "Shahar",
+    "cityPlaceholder": "Shaharni tanlang",
+    "cityTashkent": "Toshkent",
+    "citySamarkand": "Samarqand",
+    "cityBukhara": "Buxoro",
+    "cityNamangan": "Namangan",
+    "specialtyLabel": "Mutaxassislik",
+    "specialtyPlaceholder": "Mutaxassislikni tanlang",
+    "specialtyTerapevt": "Terapevt",
+    "specialtyKardiolog": "Kardiolog",
+    "specialtyNevropatolog": "Nevropatolog",
+    "specialtyPediatr": "Pediatr",
+    "ratingLabel": "Reyting",
+    "ratingPlaceholder": "Reytingni tanlang",
+    "rating45": "4.5+ yulduz",
+    "rating40": "4.0+ yulduz",
+    "rating35": "3.5+ yulduz",
+    "clearFilters": "Filtrlarni tozalash",
+    "recommendedDoctorsTitle": "Tavsiya etilgan shifokorlar ({count})",
+    "sortMatch": "Mos kelish bo'yicha",
+    "sortRating": "Reyting bo'yicha",
+    "sortDistance": "Masofa bo'yicha",
+    "sortPrice": "Narx bo'yicha",
+    "doctorExperience": "{years} yil tajriba",
+    "doctorReviews": "({count} sharh)",
+    "doctorConsultation": "/ konsultatsiya",
+    "call": "Qo'ng'iroq",
+    "bookAppointment": "Qabulga yozilish",
+    "seeMoreDoctors": "Ko'proq shifokorlarni ko'rish",
+    "toastCalling": "{doctorName} ga qo'ng'iroq qilinmoqda...",
+    "toastBooked": "{doctorName} bilan uchrashish belgilandi",
+    "toastFiltersCleared": "Filtrlar tozalandi"
+  }
+}

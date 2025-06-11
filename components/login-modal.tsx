@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useTranslations } from 'next-intl'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -25,6 +26,7 @@ interface LoginModalProps {
 
 export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
   const { login } = useAppContext()
+  const t = useTranslations('Auth')
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -41,10 +43,10 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
         onSuccess?.()
         onClose()
       } else {
-        setError("Login failed. Please check your credentials.")
+        setError(t('errors.loginFailed'))
       }
     } catch (err) {
-      setError("An error occurred. Please try again.")
+      setError(t('errors.general'))
     } finally {
       setIsLoading(false)
     }
@@ -54,24 +56,24 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Tizimga kirish</DialogTitle>
-          <DialogDescription>Diagno AI platformasidan foydalanish uchun tizimga kiring</DialogDescription>
+          <DialogTitle>{t('login.title')}</DialogTitle>
+          <DialogDescription>{t('login.description')}</DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('login.email')}</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="email@example.com"
+                placeholder={t('login.emailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="password">Parol</Label>
+              <Label htmlFor="password">{t('login.password')}</Label>
               <Input
                 id="password"
                 type="password"
@@ -84,16 +86,16 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
-              Bekor qilish
+              {t('login.cancel')}
             </Button>
             <Button type="submit" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Kirish...
+                  {t('login.loading')}
                 </>
               ) : (
-                "Kirish"
+                t('login.submit')
               )}
             </Button>
           </DialogFooter>

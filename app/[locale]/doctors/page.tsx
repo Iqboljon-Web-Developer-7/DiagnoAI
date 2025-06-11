@@ -3,16 +3,15 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Star, MapPin, Clock, Phone, Calendar, Filter } from "lucide-react"
+import { Star, MapPin, Clock, Phone, Calendar, Filter, Search, Users } from "lucide-react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { useAppContext } from "@/context/app-context"
 import { SuccessToast } from "@/components/success-toast"
 
-export default function RecommendedProvidersPage() {
+export default function DoctorsPage() {
   const { addAppointment } = useAppContext()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCity, setSelectedCity] = useState("")
@@ -33,8 +32,9 @@ export default function RecommendedProvidersPage() {
       hospital: "Respublika Shifoxonasi",
       price: "150,000 so'm",
       availability: "Bugun mavjud",
-      image: "/placeholder.svg?height=80&width=80",
-      match: 95,
+            image: "/placeholder-doctor.jpg",
+
+      description: "Umumiy amaliyot bo'yicha mutaxassis. Yuqumli kasalliklar va profilaktika bo'yicha tajribali.",
     },
     {
       id: 2,
@@ -47,8 +47,9 @@ export default function RecommendedProvidersPage() {
       hospital: "Markaziy Klinika",
       price: "200,000 so'm",
       availability: "Ertaga mavjud",
-      image: "/placeholder.svg?height=80&width=80",
-      match: 88,
+            image: "/placeholder-doctor.jpg",
+
+      description: "Yurak-qon tomir kasalliklari bo'yicha mutaxassis. Zamonaviy diagnostika usullarini qo'llaydi.",
     },
     {
       id: 3,
@@ -61,8 +62,10 @@ export default function RecommendedProvidersPage() {
       hospital: "Oila Klinikasi",
       price: "120,000 so'm",
       availability: "Bugun mavjud",
-      image: "/placeholder.svg?height=80&width=80",
-      match: 92,
+            image: "/placeholder-doctor.jpg",
+
+      description:
+        "Oila shifokori. Bolalar va kattalar bilan ishlash tajribasi. Allergiya va immunitet bo'yicha mutaxassis.",
     },
     {
       id: 4,
@@ -75,9 +78,50 @@ export default function RecommendedProvidersPage() {
       hospital: "Ixtisoslashgan Markaz",
       price: "250,000 so'm",
       availability: "3 kun ichida",
-      image: "/placeholder.svg?height=80&width=80",
-      match: 85,
+            image: "/placeholder-doctor.jpg",
+
+      description:
+        "Asab tizimi kasalliklari bo'yicha yetakchi mutaxassis. Migren, epilepsiya va bosh og'riqlari bo'yicha tajribali.",
     },
+    {
+      id: 5,
+      name: "Dr. Nodira Karimova",
+      specialty: "Pediatr",
+      experience: "10 yil tajriba",
+      rating: 4.8,
+      reviews: 198,
+      distance: "2.8 km",
+      hospital: "Bolalar Klinikasi",
+      price: "130,000 so'm",
+      availability: "Bugun mavjud",
+            image: "/placeholder-doctor.jpg",
+
+      description: "Bolalar shifokori. Yangi tug'ilgan chaqaloqlardan 18 yoshgacha bo'lgan bolalar bilan ishlaydi.",
+    },
+    {
+      id: 6,
+      name: "Dr. Sardor Rahmonov",
+      specialty: "Dermatolog",
+      experience: "7 yil tajriba",
+      rating: 4.6,
+      reviews: 142,
+      distance: "3.5 km",
+      hospital: "Teri Kasalliklari Markazi",
+      price: "180,000 so'm",
+      availability: "Ertaga mavjud",
+            image: "/placeholder-doctor.jpg",
+
+      description:
+        "Teri kasalliklari va kosmetologiya bo'yicha mutaxassis. Zamonaviy lazer texnologiyalarini qo'llaydi.",
+    },
+  ]
+
+  const specialties = [
+    { name: "Terapevt", count: 2, icon: "🩺" },
+    { name: "Kardiolog", count: 1, icon: "❤️" },
+    { name: "Nevropatolog", count: 1, icon: "🧠" },
+    { name: "Pediatr", count: 1, icon: "👶" },
+    { name: "Dermatolog", count: 1, icon: "🧴" },
   ]
 
   const handleCall = (doctorName: string) => {
@@ -122,25 +166,38 @@ export default function RecommendedProvidersPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Analysis Result Summary */}
-        <Card className="mb-8 border-green-200 bg-green-50">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Professional Shifokorlar</h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Tajribali mutaxassislar bilan bog'laning va sifatli tibbiy yordam oling
+          </p>
+        </div>
+
+        {/* Specialties Overview */}
+        <Card className="mb-8">
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="text-green-800">Sizning tashxisingiz asosida</CardTitle>
-                <CardDescription className="text-green-700">Viral Infeksiya (ARVI) - Ishonchlilik: 87%</CardDescription>
-              </div>
-              <Badge className="bg-green-600 text-white">Mos mutaxassislar topildi</Badge>
-            </div>
+            <CardTitle className="flex items-center space-x-2">
+              <Users className="w-5 h-5" />
+              <span>Mutaxassisliklar</span>
+            </CardTitle>
+            <CardDescription>Mavjud shifokorlar bo'yicha mutaxassisliklar</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-green-800">
-              Sizning holatingizdagi simptomlar asosida quyidagi shifokorlar tavsiya etiladi. AI tahlili natijasida eng
-              mos mutaxassislar tanlab berilgan.
-            </p>
+            <div className="grid md:grid-cols-5 gap-4">
+              {specialties.map((specialty, index) => (
+                <div
+                  key={index}
+                  className="text-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer"
+                  onClick={() => setSelectedSpecialty(specialty.name.toLowerCase())}
+                >
+                  <div className="text-2xl mb-2">{specialty.icon}</div>
+                  <h3 className="font-semibold text-gray-900">{specialty.name}</h3>
+                  <p className="text-sm text-gray-600">{specialty.count} shifokor</p>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
 
@@ -157,11 +214,15 @@ export default function RecommendedProvidersPage() {
               <CardContent className="space-y-4">
                 <div>
                   <label className="text-sm font-medium text-gray-700 mb-2 block">Qidiruv</label>
-                  <Input
-                    placeholder="Shifokor nomi..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      placeholder="Shifokor nomi yoki mutaxassislik..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -190,6 +251,7 @@ export default function RecommendedProvidersPage() {
                       <SelectItem value="kardiolog">Kardiolog</SelectItem>
                       <SelectItem value="nevropatolog">Nevropatolog</SelectItem>
                       <SelectItem value="pediatr">Pediatr</SelectItem>
+                      <SelectItem value="dermatolog">Dermatolog</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -218,16 +280,14 @@ export default function RecommendedProvidersPage() {
           {/* Doctors List */}
           <div className="lg:col-span-3">
             <div className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-900">
-                Tavsiya etilgan shifokorlar ({filteredDoctors.length})
-              </h1>
-              <Select defaultValue="match">
+              <h2 className="text-2xl font-bold text-gray-900">Shifokorlar ({filteredDoctors.length})</h2>
+              <Select defaultValue="rating">
                 <SelectTrigger className="w-48">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="match">Mos kelish bo'yicha</SelectItem>
                   <SelectItem value="rating">Reyting bo'yicha</SelectItem>
+                  <SelectItem value="experience">Tajriba bo'yicha</SelectItem>
                   <SelectItem value="distance">Masofa bo'yicha</SelectItem>
                   <SelectItem value="price">Narx bo'yicha</SelectItem>
                 </SelectContent>
@@ -242,13 +302,10 @@ export default function RecommendedProvidersPage() {
                       {/* Doctor Image */}
                       <div className="relative">
                         <img
-                          src={doctor.image || "/placeholder.svg"}
+                          src={doctor.image || "/placeholder-doctor.jpg"}
                           alt={doctor.name}
                           className="w-20 h-20 rounded-full object-cover"
                         />
-                        <Badge className="absolute -top-2 -right-2 bg-green-600 text-white text-xs">
-                          {doctor.match}%
-                        </Badge>
                       </div>
 
                       {/* Doctor Info */}
@@ -260,6 +317,8 @@ export default function RecommendedProvidersPage() {
                             <p className="text-gray-600 text-sm mb-3">
                               {doctor.experience} • {doctor.hospital}
                             </p>
+
+                            <p className="text-gray-700 mb-3">{doctor.description}</p>
 
                             <div className="flex items-center space-x-4 mb-3">
                               <div className="flex items-center space-x-1">
@@ -318,9 +377,6 @@ export default function RecommendedProvidersPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
-
       {showSuccessToast && <SuccessToast message={toastMessage} onClose={() => setShowSuccessToast(false)} />}
     </div>
   )
