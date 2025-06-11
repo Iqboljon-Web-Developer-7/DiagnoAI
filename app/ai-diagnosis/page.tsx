@@ -8,15 +8,26 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Textarea } from "@/components/ui/textarea"
-import { Upload, Brain, FileText, ImageIcon, AlertTriangle, CheckCircle, User } from "lucide-react"
+import { Upload, Brain, FileText, ImageIcon, AlertTriangle, CheckCircle, User, Loader2 } from "lucide-react"
 import Link from "next/link"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
+import { useAppContext } from "@/context/app-context"
+import { useRouter } from "next/navigation"
+import { LoginModal } from "@/components/login-modal"
+import { SuccessToast } from "@/components/success-toast"
 
 export default function AIDiagnosisPage() {
+  const { isLoggedIn, addDiagnosis } = useAppContext()
+  const router = useRouter()
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
   const [symptoms, setSymptoms] = useState("")
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [analysisComplete, setAnalysisComplete] = useState(false)
   const [analysisProgress, setAnalysisProgress] = useState(0)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(!isLoggedIn)
+  const [showSuccessToast, setShowSuccessToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState("")
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || [])
@@ -24,6 +35,11 @@ export default function AIDiagnosisPage() {
   }
 
   const handleAnalyze = () => {
+    if (!isLoggedIn) {
+      setIsLoginModalOpen(true)
+      return
+    }
+
     setIsAnalyzing(true)
     setAnalysisProgress(0)
 
@@ -34,41 +50,46 @@ export default function AIDiagnosisPage() {
           clearInterval(interval)
           setIsAnalyzing(false)
           setAnalysisComplete(true)
+
+          // Add diagnosis to context
+          addDiagnosis({
+            diagnosis: "Viral Infeksiya (ARVI)",
+            confidence: 87,
+            status: "Yangi",
+            doctor: "Dr. Aziza Karimova",
+          })
+
           return 100
         }
-        return prev + 10
+        return prev + 5
       })
-    }, 300)
+    }, 200)
   }
 
   const removeFile = (index: number) => {
     setUploadedFiles((prev) => prev.filter((_, i) => i !== index))
   }
 
+  const handleAddSymptom = (symptom: string) => {
+    if (symptoms.includes(symptom)) return
+
+    const newSymptoms = symptoms ? `${symptoms}, ${symptom}` : symptom
+    setSymptoms(newSymptoms)
+  }
+
+  const handleSaveResult = () => {
+    setToastMessage("Natija muvaffaqiyatli saqlandi")
+    setShowSuccessToast(true)
+  }
+
+  const handleDownloadReport = () => {
+    setToastMessage("Hisobot yuklab olindi")
+    setShowSuccessToast(true)
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">Diagno AI</span>
-            </Link>
-
-            <nav className="flex items-center space-x-6">
-              <Link href="/emergency-help" className="text-red-600 hover:text-red-700 font-medium">
-                Shoshilinch Yordam
-              </Link>
-              <Link href="/dashboard" className="text-gray-600 hover:text-blue-600">
-                Shaxsiy Kabinet
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
@@ -155,19 +176,39 @@ export default function AIDiagnosisPage() {
                   className="min-h-32"
                 />
                 <div className="mt-4 flex flex-wrap gap-2">
-                  <Badge variant="outline" className="cursor-pointer hover:bg-blue-50">
+                  <Badge
+                    variant="outline"
+                    className="cursor-pointer hover:bg-blue-50"
+                    onClick={() => handleAddSymptom("Bosh og'rig'i")}
+                  >
                     Bosh og'rig'i
                   </Badge>
-                  <Badge variant="outline" className="cursor-pointer hover:bg-blue-50">
+                  <Badge
+                    variant="outline"
+                    className="cursor-pointer hover:bg-blue-50"
+                    onClick={() => handleAddSymptom("Isitma")}
+                  >
                     Isitma
                   </Badge>
-                  <Badge variant="outline" className="cursor-pointer hover:bg-blue-50">
+                  <Badge
+                    variant="outline"
+                    className="cursor-pointer hover:bg-blue-50"
+                    onClick={() => handleAddSymptom("Yo'tal")}
+                  >
                     Yo'tal
                   </Badge>
-                  <Badge variant="outline" className="cursor-pointer hover:bg-blue-50">
+                  <Badge
+                    variant="outline"
+                    className="cursor-pointer hover:bg-blue-50"
+                    onClick={() => handleAddSymptom("Qorin og'rig'i")}
+                  >
                     Qorin og'rig'i
                   </Badge>
-                  <Badge variant="outline" className="cursor-pointer hover:bg-blue-50">
+                  <Badge
+                    variant="outline"
+                    className="cursor-pointer hover:bg-blue-50"
+                    onClick={() => handleAddSymptom("Charchash")}
+                  >
                     Charchash
                   </Badge>
                 </div>
@@ -184,7 +225,7 @@ export default function AIDiagnosisPage() {
                 >
                   {isAnalyzing ? (
                     <>
-                      <Brain className="w-5 h-5 mr-2 animate-spin" />
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                       Tahlil qilinmoqda...
                     </>
                   ) : (
@@ -270,10 +311,12 @@ export default function AIDiagnosisPage() {
                       <p className="text-sm text-gray-600">
                         Umumiy amaliyot shifokori bilan konsultatsiya tavsiya etiladi
                       </p>
-                      <Button className="w-full" variant="outline">
-                        <User className="w-4 h-4 mr-2" />
-                        Shifokorlarni ko'rish
-                      </Button>
+                      <Link href="/doctors">
+                        <Button className="w-full" variant="outline">
+                          <User className="w-4 h-4 mr-2" />
+                          Shifokorlarni ko'rish
+                        </Button>
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>
@@ -310,10 +353,10 @@ export default function AIDiagnosisPage() {
                   <Link href="/recommended-providers">
                     <Button className="w-full bg-green-600 hover:bg-green-700">Shifokorlarni ko'rish</Button>
                   </Link>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={handleSaveResult}>
                     Natijani saqlash
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={handleDownloadReport}>
                     Batafsil hisobot
                   </Button>
                 </div>
@@ -322,6 +365,12 @@ export default function AIDiagnosisPage() {
           </div>
         </div>
       </div>
+
+      <Footer />
+
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
+
+      {showSuccessToast && <SuccessToast message={toastMessage} onClose={() => setShowSuccessToast(false)} />}
     </div>
   )
 }

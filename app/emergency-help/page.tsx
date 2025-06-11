@@ -5,14 +5,19 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
-import { AlertTriangle, Phone, MapPin, Clock, Mic, Upload, Brain, Navigation } from "lucide-react"
-import Link from "next/link"
+import { AlertTriangle, Phone, MapPin, Mic, Upload, Navigation, Loader2 } from "lucide-react"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
+import { SuccessToast } from "@/components/success-toast"
 
 export default function EmergencyHelpPage() {
   const [symptoms, setSymptoms] = useState("")
   const [isRecording, setIsRecording] = useState(false)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [emergencyLevel, setEmergencyLevel] = useState<"low" | "medium" | "high" | null>(null)
+  const [showSuccessToast, setShowSuccessToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState("")
+  const [selectedEmergency, setSelectedEmergency] = useState<string | null>(null)
 
   const handleEmergencyAnalysis = () => {
     setIsAnalyzing(true)
@@ -24,31 +29,43 @@ export default function EmergencyHelpPage() {
   }
 
   const toggleRecording = () => {
+    if (!isRecording) {
+      setToastMessage("Ovoz yozish boshlandi")
+      setShowSuccessToast(true)
+    } else {
+      setToastMessage("Ovoz yozish to'xtatildi")
+      setShowSuccessToast(true)
+      //Add recorded text to symptoms
+      setSymptoms((prev) => prev + (prev ? ", " : "") + "Ovozli xabar qo'shildi")
+    }
     setIsRecording(!isRecording)
+  }
+
+  const handleEmergencyCall = (number: string) => {
+    setToastMessage(`${number} raqamiga qo'ng'iroq qilinmoqda...`)
+    setShowSuccessToast(true)
+  }
+
+  const handleQuickEmergency = (emergency: string) => {
+    setSelectedEmergency(emergency)
+    setSymptoms(emergency)
+    setToastMessage(`${emergency} tanlandi`)
+    setShowSuccessToast(true)
+  }
+
+  const handleUploadFile = () => {
+    setToastMessage("Fayl yuklash oynasi ochildi")
+    setShowSuccessToast(true)
+  }
+
+  const handleFindHospital = () => {
+    setToastMessage("Eng yaqin shifoxona topilmoqda...")
+    setShowSuccessToast(true)
   }
 
   return (
     <div className="min-h-screen bg-red-50">
-      {/* Emergency Header */}
-      <header className="bg-red-600 text-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                <AlertTriangle className="w-5 h-5 text-red-600" />
-              </div>
-              <span className="text-xl font-bold">Diagno AI - Shoshilinch Yordam</span>
-            </Link>
-
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2 bg-red-700 px-3 py-1 rounded-full">
-                <Clock className="w-4 h-4" />
-                <span className="text-sm font-medium">24/7 Faol</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header variant="emergency" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Emergency Alert */}
@@ -73,25 +90,41 @@ export default function EmergencyHelpPage() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-3">
-                  <Button variant="outline" className="border-red-300 text-red-700 hover:bg-red-50 h-auto py-4">
+                  <Button
+                    variant="outline"
+                    className={`border-red-300 text-red-700 hover:bg-red-50 h-auto py-4 ${selectedEmergency === "Yurak og'rig'i" ? "bg-red-100" : ""}`}
+                    onClick={() => handleQuickEmergency("Yurak og'rig'i")}
+                  >
                     <div className="text-center">
                       <AlertTriangle className="w-6 h-6 mx-auto mb-1" />
                       <div className="text-sm font-medium">Yurak og'rig'i</div>
                     </div>
                   </Button>
-                  <Button variant="outline" className="border-red-300 text-red-700 hover:bg-red-50 h-auto py-4">
+                  <Button
+                    variant="outline"
+                    className={`border-red-300 text-red-700 hover:bg-red-50 h-auto py-4 ${selectedEmergency === "Nafas olishda qiyinchilik" ? "bg-red-100" : ""}`}
+                    onClick={() => handleQuickEmergency("Nafas olishda qiyinchilik")}
+                  >
                     <div className="text-center">
                       <AlertTriangle className="w-6 h-6 mx-auto mb-1" />
                       <div className="text-sm font-medium">Nafas olishda qiyinchilik</div>
                     </div>
                   </Button>
-                  <Button variant="outline" className="border-red-300 text-red-700 hover:bg-red-50 h-auto py-4">
+                  <Button
+                    variant="outline"
+                    className={`border-red-300 text-red-700 hover:bg-red-50 h-auto py-4 ${selectedEmergency === "Bosh aylanishi" ? "bg-red-100" : ""}`}
+                    onClick={() => handleQuickEmergency("Bosh aylanishi")}
+                  >
                     <div className="text-center">
                       <AlertTriangle className="w-6 h-6 mx-auto mb-1" />
                       <div className="text-sm font-medium">Bosh aylanishi</div>
                     </div>
                   </Button>
-                  <Button variant="outline" className="border-red-300 text-red-700 hover:bg-red-50 h-auto py-4">
+                  <Button
+                    variant="outline"
+                    className={`border-red-300 text-red-700 hover:bg-red-50 h-auto py-4 ${selectedEmergency === "Kuchli qon ketish" ? "bg-red-100" : ""}`}
+                    onClick={() => handleQuickEmergency("Kuchli qon ketish")}
+                  >
                     <div className="text-center">
                       <AlertTriangle className="w-6 h-6 mx-auto mb-1" />
                       <div className="text-sm font-medium">Kuchli qon ketish</div>
@@ -127,7 +160,7 @@ export default function EmergencyHelpPage() {
                     {isRecording ? "Yozuv to'xtatish" : "Ovozli xabar"}
                   </Button>
 
-                  <Button variant="outline" className="border-red-200">
+                  <Button variant="outline" className="border-red-200" onClick={handleUploadFile}>
                     <Upload className="w-4 h-4 mr-2" />
                     Rasm yuklash
                   </Button>
@@ -154,7 +187,7 @@ export default function EmergencyHelpPage() {
                 >
                   {isAnalyzing ? (
                     <>
-                      <Brain className="w-5 h-5 mr-2 animate-spin" />
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                       Shoshilinch tahlil qilinmoqda...
                     </>
                   ) : (
@@ -185,11 +218,20 @@ export default function EmergencyHelpPage() {
                       <Badge className="bg-red-600 text-white text-lg px-4 py-2 mb-3">YUQORI XAVF</Badge>
                       <p className="text-red-800 font-medium mb-4">Darhol tibbiy yordam kerak!</p>
                       <div className="space-y-2">
-                        <Button className="w-full bg-red-600 hover:bg-red-700" size="lg">
+                        <Button
+                          className="w-full bg-red-600 hover:bg-red-700"
+                          size="lg"
+                          onClick={() => handleEmergencyCall("103")}
+                        >
                           <Phone className="w-5 h-5 mr-2" />
                           103 ga qo'ng'iroq qilish
                         </Button>
-                        <Button variant="outline" className="w-full border-red-300 text-red-700" size="lg">
+                        <Button
+                          variant="outline"
+                          className="w-full border-red-300 text-red-700"
+                          size="lg"
+                          onClick={handleFindHospital}
+                        >
                           <Navigation className="w-5 h-5 mr-2" />
                           Eng yaqin shifoxona
                         </Button>
@@ -243,12 +285,18 @@ export default function EmergencyHelpPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <div className="border border-red-200 rounded-lg p-3">
+                      <div
+                        className="border border-red-200 rounded-lg p-3 cursor-pointer hover:bg-red-50"
+                        onClick={handleFindHospital}
+                      >
                         <div className="font-medium text-red-800">Respublika Shifoxonasi</div>
                         <div className="text-sm text-gray-600">2.3 km • 8 daqiqa</div>
                         <div className="text-sm text-green-600">24/7 Shoshilinch bo'lim</div>
                       </div>
-                      <div className="border border-red-200 rounded-lg p-3">
+                      <div
+                        className="border border-red-200 rounded-lg p-3 cursor-pointer hover:bg-red-50"
+                        onClick={handleFindHospital}
+                      >
                         <div className="font-medium text-red-800">Markaziy Klinika</div>
                         <div className="text-sm text-gray-600">3.1 km • 12 daqiqa</div>
                         <div className="text-sm text-green-600">Kardiologiya bo'limi</div>
@@ -283,21 +331,35 @@ export default function EmergencyHelpPage() {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="font-medium">Tez yordam</span>
-                    <Button size="sm" className="bg-red-600 hover:bg-red-700">
+                    <Button
+                      size="sm"
+                      className="bg-red-600 hover:bg-red-700"
+                      onClick={() => handleEmergencyCall("103")}
+                    >
                       <Phone className="w-4 h-4 mr-1" />
                       103
                     </Button>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-medium">Yong'in xizmati</span>
-                    <Button size="sm" variant="outline" className="border-red-300 text-red-700">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-red-300 text-red-700"
+                      onClick={() => handleEmergencyCall("101")}
+                    >
                       <Phone className="w-4 h-4 mr-1" />
                       101
                     </Button>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-medium">Politsiya</span>
-                    <Button size="sm" variant="outline" className="border-red-300 text-red-700">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-red-300 text-red-700"
+                      onClick={() => handleEmergencyCall("102")}
+                    >
                       <Phone className="w-4 h-4 mr-1" />
                       102
                     </Button>
@@ -308,6 +370,10 @@ export default function EmergencyHelpPage() {
           </div>
         </div>
       </div>
+
+      <Footer />
+
+      {showSuccessToast && <SuccessToast message={toastMessage} onClose={() => setShowSuccessToast(false)} />}
     </div>
   )
 }

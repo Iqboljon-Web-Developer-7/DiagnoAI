@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -19,100 +19,99 @@ import {
   User,
   Heart,
   Activity,
+  Loader2,
 } from "lucide-react"
 import Link from "next/link"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
+import { useAppContext } from "@/context/app-context"
+import { useRouter } from "next/navigation"
+import { LoginModal } from "@/components/login-modal"
+import { SuccessToast } from "@/components/success-toast"
 
 export default function DashboardPage() {
+  const { user, isLoggedIn, diagnoses, appointments, addAppointment } = useAppContext()
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState("diagnoses")
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(!isLoggedIn)
+  const [showSuccessToast, setShowSuccessToast] = useState(false)
+  const [toastMessage, setToastMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
-  const recentDiagnoses = [
-    {
-      id: 1,
-      date: "2024-01-15",
-      diagnosis: "Viral Infeksiya (ARVI)",
-      confidence: 87,
-      status: "Tugallangan",
-      doctor: "Dr. Aziza Karimova",
-    },
-    {
-      id: 2,
-      date: "2024-01-10",
-      diagnosis: "Migren",
-      confidence: 92,
-      status: "Shifokor bilan uchrashildi",
-      doctor: "Dr. Bobur Toshmatov",
-    },
-    {
-      id: 3,
-      date: "2024-01-05",
-      diagnosis: "Allergik rinit",
-      confidence: 78,
-      status: "Davolanish davom etmoqda",
-      doctor: "Dr. Malika Rahimova",
-    },
-  ]
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setIsLoginModalOpen(true)
+    }
+  }, [isLoggedIn])
 
-  const upcomingAppointments = [
-    {
-      id: 1,
-      doctor: "Dr. Aziza Karimova",
-      specialty: "Terapevt",
-      date: "2024-01-20",
-      time: "14:00",
-      type: "Onlayn konsultatsiya",
-      status: "Tasdiqlangan",
-    },
-    {
-      id: 2,
-      doctor: "Dr. Anvar Usmonov",
-      specialty: "Nevropatolog",
-      date: "2024-01-25",
-      time: "10:30",
-      type: "Klinikada uchrashish",
-      status: "Kutilmoqda",
-    },
-  ]
+  const handleDownload = (diagnosisId: string) => {
+    setToastMessage("Hisobot yuklab olindi")
+    setShowSuccessToast(true)
+  }
+
+  const handleReschedule = (appointmentId: string) => {
+    setToastMessage("Qayta rejalashtirish oynasi ochildi")
+    setShowSuccessToast(true)
+  }
+
+  const handleCancel = (appointmentId: string) => {
+    setToastMessage("Uchrashish bekor qilindi")
+    setShowSuccessToast(true)
+  }
+
+  const handleStartConsultation = () => {
+    setToastMessage("Yangi maslahat boshlandi")
+    setShowSuccessToast(true)
+  }
+
+  const handleBookAppointment = () => {
+    setIsLoading(true)
+    setTimeout(() => {
+      addAppointment({
+        doctor: "Dr. Nodira Karimova",
+        specialty: "Terapevt",
+        date: "2024-01-30",
+        time: "15:00",
+        type: "Onlayn konsultatsiya",
+        status: "Tasdiqlangan",
+      })
+      setIsLoading(false)
+      setToastMessage("Qabulga muvaffaqiyatli yozildingiz")
+      setShowSuccessToast(true)
+    }, 2000)
+  }
 
   const healthStats = [
-    { label: "Jami tashxislar", value: "12", icon: Brain, color: "blue" },
-    { label: "Shifokor uchrashuvlari", value: "8", icon: User, color: "green" },
+    { label: "Jami tashxislar", value: diagnoses.length.toString(), icon: Brain, color: "blue" },
+    { label: "Shifokor uchrashuvlari", value: appointments.length.toString(), icon: User, color: "green" },
     { label: "Faol davolanish", value: "2", icon: Heart, color: "red" },
     { label: "Sog'liq ko'rsatkichi", value: "85%", icon: Activity, color: "purple" },
   ]
 
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+          <Brain className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Shaxsiy kabinetga kirish</h1>
+          <p className="text-gray-600 mb-8">Shaxsiy kabinetingizni ko'rish uchun tizimga kiring</p>
+          <Button onClick={() => setIsLoginModalOpen(true)}>Tizimga kirish</Button>
+        </div>
+        <Footer />
+        <LoginModal isOpen={isLoginModalOpen} onClose={() => router.push("/")} />
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">Diagno AI</span>
-            </Link>
-
-            <nav className="flex items-center space-x-6">
-              <Link href="/ai-diagnosis" className="text-gray-600 hover:text-blue-600">
-                AI Tahlil
-              </Link>
-              <Link href="/emergency-help" className="text-red-600 hover:text-red-700">
-                Shoshilinch Yordam
-              </Link>
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
-                <span className="font-medium">Anvar Karimov</span>
-              </div>
-            </nav>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Xush kelibsiz, Anvar!</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Xush kelibsiz, {user?.name}!</h1>
           <p className="text-lg text-gray-600">Sizning shaxsiy tibbiy kabinetingiz</p>
         </div>
 
@@ -155,12 +154,19 @@ export default function DashboardPage() {
                   <span>Shoshilinch Yordam</span>
                 </Button>
               </Link>
-              <Button variant="outline" className="w-full h-20 flex-col space-y-2">
-                <Upload className="w-6 h-6" />
-                <span>Analiz Yuklash</span>
-              </Button>
-              <Button variant="outline" className="w-full h-20 flex-col space-y-2">
-                <Calendar className="w-6 h-6" />
+              <Link href="/ai-diagnosis">
+                <Button variant="outline" className="w-full h-20 flex-col space-y-2">
+                  <Upload className="w-6 h-6" />
+                  <span>Analiz Yuklash</span>
+                </Button>
+              </Link>
+              <Button
+                variant="outline"
+                className="w-full h-20 flex-col space-y-2"
+                onClick={handleBookAppointment}
+                disabled={isLoading}
+              >
+                {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Calendar className="w-6 h-6" />}
                 <span>Qabulga Yozilish</span>
               </Button>
             </div>
@@ -186,7 +192,7 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {recentDiagnoses.map((diagnosis) => (
+                  {diagnoses.map((diagnosis) => (
                     <div key={diagnosis.id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-3">
                         <div>
@@ -216,7 +222,7 @@ export default function DashboardPage() {
                           <FileText className="w-4 h-4 mr-1" />
                           Batafsil
                         </Button>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" onClick={() => handleDownload(diagnosis.id)}>
                           <Download className="w-4 h-4 mr-1" />
                           Yuklab olish
                         </Button>
@@ -237,7 +243,7 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {upcomingAppointments.map((appointment) => (
+                  {appointments.map((appointment) => (
                     <div key={appointment.id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-3">
                         <div>
@@ -265,11 +271,11 @@ export default function DashboardPage() {
                       </div>
 
                       <div className="flex space-x-2 mt-4">
-                        <Button size="sm">
+                        <Button size="sm" onClick={() => handleReschedule(appointment.id)}>
                           <Calendar className="w-4 h-4 mr-1" />
                           Qayta rejalashtirish
                         </Button>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" onClick={() => handleCancel(appointment.id)}>
                           Bekor qilish
                         </Button>
                       </div>
@@ -291,7 +297,7 @@ export default function DashboardPage() {
                 <div className="text-center py-8">
                   <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                   <p className="text-gray-500 mb-4">Hozircha faol maslahatlar yo'q</p>
-                  <Button>
+                  <Button onClick={handleStartConsultation}>
                     <MessageSquare className="w-4 h-4 mr-2" />
                     Yangi maslahat boshlash
                   </Button>
@@ -309,7 +315,7 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-3 gap-4">
-                  <div className="border border-gray-200 rounded-lg p-4">
+                  <div className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow">
                     <BookOpen className="w-8 h-8 text-blue-600 mb-3" />
                     <h3 className="font-semibold mb-2">Viral infeksiyalar</h3>
                     <p className="text-sm text-gray-600 mb-3">ARVI va gripp haqida to'liq ma'lumot</p>
@@ -318,7 +324,7 @@ export default function DashboardPage() {
                     </Button>
                   </div>
 
-                  <div className="border border-gray-200 rounded-lg p-4">
+                  <div className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow">
                     <BookOpen className="w-8 h-8 text-green-600 mb-3" />
                     <h3 className="font-semibold mb-2">Sog'lom turmush tarzi</h3>
                     <p className="text-sm text-gray-600 mb-3">Sog'lom ovqatlanish va sport</p>
@@ -327,7 +333,7 @@ export default function DashboardPage() {
                     </Button>
                   </div>
 
-                  <div className="border border-gray-200 rounded-lg p-4">
+                  <div className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow">
                     <BookOpen className="w-8 h-8 text-purple-600 mb-3" />
                     <h3 className="font-semibold mb-2">Stress boshqaruvi</h3>
                     <p className="text-sm text-gray-600 mb-3">Ruhiy salomatlik va stress</p>
@@ -398,6 +404,12 @@ export default function DashboardPage() {
           </TabsContent>
         </Tabs>
       </div>
+
+      <Footer />
+
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => router.push("/")} />
+
+      {showSuccessToast && <SuccessToast message={toastMessage} onClose={() => setShowSuccessToast(false)} />}
     </div>
   )
 }

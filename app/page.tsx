@@ -1,53 +1,46 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Upload, Brain, UserCheck, MessageSquare, Star, Shield, Clock, Users } from "lucide-react"
 import Link from "next/link"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
+import { useRouter } from "next/navigation"
+import { useAppContext } from "@/context/app-context"
+import { useState } from "react"
+import { LoginModal } from "@/components/login-modal"
+import { RegisterModal } from "@/components/register-modal"
 
 export default function HomePage() {
+  const router = useRouter()
+  const { isLoggedIn } = useAppContext()
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
+
+  const handleGetDiagnosis = () => {
+    if (isLoggedIn) {
+      router.push("/ai-diagnosis")
+    } else {
+      setIsLoginModalOpen(true)
+    }
+  }
+
+  const handleEmergencyHelp = () => {
+    router.push("/emergency-help")
+  }
+
+  const handleUploadAnalysis = () => {
+    if (isLoggedIn) {
+      router.push("/ai-diagnosis")
+    } else {
+      setIsLoginModalOpen(true)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">Diagno AI</span>
-            </div>
-
-            <nav className="hidden md:flex space-x-8">
-              <Link href="/ai-diagnosis" className="text-gray-600 hover:text-blue-600">
-                AI Tahlil
-              </Link>
-              <Link href="/emergency-help" className="text-gray-600 hover:text-blue-600">
-                Shoshilinch Yordam
-              </Link>
-              <Link href="/doctors" className="text-gray-600 hover:text-blue-600">
-                Shifokorlar
-              </Link>
-              <Link href="/about" className="text-gray-600 hover:text-blue-600">
-                Biz haqimizda
-              </Link>
-            </nav>
-
-            <div className="flex items-center space-x-4">
-              <select className="text-sm border rounded-md px-2 py-1">
-                <option>O'zbek</option>
-                <option>Русский</option>
-                <option>English</option>
-              </select>
-              <Button variant="outline" size="sm">
-                Kirish
-              </Button>
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                Ro'yxatdan o'tish
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
@@ -64,19 +57,20 @@ export default function HomePage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white">
+                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white" onClick={handleGetDiagnosis}>
                   <Upload className="w-5 h-5 mr-2" />
                   Tashxis olish
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-white hover:bg-white text-blue-600"
+                  className="border-white text-white hover:bg-white hover:text-blue-600"
+                  onClick={handleUploadAnalysis}
                 >
                   <Brain className="w-5 h-5 mr-2" />
                   Analizni yuklash
                 </Button>
-                <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white">
+                <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white" onClick={handleEmergencyHelp}>
                   <Clock className="w-5 h-5 mr-2" />
                   Shoshilinch yordam
                 </Button>
@@ -290,114 +284,39 @@ export default function HomePage() {
             AI yordamida tez tashxis oling va professional shifokorlar bilan bog'laning
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-green-600 hover:bg-green-700">
+            <Button size="lg" className="bg-green-600 hover:bg-green-700" onClick={handleGetDiagnosis}>
               Bepul tashxis olish
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
-              Batafsil ma'lumot
-            </Button>
+            <Link href="/about">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-blue-600"
+              >
+                Batafsil ma'lumot
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Brain className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-bold">Diagno AI</span>
-              </div>
-              <p className="text-gray-400">Sun'iy intellekt yordamida tibbiy tashxis va shifokor tavsiyalari</p>
-            </div>
+      <Footer />
 
-            <div>
-              <h3 className="font-semibold mb-4">Xizmatlar</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>
-                  <Link href="/ai-diagnosis" className="hover:text-white">
-                    AI Tashxis
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/emergency-help" className="hover:text-white">
-                    Shoshilinch Yordam
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/doctors" className="hover:text-white">
-                    Shifokorlar
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/consultation" className="hover:text-white">
-                    Konsultatsiya
-                  </Link>
-                </li>
-              </ul>
-            </div>
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onSuccess={() => router.push("/ai-diagnosis")}
+      />
 
-            <div>
-              <h3 className="font-semibold mb-4">Kompaniya</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>
-                  <Link href="/about" className="hover:text-white">
-                    Biz haqimizda
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="hover:text-white">
-                    Bog'lanish
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/careers" className="hover:text-white">
-                    Karyera
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/blog" className="hover:text-white">
-                    Blog
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4">Yordam</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>
-                  <Link href="/support" className="hover:text-white">
-                    Texnik yordam
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/privacy" className="hover:text-white">
-                    Maxfiylik
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/terms" className="hover:text-white">
-                    Foydalanish shartlari
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/faq" className="hover:text-white">
-                    FAQ
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Diagno AI. Barcha huquqlar himoyalangan.</p>
-          </div>
-        </div>
-      </footer>
+      <RegisterModal
+        isOpen={isRegisterModalOpen}
+        onClose={() => setIsRegisterModalOpen(false)}
+        onLoginClick={() => {
+          setIsRegisterModalOpen(false)
+          setIsLoginModalOpen(true)
+        }}
+        onSuccess={() => router.push("/ai-diagnosis")}
+      />
     </div>
   )
 }
