@@ -6,6 +6,7 @@ export const locales = ['uz', 'en'] as const;
 export type Locale = (typeof locales)[number];
 
 // Get translations for a specific locale
+// @ts-expect-error
 export default getRequestConfig(async ({locale}) => {
   // Validate that the incoming locale parameter is valid
   if (!locales.includes(locale as any)) notFound();
