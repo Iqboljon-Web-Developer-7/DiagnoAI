@@ -1,11 +1,11 @@
 "use client"
 
-import Link from "next/link"
 import { Brain } from "lucide-react"
 import { UserMenu } from "./user-menu"
 import { useAppContext } from "@/context/app-context"
 import { useTranslations } from 'next-intl'
 import { LanguageSwitcher } from "./language-switcher"
+import Link from "next/link"
 
 interface HeaderProps {
   variant?: "default" | "emergency"

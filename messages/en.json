@@ -146,7 +146,8 @@
   "Language": {
     "switchLanguage": "Switch language",
     "uzbek": "O'zbekcha",
-    "english": "English"
+    "english": "English",
+    "russia":"Russia"
   },
   "UserMenu": {
     "dashboard": "Dashboard",

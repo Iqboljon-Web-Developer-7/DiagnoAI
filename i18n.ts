@@ -2,7 +2,7 @@ import {notFound} from 'next/navigation';
 import {getRequestConfig} from 'next-intl/server';
 
 // Define supported locales
-export const locales = ['uz', 'en'] as const;
+export const locales = ['uz', 'en', 'ru'] as const;
 export type Locale = (typeof locales)[number];
 
 // Get translations for a specific locale

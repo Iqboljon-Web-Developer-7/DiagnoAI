@@ -42,6 +42,12 @@ export function LanguageSwitcher() {
         >
           {t('english')}
         </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => switchLocale('ru')}
+          className={locale === 'ru' ? 'bg-accent' : ''}
+        >
+          {t('russia')}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
