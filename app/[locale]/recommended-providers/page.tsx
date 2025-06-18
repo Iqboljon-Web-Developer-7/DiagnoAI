@@ -34,7 +34,7 @@ export default function RecommendedProvidersPage() {
       distance: "2.3 km",
       hospital: "Respublika Shifoxonasi",
       price: "150,000 so'm",
-      availability: "Bugun mavjud",
+      availability: t("availibility"),
       image: "/placeholder.svg?height=80&width=80",
       match: 95,
     },
@@ -48,7 +48,7 @@ export default function RecommendedProvidersPage() {
       distance: "3.1 km",
       hospital: "Markaziy Klinika",
       price: "200,000 so'm",
-      availability: "Ertaga mavjud",
+      availability: t("availibility"),
       image: "/placeholder.svg?height=80&width=80",
       match: 88,
     },
@@ -62,7 +62,7 @@ export default function RecommendedProvidersPage() {
       distance: "1.8 km",
       hospital: "Oila Klinikasi",
       price: "120,000 so'm",
-      availability: "Bugun mavjud",
+      availability: t("availibility"),
       image: "/placeholder.svg?height=80&width=80",
       match: 92,
     },
@@ -76,7 +76,7 @@ export default function RecommendedProvidersPage() {
       distance: "4.2 km",
       hospital: "Ixtisoslashgan Markaz",
       price: "250,000 so'm",
-      availability: "3 kun ichida",
+      availability: t("availibility"),
       image: "/placeholder.svg?height=80&width=80",
       match: 85,
     },
@@ -123,8 +123,6 @@ export default function RecommendedProvidersPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header  />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Analysis Result Summary */}
         <Card className="mb-8 border-green-200 bg-green-50">

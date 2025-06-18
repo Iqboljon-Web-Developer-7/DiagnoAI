@@ -19,11 +19,11 @@
         "title": "Reliable and Secure",
         "description": "All data is encrypted and stored according to medical standards"
       },
-      "doctorConsultation":{
+      "doctorConsultation": {
         "title": "Available 24/7",
         "description": "Get diagnosis and emergency help services anytime"
       },
-      "emergencyHelp":{
+      "emergencyHelp": {
         "title": "Professional Doctors",
         "description": "Direct connection with experienced specialists"
       }
@@ -65,33 +65,27 @@
     },
     "testimonials": {
       "title": "User Reviews",
-      "description":"",
+      "description": "",
       "testimonial1": {
         "name": "Anvar Karimov",
         "location": "Tashkent",
         "text": "\"Got quick and accurate diagnosis with Diagno AI. Doctor recommendations were very helpful.\"",
-        "content": "\"Got quick and accurate diagnosis with Diagno AI. Doctor recommendations were very helpful.\""
-      ,
-      "role": " Doctor"
-
+        "content": "\"Got quick and accurate diagnosis with Diagno AI. Doctor recommendations were very helpful.\"",
+        "role": " Doctor"
       },
       "testimonial2": {
         "name": "Malika Rahimova",
         "location": "Samarkand",
         "text": "\"The emergency help section saved my life. Very fast and professional service.\"",
-        "content": "\"Got quick and accurate diagnosis with Diagno AI. Doctor recommendations were very helpful.\""
-      ,
-      "role": " Doctor"
-
+        "content": "\"Got quick and accurate diagnosis with Diagno AI. Doctor recommendations were very helpful.\"",
+        "role": " Doctor"
       },
       "testimonial3": {
         "name": "Bobur Toshmatov",
         "location": "Bukhara",
-        "text": "\"AI analysis was very accurate. Online consultation with the doctor was convenient.\""
-        ,"content": "\"Got quick and accurate diagnosis with Diagno AI. Doctor recommendations were very helpful.\""
-        ,
-      "role": " Doctor"
-
+        "text": "\"AI analysis was very accurate. Online consultation with the doctor was convenient.\"",
+        "content": "\"Got quick and accurate diagnosis with Diagno AI. Doctor recommendations were very helpful.\"",
+        "role": " Doctor"
       }
     },
     "cta": {
@@ -184,9 +178,11 @@
       "privacy": "Privacy Policy",
       "terms": "Terms of Service",
       "faq": "FAQ"
-    }
+    },
+    "copyright": "© {year} Diagno AI. All rights reserved."
   },
   "RecommendedProviders": {
+    "availibility": "Available today",
     "analysisSummaryTitle": "Based on your diagnosis",
     "analysisSummaryDescription": "Viral Infection (ARVI) - Confidence: 87%",
     "analysisSummaryBadge": "Matching specialists found",
@@ -226,5 +222,378 @@
     "toastCalling": "Calling {doctorName}...",
     "toastBooked": "Appointment booked with {doctorName}",
     "toastFiltersCleared": "Filters cleared"
+  },
+  "aiDiagnosis": {
+    "title": "AI Medical Analysis",
+    "description": "Upload your analyses and get professional diagnosis with AI assistance",
+    "uploadTitle": "Upload Analyses and Images",
+    "uploadDescription": "Upload medical analyses, X-ray images, or other medical documents",
+    "uploadPrompt": "Drag files here or click to select",
+    "supportedFormats": "We support PDF, JPG, PNG, DOC formats",
+    "uploadedFilesLabel": "Uploaded files:",
+    "removeButton": "Remove",
+    "symptomsTitle": "Symptoms and Complaints",
+    "symptomsDescription": "Describe your current symptoms in detail",
+    "symptomsPlaceholder": "For example: Headache, fever, cough, abdominal pain, and other symptoms...",
+    "symptomBadges": {
+      "headache": "Headache",
+      "fever": "Fever",
+      "cough": "Cough",
+      "abdominalPain": "Abdominal pain",
+      "fatigue": "Fatigue"
+    },
+    "analyzeButton": "Start AI Analysis",
+    "analyzingText": "Analyzing...",
+    "analysisProgressLabel": "Analysis progress",
+    "resultsTitle": "Analysis Results",
+    "resultsDescription": "Upload files and enter symptoms, then click the analyze button",
+    "awaitingAnalysis": "Awaiting analysis...",
+    "diagnosisTitle": "Probable Diagnosis",
+    "diagnosisName": "Viral Infection (ARVI)",
+    "confidenceLabel": "Confidence level:",
+    "urgencyLabel": "Urgency level:",
+    "urgencyLevels": {
+      "medium": "Medium"
+    },
+    "recommendedSpecialistTitle": "Recommended Specialist",
+    "specialistName": "Therapist",
+    "specialistDescription": "Consultation with a general practitioner is recommended",
+    "viewDoctorsButton": "View Doctors",
+    "recommendationsTitle": "Recommendations",
+    "recommendations": {
+      "fluid": "Drink plenty of fluids",
+      "rest": "Rest and get enough sleep",
+      "fever": "If fever exceeds 38.5°C, consult a doctor",
+      "duration": "If symptoms persist for more than 7 days, get checked"
+    },
+    "saveResultButton": "Save Result",
+    "detailedReportButton": "Detailed Report"
+  },
+  "emergency": {
+    "title": "Emergency Medical Help",
+    "alertTitle": "Emergency Alert",
+    "alertDescription": "If your life is in danger, call 103 immediately!",
+    "quickEmergencyTitle": "Quick Emergency",
+    "quickEmergencyDescription": "Quick buttons for common emergency situations",
+    "quickEmergencyButtons": {
+      "chestPain": "Chest Pain",
+      "breathingDifficulty": "Breathing Difficulty",
+      "dizziness": "Dizziness",
+      "severeBleeding": "Severe Bleeding"
+    },
+    "symptomDescriptionTitle": "Describe Your Condition",
+    "symptomDescription": "Write or record a detailed description of your current symptoms",
+    "symptomPlaceholder": "What symptoms are you experiencing? Since when? Pain level? Describe in detail...",
+    "recordButton": {
+      "start": "Voice Message",
+      "stop": "Stop Recording"
+    },
+    "uploadImageButton": "Upload Image",
+    "recordingStatus": "Recording in progress...",
+    "analyzeButton": {
+      "default": "Analyze Emergency",
+      "analyzing": "Analyzing Emergency..."
+    },
+    "emergencyLevelTitle": "Emergency Level",
+    "highRiskBadge": "HIGH RISK",
+    "highRiskMessage": "Immediate medical attention required!",
+    "call103Button": "Call 103",
+    "findHospitalButton": "Nearest Hospital",
+    "immediateActionsTitle": "Immediate Actions",
+    "immediateActions": {
+      "action1": "Stay calm and breathe deeply",
+      "action2": "Call 103 immediately",
+      "action3": "Stay in a safe place and wait for help",
+      "action4": "Inform your loved ones"
+    },
+    "nearbyHospitalsTitle": "Nearby Hospitals",
+    "hospital1": {
+      "name": "Republican Hospital",
+      "distance": "2.3 km • 8 minutes",
+      "department": "24/7 Emergency Department"
+    },
+    "hospital2": {
+      "name": "Central Clinic",
+      "distance": "3.1 km • 12 minutes",
+      "department": "Cardiology Department"
+    },
+    "analysisTitle": "Emergency Analysis",
+    "analysisDescription": "Enter your symptoms to determine the emergency level",
+    "analysisPending": "Analysis pending...",
+    "emergencyContactsTitle": "Emergency Numbers",
+    "emergencyContacts": {
+      "ambulance": "Ambulance",
+      "fireService": "Fire Service",
+      "police": "Police"
+    },
+    "toastMessages": {
+      "recordingStarted": "Voice recording started",
+      "recordingStopped": "Voice recording stopped",
+      "recordedText": "Voice message added",
+      "imageUploaded": "Image successfully uploaded",
+      "imageAdded": "Image uploaded: {fileName}",
+      "emergencySelected": "{emergency} selected",
+      "calling": "Calling {number}...",
+      "findingHospital": "Finding the nearest hospital..."
+    }
+  },
+  "doctors": {
+    "pageTitle": "Find Professional Doctors",
+    "pageDescription": "Connect with experienced doctors and receive high-quality medical care",
+    "specialtiesTitle": "Specialties",
+    "specialtiesDescription": "Available specialties for our doctors",
+    "count": "{count} doctors",
+    "filters": {
+      "title": "Filters",
+      "searchLabel": "Search",
+      "searchPlaceholder": "Doctor name or specialty...",
+      "cityLabel": "City",
+      "cityPlaceholder": "Select a city",
+      "specialtyLabel": "Specialty",
+      "specialtyPlaceholder": "Select a specialty",
+      "ratingLabel": "Rating",
+      "ratingPlaceholder": "Select rating",
+      "clearFiltersButton": "Clear Filters",
+      "cities": {
+        "tashkent": "Toshkent",
+        "samarkand": "Samarqanda",
+        "bukhara": "Buxoro",
+        "namangan": "Namangan"
+      }
+    },
+    "doctorsListTitle": "Doctors ({count})",
+    "sortOptions": {
+      "rating": "By Rating",
+      "experience": "By Experience",
+      "distance": "By Distance",
+      "price": "By Price"
+    },
+    "doctorCard": {
+      "consultationPriceSuffix": "/ consultation",
+      "reviews": "({count} reviews)",
+      "callButton": "Call",
+      "bookButton": "Book Appointment"
+    },
+    "loadMoreButton": "View More Doctors",
+    "specialties": {
+      "specialty1": {
+        "name": "Therapist",
+        "count": 2,
+        "icon": "🩺"
+      },
+      "specialty2": {
+        "name": "Cardiologist",
+        "count": 1,
+        "icon": "❤️"
+      },
+      "specialty3": {
+        "name": "Neurologist",
+        "count": 1,
+        "icon": "🧠"
+      },
+      "specialty4": {
+        "name": "Pediatrician",
+        "count": 1,
+        "icon": "👶"
+      },
+      "specialty5": {
+        "name": "Dermatologist",
+        "count": 1,
+        "icon": "🧴"
+      }
+    },
+    "doctors": {
+      "doctor1": {
+        "name": "Dr. Aziza Karimova",
+        "specialty": "Therapist",
+        "experience": "15 years of experience",
+        "rating": 4.9,
+        "reviews": 234,
+        "distance": "2.3 km",
+        "hospital": "Republican Hospital",
+        "price": "150,000 UZS",
+        "availability": "Available today",
+        "description": "Specialist in general practice. Experienced in infectious diseases and prevention."
+      },
+      "doctor2": {
+        "name": "Dr. Bobur Toshmatov",
+        "specialty": "Cardiologist",
+        "experience": "12 years of experience",
+        "rating": 4.8,
+        "reviews": 189,
+        "distance": "3.1 km",
+        "hospital": "Central Clinic",
+        "price": "200,000 UZS",
+        "availability": "Available tomorrow",
+        "description": "Specialist in cardiovascular diseases. Uses modern diagnostic methods."
+      },
+      "doctor3": {
+        "name": "Dr. Malika Rahimova",
+        "specialty": "Therapist",
+        "experience": "8 years of experience",
+        "rating": 4.7,
+        "reviews": 156,
+        "distance": "1.8 km",
+        "hospital": "Family Clinic",
+        "price": "120,000 UZS",
+        "availability": "Available today",
+        "description": "Family doctor with experience in working with children and adults. Specialist in allergies and immunity."
+      },
+      "doctor4": {
+        "name": "Dr. Anvar Usmonov",
+        "specialty": "Neurologist",
+        "experience": "20 years of experience",
+        "rating": 4.9,
+        "reviews": 312,
+        "distance": "4.2 km",
+        "hospital": "Specialized Center",
+        "price": "250,000 UZS",
+        "availability": "Available in 3 days",
+        "description": "Leading specialist in neurological disorders. Experienced in migraines, epilepsy, and headaches."
+      },
+      "doctor5": {
+        "name": "Dr. Nodira Karimova",
+        "specialty": "Pediatrician",
+        "experience": "10 years of experience",
+        "rating": 4.8,
+        "reviews": 198,
+        "distance": "2.8 km",
+        "hospital": "Children’s Hospital",
+        "price": "130,000 UZS",
+        "availability": "Available today",
+        "description": "Pediatrician working with children from newborns to 18 years old."
+      },
+      "doctor6": {
+        "name": "Dr. Sardor Rahmonov",
+        "specialty": "Dermatologist",
+        "experience": "7 years of experience",
+        "rating": 4.6,
+        "reviews": 142,
+        "distance": "3.5 km",
+        "hospital": "Skin Disease Center",
+        "price": "180,000 UZS",
+        "availability": "Available tomorrow",
+        "description": "Specialist in skin disorders and cosmetology. Uses modern laser technologies."
+      }
+    },
+    "toastMessages": {
+      "call": "Calling {doctorName}...",
+      "bookAppointment": "Appointment booked with {doctorName}",
+      "clearFilters": "Filters cleared"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "About Us",
+      "description": "Diagno AI is an innovative platform providing medical diagnostics and doctor recommendations powered by artificial intelligence"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description1": "The primary goal of the Diagno AI platform is to expand access to quality medical care and make healthcare services universally accessible using artificial intelligence technologies.",
+      "description2": "We aim to improve communication between doctors and patients, accelerate the diagnostic process, and enhance the healthcare system by providing remote medical services.",
+      "checklist": {
+        "item1": "Making medical services universally accessible",
+        "item2": "Accelerating the diagnostic process",
+        "item3": "Improving communication between doctors and patients",
+        "item4": "Providing remote medical care"
+      },
+      "stats": {
+        "users": {
+          "value": "100,000+",
+          "label": "Users"
+        },
+        "analyses": {
+          "value": "500,000+",
+          "label": "AI Analyses"
+        },
+        "accuracy": {
+          "value": "95%",
+          "label": "Accuracy Rate"
+        },
+        "countries": {
+          "value": "10+",
+          "label": "Countries"
+        }
+      }
+    },
+    "values": {
+      "title": "Our Values",
+      "description": "The Diagno AI platform is built on the following core values",
+      "value1": {
+        "title": "Reliability and Security",
+        "description": "User data security and privacy are our top priorities. All data is encrypted and stored in compliance with medical standards."
+      },
+      "value2": {
+        "title": "Quality and Accuracy",
+        "description": "Our AI algorithms are continuously improved and updated with the latest medical data. We strive for the highest level of accuracy."
+      },
+      "value3": {
+        "title": "Speed and Convenience",
+        "description": "We provide users with fast and convenient access to medical care anytime, anywhere. 24/7 service is our core principle."
+      }
+    },
+    "team": {
+      "title": "Our Team",
+      "description": "The experienced professionals behind the Diagno AI platform",
+      "members": {
+        "member1": {
+          "name": "Dr. Alisher Karimov",
+          "role": "Chief Physician, Founder",
+          "description": "Cardiologist with 20 years of experience. Developed the idea and core concept of the Diagno AI platform."
+        },
+        "member2": {
+          "name": "Dilnoza Rahimova",
+          "role": "Chief Technology Officer",
+          "description": "Expert in artificial intelligence and medical data analysis. MIT graduate."
+        },
+        "member3": {
+          "name": "Dr. Bobur Toshmatov",
+          "role": "Medical Consultant",
+          "description": "Therapist and public health expert. Collaborated with the World Health Organization."
+        },
+        "member4": {
+          "name": "Malika Usmonova",
+          "role": "Product Manager",
+          "description": "Specialist with 8 years of experience in medical software and user experience."
+        }
+      }
+    },
+    "history": {
+      "title": "Our History",
+      "description": "The development journey of the Diagno AI platform",
+      "milestones": {
+        "milestone1": {
+          "year": "2020",
+          "title": "Project Started",
+          "description": "The Diagno AI concept was formed, and initial research began."
+        },
+        "milestone2": {
+          "year": "2021",
+          "title": "First Prototype",
+          "description": "Initial AI algorithms were developed and tested."
+        },
+        "milestone3": {
+          "year": "2022",
+          "title": "Beta Version",
+          "description": "The platform was tested with a limited user base."
+        },
+        "milestone4": {
+          "year": "2023",
+          "title": "Official Launch",
+          "description": "The Diagno AI platform was officially launched and introduced to the public."
+        },
+        "milestone5": {
+          "year": "2024",
+          "title": "Expansion",
+          "description": "New features and services were added, with the user base exceeding 100,000."
+        }
+      }
+    },
+    "cta": {
+      "title": "Join Our Team",
+      "description": "Collaborate with the Diagno AI platform and contribute to advancing healthcare services",
+      "contactButton": "Contact Us",
+      "careersButton": "Careers"
+    }
   }
 }

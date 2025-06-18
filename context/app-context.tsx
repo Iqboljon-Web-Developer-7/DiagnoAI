@@ -133,7 +133,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       date: new Date().toISOString().split("T")[0],
     }
 
+    setTimeout(() => {
     setDiagnoses((prev) => [newDiagnosis, ...prev])
+      
+    }, 0);
   }
 
   const addAppointment = (appointment: Omit<Appointment, "id">) => {

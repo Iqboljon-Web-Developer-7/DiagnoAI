@@ -1,8 +1,6 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import React, { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -10,30 +8,108 @@ import { Progress } from "@/components/ui/progress"
 import { Textarea } from "@/components/ui/textarea"
 import { Upload, Brain, FileText, ImageIcon, AlertTriangle, CheckCircle, User, Loader2 } from "lucide-react"
 import Link from "next/link"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
 import { useAppContext } from "@/context/app-context"
 import { useRouter } from "next/navigation"
 import { LoginModal } from "@/components/login-modal"
 import { SuccessToast } from "@/components/success-toast"
+import { useTranslations, useMessages } from "next-intl"
+
+// Define the type for the diagnosis object
+interface Diagnosis {
+  diagnosis: string
+  confidence: number
+  status: string
+  doctor: string
+}
+
+// Define the type for the AppContext
+interface AppContextType {
+  isLoggedIn: boolean
+  addDiagnosis: (diagnosis: Diagnosis) => void
+}
+
+// Define the type for translations
+interface AiDiagnosisTranslations {
+  title: string
+  description: string
+  uploadTitle: string
+  uploadDescription: string
+  uploadPrompt: string
+  supportedFormats: string
+  uploadedFilesLabel: string
+  removeButton: string
+  symptomsTitle: string
+  symptomsDescription: string
+  symptomsPlaceholder: string
+  symptomBadges: {
+    headache: string
+    fever: string
+    cough: string
+    abdominalPain: string
+    fatigue: string
+  }
+  analyzeButton: string
+  analyzingText: string
+  analysisProgressLabel: string
+  resultsTitle: string
+  resultsDescription: string
+  awaitingAnalysis: string
+  diagnosisTitle: string
+  diagnosisName: string
+  confidenceLabel: string
+  urgencyLabel: string
+  urgencyLevels: {
+    medium: string
+  }
+  recommendedSpecialistTitle: string
+  specialistName: string
+  specialistDescription: string
+  viewDoctorsButton: string
+  recommendationsTitle: string
+  recommendations: string[]
+  saveResultButton: string
+  detailedReportButton: string
+}
 
 export default function AIDiagnosisPage() {
-  const { isLoggedIn, addDiagnosis } = useAppContext()
+  const translations = useTranslations('aiDiagnosis');
+  // const translations = useTranslations<{any}>("aiDiagnosis")
+  const { isLoggedIn, addDiagnosis } = useAppContext() as AppContextType
   const router = useRouter()
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
-  const [symptoms, setSymptoms] = useState("")
-  const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [analysisComplete, setAnalysisComplete] = useState(false)
-  const [analysisProgress, setAnalysisProgress] = useState(0)
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(!isLoggedIn)
-  const [showSuccessToast, setShowSuccessToast] = useState(false)
-  const [toastMessage, setToastMessage] = useState("")
 
+  const messages = useMessages();
+  const keys = Object.keys(messages.aiDiagnosis.recommendations);
+
+  
+  console.log(keys);
+  
+  // State variables with explicit types
+
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
+  const [symptoms, setSymptoms] = useState<string>("")
+  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false)
+  const [analysisComplete, setAnalysisComplete] = useState<boolean>(false)
+  const [analysisProgress, setAnalysisProgress] = useState<number>(0)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(!isLoggedIn)
+  const [showSuccessToast, setShowSuccessToast] = useState<boolean>(false)
+  const [toastMessage, setToastMessage] = useState<string>("")
+
+  // Symptom keys for rendering badges
+  const symptomKeys: (keyof AiDiagnosisTranslations["symptomBadges"])[] = [
+    "headache",
+    "fever",
+    "cough",
+    "abdominalPain",
+    "fatigue",
+  ]
+
+  // Handle file upload with typed event
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || [])
+    const files = event.target.files ? Array.from(event.target.files) : []
     setUploadedFiles((prev) => [...prev, ...files])
   }
 
+  // Handle analysis process
   const handleAnalyze = () => {
     if (!isLoggedIn) {
       setIsLoginModalOpen(true)
@@ -43,7 +119,6 @@ export default function AIDiagnosisPage() {
     setIsAnalyzing(true)
     setAnalysisProgress(0)
 
-    // Simulate analysis progress
     const interval = setInterval(() => {
       setAnalysisProgress((prev) => {
         if (prev >= 100) {
@@ -51,11 +126,10 @@ export default function AIDiagnosisPage() {
           setIsAnalyzing(false)
           setAnalysisComplete(true)
 
-          // Add diagnosis to context
           addDiagnosis({
-            diagnosis: "Viral Infeksiya (ARVI)",
+            diagnosis: translations('diagnosisName'),
             confidence: 87,
-            status: "Yangi",
+            status: "Yangi", // Note: This could be translated if needed
             doctor: "Dr. Aziza Karimova",
           })
 
@@ -66,10 +140,12 @@ export default function AIDiagnosisPage() {
     }, 200)
   }
 
+  // Remove file by index
   const removeFile = (index: number) => {
     setUploadedFiles((prev) => prev.filter((_, i) => i !== index))
   }
 
+  // Add symptom to the list
   const handleAddSymptom = (symptom: string) => {
     if (symptoms.includes(symptom)) return
 
@@ -77,13 +153,15 @@ export default function AIDiagnosisPage() {
     setSymptoms(newSymptoms)
   }
 
+  // Save result and show toast
   const handleSaveResult = () => {
-    setToastMessage("Natija muvaffaqiyatli saqlandi")
+    setToastMessage(translations("saveResultButton")) // Use translation for consistency
     setShowSuccessToast(true)
   }
 
+  // Download report and show toast
   const handleDownloadReport = () => {
-    setToastMessage("Hisobot yuklab olindi")
+    setToastMessage(translations("detailedReportButton")) // Use translation for consistency
     setShowSuccessToast(true)
   }
 
@@ -91,10 +169,8 @@ export default function AIDiagnosisPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Tibbiy Tahlil</h1>
-          <p className="text-lg text-gray-600">
-            Analizlaringizni yuklang va sun'iy intellekt yordamida professional tashxis oling
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{translations('title')}</h1>
+          <p className="text-lg text-gray-600">{translations('description')}</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
@@ -105,11 +181,9 @@ export default function AIDiagnosisPage() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Upload className="w-5 h-5" />
-                  <span>Analiz va Rasmlar Yuklash</span>
+                  <span>{translations("uploadTitle")}</span>
                 </CardTitle>
-                <CardDescription>
-                  Tibbiy analizlar, rentgen rasmlari yoki boshqa tibbiy hujjatlarni yuklang
-                </CardDescription>
+                <CardDescription>{translations("uploadDescription")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors">
@@ -123,17 +197,15 @@ export default function AIDiagnosisPage() {
                   />
                   <label htmlFor="file-upload" className="cursor-pointer">
                     <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-lg font-medium text-gray-700 mb-2">
-                      Fayllarni bu yerga tashlang yoki tanlash uchun bosing
-                    </p>
-                    <p className="text-sm text-gray-500">PDF, JPG, PNG, DOC formatlarini qo'llab-quvvatlaymiz</p>
+                    <p className="text-lg font-medium text-gray-700 mb-2">{translations("uploadPrompt")}</p>
+                    <p className="text-sm text-gray-500">{translations("supportedFormats")}</p>
                   </label>
                 </div>
 
                 {/* Uploaded Files */}
                 {uploadedFiles.length > 0 && (
                   <div className="mt-4 space-y-2">
-                    <h4 className="font-medium text-gray-700">Yuklangan fayllar:</h4>
+                    <h4 className="font-medium text-gray-700">{translations("uploadedFilesLabel")}</h4>
                     {uploadedFiles.map((file, index) => (
                       <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
                         <div className="flex items-center space-x-3">
@@ -151,7 +223,7 @@ export default function AIDiagnosisPage() {
                           onClick={() => removeFile(index)}
                           className="text-red-600 hover:text-red-700"
                         >
-                          O'chirish
+                          {translations("removeButton")}
                         </Button>
                       </div>
                     ))}
@@ -163,52 +235,27 @@ export default function AIDiagnosisPage() {
             {/* Symptoms Input */}
             <Card>
               <CardHeader>
-                <CardTitle>Simptomlar va Shikoyatlar</CardTitle>
-                <CardDescription>Hozirgi holatingizdagi simptomlarni batafsil yozing</CardDescription>
+                <CardTitle>{translations("symptomsTitle")}</CardTitle>
+                <CardDescription>{translations("symptomsDescription")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Textarea
-                  placeholder="Masalan: Bosh og'rig'i, isitma, yo'tal, qorin og'rig'i va boshqa simptomlarni yozing..."
+                  placeholder={translations("symptomsPlaceholder")}
                   value={symptoms}
-                  onChange={(e) => setSymptoms(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setSymptoms(e.target.value)}
                   className="min-h-32"
                 />
                 <div className="mt-4 flex flex-wrap gap-2">
-                  <Badge
-                    variant="outline"
-                    className="cursor-pointer hover:bg-blue-50"
-                    onClick={() => handleAddSymptom("Bosh og'rig'i")}
-                  >
-                    Bosh og'rig'i
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="cursor-pointer hover:bg-blue-50"
-                    onClick={() => handleAddSymptom("Isitma")}
-                  >
-                    Isitma
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="cursor-pointer hover:bg-blue-50"
-                    onClick={() => handleAddSymptom("Yo'tal")}
-                  >
-                    Yo'tal
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="cursor-pointer hover:bg-blue-50"
-                    onClick={() => handleAddSymptom("Qorin og'rig'i")}
-                  >
-                    Qorin og'rig'i
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="cursor-pointer hover:bg-blue-50"
-                    onClick={() => handleAddSymptom("Charchash")}
-                  >
-                    Charchash
-                  </Badge>
+                  {symptomKeys.map((key) => (
+                    <Badge
+                      key={key}
+                      variant="outline"
+                      className="cursor-pointer hover:bg-blue-50"
+                      onClick={() => handleAddSymptom(translations(`symptomBadges.${key}`))}
+                    >
+                      {/* {translations("symptomBadges")[key]} */}
+                    </Badge>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -224,12 +271,12 @@ export default function AIDiagnosisPage() {
                   {isAnalyzing ? (
                     <>
                       <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Tahlil qilinmoqda...
+                      {translations("analyzingText")}
                     </>
                   ) : (
                     <>
                       <Brain className="w-5 h-5 mr-2" />
-                      AI Tahlil Boshlash
+                      {translations("analyzeButton")}
                     </>
                   )}
                 </Button>
@@ -237,7 +284,7 @@ export default function AIDiagnosisPage() {
                 {isAnalyzing && (
                   <div className="mt-4">
                     <div className="flex justify-between text-sm text-gray-600 mb-2">
-                      <span>Tahlil jarayoni</span>
+                      <span>{translations("analysisProgressLabel")}</span>
                       <span>{analysisProgress}%</span>
                     </div>
                     <Progress value={analysisProgress} className="w-full" />
@@ -252,15 +299,13 @@ export default function AIDiagnosisPage() {
             {!analysisComplete ? (
               <Card>
                 <CardHeader>
-                  <CardTitle>Tahlil Natijalari</CardTitle>
-                  <CardDescription>
-                    Fayllarni yuklang va simptomlarni kiriting, so'ngra tahlil tugmasini bosing
-                  </CardDescription>
+                  <CardTitle>{translations("resultsTitle")}</CardTitle>
+                  <CardDescription>{translations("resultsDescription")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-8">
                     <Brain className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-500">Tahlil kutilmoqda...</p>
+                    <p className="text-gray-500">{translations("awaitingAnalysis")}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -270,15 +315,15 @@ export default function AIDiagnosisPage() {
                 <Card className="border-green-200 bg-green-50">
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-green-800">Ehtimoliy Tashxis</CardTitle>
+                      <CardTitle className="text-green-800">{translations("diagnosisTitle")}</CardTitle>
                       <CheckCircle className="w-6 h-6 text-green-600" />
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <h3 className="text-xl font-bold text-green-900 mb-2">Viral Infeksiya (ARVI)</h3>
+                    <h3 className="text-xl font-bold text-green-900 mb-2">{translations("diagnosisName")}</h3>
                     <div className="space-y-3">
                       <div>
-                        <span className="text-sm font-medium text-green-700">Ishonchlilik darajasi:</span>
+                        <span className="text-sm font-medium text-green-700">{translations("confidenceLabel")}</span>
                         <div className="flex items-center space-x-2 mt-1">
                           <Progress value={87} className="flex-1" />
                           <span className="text-sm font-bold text-green-800">87%</span>
@@ -286,9 +331,9 @@ export default function AIDiagnosisPage() {
                       </div>
 
                       <div>
-                        <span className="text-sm font-medium text-green-700">Shoshilinchlik darajasi:</span>
+                        <span className="text-sm font-medium text-green-700">{translations("urgencyLabel")}</span>
                         <Badge variant="outline" className="ml-2 border-yellow-400 text-yellow-700">
-                          O'rtacha
+                          {translations("urgencyLevels.medium")}
                         </Badge>
                       </div>
                     </div>
@@ -300,48 +345,40 @@ export default function AIDiagnosisPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2">
                       <User className="w-5 h-5" />
-                      <span>Tavsiya etilgan mutaxassis</span>
+                      <span>{translations("recommendedSpecialistTitle")}</span>
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <div className="font-medium text-blue-600">Terapevt</div>
-                      <p className="text-sm text-gray-600">
-                        Umumiy amaliyot shifokori bilan konsultatsiya tavsiya etiladi
-                      </p>
+                      <div className="font-medium text-blue-600">{translations("specialistName")}</div>
+                      <p className="text-sm text-gray-600">{translations("specialistDescription")}</p>
                       <Link href="/doctors">
                         <Button className="w-full" variant="outline">
                           <User className="w-4 h-4 mr-2" />
-                          Shifokorlarni ko'rish
+                          {translations("viewDoctorsButton")}
                         </Button>
                       </Link>
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* Recommendations */}
+                {/* Recommendations */} 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Tavsiyalar</CardTitle>
+                    <CardTitle>{translations("recommendationsTitle")}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-2 text-sm">
-                      <li className="flex items-start space-x-2">
-                        <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" />
-                        <span>Ko'p suyuqlik iste'mol qiling</span>
-                      </li>
-                      <li className="flex items-start space-x-2">
-                        <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" />
-                        <span>Dam oling va uyquni to'liq oling</span>
-                      </li>
-                      <li className="flex items-start space-x-2">
-                        <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" />
-                        <span>Isitma 38.5°C dan yuqori bo'lsa, shifokorga murojaat qiling</span>
-                      </li>
-                      <li className="flex items-start space-x-2">
-                        <AlertTriangle className="w-4 h-4 text-yellow-600 mt-0.5" />
-                        <span>Simptomlar 7 kundan ko'p davom etsa, tekshiruv o'tkazing</span>
-                      </li>
+                      {keys.map((rec, index) => (
+                        <li key={index} className="flex items-start space-x-2">
+                          {index < 3 ? (
+                            <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" />
+                          ) : (
+                            <AlertTriangle className="w-4 h-4 text-yellow-600 mt-0.5" />
+                          )}
+                          <span>{translations(`recommendations.${rec}`)}</span>
+                        </li>
+                      ))}
                     </ul>
                   </CardContent>
                 </Card>
@@ -349,13 +386,13 @@ export default function AIDiagnosisPage() {
                 {/* Action Buttons */}
                 <div className="space-y-3">
                   <Link href="/recommended-providers">
-                    <Button className="w-full bg-green-600 hover:bg-green-700">Shifokorlarni ko'rish</Button>
+                    <Button className="w-full bg-green-600 hover:bg-green-700">{translations("viewDoctorsButton")}</Button>
                   </Link>
                   <Button variant="outline" className="w-full" onClick={handleSaveResult}>
-                    Natijani saqlash
+                    {translations("saveResultButton")}
                   </Button>
                   <Button variant="outline" className="w-full" onClick={handleDownloadReport}>
-                    Batafsil hisobot
+                    {translations("detailedReportButton")}
                   </Button>
                 </div>
               </>

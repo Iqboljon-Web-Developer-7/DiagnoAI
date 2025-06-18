@@ -10,14 +10,9 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  
   children: React.ReactNode
 }) {
   return (
-    <html lang="uz">
-      <body className={"font-sans"}>
-        <AppProvider>{children}</AppProvider>
-      </body>
-    </html>
+    <AppProvider>{children}</AppProvider>
   )
 }

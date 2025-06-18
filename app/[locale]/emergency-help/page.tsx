@@ -9,8 +9,10 @@ import { AlertTriangle, Phone, MapPin, Mic, Upload, Navigation, Loader2 } from "
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { SuccessToast } from "@/components/success-toast"
+import { useTranslations, useMessages } from "next-intl"
 
 export default function EmergencyHelpPage() {
+  const translations = useTranslations("emergency")
   const [symptoms, setSymptoms] = useState("")
   const [isRecording, setIsRecording] = useState(false)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
@@ -21,37 +23,39 @@ export default function EmergencyHelpPage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
 
+  let messages = useMessages()
+  let immediateActions = Object.keys(messages.emergency?.immediateActions || {})
+
   const handleEmergencyAnalysis = () => {
     setIsAnalyzing(true)
-    // Simulate analysis
     setTimeout(() => {
       setIsAnalyzing(false)
-      setEmergencyLevel("high") // Simulate high emergency
+      setEmergencyLevel("high")
     }, 2000)
   }
 
   const toggleRecording = () => {
     if (!isRecording) {
-      setToastMessage("Ovoz yozish boshlandi")
+      setToastMessage(translations("toastMessages.recordingStarted"))
       setShowSuccessToast(true)
     } else {
-      setToastMessage("Ovoz yozish to'xtatildi")
+      setToastMessage(translations("toastMessages.recordingStopped"))
       setShowSuccessToast(true)
-      //Add recorded text to symptoms
-      setSymptoms((prev) => prev + (prev ? ", " : "") + "Ovozli xabar qo'shildi")
+      setSymptoms((prev) => prev + (prev ? ", " : "") + translations("toastMessages.recordedText"))
     }
     setIsRecording(!isRecording)
   }
 
   const handleEmergencyCall = (number: string) => {
-    setToastMessage(`${number} raqamiga qo'ng'iroq qilinmoqda...`)
+    setToastMessage(translations("toastMessages.calling", { number }))
     setShowSuccessToast(true)
   }
 
-  const handleQuickEmergency = (emergency: string) => {
-    setSelectedEmergency(emergency)
-    setSymptoms(emergency)
-    setToastMessage(`${emergency} tanlandi`)
+  const handleQuickEmergency = (emergencyKey: string) => {
+    const emergencyText = translations(`quickEmergencyButtons.${emergencyKey}`)
+    setSelectedEmergency(emergencyText)
+    setSymptoms(emergencyText)
+    setToastMessage(translations("toastMessages.emergencySelected", { emergency: emergencyText }))
     setShowSuccessToast(true)
   }
 
@@ -63,173 +67,153 @@ export default function EmergencyHelpPage() {
       const file = (e.target as HTMLInputElement).files?.[0]
       if (file) {
         setSelectedImage(file)
-        // Create preview URL
         const reader = new FileReader()
         reader.onloadend = () => {
           setImagePreview(reader.result as string)
         }
         reader.readAsDataURL(file)
-        setToastMessage("Rasm muvaffaqiyatli yuklandi")
+        setToastMessage(translations("toastMessages.imageUploaded"))
         setShowSuccessToast(true)
-        // Add image info to symptoms
-        setSymptoms((prev) => prev + (prev ? ", " : "") + `Rasm yuklandi: ${file.name}`)
+        setSymptoms((prev) => prev + (prev ? ", " : "") + translations("toastMessages.imageAdded", { fileName: file.name }))
       }
     }
     input.click()
   }
 
   const handleFindHospital = () => {
-    setToastMessage("Eng yaqin shifoxona topilmoqda...")
+    setToastMessage(translations("toastMessages.findingHospital"))
     setShowSuccessToast(true)
   }
 
   return (
-    <div className="min-h-screen bg-red-50">
+    <div className="min-h-screen bg-gradient-to-b from-red-50 to-red-100 flex flex-col">
       <Header variant="emergency" />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Emergency Alert */}
-        <div className="bg-red-100 border border-red-300 rounded-lg p-4 mb-8">
+        <div className="bg-red-100 border-2 border-red-400 rounded-xl p-4 sm:p-6 mb-6 md:mb-8 shadow-md transition-all hover:shadow-lg">
           <div className="flex items-center space-x-3">
-            <AlertTriangle className="w-6 h-6 text-red-600" />
+            <AlertTriangle className="w-6 h-6 sm:w-8 sm:h-8 text-red-600 flex-shrink-0" />
             <div>
-              <h2 className="text-lg font-bold text-red-800">Shoshilinch Tibbiy Yordam</h2>
-              <p className="text-red-700">Agar hayotingiz xavf ostida bo'lsa, darhol 103 raqamiga qo'ng'iroq qiling!</p>
+              <h2 className="text-base sm:text-lg md:text-xl font-bold text-red-800">{translations("alertTitle")}</h2>
+              <p className="text-sm sm:text-base text-red-700 mt-1">{translations("alertDescription")}</p>
             </div>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {/* Emergency Input Section */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             {/* Quick Emergency Buttons */}
-            <Card className="border-red-200">
-              <CardHeader>
-                <CardTitle className="text-red-800">Tezkor Yordam</CardTitle>
-                <CardDescription>Umumiy shoshilinch holatlar uchun tezkor tugmalar</CardDescription>
+            <Card className="border-red-200 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+              <CardHeader className="bg-red-50">
+                <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl">{translations("quickEmergencyTitle")}</CardTitle>
+                <CardDescription className="text-sm sm:text-base text-gray-600">{translations("quickEmergencyDescription")}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3">
-                  <Button
-                    variant="outline"
-                    className={`border-red-300 text-red-700 hover:bg-red-50 h-auto py-4 ${selectedEmergency === "Yurak og'rig'i" ? "bg-red-100" : ""}`}
-                    onClick={() => handleQuickEmergency("Yurak og'rig'i")}
-                  >
-                    <div className="text-center">
-                      <AlertTriangle className="w-6 h-6 mx-auto mb-1" />
-                      <div className="text-sm font-medium">Yurak og'rig'i</div>
-                    </div>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className={`border-red-300 text-red-700 hover:bg-red-50 h-auto py-4 ${selectedEmergency === "Nafas olishda qiyinchilik" ? "bg-red-100" : ""}`}
-                    onClick={() => handleQuickEmergency("Nafas olishda qiyinchilik")}
-                  >
-                    <div className="text-center">
-                      <AlertTriangle className="w-6 h-6 mx-auto mb-1" />
-                      <div className="text-sm font-medium">Nafas olishda qiyinchilik</div>
-                    </div>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className={`border-red-300 text-red-700 hover:bg-red-50 h-auto py-4 ${selectedEmergency === "Bosh aylanishi" ? "bg-red-100" : ""}`}
-                    onClick={() => handleQuickEmergency("Bosh aylanishi")}
-                  >
-                    <div className="text-center">
-                      <AlertTriangle className="w-6 h-6 mx-auto mb-1" />
-                      <div className="text-sm font-medium">Bosh aylanishi</div>
-                    </div>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className={`border-red-300 text-red-700 hover:bg-red-50 h-auto py-4 ${selectedEmergency === "Kuchli qon ketish" ? "bg-red-100" : ""}`}
-                    onClick={() => handleQuickEmergency("Kuchli qon ketish")}
-                  >
-                    <div className="text-center">
-                      <AlertTriangle className="w-6 h-6 mx-auto mb-1" />
-                      <div className="text-sm font-medium">Kuchli qon ketish</div>
-                    </div>
-                  </Button>
+              <CardContent className="p-4 sm:p-6">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                  {["chestPain", "breathingDifficulty", "dizziness", "severeBleeding"].map((key) => (
+                    <Button
+                      key={key}
+                      variant="outline"
+                      className={`border-red-300 text-red-700 hover:bg-red-50 h-auto py-3 sm:py-4 text-sm sm:text-base transition-all ${
+                        selectedEmergency === translations(`quickEmergencyButtons.${key}`) ? "bg-red-100 ring-2 ring-red-400" : ""
+                      }`}
+                      onClick={() => handleQuickEmergency(key)}
+                      aria-label={translations(`quickEmergencyButtons.${key}`)}
+                    >
+                      <div className="text-center">
+                        <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 mx-auto mb-1 text-red-600" />
+                        <div className="font-medium">{translations(`quickEmergencyButtons.${key}`)}</div>
+                      </div>
+                    </Button>
+                  ))}
                 </div>
               </CardContent>
             </Card>
 
             {/* Symptom Description */}
-            <Card className="border-red-200">
-              <CardHeader>
-                <CardTitle className="text-red-800">Holatni Tasvirlang</CardTitle>
-                <CardDescription>
-                  Hozirgi holatingizdagi simptomlarni batafsil yozing yoki ovozli xabar yuboring
-                </CardDescription>
+            <Card className="border-red-200 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+              <CardHeader className="bg-red-50">
+                <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl">{translations("symptomDescriptionTitle")}</CardTitle>
+                <CardDescription className="text-sm sm:text-base text-gray-600">{translations("symptomDescription")}</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="p-4 sm:p-6 space-y-4">
                 <Textarea
-                  placeholder="Qanday simptomlar bor? Qachondan boshlab? Og'riq darajasi qanday? Batafsil yozing..."
+                  placeholder={translations("symptomPlaceholder")}
                   value={symptoms}
                   onChange={(e) => setSymptoms(e.target.value)}
-                  className="min-h-32 border-red-200 focus:border-red-400"
+                  className="min-h-32 sm:min-h-40 border-red-200 focus:border-red-400 focus:ring-red-400 text-sm sm:text-base rounded-lg"
                 />
 
                 {imagePreview && (
-                  <div className="relative border border-red-200 rounded-lg p-2">
-                    <img src={imagePreview} alt="Uploaded" className="max-h-48 mx-auto rounded" />
+                  <div className="relative border border-red-200 rounded-lg p-2 bg-white shadow-sm">
+                    <img src={imagePreview} alt="Uploaded" className="max-h-40 sm:max-h-48 w-full object-contain rounded" />
                     <Button
                       variant="outline"
                       size="sm"
-                      className="absolute top-2 right-2 h-8 w-8 p-0"
+                      className="absolute top-2 right-2 h-6 w-6 sm:h-8 sm:w-8 p-0 border-red-300 text-red-600 hover:bg-red-100"
                       onClick={() => {
                         setSelectedImage(null)
                         setImagePreview(null)
                       }}
+                      aria-label="Remove image"
                     >
                       ×
                     </Button>
                   </div>
                 )}
-                <div className="flex space-x-3">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                   <Button
                     variant="outline"
                     onClick={toggleRecording}
-                    className={`flex-1 ${isRecording ? "bg-red-100 border-red-400" : "border-red-200"}`}
+                    className={`flex-1 border-red-200 text-sm sm:text-base hover:bg-red-50 transition-all ${
+                      isRecording ? "bg-red-100 border-red-400 text-red-600" : ""
+                    }`}
+                    aria-label={isRecording ? translations("recordButton.stop") : translations("recordButton.start")}
                   >
-                    <Mic className={`w-4 h-4 mr-2 ${isRecording ? "text-red-600" : ""}`} />
-                    {isRecording ? "Yozuv to'xtatish" : "Ovozli xabar"}
+                    <Mic className={`w-4 h-4 sm:w-5 sm:h-5 mr-2 ${isRecording ? "text-red-600" : "text-gray-600"}`} />
+                    {isRecording ? translations("recordButton.stop") : translations("recordButton.start")}
                   </Button>
 
-                  <Button variant="outline" className="border-red-200" onClick={handleUploadFile}>
-                    <Upload className="w-4 h-4 mr-2" />
-                    Rasm yuklash
+                  <Button
+                    variant="outline"
+                    className="flex-1 border-red-200 text-sm sm:text-base hover:bg-red-50 transition-all"
+                    onClick={handleUploadFile}
+                    aria-label={translations("uploadImageButton")}
+                  >
+                    <Upload className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-gray-600" />
+                    {translations("uploadImageButton")}
                   </Button>
                 </div>
 
                 {isRecording && (
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
-                      <span className="text-red-700 text-sm">Ovoz yozilmoqda...</span>
-                    </div>
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
+                    <span className="text-red-700 text-sm sm:text-base">{translations("recordingStatus")}</span>
                   </div>
                 )}
               </CardContent>
             </Card>
 
             {/* Emergency Analysis */}
-            <Card className="border-red-200">
-              <CardContent className="pt-6">
+            <Card className="border-red-200 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+              <CardContent className="p-4 sm:p-6 pt-4 sm:pt-6">
                 <Button
                   onClick={handleEmergencyAnalysis}
                   disabled={isAnalyzing || (!symptoms.trim() && !isRecording)}
-                  className="w-full bg-red-600 hover:bg-red-700 text-lg py-6"
+                  className="w-full bg-red-600 hover:bg-red-700 text-white text-base sm:text-lg py-5 sm:py-6 rounded-lg shadow-md transition-all disabled:bg-red-300 disabled:cursor-not-allowed flex items-center justify-center"
+                  aria-label={isAnalyzing ? translations("analyzeButton.analyzing") : translations("analyzeButton.default")}
                 >
                   {isAnalyzing ? (
                     <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Shoshilinch tahlil qilinmoqda...
+                      <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 mr-2 animate-spin" />
+                      {translations("analyzeButton.analyzing")}
                     </>
                   ) : (
                     <>
-                      <AlertTriangle className="w-5 h-5 mr-2" />
-                      Shoshilinch Tahlil Qilish
+                      <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
+                      {translations("analyzeButton.default")}
                     </>
                   )}
                 </Button>
@@ -238,175 +222,140 @@ export default function EmergencyHelpPage() {
           </div>
 
           {/* Emergency Results */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {emergencyLevel ? (
               <>
                 {/* Emergency Level */}
-                <Card className="border-red-300 bg-red-50">
-                  <CardHeader>
-                    <CardTitle className="text-red-800 flex items-center space-x-2">
-                      <AlertTriangle className="w-5 h-5" />
-                      <span>Shoshilinchlik Darajasi</span>
+                <Card className="border-red-300 bg-red-50 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+                  <CardHeader className="bg-red-100">
+                    <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl flex items-center space-x-2">
+                      <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6" />
+                      <span>{translations("emergencyLevelTitle")}</span>
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="text-center">
-                      <Badge className="bg-red-600 text-white text-lg px-4 py-2 mb-3">YUQORI XAVF</Badge>
-                      <p className="text-red-800 font-medium mb-4">Darhol tibbiy yordam kerak!</p>
-                      <div className="space-y-2">
-                        <Button
-                          className="w-full bg-red-600 hover:bg-red-700"
-                          size="lg"
-                          onClick={() => handleEmergencyCall("103")}
-                        >
-                          <Phone className="w-5 h-5 mr-2" />
-                          103 ga qo'ng'iroq qilish
-                        </Button>
-                        <Button
-                          variant="outline"
-                          className="w-full border-red-300 text-red-700"
-                          size="lg"
-                          onClick={handleFindHospital}
-                        >
-                          <Navigation className="w-5 h-5 mr-2" />
-                          Eng yaqin shifoxona
-                        </Button>
-                      </div>
+                  <CardContent className="p-4 sm:p-6 text-center">
+                    <Badge className="bg-red-600 text-white text-sm sm:text-base md:text-lg px-4 py-2 mb-3 animate-bounce">
+                      {translations("highRiskBadge")}
+                    </Badge>
+                    <p className="text-red-800 font-medium text-sm sm:text-base mb-4">{translations("highRiskMessage")}</p>
+                    <div className="space-y-2">
+                      <Button
+                        className="w-full bg-red-600 hover:bg-red-700 text-white text-sm sm:text-base py-3 sm:py-4 rounded-lg shadow-md transition-all"
+                        size="lg"
+                        onClick={() => handleEmergencyCall("103")}
+                        aria-label={translations("call103Button")}
+                      >
+                        <Phone className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
+                        {translations("call103Button")}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full border-red-300 text-red-700 hover:bg-red-50 text-sm sm:text-base py-3 sm:py-4 rounded-lg transition-all"
+                        size="lg"
+                        onClick={handleFindHospital}
+                        aria-label={translations("findHospitalButton")}
+                      >
+                        <Navigation className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
+                        {translations("findHospitalButton")}
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
 
                 {/* Immediate Actions */}
-                <Card className="border-red-200">
-                  <CardHeader>
-                    <CardTitle className="text-red-800">Darhol Bajariladigan Harakatlar</CardTitle>
+                <Card className="border-red-200 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+                  <CardHeader className="bg-red-50">
+                    <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl">{translations("immediateActionsTitle")}</CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <ol className="space-y-3 text-sm">
-                      <li className="flex items-start space-x-2">
-                        <span className="bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                          1
-                        </span>
-                        <span>Xotirjam bo'ling va chuqur nafas oling</span>
-                      </li>
-                      <li className="flex items-start space-x-2">
-                        <span className="bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                          2
-                        </span>
-                        <span>Darhol 103 raqamiga qo'ng'iroq qiling</span>
-                      </li>
-                      <li className="flex items-start space-x-2">
-                        <span className="bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                          3
-                        </span>
-                        <span>Xavfsiz joyda qoling va yordam kutib turing</span>
-                      </li>
-                      <li className="flex items-start space-x-2">
-                        <span className="bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                          4
-                        </span>
-                        <span>Yaqin odamlaringizga xabar bering</span>
-                      </li>
+                  <CardContent className="p-4 sm:p-6">
+                    <ol className="space-y-3 text-sm sm:text-base">
+                      {immediateActions.map((action, index) => (
+                        <li key={action} className="flex items-start space-x-2">
+                          <span className="bg-red-600 text-white rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center text-xs sm:text-sm font-bold flex-shrink-0">
+                            {index + 1}
+                          </span>
+                          <span>{translations(`immediateActions.${action}`)}</span>
+                        </li>
+                      ))}
                     </ol>
                   </CardContent>
                 </Card>
 
                 {/* Nearby Hospitals */}
-                <Card className="border-red-200">
-                  <CardHeader>
-                    <CardTitle className="text-red-800 flex items-center space-x-2">
-                      <MapPin className="w-5 h-5" />
-                      <span>Yaqin Shifoxonalar</span>
+                <Card className="border-red-200 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+                  <CardHeader className="bg-red-50">
+                    <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl flex items-center space-x-2">
+                      <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />
+                      <span>{translations("nearbyHospitalsTitle")}</span>
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-4 sm:p-6">
                     <div className="space-y-3">
-                      <div
-                        className="border border-red-200 rounded-lg p-3 cursor-pointer hover:bg-red-50"
-                        onClick={handleFindHospital}
-                      >
-                        <div className="font-medium text-red-800">Respublika Shifoxonasi</div>
-                        <div className="text-sm text-gray-600">2.3 km • 8 daqiqa</div>
-                        <div className="text-sm text-green-600">24/7 Shoshilinch bo'lim</div>
-                      </div>
-                      <div
-                        className="border border-red-200 rounded-lg p-3 cursor-pointer hover:bg-red-50"
-                        onClick={handleFindHospital}
-                      >
-                        <div className="font-medium text-red-800">Markaziy Klinika</div>
-                        <div className="text-sm text-gray-600">3.1 km • 12 daqiqa</div>
-                        <div className="text-sm text-green-600">Kardiologiya bo'limi</div>
-                      </div>
+                      {["hospital1", "hospital2"].map((hospital) => (
+                        <div
+                          key={hospital}
+                          className="border border-red-200 rounded-lg p-3 cursor-pointer hover:bg-red-50 transition-all"
+                          onClick={handleFindHospital}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`Select ${translations(`${hospital}.name`)}`}
+                        >
+                          <div className="font-medium text-red-800 text-sm sm:text-base">{translations(`${hospital}.name`)}</div>
+                          <div className="text-sm text-gray-600">{translations(`${hospital}.distance`)}</div>
+                          <div className="text-sm text-green-600">{translations(`${hospital}.department`)}</div>
+                        </div>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
               </>
             ) : (
-              <Card className="border-red-200">
-                <CardHeader>
-                  <CardTitle className="text-red-800">Shoshilinch Tahlil</CardTitle>
-                  <CardDescription>
-                    Holatingizdagi simptomlarni kiriting va shoshilinchlik darajasini aniqlang
-                  </CardDescription>
+              <Card className="border-red-200 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+                <CardHeader className="bg-red-50">
+                  <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl">{translations("analysisTitle")}</CardTitle>
+                  <CardDescription className="text-sm sm:text-base text-gray-600">{translations("analysisDescription")}</CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-center py-8">
-                    <AlertTriangle className="w-16 h-16 text-red-300 mx-auto mb-4" />
-                    <p className="text-red-600">Tahlil kutilmoqda...</p>
-                  </div>
+                <CardContent className="p-4 sm:p-6 text-center py-8">
+                  <AlertTriangle className="w-12 h-12 sm:w-16 sm:h-16 text-red-300 mx-auto mb-4" />
+                  <p className="text-red-600 text-sm sm:text-base">{translations("analysisPending")}</p>
                 </CardContent>
               </Card>
             )}
 
             {/* Emergency Contacts */}
-            <Card className="border-red-200 bg-red-50">
-              <CardHeader>
-                <CardTitle className="text-red-800">Shoshilinch Raqamlar</CardTitle>
+            <Card className="border-red-200 bg-red-50 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+              <CardHeader className="bg-red-100">
+                <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl">{translations("emergencyContactsTitle")}</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-4 sm:p-6">
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">Tez yordam</span>
-                    <Button
-                      size="sm"
-                      className="bg-red-600 hover:bg-red-700"
-                      onClick={() => handleEmergencyCall("103")}
-                    >
-                      <Phone className="w-4 h-4 mr-1" />
-                      103
-                    </Button>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">Yong'in xizmati</span>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="border-red-300 text-red-700"
-                      onClick={() => handleEmergencyCall("101")}
-                    >
-                      <Phone className="w-4 h-4 mr-1" />
-                      101
-                    </Button>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">Politsiya</span>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="border-red-300 text-red-700"
-                      onClick={() => handleEmergencyCall("102")}
-                    >
-                      <Phone className="w-4 h-4 mr-1" />
-                      102
-                    </Button>
-                  </div>
+                  {["ambulance", "fireService", "police"].map((contact, index) => (
+                    <div key={contact} className="flex items-center justify-between">
+                      <span className="font-medium text-sm sm:text-base">{translations(`emergencyContacts.${contact}`)}</span>
+                      <Button
+                        size="sm"
+                        className={`${
+                          contact === "ambulance"
+                            ? "bg-red-600 hover:bg-red-700 text-white"
+                            : "border-red-300 text-red-700 hover:bg-red-50"
+                        } text-sm sm:text-base transition-all`}
+                        variant={contact === "ambulance" ? "default" : "outline"}
+                        onClick={() => handleEmergencyCall(index === 0 ? "103" : index === 1 ? "101" : "102")}
+                        aria-label={`Call ${translations(`emergencyContacts.${contact}`)}`}
+                      >
+                        <Phone className="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
+                        {index === 0 ? "103" : index === 1 ? "101" : "102"}
+                      </Button>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
           </div>
         </div>
-      </div>
+      </main>
       {showSuccessToast && <SuccessToast message={toastMessage} onClose={() => setShowSuccessToast(false)} />}
+      <Footer />
     </div>
   )
 }

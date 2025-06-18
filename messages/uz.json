@@ -181,9 +181,11 @@
       "privacy": "Maxfiylik siyosati",
       "terms": "Foydalanish shartlari",
       "faq": "Ko'p so'raladigan savollar"
-    }
+    },
+    "copyright": "© {year} Diagno AI. Barcha huquqlar himoyalangan."
   },
   "RecommendedProviders": {
+    "availibility":"Bugun bo'sh",
     "analysisSummaryTitle": "Sizning tashxisingiz asosida",
     "analysisSummaryDescription": "Viral Infeksiya (ARVI) - Ishonchlilik: 87%",
     "analysisSummaryBadge": "Mos mutaxassislar topildi",
@@ -223,5 +225,359 @@
     "toastCalling": "{doctorName} ga qo'ng'iroq qilinmoqda...",
     "toastBooked": "{doctorName} bilan uchrashish belgilandi",
     "toastFiltersCleared": "Filtrlar tozalandi"
+  },
+  "aiDiagnosis": {
+  "title": "AI Tibbiy Tahlil",
+  "description": "Analizlaringizni yuklang va sun'iy intellekt yordamida professional tashxis oling",
+  "uploadTitle": "Analiz va Rasmlar Yuklash",
+  "uploadDescription": "Tibbiy analizlar, rentgen rasmlari yoki boshqa tibbiy hujjatlarni yuklang",
+  "uploadPrompt": "Fayllarni bu yerga tashlang yoki tanlash uchun bosing",
+  "supportedFormats": "PDF, JPG, PNG, DOC formatlarini qo'llab-quvvatlaymiz",
+  "uploadedFilesLabel": "Yuklangan fayllar:",
+  "removeButton": "O'chirish",
+  "symptomsTitle": "Simptomlar va Shikoyatlar",
+  "symptomsDescription": "Hozirgi holatingizdagi simptomlarni batafsil yozing",
+  "symptomsPlaceholder": "Masalan: Bosh og'rig'i, isitma, yo'tal, qorin og'rig'i va boshqa simptomlarni yozing...",
+  "symptomBadges": {
+    "headache": "Bosh og'rig'i",
+    "fever": "Isitma",
+    "cough": "Yo'tal",
+    "abdominalPain": "Qorin og'rig'i",
+    "fatigue": "Charchash"
+  },
+  "analyzeButton": "AI Tahlil Boshlash",
+  "analyzingText": "Tahlil qilinmoqda...",
+  "analysisProgressLabel": "Tahlil jarayoni",
+  "resultsTitle": "Tahlil Natijalari",
+  "resultsDescription": "Fayllarni yuklang va simptomlarni kiriting, so'ngra tahlil tugmasini bosing",
+  "awaitingAnalysis": "Tahlil kutilmoqda...",
+  "diagnosisTitle": "Ehtimoliy Tashxis",
+  "diagnosisName": "Viral Infeksiya (ARVI)",
+  "confidenceLabel": "Ishonchlilik darajasi:",
+  "urgencyLabel": "Shoshilinchlik darajasi:",
+  "urgencyLevels": {
+    "medium": "O'rtacha"
+  },
+  "recommendedSpecialistTitle": "Tavsiya etilgan mutaxassis",
+  "specialistName": "Terapevt",
+  "specialistDescription": "Umumiy amaliyot shifokori bilan konsultatsiya tavsiya etiladi",
+  "viewDoctorsButton": "Shifokorlarni ko'rish",
+  "recommendationsTitle": "Tavsiyalar",
+  "recommendations": {
+    "fluid": "Ko'p suyuqlik iching",
+    "rest": "Dam oling va yetarli uxlang",
+    "fever": "Agar isitma 38.5°C dan oshsa, shifokorga murojaat qiling",
+    "duration": "Agar belgilar 7 kundan ortiq davom etsa, tekshiruvdan o'ting"
+  },
+  "saveResultButton": "Natijani saqlash",
+  "detailedReportButton": "Batafsil hisobot"
+},
+
+  "emergency": {
+    "title": "Shoshilinch Tibbiy Yordam",
+    "alertTitle": "Shoshilinch Ogohlantirish",
+    "alertDescription": "Agar hayotingiz xavf ostida bo'lsa, darhol 103 raqamiga qo'ng'iroq qiling!",
+    "quickEmergencyTitle": "Tezkor Yordam",
+    "quickEmergencyDescription": "Umumiy shoshilinch holatlar uchun tezkor tugmalar",
+    "quickEmergencyButtons": {
+      "chestPain": "Yurak og'rig'i",
+      "breathingDifficulty": "Nafas olishda qiyinchilik",
+      "dizziness": "Bosh aylanishi",
+      "severeBleeding": "Kuchli qon ketish"
+    },
+    "symptomDescriptionTitle": "Holatni Tasvirlang",
+    "symptomDescription": "Hozirgi holatingizdagi simptomlarni batafsil yozing yoki ovozli xabar yuboring",
+    "symptomPlaceholder": "Qanday simptomlar bor? Qachondan boshlab? Og'riq darajasi qanday? Batafsil yozing...",
+    "recordButton": {
+      "start": "Ovozli Xabar",
+      "stop": "Yozuvni To'xtatish"
+    },
+    "uploadImageButton": "Rasm Yuklash",
+    "recordingStatus": "Ovoz yozilmoqda...",
+    "analyzeButton": {
+      "default": "Shoshilinch Tahlil Qilish",
+      "analyzing": "Shoshilinch tahlil qilinmoqda..."
+    },
+    "emergencyLevelTitle": "Shoshilinchlik Darajasi",
+    "highRiskBadge": "YUQORI XAVF",
+    "highRiskMessage": "Darhol tibbiy yordam kerak!",
+    "call103Button": "103 ga Qo'ng'iroq Qilish",
+    "findHospitalButton": "Eng Yaqin Shifoxona",
+    "immediateActionsTitle": "Darhol Bajariladigan Harakatlar",
+    "immediateActions": {
+      "action1": "Xotirjam bo'ling va chuqur nafas oling",
+      "action2": "Darhol 103 ga qo'ng'iroq qiling",
+      "action3": "Xavfsiz joyda qoling va yordam kutib turing",
+      "action4": "Yaqinlaringizga xabar bering"
+    },
+    "nearbyHospitalsTitle": "Yaqin Shifoxonalar",
+    "hospital1": {
+      "name": "Respublika Shifoxonasi",
+      "distance": "2.3 km • 8 daqiqa",
+      "department": "24/7 Shoshilinch Bo'lim"
+    },
+    "hospital2": {
+      "name": "Markaziy Klinika",
+      "distance": "3.1 km • 12 daqiqa",
+      "department": "Kardiologiya Bo'limi"
+    },
+    "analysisTitle": "Shoshilinch Tahlil",
+    "analysisDescription": "Holatingizdagi simptomlarni kiriting va shoshilinchlik darajasini aniqlang",
+    "analysisPending": "Tahlil kutilmoqda...",
+    "emergencyContactsTitle": "Shoshilinch Raqamlar",
+    "emergencyContacts": {
+      "ambulance": "Tez Yordam",
+      "fireService": "Yong'in Xizmati",
+      "police": "Politsiya"
+    },
+    "toastMessages": {
+      "recordingStarted": "Ovoz yozish boshlandi",
+      "recordingStopped": "Ovoz yozish to'xtatildi",
+      "recordedText": "Ovozli xabar qo'shildi",
+      "imageUploaded": "Rasm muvaffaqiyatli yuklandi",
+      "imageAdded": "Rasm yuklandi: {fileName}",
+      "emergencySelected": "{emergency} tanlandi",
+      "calling": "{number} raqamiga qo'ng'iroq qilinmoqda...",
+      "findingHospital": "Eng yaqin shifoxona topilmoqda..."
+    }
+  },
+  "doctors": {
+    "pageTitle": "Professional Shifokorlar",
+    "pageDescription": "Tajribali mutaxassislar bilan bog'laning va sifatli tibbiy yordam oling",
+    "specialtiesTitle": "Mutaxassisliklar",
+    "specialtiesDescription": "Mavjud shifokorlar bo'yicha mutaxassisliklar",
+    "count": "{count} shifokor",
+    "filters": {
+      "title":"Filterlar",
+      "searchLabel": "Qidiruv",
+      "searchPlaceholder": "Shifokor nomi yoki mutaxassislik...",
+      "cityLabel": "Shahar",
+      "cityPlaceholder": "Shaharni tanlang",
+      "specialtyLabel": "Mutaxassislik",
+      "specialtyPlaceholder": "Mutaxassislikni tanlang",
+      "ratingLabel": "Reyting",
+      "ratingPlaceholder": "Reytingni tanlang",
+      "clearFiltersButton": "Filtrlarni tozalash",
+      "cities":{
+        "tashkent":"Toshkent",
+        "samarkand": "Samarqanda",
+        "bukhara": "Buxoro",
+        "namangan":"Namangan"
+      }
+    },
+    "doctorsListTitle": "Shifokorlar ({count})",
+    "sortOptions": {
+      "rating": "Reyting bo'yicha",
+      "experience": "Tajriba bo'yicha",
+      "distance": "Masofa bo'yicha",
+      "price": "Narx bo'yicha"
+    },
+    "doctorCard": {
+      "consultationPriceSuffix": "/ konsultatsiya",
+      "reviews": "({count} sharh)",
+      "callButton": "Qo'ng'iroq",
+      "bookButton": "Qabulga yozilish"
+    },
+    "loadMoreButton": "Ko'proq shifokorlarni ko'rish",
+    "specialties": {
+      "specialty1": { "name": "Terapevt", "count": 2, "icon": "🩺" },
+      "specialty2": { "name": "Kardiolog", "count": 1, "icon": "❤️" },
+      "specialty3": { "name": "Nevropatolog", "count": 1, "icon": "🧠" },
+      "specialty4": { "name": "Pediatr", "count": 1, "icon": "👶" },
+      "specialty5": { "name": "Dermatolog", "count": 1, "icon": "🧴" }
+    },
+    "doctors": {
+      "doctor1": {
+        "name": "Dr. Aziza Karimova",
+        "specialty": "Terapevt",
+        "experience": "15 yil tajriba",
+        "rating": 4.9,
+        "reviews": 234,
+        "distance": "2.3 km",
+        "hospital": "Respublika Shifoxonasi",
+        "price": "150,000 so'm",
+        "availability": "Bugun mavjud",
+        "description": "Umumiy amaliyot bo'yicha mutaxassis. Yuqumli kasalliklar va profilaktika bo'yicha tajribali."
+      },
+      "doctor2": {
+        "name": "Dr. Bobur Toshmatov",
+        "specialty": "Kardiolog",
+        "experience": "12 yil tajriba",
+        "rating": 4.8,
+        "reviews": 189,
+        "distance": "3.1 km",
+        "hospital": "Markaziy Klinika",
+        "price": "200,000 so'm",
+        "availability": "Ertaga mavjud",
+        "description": "Yurak-qon tomir kasalliklari bo'yicha mutaxassis. Zamonaviy diagnostika usullarini qo'llaydi."
+      },
+      "doctor3": {
+        "name": "Dr. Malika Rahimova",
+        "specialty": "Terapevt",
+        "experience": "8 yil tajriba",
+        "rating": 4.7,
+        "reviews": 156,
+        "distance": "1.8 km",
+        "hospital": "Oila Klinikasi",
+        "price": "120,000 so'm",
+        "availability": "Bugun mavjud",
+        "description": "Oila shifokori. Bolalar va kattalar bilan ishlash tajribasi. Allergiya va immunitet bo'yicha mutaxassis."
+      },
+      "doctor4": {
+        "name": "Dr. Anvar Usmonov",
+        "specialty": "Nevropatolog",
+        "experience": "20 yil tajriba",
+        "rating": 4.9,
+        "reviews": 312,
+        "distance": "4.2 km",
+        "hospital": "Ixtisoslashgan Markaz",
+        "price": "250,000 so'm",
+        "availability": "3 kun ichida",
+        "description": "Asab tizimi kasalliklari bo'yicha yetakchi mutaxassis. Migren, epilepsiya va bosh og'riqlari bo'yicha tajribali."
+      },
+      "doctor5": {
+        "name": "Dr. Nodira Karimova",
+        "specialty": "Pediatr",
+        "experience": "10 yil tajriba",
+        "rating": 4.8,
+        "reviews": 198,
+        "distance": "2.8 km",
+        "hospital": "Bolalar Klinikasi",
+        "price": "130,000 so'm",
+        "availability": "Bugun mavjud",
+        "description": "Bolalar shifokori. Yangi tug'ilgan chaqaloqlardan 18 yoshgacha bo'lgan bolalar bilan ishlaydi."
+      },
+      "doctor6": {
+        "name": "Dr. Sardor Rahmonov",
+        "specialty": "Dermatolog",
+        "experience": "7 yil tajriba",
+        "rating": 4.6,
+        "reviews": 142,
+        "distance": "3.5 km",
+        "hospital": "Teri Kasalliklari Markazi",
+        "price": "180,000 so'm",
+        "availability": "Ertaga mavjud",
+        "description": "Teri kasalliklari va kosmetologiya bo'yicha mutaxassis. Zamonaviy lazer texnologiyalarini qo'llaydi."
+      }
+    },
+    "toastMessages": {
+      "call": "{doctorName} ga qo'ng'iroq qilinmoqda...",
+      "bookAppointment": "{doctorName} bilan uchrashish belgilandi",
+      "clearFilters": "Filtrlar tozalandi"
+    }
+  },
+  "about": {
+    "hero": {
+      "title": "Biz haqimizda",
+      "description": "Diagno AI - bu sun'iy intellekt yordamida tibbiy tashxis va shifokor tavsiyalarini taqdim etuvchi innovatsion platforma"
+    },
+    "mission": {
+      "title": "Bizning vazifamiz",
+      "description1": "Diagno AI platformasining asosiy maqsadi - sun'iy intellekt texnologiyalari yordamida sifatli tibbiy yordam olish imkoniyatini kengaytirish va tibbiy xizmatlarni hammabop qilish.",
+      "description2": "Biz shifokorlar va bemorlar o'rtasidagi aloqani yaxshilash, tashxis qo'yish jarayonini tezlashtirish va tibbiy xizmatlarni masofadan turib taqdim etish orqali sog'liqni saqlash tizimini takomillashtirmoqchimiz.",
+      "checklist": {
+        "item1": "Tibbiy xizmatlarni hammabop qilish",
+        "item2": "Tashxis qo'yish jarayonini tezlashtirish",
+        "item3": "Shifokorlar va bemorlar o'rtasidagi aloqani yaxshilash",
+        "item4": "Masofadan turib tibbiy yordam ko'rsatish"
+      },
+      "stats": {
+        "users": {
+          "value": "100,000+",
+          "label": "Foydalanuvchilar"
+        },
+        "analyses": {
+          "value": "500,000+",
+          "label": "AI tahlillar"
+        },
+        "accuracy": {
+          "value": "95%",
+          "label": "Aniqlik darajasi"
+        },
+        "countries": {
+          "value": "10+",
+          "label": "Davlatlar"
+        }
+      }
+    },
+    "values": {
+      "title": "Bizning qadriyatlarimiz",
+      "description": "Diagno AI platformasi quyidagi asosiy qadriyatlarga asoslangan",
+      "value1": {
+        "title": "Ishonchlilik va xavfsizlik",
+        "description": "Foydalanuvchilar ma'lumotlari xavfsizligi va maxfiyligi bizning eng muhim ustuvorligimiz. Barcha ma'lumotlar shifrlangan va tibbiy standartlarga mos ravishda saqlanadi."
+      },
+      "value2": {
+        "title": "Sifat va aniqlik",
+        "description": "AI algoritmlarimiz doimiy ravishda takomillashtiriladi va eng so'nggi tibbiy ma'lumotlar bilan yangilanadi. Biz eng yuqori aniqlik darajasiga erishish uchun harakat qilamiz."
+      },
+      "value3": {
+        "title": "Tezkorlik va qulaylik",
+        "description": "Foydalanuvchilarimizga istalgan vaqtda va istalgan joyda tez va qulay tibbiy yordam olish imkoniyatini taqdim etamiz. 24/7 xizmat ko'rsatish bizning asosiy tamoyilimiz."
+      }
+    },
+    "team": {
+      "title": "Bizning jamoa",
+      "description": "Diagno AI platformasi ortida turgan tajribali mutaxassislar",
+      "members": {
+        "member1": {
+          "name": "Dr. Alisher Karimov",
+          "role": "Bosh shifokor, Asoschisi",
+          "description": "20 yillik tajribaga ega kardiolog. Diagno AI platformasining g'oyasi va asosiy konsepsiyasini ishlab chiqqan."
+        },
+        "member2": {
+          "name": "Dilnoza Rahimova",
+          "role": "Bosh texnologiya direktori",
+          "description": "Sun'iy intellekt va tibbiy ma'lumotlar tahlili bo'yicha mutaxassis. MIT bitiruvchisi."
+        },
+        "member3": {
+          "name": "Dr. Bobur Toshmatov",
+          "role": "Tibbiy maslahatchi",
+          "description": "Terapevt va jamoat salomatligi bo'yicha mutaxassis. Jahon sog'liqni saqlash tashkiloti bilan hamkorlik qilgan."
+        },
+        "member4": {
+          "name": "Malika Usmonova",
+          "role": "Mahsulot menejeri",
+          "description": "Tibbiy dasturiy ta'minot va foydalanuvchi tajribasi bo'yicha 8 yillik tajribaga ega mutaxassis."
+        }
+      }
+    },
+    "history": {
+      "title": "Bizning tarixmiz",
+      "description": "Diagno AI platformasining rivojlanish yo'li",
+      "milestones": {
+        "milestone1": {
+          "year": "2020",
+          "title": "Loyiha boshlandi",
+          "description": "Diagno AI g'oyasi shakllandi va dastlabki tadqiqotlar boshlandi."
+        },
+        "milestone2": {
+          "year": "2021",
+          "title": "Birinchi prototip",
+          "description": "Dastlabki AI algoritmlari ishlab chiqildi va sinovdan o'tkazildi."
+        },
+        "milestone3": {
+          "year": "2022",
+          "title": "Beta versiya",
+          "description": "Platforma cheklangan foydalanuvchilar doirasida sinovdan o'tkazildi."
+        },
+        "milestone4": {
+          "year": "2023",
+          "title": "Rasmiy ishga tushirish",
+          "description": "Diagno AI platformasi rasman ishga tushirildi va keng jamoatchilikka taqdim etildi."
+        },
+        "milestone5": {
+          "year": "2024",
+          "title": "Kengaytirish",
+          "description": "Yangi funktsiyalar va xizmatlar qo'shildi, foydalanuvchilar soni 100,000 dan oshdi."
+        }
+      }
+    },
+    "cta": {
+      "title": "Bizning jamoamizga qo'shiling",
+      "description": "Diagno AI platformasi bilan hamkorlik qiling va tibbiy xizmatlarni rivojlantirishga hissa qo'shing",
+      "contactButton": "Bog'lanish",
+      "careersButton": "Vakansiyalar"
+    }
   }
 }
