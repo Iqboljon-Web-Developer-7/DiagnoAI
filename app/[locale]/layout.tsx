@@ -1,19 +1,19 @@
-import {locales} from '@/i18n';
-import {NextIntlClientProvider} from 'next-intl';
-import {notFound} from 'next/navigation';
-import {Header} from '@/components/header';
-import {Footer} from '@/components/footer';
+import { locales } from '@/i18n';
+import { NextIntlClientProvider } from 'next-intl';
+import { notFound } from 'next/navigation';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({locale}));
+  return locales.map((locale) => ({ locale }));
 }
 
 export default async function LocaleLayout({
   children,
-  params: {locale}
+  params: { locale }
 }: {
   children: React.ReactNode;
-  params: {locale: string};
+  params: { locale: string };
 }) {
   // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale as any)) notFound();
@@ -28,6 +28,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
+      <meta name="google-site-verification" content="12WSlQkJPVKILaeoWFm5OQzdwMe_PdLyK2lWCsG0vNM" />
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header />
