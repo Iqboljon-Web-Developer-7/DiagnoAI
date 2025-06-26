@@ -1,22 +1,23 @@
 import type { Metadata } from 'next'
-import React, { FC } from 'react'
+import React from 'react'
 
 export const metadata: Metadata = {
   title: {
-    default: 'About | Diagno AI',
+    default: 'AI Diagnosis | Diagno AI',
     template: '%s | Diagno AI'
   },
-  description: 'Learn more about Diagno AI, our mission, vision, and the team dedicated to providing AI-powered medical diagnosis, emergency assistance, and healthcare services.',
+  description: 'Get instant, reliable, and secure AI-powered medical diagnosis and emergency assistance with Diagno AI. Describe your symptoms and receive a preliminary assessment powered by advanced artificial intelligence.',
   keywords: [
-    'About Diagno AI',
-    'Our Team',
-    'Mission',
-    'Vision',
-    'Medical AI',
-    'Healthcare',
-    'Emergency Assistance',
-    'Company Information',
-    'Diagno AI'
+    'AI diagnosis',
+    'medical AI',
+    'symptom checker',
+    'healthcare',
+    'emergency assistance',
+    'virtual doctor',
+    'Diagno AI',
+    'online consultation',
+    'health support',
+    'telemedicine'
   ],
   authors: [
     { name: 'Diagno AI Team', url: 'https://diagno-ai-startup.vercel.app' }
@@ -24,9 +25,9 @@ export const metadata: Metadata = {
   creator: 'Diagno AI',
   publisher: 'Diagno AI',
   openGraph: {
-    title: 'About Diagno AI',
-    description: 'Discover the story, mission, and team behind Diagno AI, the platform for AI-powered medical diagnosis and emergency help.',
-    url: 'https://diagno-ai-startup.vercel.app/about',
+    title: 'AI Diagnosis | Diagno AI',
+    description: 'Get instant, reliable, and secure AI-powered medical diagnosis and emergency assistance with Diagno AI.',
+    url: 'https://diagno-ai-startup.vercel.app/ai-diagnosis',
     siteName: 'Diagno AI',
     images: [
       {
@@ -41,8 +42,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About Diagno AI',
-    description: 'Learn about the Diagno AI team, our mission, and how we are transforming healthcare with AI.',
+    title: 'AI Diagnosis | Diagno AI',
+    description: 'Get instant, reliable, and secure AI-powered medical diagnosis and emergency assistance with Diagno AI.',
     site: '@diagnoai',
     creator: '@diagnoai',
     images: ['https://diagno-ai-startup.vercel.app/og-image.png']
@@ -69,8 +70,12 @@ export const metadata: Metadata = {
   category: 'healthcare'
 }
 
-const layout: FC<{ children: React.ReactNode }> = ({ children }) => {
-  return <>{children}</>
+const layout = ({children}: {children: React.ReactNode}) => {
+  return (
+    <>
+      {children}
+    </>
+  )
 }
 
 export default layout
