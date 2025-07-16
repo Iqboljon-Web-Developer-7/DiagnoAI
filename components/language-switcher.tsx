@@ -2,11 +2,10 @@
 
 import {useLocale} from 'next-intl';
 import {useTranslations} from 'next-intl';
-import {Button} from '@/components/ui/button';
-import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
 import {Globe} from 'lucide-react';
-import { usePathname, useRouter } from 'next/navigation';
-import { useTransition } from "react";
+import {usePathname, useRouter} from 'next/navigation';
+import {useTransition} from "react";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 export function LanguageSwitcher() {
   const locale = useLocale();
@@ -23,32 +22,22 @@ export function LanguageSwitcher() {
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label={t('switchLanguage')}>
-          <Globe className="h-5 w-5" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          onClick={() => switchLocale('uz')}
-          className={locale === 'uz' ? 'bg-accent' : ''}
-        >
+    <Select defaultValue={locale} onValueChange={switchLocale}>
+      <SelectTrigger className="w-[120px]">
+        <Globe className="h-4 w-4 mr-2" />
+        <SelectValue placeholder={t('switchLanguage')} />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="uz" className={locale === 'uz' ? 'bg-accent' : ''}>
           {t('uzbek')}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => switchLocale('en')}
-          className={locale === 'en' ? 'bg-accent' : ''}
-        >
+        </SelectItem>
+        <SelectItem value="en" className={locale === 'en' ? 'bg-accent' : ''}>
           {t('english')}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => switchLocale('ru')}
-          className={locale === 'ru' ? 'bg-accent' : ''}
-        >
+        </SelectItem>
+        <SelectItem value="ru" className={locale === 'ru' ? 'bg-accent' : ''}>
           {t('russia')}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </SelectItem>
+      </SelectContent>
+    </Select>
   );
 }

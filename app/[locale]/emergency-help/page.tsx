@@ -6,7 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { AlertTriangle, Phone, MapPin, Mic, Upload, Navigation, Loader2 } from "lucide-react"
-import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { SuccessToast } from "@/components/success-toast"
 import { useTranslations, useMessages } from "next-intl"
@@ -87,8 +86,6 @@ export default function EmergencyHelpPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-red-50 to-red-100 flex flex-col">
-      <Header variant="emergency" />
-
       <main className="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Emergency Alert */}
         <div className="bg-red-100 border-2 border-red-400 rounded-xl p-4 sm:p-6 mb-6 md:mb-8 shadow-md transition-all hover:shadow-lg">
@@ -105,8 +102,8 @@ export default function EmergencyHelpPage() {
           {/* Emergency Input Section */}
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             {/* Quick Emergency Buttons */}
-            <Card className="border-red-200 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
-              <CardHeader className="bg-red-50">
+            <Card className="border-red-200 bg-red-50 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+              <CardHeader>
                 <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl">{translations("quickEmergencyTitle")}</CardTitle>
                 <CardDescription className="text-sm sm:text-base text-gray-600">{translations("quickEmergencyDescription")}</CardDescription>
               </CardHeader>
@@ -133,8 +130,8 @@ export default function EmergencyHelpPage() {
             </Card>
 
             {/* Symptom Description */}
-            <Card className="border-red-200 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
-              <CardHeader className="bg-red-50">
+            <Card className="border-red-200 bg-red-50 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+              <CardHeader>
                 <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl">{translations("symptomDescriptionTitle")}</CardTitle>
                 <CardDescription className="text-sm sm:text-base text-gray-600">{translations("symptomDescription")}</CardDescription>
               </CardHeader>
@@ -234,11 +231,11 @@ export default function EmergencyHelpPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-4 sm:p-6 text-center">
-                    <Badge className="bg-red-600 text-white text-sm sm:text-base md:text-lg px-4 py-2 mb-3 animate-bounce">
+                    <Badge className="bg-red-600 text-white px-4 py-2 mb-3 animate-bounce">
                       {translations("highRiskBadge")}
                     </Badge>
                     <p className="text-red-800 font-medium text-sm sm:text-base mb-4">{translations("highRiskMessage")}</p>
-                    <div className="space-y-2">
+                    <div className="space-y-2 mt-8">
                       <Button
                         className="w-full bg-red-600 hover:bg-red-700 text-white text-sm sm:text-base py-3 sm:py-4 rounded-lg shadow-md transition-all"
                         size="lg"
@@ -263,8 +260,8 @@ export default function EmergencyHelpPage() {
                 </Card>
 
                 {/* Immediate Actions */}
-                <Card className="border-red-200 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
-                  <CardHeader className="bg-red-50">
+                <Card className="border-red-200 bg-red-50 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+                  <CardHeader>
                     <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl">{translations("immediateActionsTitle")}</CardTitle>
                   </CardHeader>
                   <CardContent className="p-4 sm:p-6">
@@ -282,8 +279,8 @@ export default function EmergencyHelpPage() {
                 </Card>
 
                 {/* Nearby Hospitals */}
-                <Card className="border-red-200 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
-                  <CardHeader className="bg-red-50">
+                <Card className="border-red-200 bg-red-50 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
+                  <CardHeader>
                     <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl flex items-center space-x-2">
                       <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />
                       <span>{translations("nearbyHospitalsTitle")}</span>
@@ -324,7 +321,7 @@ export default function EmergencyHelpPage() {
 
             {/* Emergency Contacts */}
             <Card className="border-red-200 bg-red-50 shadow-md rounded-xl overflow-hidden transition-all hover:shadow-lg">
-              <CardHeader className="bg-red-100">
+              <CardHeader >
                 <CardTitle className="text-red-800 text-base sm:text-lg md:text-xl">{translations("emergencyContactsTitle")}</CardTitle>
               </CardHeader>
               <CardContent className="p-4 sm:p-6">
@@ -355,7 +352,6 @@ export default function EmergencyHelpPage() {
         </div>
       </main>
       {showSuccessToast && <SuccessToast message={toastMessage} onClose={() => setShowSuccessToast(false)} />}
-      <Footer />
     </div>
   )
 }

@@ -45,18 +45,19 @@ export function UserMenu() {
       <>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              <div className="flex items-center justify-center h-8 w-8 bg-blue-100 rounded-full">
-                {user.avatar ? (
-                  <img src={user.avatar || "/placeholder.svg"} alt={user.name} className="h-8 w-8 rounded-full" />
-                ) : (
-                  <User className="h-4 w-4 text-blue-600" />
-                )}
+            <Button className="relative" variant={"outline"} size={"icon"}>
+              <div className="flex items-center justify-center h-8 w-8 rounded-full">
+                {/* {user.avatar ? ( */}
+                  {/* <img src={user.avatar || "/placeholder.svg"} alt={user.name} className="h-8 w-8 rounded-full" /> */}
+                {/* ) : ( */}
+                  <User color="black" className="h-4 w-4 text-blue-600" />
+                {/* )} */}
               </div>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
+              
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">{user.name}</p>
                 <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
@@ -69,12 +70,12 @@ export function UserMenu() {
                 <span>{t('dashboard')}</span>
               </DropdownMenuItem>
             </Link>
-            <Link href="/dashboard?tab=settings">
+            {/* <Link href="/dashboard?tab=settings">
               <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
                 <span>{t('settings')}</span>
               </DropdownMenuItem>
-            </Link>
+            </Link> */}
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />

@@ -2,18 +2,16 @@
 
 import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Upload, Brain, UserCheck, MessageSquare, Star, Shield, Clock, Users, Quote, Facebook, Twitter, Instagram, MapPin, Phone, Mail } from "lucide-react"
-import Link from "next/link"
-// import { Header } from "@/components/header"
-// import { Footer } from "@/components/footer"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Upload, Brain, UserCheck, MessageSquare, Clock, Quote } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useAppContext } from "@/context/app-context"
 import { useState } from "react"
 import { LoginModal } from "@/components/login-modal"
 import { RegisterModal } from "@/components/register-modal"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Input } from "@/components/ui/input"
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+
+import HeroBgImg from "@/assets/images/hero/hero-bg.webp"
 
 export default function HomePage() {
   const t = useTranslations('Index');
@@ -21,15 +19,6 @@ export default function HomePage() {
   const { isLoggedIn } = useAppContext()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
-
-  
-  // const handleGetDiagnosis = () => {
-  //   if (isLoggedIn) {
-  //     router.push("/ai-diagnosis")
-  //   } else {
-  //     setIsLoginModalOpen(true)
-  //   }
-  // }
 
   const handleGetDiagnosis = () => {
     if (isLoggedIn) {
@@ -53,68 +42,45 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-12 sm:py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+      <section
+        style={{
+          backgroundImage: `url(${HeroBgImg.src})`
+        }}
+        className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[8%] bg-black bg-no-repeat">
+        <span className='absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2] z-10'></span>
+        <div className="container relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-20">
+          <div className="items-center">
             <div className="text-center lg:text-left">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
                 {t('hero.title')}
                 <span className="text-blue-200 block sm:inline"> {t('hero.titleHighlight')}</span>
               </h1>
-              <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-blue-100 max-w-2xl mx-auto lg:mx-0">
+              <p className="text-lg sm:text-2xl mb-6 sm:mb-8 text-blue-100 max-w-2xl mx-auto lg:mx-0 font-semibold">
                 {t('hero.description')}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
-                <Button size="lg" className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-sm sm:text-base" onClick={handleGetDiagnosis}>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start my-14 md:my-32 flex-wrap">
+                <Button
+                  variant="outline"
+                   className="w-full sm:w-auto bg-transparent hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base" onClick={handleGetDiagnosis}>
                   <Upload className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   {t('hero.getDiagnosis')}
                 </Button>
                 <Button
-                  size="lg"
+                  
                   variant="outline"
-                  className="w-full sm:w-auto border-white text-black hover:bg-white hover:text-blue-600 text-sm sm:text-base"
+                  className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base"
                   onClick={handleUploadAnalysis}
                 >
                   <Brain className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   {t('hero.uploadAnalysis')}
                 </Button>
-                <Button size="lg" className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white text-sm sm:text-base" onClick={handleEmergencyHelp}>
+                <Button
+                  variant="outline"
+                   className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base" onClick={handleEmergencyHelp}>
                   <Clock className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   {t('hero.emergencyHelp')}
                 </Button>
-              </div>
-            </div>
-
-            <div className="relative mt-8 lg:mt-0">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 md:p-8">
-                <div className="space-y-3 sm:space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-500 rounded-full flex items-center justify-center">
-                      <Upload className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg">{t('features.uploadAnalysis')}</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-500 rounded-full flex items-center justify-center">
-                      <Brain className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg">{t('features.aiAnalysis')}</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-purple-500 rounded-full flex items-center justify-center">
-                      <UserCheck className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg">{t('features.findDoctor')}</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-orange-500 rounded-full flex items-center justify-center">
-                      <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                    </div>
-                    <span className="text-base sm:text-lg">{t('features.consultation')}</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -122,11 +88,11 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-white">
+      <section className="py-12 bg-[#F4F4F4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{t('howItWorks.title')}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-3xl">
               {t('howItWorks.description')}
             </p>
           </div>
@@ -362,7 +328,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-     
+
 
       <LoginModal
         isOpen={isLoginModalOpen}

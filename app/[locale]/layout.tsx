@@ -6,17 +6,19 @@ import { Footer } from '@/components/footer';
 import { headers } from "next/headers"
 // import {} from "next/server"
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
 export default async function LocaleLayout({
   children,
-  params: { locale }
+  params,
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
+  const { locale } = await params;
+
   // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale as any)) notFound();
 
@@ -24,7 +26,6 @@ export default async function LocaleLayout({
   const pathname = (await headersList).get("x-current-path")
   console.log(pathname, "pathname");
   
-
   // Load messages for the current locale
   let messages;
   try {

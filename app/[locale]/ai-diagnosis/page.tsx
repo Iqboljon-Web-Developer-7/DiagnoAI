@@ -9,7 +9,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Upload, Brain, FileText, ImageIcon, AlertTriangle, CheckCircle, User, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useAppContext } from "@/context/app-context"
-import { useRouter } from "next/navigation"
 import { LoginModal } from "@/components/login-modal"
 import { SuccessToast } from "@/components/success-toast"
 import { useTranslations, useMessages } from "next-intl"
@@ -73,17 +72,10 @@ interface AiDiagnosisTranslations {
 
 export default function AIDiagnosisPage() {
   const translations = useTranslations('aiDiagnosis');
-  // const translations = useTranslations<{any}>("aiDiagnosis")
   const { isLoggedIn, addDiagnosis } = useAppContext() as AppContextType
-  const router = useRouter()
 
   const messages = useMessages();
   const keys = Object.keys(messages.aiDiagnosis.recommendations);
-
-  
-  console.log(keys);
-  
-  // State variables with explicit types
 
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
   const [symptoms, setSymptoms] = useState<string>("")
@@ -174,19 +166,22 @@ export default function AIDiagnosisPage() {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Upload and Input Section */}
           <div className="lg:col-span-2 space-y-6">
-            {/* File Upload */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <Upload className="w-5 h-5" />
-                  <span>{translations("uploadTitle")}</span>
+                  <span>{translations("symptomsTitle")}</span>
                 </CardTitle>
                 <CardDescription>{translations("uploadDescription")}</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors">
+                <Textarea
+                  placeholder={translations("symptomsPlaceholder")}
+                  value={symptoms}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setSymptoms(e.target.value)}
+                  className="min-h-32 rounded-t-lg rounded-b-none ring-0 focus-visible:ring-0"
+                />
+                <div className="border-2 border-dashed border-gray-300 rounded-b-lg p-2 text-center hover:border-blue-400 transition-colors">
                   <input
                     type="file"
                     multiple
@@ -195,14 +190,12 @@ export default function AIDiagnosisPage() {
                     className="hidden"
                     id="file-upload"
                   />
-                  <label htmlFor="file-upload" className="cursor-pointer">
-                    <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-lg font-medium text-gray-700 mb-2">{translations("uploadPrompt")}</p>
-                    <p className="text-sm text-gray-500">{translations("supportedFormats")}</p>
+                  <label htmlFor="file-upload" className="cursor-pointer flex items-center p-1 gap-3">
+                    <Upload className="w-5 h-5 text-gray-400" />
+                    <p className="font-medium text-gray-700">{translations("uploadPrompt")}</p>
                   </label>
                 </div>
 
-                {/* Uploaded Files */}
                 {uploadedFiles.length > 0 && (
                   <div className="mt-4 space-y-2">
                     <h4 className="font-medium text-gray-700">{translations("uploadedFilesLabel")}</h4>
@@ -232,41 +225,13 @@ export default function AIDiagnosisPage() {
               </CardContent>
             </Card>
 
-            {/* Symptoms Input */}
-            <Card>
-              <CardHeader>
-                <CardTitle>{translations("symptomsTitle")}</CardTitle>
-                <CardDescription>{translations("symptomsDescription")}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Textarea
-                  placeholder={translations("symptomsPlaceholder")}
-                  value={symptoms}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setSymptoms(e.target.value)}
-                  className="min-h-32"
-                />
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {symptomKeys.map((key) => (
-                    <Badge
-                      key={key}
-                      variant="outline"
-                      className="cursor-pointer hover:bg-blue-50"
-                      onClick={() => handleAddSymptom(translations(`symptomBadges.${key}`))}
-                    >
-                      {/* {translations("symptomBadges")[key]} */}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Analysis Button */}
             <Card>
               <CardContent className="pt-6">
                 <Button
+                  variant={'outline'}
                   onClick={handleAnalyze}
                   disabled={isAnalyzing || (uploadedFiles.length === 0 && !symptoms.trim())}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-lg py-6"
+                  className="w-full text-white hover:text-white transition-all bg-[#2B6A73] hover:bg-[#268391] text-lg py-6"
                 >
                   {isAnalyzing ? (
                     <>
@@ -292,25 +257,8 @@ export default function AIDiagnosisPage() {
                 )}
               </CardContent>
             </Card>
-          </div>
-
-          {/* Results Section */}
-          <div className="space-y-6">
-            {!analysisComplete ? (
-              <Card>
-                <CardHeader>
-                  <CardTitle>{translations("resultsTitle")}</CardTitle>
-                  <CardDescription>{translations("resultsDescription")}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-8">
-                    <Brain className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-500">{translations("awaitingAnalysis")}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ) : (
-              <>
+            {analysisComplete && (
+              <div className="grid grid-cols-2 gap-2">
                 {/* Diagnosis Result */}
                 <Card className="border-green-200 bg-green-50">
                   <CardHeader>
@@ -330,7 +278,7 @@ export default function AIDiagnosisPage() {
                         </div>
                       </div>
 
-                      <div>
+                      <div className="flex">
                         <span className="text-sm font-medium text-green-700">{translations("urgencyLabel")}</span>
                         <Badge variant="outline" className="ml-2 border-yellow-400 text-yellow-700">
                           {translations("urgencyLevels.medium")}
@@ -339,30 +287,7 @@ export default function AIDiagnosisPage() {
                     </div>
                   </CardContent>
                 </Card>
-
-                {/* Recommended Specialist */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <User className="w-5 h-5" />
-                      <span>{translations("recommendedSpecialistTitle")}</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="font-medium text-blue-600">{translations("specialistName")}</div>
-                      <p className="text-sm text-gray-600">{translations("specialistDescription")}</p>
-                      <Link href="/doctors">
-                        <Button className="w-full" variant="outline">
-                          <User className="w-4 h-4 mr-2" />
-                          {translations("viewDoctorsButton")}
-                        </Button>
-                      </Link>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Recommendations */} 
+                {/* Recommendations */}
                 <Card>
                   <CardHeader>
                     <CardTitle>{translations("recommendationsTitle")}</CardTitle>
@@ -374,20 +299,61 @@ export default function AIDiagnosisPage() {
                           {index < 3 ? (
                             <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" />
                           ) : (
-                            <AlertTriangle className="w-4 h-4 text-yellow-600 mt-0.5" />
+                            <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5" />
                           )}
-                          <span>{translations(`recommendations.${rec}`)}</span>
+                          <span className={`${index >= 3 && "text-red-500"}`}>{translations(`recommendations.${rec}`)}</span>
                         </li>
                       ))}
                     </ul>
                   </CardContent>
                 </Card>
+              </div>
+
+
+            )}
+          </div>
+
+          {/* Results Section */}
+          <div className="space-y-6">
+            {!analysisComplete ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>{translations("resultsTitle")}</CardTitle>
+                  <CardDescription>{translations("resultsDescription")}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-8">
+                    <Brain className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-500">{translations("awaitingAnalysis")}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <>
+
+                {/* Recommended Specialist */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>
+                      <span>{translations("recommendedSpecialistTitle")}</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {/* <div className="font-medium text-blue-600">{translations("specialistName")}</div> */}
+                      <p className="text-sm text-gray-600 my-2">{translations("specialistDescription")}</p>
+                      <Link href="/recommended-providers">
+                        <Button size={"sm"} className="w-full bg-green-600 hover:bg-green-700">{translations("viewDoctorsButton")}</Button>
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+
+
 
                 {/* Action Buttons */}
                 <div className="space-y-3">
-                  <Link href="/recommended-providers">
-                    <Button className="w-full bg-green-600 hover:bg-green-700">{translations("viewDoctorsButton")}</Button>
-                  </Link>
+
                   <Button variant="outline" className="w-full" onClick={handleSaveResult}>
                     {translations("saveResultButton")}
                   </Button>

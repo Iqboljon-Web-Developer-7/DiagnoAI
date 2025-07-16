@@ -106,7 +106,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
-    // Demo login - accept any email/password combination
     const mockUser = {
       id: "user-1",
       name: "Anvar Karimov",
