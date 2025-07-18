@@ -71,12 +71,19 @@ export const metadata: Metadata = {
   category: 'healthcare'
 }
 
+import { Toaster } from "@/components/ui/toaster";
+
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <AppProvider>{children}</AppProvider>
+    <AppProvider>
+      {children}
+
+      <Toaster />
+    </AppProvider>
   )
 }

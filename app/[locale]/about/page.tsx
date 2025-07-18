@@ -200,9 +200,9 @@ export default function AboutPage() {
         <div className="relative">
           <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-dashed border-[#2b6a73]"></div>
           <div className="relative flex flex-col">
-            <span className="top-[30%] sticky left-1/2 transform -translate-x-1/2 bg-[#2b6a73] w-4 h-4 inline-block rounded-full z-20"></span>
-            <span className="top-[32%] sticky left-1/2 transform -translate-x-1/2 bg-white inline-block w-4 h-4 z-10">
-              <div className="w-4 h-[712px] bg-white z-10"></div>
+            <span className="top-[35%] sticky left-1/2 transform -translate-x-1/2 bg-[#2b6a73] w-4 h-4 inline-block rounded-full z-20"></span>
+            <span className="top-[37%] sticky left-1/2 transform -translate-x-1/2 bg-white w-4 h-4 z-10 flex justify-center">
+              <div className="w-[30rem] h-[712px] shrink-0 bg-white z-10"></div>
             </span>
             {timelineItems.map((item, _index) => (
               <div key={item.year} className="relative">

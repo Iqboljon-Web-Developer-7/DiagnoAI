@@ -1,14 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Star, MapPin, Clock, Phone, Calendar, Filter, Search, Users } from "lucide-react"
 import { useAppContext } from "@/context/app-context"
-import { SuccessToast } from "@/components/success-toast"
 import { useTranslations, useMessages } from "next-intl"
+import { useToast } from "@/hooks/use-toast"
 
 export default function DoctorsPage() {
   const translations = useTranslations("doctors")
@@ -20,6 +20,8 @@ export default function DoctorsPage() {
   const [selectedRating, setSelectedRating] = useState("")
   const [showSuccessToast, setShowSuccessToast] = useState(false)
   const [toastMessage, setToastMessage] = useState("")
+
+  const { toast } = useToast()
 
   // Extract specialties and doctors from messages
   const specialties = Object.keys(messages.doctors?.specialties || {}).map((key) => ({
@@ -73,6 +75,18 @@ export default function DoctorsPage() {
 
     return matchesSearch && matchesSpecialty && matchesRating
   })
+
+  useEffect(() => {
+    {
+      showSuccessToast && (
+        <>
+          {toast({
+            title: toastMessage,
+          })}
+        </>
+      )
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -281,7 +295,7 @@ export default function DoctorsPage() {
           </div>
         </div>
       </div>
-      {showSuccessToast && <SuccessToast message={toastMessage} onClose={() => setShowSuccessToast(false)} />}
+
     </div>
   )
 }

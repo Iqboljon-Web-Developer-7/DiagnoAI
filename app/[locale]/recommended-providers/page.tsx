@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -8,8 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Star, MapPin, Clock, Phone, Calendar, Filter } from "lucide-react"
 import { useAppContext } from "@/context/app-context"
-import { SuccessToast } from "@/components/success-toast"
 import { useTranslations } from 'next-intl'
+import { useToast } from "@/hooks/use-toast"
 
 export default function RecommendedProvidersPage() {
   const { addAppointment } = useAppContext()
@@ -118,6 +118,21 @@ export default function RecommendedProvidersPage() {
 
     return matchesSearch && matchesSpecialty && matchesRating
   })
+
+  const { toast } = useToast()
+
+  useEffect(() => {
+    {
+      showSuccessToast && (
+        <>
+          {toast({
+            title: toastMessage,
+          })}
+        </>
+      )
+    }
+  }, [])
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -311,8 +326,6 @@ export default function RecommendedProvidersPage() {
           </div>
         </div>
       </div>
-
-      {showSuccessToast && <SuccessToast message={toastMessage} onClose={() => setShowSuccessToast(false)} />}
     </div>
   )
 }

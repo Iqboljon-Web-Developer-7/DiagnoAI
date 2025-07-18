@@ -22,27 +22,26 @@ import {
   Loader2,
 } from "lucide-react"
 import Link from "next/link"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
 import { useAppContext } from "@/context/app-context"
 import { useRouter } from "next/navigation"
-import { LoginModal } from "@/components/login-modal"
-import { SuccessToast } from "@/components/success-toast"
+import { useToast } from "@/hooks/use-toast"
 
 export default function DashboardPage() {
-  const { user, isLoggedIn, diagnoses, appointments, addAppointment } = useAppContext()
+  const { user, diagnoses, appointments, addAppointment } = useAppContext()
   const router = useRouter()
   const [activeTab, setActiveTab] = useState("diagnoses")
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(!isLoggedIn)
   const [showSuccessToast, setShowSuccessToast] = useState(false)
   const [toastMessage, setToastMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
+  const { toast } = useToast()
+
   useEffect(() => {
-    if (!isLoggedIn) {
-      setIsLoginModalOpen(true)
+    const storedUser = localStorage.getItem("user")
+    if (!storedUser) {
+      router.push("/")
     }
-  }, [isLoggedIn])
+  }, [])
 
   const handleDownload = (diagnosisId: string) => {
     setToastMessage("Hisobot yuklab olindi")
@@ -88,32 +87,14 @@ export default function DashboardPage() {
     { label: "Sog'liq ko'rsatkichi", value: "85%", icon: Activity, color: "purple" },
   ]
 
-  if (!isLoggedIn) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-          <Brain className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Shaxsiy kabinetga kirish</h1>
-          <p className="text-gray-600 mb-8">Shaxsiy kabinetingizni ko'rish uchun tizimga kiring</p>
-          <Button onClick={() => setIsLoginModalOpen(true)}>Tizimga kirish</Button>
-        </div>
-        <Footer />
-        <LoginModal isOpen={isLoginModalOpen} onClose={() => router.push("/")} />
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Xush kelibsiz, {user?.name}!</h1>
           <p className="text-lg text-gray-600">Sizning shaxsiy tibbiy kabinetingiz</p>
         </div>
 
-        {/* Health Stats */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           {healthStats.map((stat, index) => (
             <Card key={index}>
@@ -403,9 +384,13 @@ export default function DashboardPage() {
         </Tabs>
       </div>
 
-      <LoginModal isOpen={isLoginModalOpen} onClose={() => router.push("/")} />
-
-      {showSuccessToast && <SuccessToast message={toastMessage} onClose={() => setShowSuccessToast(false)} />}
+      {showSuccessToast && (
+        <>
+          {toast({
+            title: toastMessage,
+          })}
+        </>
+      )}
     </div>
   )
 }

@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button"
 import { Upload, Brain, Clock } from "lucide-react"
-import { motion, Variants } from "framer-motion" // Import Framer Motion
+import { delay, motion, Variants } from "framer-motion" // Import Framer Motion
 import HeroBgImg from "@/assets/images/hero/hero-bg.webp"
 
 // Define animation variants for reusability
@@ -62,7 +62,7 @@ export function HeroSection({ handleGetDiagnosis, handleUploadAnalysis, handleEm
       style={{
         backgroundImage: `url(${HeroBgImg.src})`,
       }}
-      className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[8%] bg-black bg-no-repeat"
+      className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-black bg-no-repeat"
     >
       <motion.span
         className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2] z-10"
@@ -71,7 +71,7 @@ export function HeroSection({ handleGetDiagnosis, handleUploadAnalysis, handleEm
         animate="visible"
       ></motion.span>
       <motion.div
-        className="container relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-20"
+        className="container relative max-w-6xl mx-auto px-1 sm:px-6 lg:px-8 z-20"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -79,14 +79,14 @@ export function HeroSection({ handleGetDiagnosis, handleUploadAnalysis, handleEm
         <div className="items-center">
           <div className="text-center lg:text-left">
             <motion.h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6"
+              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6"
               variants={textVariants as Variants}
             >
               {t('hero.title')}
               <span className="text-blue-200 block sm:inline"> {t('hero.titleHighlight')}</span>
             </motion.h1>
             <motion.p
-              className="text-lg sm:text-2xl mb-6 sm:mb-8 text-blue-100 max-w-2xl mx-auto lg:mx-0 font-semibold"
+              className="sm:text-2xl mb-6 sm:mb-8 text-blue-100 max-w-2xl mx-auto lg:mx-0 font-semibold"
               variants={textVariants as Variants}
             >
               {t('hero.description')}

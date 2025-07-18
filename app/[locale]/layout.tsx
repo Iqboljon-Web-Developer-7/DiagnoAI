@@ -1,10 +1,8 @@
 import { locales } from '@/i18n';
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
-import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { headers } from "next/headers"
-// import {} from "next/server"
+import { Header } from '@/components/Header/header';
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -19,14 +17,8 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
 
-  // Validate that the incoming `locale` parameter is valid
   if (!locales.includes(locale as any)) notFound();
 
-  const headersList = headers()
-  const pathname = (await headersList).get("x-current-path")
-  console.log(pathname, "pathname");
-  
-  // Load messages for the current locale
   let messages;
   try {
     messages = (await import(`../../messages/${locale}.json`)).default;

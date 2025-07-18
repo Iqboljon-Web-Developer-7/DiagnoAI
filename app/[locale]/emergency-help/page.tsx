@@ -1,14 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { AlertTriangle, Phone, MapPin, Mic, Upload, Navigation, Loader2 } from "lucide-react"
-import { Footer } from "@/components/footer"
-import { SuccessToast } from "@/components/success-toast"
 import { useTranslations, useMessages } from "next-intl"
+import { useToast } from "@/hooks/use-toast"
 
 export default function EmergencyHelpPage() {
   const translations = useTranslations("emergency")
@@ -21,6 +20,8 @@ export default function EmergencyHelpPage() {
   const [selectedEmergency, setSelectedEmergency] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+
+  const { toast } = useToast()
 
   let messages = useMessages()
   let immediateActions = Object.keys(messages.emergency?.immediateActions || {})
@@ -84,6 +85,18 @@ export default function EmergencyHelpPage() {
     setShowSuccessToast(true)
   }
 
+  useEffect(() => {
+    {
+      showSuccessToast && (
+        <>
+          {toast({
+            title: toastMessage,
+          })}
+        </>
+      )
+    }
+  }, [showSuccessToast])
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-red-50 to-red-100 flex flex-col">
       <main className="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
@@ -113,9 +126,8 @@ export default function EmergencyHelpPage() {
                     <Button
                       key={key}
                       variant="outline"
-                      className={`border-red-300 text-red-700 hover:bg-red-50 h-auto py-3 sm:py-4 text-sm sm:text-base transition-all ${
-                        selectedEmergency === translations(`quickEmergencyButtons.${key}`) ? "bg-red-100 ring-2 ring-red-400" : ""
-                      }`}
+                      className={`border-red-300 text-red-700 hover:bg-red-50 h-auto py-3 sm:py-4 text-sm sm:text-base transition-all ${selectedEmergency === translations(`quickEmergencyButtons.${key}`) ? "bg-red-100 ring-2 ring-red-400" : ""
+                        }`}
                       onClick={() => handleQuickEmergency(key)}
                       aria-label={translations(`quickEmergencyButtons.${key}`)}
                     >
@@ -164,9 +176,8 @@ export default function EmergencyHelpPage() {
                   <Button
                     variant="outline"
                     onClick={toggleRecording}
-                    className={`flex-1 border-red-200 text-sm sm:text-base hover:bg-red-50 transition-all ${
-                      isRecording ? "bg-red-100 border-red-400 text-red-600" : ""
-                    }`}
+                    className={`flex-1 border-red-200 text-sm sm:text-base hover:bg-red-50 transition-all ${isRecording ? "bg-red-100 border-red-400 text-red-600" : ""
+                      }`}
                     aria-label={isRecording ? translations("recordButton.stop") : translations("recordButton.start")}
                   >
                     <Mic className={`w-4 h-4 sm:w-5 sm:h-5 mr-2 ${isRecording ? "text-red-600" : "text-gray-600"}`} />
@@ -331,11 +342,10 @@ export default function EmergencyHelpPage() {
                       <span className="font-medium text-sm sm:text-base">{translations(`emergencyContacts.${contact}`)}</span>
                       <Button
                         size="sm"
-                        className={`${
-                          contact === "ambulance"
-                            ? "bg-red-600 hover:bg-red-700 text-white"
-                            : "border-red-300 text-red-700 hover:bg-red-50"
-                        } text-sm sm:text-base transition-all`}
+                        className={`${contact === "ambulance"
+                          ? "bg-red-600 hover:bg-red-700 text-white"
+                          : "border-red-300 text-red-700 hover:bg-red-50"
+                          } text-sm sm:text-base transition-all`}
                         variant={contact === "ambulance" ? "default" : "outline"}
                         onClick={() => handleEmergencyCall(index === 0 ? "103" : index === 1 ? "101" : "102")}
                         aria-label={`Call ${translations(`emergencyContacts.${contact}`)}`}
@@ -351,7 +361,7 @@ export default function EmergencyHelpPage() {
           </div>
         </div>
       </main>
-      {showSuccessToast && <SuccessToast message={toastMessage} onClose={() => setShowSuccessToast(false)} />}
+
     </div>
   )
 }
