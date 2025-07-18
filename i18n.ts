@@ -1,13 +1,10 @@
-import {notFound} from 'next/navigation';
-import {getRequestConfig} from 'next-intl/server';
+import { notFound } from 'next/navigation';
+import { getRequestConfig } from 'next-intl/server';
 
-// Define supported locales
 export const locales = ['uz', 'en', 'ru'] as const;
 export type Locale = (typeof locales)[number];
 
-// Get translations for a specific locale
-export default getRequestConfig(async ({locale}) => {
-  // Validate that the incoming locale parameter is valid
+export default getRequestConfig(async ({ locale }) => {
   if (!locales.includes(locale as any)) notFound();
 
   return {

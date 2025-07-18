@@ -1,8 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAppContext } from "@/context/app-context"
-import { useState } from "react"
 import { LoginModal } from "@/components/login-modal"
 import { RegisterModal } from "@/components/register-modal"
 import { HeroSection } from "@/components/landing/hero-section"

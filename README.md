@@ -1,30 +1,27 @@
-# Diagnostic website
-
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+# Diagno AI - Medical Diagnostic Assistant
 
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/iqboljons-projects-e9000d82/v0-diagnostic-website)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/EJk0Buaw3CQ)
+[![Built with Next.js](https://img.shields.io/badge/Built%20with-Next.js-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
+[![Uses TailwindCSS](https://img.shields.io/badge/Uses-TailwindCSS-black?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
 
 ## Overview
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+Diagno AI is an intelligent medical diagnostic assistant that helps healthcare professionals and patients get quick, accurate preliminary diagnoses based on symptoms. The system uses advanced machine learning algorithms to analyze symptoms and provide evidence-based diagnostic suggestions.
 
-## Deployment
+## Key Features
 
-Your project is live at:
+- Symptom-based diagnosis suggestions
+- User-friendly interface for inputting symptoms
+- Detailed explanation of potential conditions
+- Integration with medical knowledge bases
+- Secure and private data handling
+- Mobile-responsive design
 
-**[https://vercel.com/iqboljons-projects-e9000d82/v0-diagnostic-website](https://vercel.com/iqboljons-projects-e9000d82/v0-diagnostic-website)**
+## Tech Stack
 
-## Build your app
+- Frontend: Next.js, TailwindCSS
+- Deployment: Vercel
 
-Continue building your app on:
+## Getting Started
 
-**[https://v0.dev/chat/projects/EJk0Buaw3CQ](https://v0.dev/chat/projects/EJk0Buaw3CQ)**
-
-## How It Works
-
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+1. Clone the repository:

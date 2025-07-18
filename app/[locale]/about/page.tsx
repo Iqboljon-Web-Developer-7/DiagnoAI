@@ -6,12 +6,51 @@ import { Brain, Shield, Clock, Users, Award, Globe, Heart, CheckCircle } from "l
 import Link from "next/link"
 import { useTranslations, useMessages } from "next-intl"
 
+import aboutImg from "@/assets/images/about/about-bg.jpg"
 import AlisherKarimovImage from "@/assets/images/doctor/doctor-man-1.jpg"
 import DilnozaRahimovaImage from "@/assets/images/doctor/doctor-woman-1.jpg"
 import BoburToshmatovImage from "@/assets/images/doctor/doctor-man-2.jpg"
 import MalikaUsmonovaImage from "@/assets/images/doctor/doctor-woman-2.jpg"
 
 export default function AboutPage() {
+  const timelineItems = [
+    {
+      year: "2020",
+      title: "Bizning tarixmiz",
+      description:
+        "Diagno AI g'oyasi shakllandi va dastlabki tadqiqotlar boshlandi.",
+      position: "left",
+    },
+    {
+      year: "2021",
+      title: "Birinchi prototip",
+      description:
+        "Dastlabki AI algoritmlari ishlab chiqildi va sinovdan o'tkazildi.",
+      position: "right",
+    },
+    {
+      year: "2022",
+      title: "Beta versiya",
+      description:
+        "Platforma cheklangan foydalanuvchilar doirasida sinovdan o'tkazildi.",
+      position: "left",
+    },
+    {
+      year: "2023",
+      title: "Rasmiy ishga tushirish",
+      description:
+        "Diagno AI platformasi rasman ishga tushirildi va keng jamoatchilikka taqdim etildi.",
+      position: "right",
+    },
+    {
+      year: "2024",
+      title: "Kengaytirish",
+      description:
+        "Yangi funktsiyalar va xizmatlar qo'shildi, foydalanuvchilar soni 100,000 dan oshdi.",
+      position: "left",
+    },
+  ];
+
   const translations = useTranslations("about")
   const messages = useMessages()
 
@@ -33,10 +72,13 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section
+        style={{ backgroundImage: `url(${aboutImg.src})` }}
+        className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[8%] bg-black bg-no-repeat min-h-96">
+        <span className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2]"></span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <h1 className="text-4xl lg:text-6xl font-bold mb-6">{translations("hero.title")}</h1>
-          <p className="text-xl mb-8 text-blue-100 max-w-3xl mx-auto">{translations("hero.description")}</p>
+          <p className="md:text-2xl mb-8 text-blue-50 max-w-3xl">{translations("hero.description")}</p>
         </div>
       </section>
 
@@ -49,40 +91,39 @@ export default function AboutPage() {
               <p className="text-lg text-gray-600 mb-6">{translations("mission.description1")}</p>
               <p className="text-lg text-gray-600 mb-6">{translations("mission.description2")}</p>
               <div className="space-y-4">
-                {["item1", "item2", "item3", "item4"].map((item) => (
+                {["item1", "item2", "item3", "item4"].map((item, index) => (
                   <div key={item} className="flex items-start space-x-3">
-                    <CheckCircle className="w-6 h-6 text-green-600 mt-1" />
-                    <p className="text-gray-700">{translations(`mission.checklist.${item}`)}</p>
+                    <span>{index + 1}.</span><p className="text-gray-700">{translations(`mission.checklist.${item}`)}</p>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-blue-50 p-8 rounded-2xl">
+            <div className="p-8 rounded-2xl">
               <div className="grid grid-cols-2 gap-6">
-                <Card className="text-center">
+                <Card>
                   <CardContent className="pt-6">
-                    <Users className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+                    <Users className="w-12 h-12 text-blue-600 mb-4" />
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{translations("mission.stats.users.value")}</h3>
                     <p className="text-gray-600">{translations("mission.stats.users.label")}</p>
                   </CardContent>
                 </Card>
-                <Card className="text-center">
+                <Card>
                   <CardContent className="pt-6">
-                    <Brain className="w-12 h-12 text-green-600 mx-auto mb-4" />
+                    <Brain className="w-12 h-12 text-green-600 mb-4" />
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{translations("mission.stats.analyses.value")}</h3>
                     <p className="text-gray-600">{translations("mission.stats.analyses.label")}</p>
                   </CardContent>
                 </Card>
-                <Card className="text-center">
+                <Card>
                   <CardContent className="pt-6">
-                    <Heart className="w-12 h-12 text-red-600 mx-auto mb-4" />
+                    <Heart className="w-12 h-12 text-red-600 mb-4" />
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{translations("mission.stats.accuracy.value")}</h3>
                     <p className="text-gray-600">{translations("mission.stats.accuracy.label")}</p>
                   </CardContent>
                 </Card>
-                <Card className="text-center">
+                <Card>
                   <CardContent className="pt-6">
-                    <Globe className="w-12 h-12 text-purple-600 mx-auto mb-4" />
+                    <Globe className="w-12 h-12 text-purple-600 mb-4" />
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">{translations("mission.stats.countries.value")}</h3>
                     <p className="text-gray-600">{translations("mission.stats.countries.label")}</p>
                   </CardContent>
@@ -96,18 +137,18 @@ export default function AboutPage() {
       {/* Our Values */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{translations("values.title")}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{translations("values.description")}</p>
+            <p className="text-xl text-gray-600 max-w-3xl">{translations("values.description")}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {["value1", "value2", "value3"].map((value, index) => (
-              <Card key={value} className="text-center border-0 shadow-lg">
+              <Card key={value} className="border-0 shadow-lg">
                 <CardContent className="pt-6">
-                  {index === 0 && <Shield className="w-12 h-12 text-blue-600 mx-auto mb-4" />}
-                  {index === 1 && <Award className="w-12 h-12 text-green-600 mx-auto mb-4" />}
-                  {index === 2 && <Clock className="w-12 h-12 text-purple-600 mx-auto mb-4" />}
+                  {index === 0 && <Shield className="w-12 h-12 text-blue-600 mb-4" />}
+                  {index === 1 && <Award className="w-12 h-12 text-green-600 mb-4" />}
+                  {index === 2 && <Clock className="w-12 h-12 text-purple-600 mb-4" />}
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{translations(`values.${value}.title`)}</h3>
                   <p className="text-gray-600">{translations(`values.${value}.description`)}</p>
                 </CardContent>
@@ -120,9 +161,9 @@ export default function AboutPage() {
       {/* Our Team */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{translations("team.title")}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{translations("team.description")}</p>
+            <p className="text-xl text-gray-600 max-w-3xl">{translations("team.description")}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -146,52 +187,58 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Our History */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{translations("history.title")}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{translations("history.description")}</p>
-          </div>
+      <section className="w-full container mx-auto py-16 px-4 bg-white">
+        <div className="mb-12">
+          <h1 className="font-medium text-3xl text-[#1e1e1e]">
+            Bizning tarixmiz
+          </h1>
+          <p className="font-normal text-xl text-[#00000080] [font-family:'Rubik',Helvetica]">
+            Diagno AI platformasining rivojlanish yo&#39;li
+          </p>
+        </div>
 
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-blue-200"></div>
-
-            <div className="space-y-12">
-              {milestones.map((milestone, index) => (
-                <div key={index} className={`flex items-center ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}>
-                  <div className="w-1/2 pr-8 text-right">
-                    {index % 2 === 0 ? (
-                      <>
-                        <h3 className="text-xl font-bold text-gray-900 mb-1">{milestone.title}</h3>
-                        <p className="text-blue-600 font-medium mb-2">{milestone.year}</p>
-                        <p className="text-gray-600">{milestone.description}</p>
-                      </>
-                    ) : (
-                      <div className="w-4 h-4 bg-blue-600 rounded-full relative left-full transform translate-x-1/2"></div>
-                    )}
-                  </div>
-                  <div className="w-1/2 pl-8">
-                    {index % 2 === 1 ? (
-                      <>
-                        <h3 className="text-xl font-bold text-gray-900 mb-1">{milestone.title}</h3>
-                        <p className="text-blue-600 font-medium mb-2">{milestone.year}</p>
-                        <p className="text-gray-600">{milestone.description}</p>
-                      </>
-                    ) : (
-                      <div className="w-4 h-4 bg-blue-600 rounded-full relative right-full transform -translate-x-1/2"></div>
-                    )}
-                  </div>
+        <div className="relative">
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-dashed border-[#2b6a73]"></div>
+          <div className="relative flex flex-col">
+            <span className="top-[30%] sticky left-1/2 transform -translate-x-1/2 bg-[#2b6a73] w-4 h-4 inline-block rounded-full z-20"></span>
+            <span className="top-[32%] sticky left-1/2 transform -translate-x-1/2 bg-white inline-block w-4 h-4 z-10">
+              <div className="w-4 h-[712px] bg-white z-10"></div>
+            </span>
+            {timelineItems.map((item, _index) => (
+              <div key={item.year} className="relative">
+                <div
+                  className={`flex relative ${item.position === "left" ? "justify-start" : "justify-end"} w-full`}
+                >
+                  <span className={`absolute left-1/2 transform -translate-x-1/2 flex items-center ${item.position === "left" ? "justify-start" : "justify-end"} bg-[#2b6a73] w-4 h-4 rounded-full`}>
+                    <div className="h-[1px] w-52 transform -translate-y-1/2 top-1/2 bg-[#2b6a73] shrink-0"></div>
+                  </span>
+                  <Card
+                    className={`bg-transparent w-full max-w-[700px] border-none shadow-none ${item.position === "right" ? "ml-auto" : "mr-auto"}`}
+                  >
+                    <CardContent className="p-0">
+                      <div
+                        className={`flex flex-col ${item.position === "right" ? "items-end text-right" : "items-start text-left"}`}
+                      >
+                        <h2 className="font-medium text-[#1e1e1e] text-xl mb-2 z-20">
+                          {item.title}
+                        </h2>
+                        <span className="font-normal text-[#2b6a73] text-lg z-20">
+                          {item.year}
+                        </span>
+                        <p className="  font-normal text-[#00000080] z-20">
+                          {item.description}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-blue-600 z-20 relative">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">{translations("cta.title")}</h2>
           <p className="text-xl text-blue-100 mb-8">{translations("cta.description")}</p>
@@ -213,6 +260,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-    </div>
+    </div >
   )
 }

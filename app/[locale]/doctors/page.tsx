@@ -78,16 +78,15 @@ export default function DoctorsPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
-        <div className="text-center mb-12">
+        <div className="mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">{translations("pageTitle")}</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">{translations("pageDescription")}</p>
+          <p className="text-xl text-gray-600">{translations("pageDescription")}</p>
         </div>
 
         {/* Specialties Overview */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Users className="w-5 h-5" />
               <span>{translations("specialtiesTitle")}</span>
             </CardTitle>
             <CardDescription>{translations("specialtiesDescription")}</CardDescription>
@@ -110,7 +109,6 @@ export default function DoctorsPage() {
         </Card>
 
         <div className="grid lg:grid-cols-4 gap-8">
-          {/* Filters Sidebar */}
           <div className="lg:col-span-1">
             <Card>
               <CardHeader>
@@ -207,7 +205,6 @@ export default function DoctorsPage() {
                 <Card key={doctor.id} className="hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
-                      {/* Doctor Image */}
                       <div className="relative">
                         <img
                           src={doctor.image}
@@ -216,10 +213,9 @@ export default function DoctorsPage() {
                         />
                       </div>
 
-                      {/* Doctor Info */}
                       <div className="flex-1">
                         <div className="flex items-start justify-between">
-                          <div>
+                          <div className="w-full">
                             <h3 className="text-xl font-bold text-gray-900 mb-1">{doctor.name}</h3>
                             <p className="text-blue-600 font-medium mb-2">{doctor.specialty}</p>
                             <p className="text-gray-600 text-sm mb-3">

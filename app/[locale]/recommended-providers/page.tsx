@@ -7,8 +7,6 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Star, MapPin, Clock, Phone, Calendar, Filter } from "lucide-react"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
 import { useAppContext } from "@/context/app-context"
 import { SuccessToast } from "@/components/success-toast"
 import { useTranslations } from 'next-intl'
@@ -235,7 +233,6 @@ export default function RecommendedProvidersPage() {
                 <Card key={doctor.id} className="hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
-                      {/* Doctor Image */}
                       <div className="relative">
                         <img
                           src={doctor.image || "/placeholder.svg"}
@@ -249,8 +246,8 @@ export default function RecommendedProvidersPage() {
 
                       {/* Doctor Info */}
                       <div className="flex-1">
-                        <div className="flex items-start justify-between">
-                          <div>
+                        <div className="flex items-start justify-between w-full">
+                          <div className="w-full">
                             <h3 className="text-xl font-bold text-gray-900 mb-1">{doctor.name}</h3>
                             <p className="text-blue-600 font-medium mb-2">{doctor.specialty}</p>
                             <p className="text-gray-600 text-sm mb-3">
