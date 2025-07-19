@@ -3,16 +3,15 @@
 import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button"
 import { Upload, Brain, Clock } from "lucide-react"
-import { delay, motion, Variants } from "framer-motion" // Import Framer Motion
+import { motion, Variants } from "framer-motion"
 import HeroBgImg from "@/assets/images/hero/hero-bg.webp"
 
-// Define animation variants for reusability
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2, // Stagger child animations
+      staggerChildren: 0.2,
       delayChildren: 0.3,
     },
   },
@@ -35,7 +34,7 @@ const buttonVariants = {
     transition: { duration: 0.4, ease: "easeOut" },
   },
   hover: {
-    scale: 1.05, // Subtle hover effect
+    scale: 1.05,
     transition: { duration: 0.2 },
   },
 };

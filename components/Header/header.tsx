@@ -1,10 +1,10 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import Image from 'next/image';
 import { Suspense, lazy } from 'react';
+import Image from 'next/image';
 
-const UserMenu = lazy(() => import('../user-menu').then(module => ({ default: module.UserMenu })));
 const LanguageSwitcher = lazy(() => import('../language-switcher').then(module => ({ default: module.LanguageSwitcher })));
+const UserMenu = lazy(() => import('../user-menu').then(module => ({ default: module.UserMenu })));
 
 export async function Header() {
   const t = await getTranslations('navigation');

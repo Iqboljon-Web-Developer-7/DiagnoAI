@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation"
 import { useAppContext } from "@/context/app-context"
 import { LoginModal } from "@/components/login-modal"
 import { RegisterModal } from "@/components/register-modal"
-import { HeroSection } from "@/components/landing/hero-section"
-import { HowItWorksSection } from "@/components/landing/how-it-works-section"
-import { FeaturesSection } from "@/components/landing/features-section"
-import { TestimonialsSection } from "@/components/landing/testimonials-section"
-import { CTASection } from "@/components/landing/cta-section"
+import { HeroSection } from "@/app/[locale]/components/hero-section"
+import { HowItWorksSection } from "@/app/[locale]/components/how-it-works-section"
+import { FeaturesSection } from "@/app/[locale]/components/features-section"
+import { TestimonialsSection } from "@/app/[locale]/components/testimonials-section"
+import { CTASection } from "@/app/[locale]/components/cta-section"
 
 export default function HomePage() {
   const router = useRouter()
