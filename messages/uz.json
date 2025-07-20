@@ -111,7 +111,9 @@
     "doctors": "Shifokorlar",
     "emergencyHelp": "Shoshilinch yordam",
     "recommendedProviders": "Tavsiya etilgan provayderlar",
-    "dashboard": "Boshqaruv paneli"
+    "dashboard": "Boshqaruv paneli",
+    "hospita": "Shifoxonalar",
+    "education": "Ta'lim"
   },
   "Auth": {
     "login": {
@@ -186,7 +188,7 @@
     "copyright": "© {year} Diagno AI. Barcha huquqlar himoyalangan."
   },
   "RecommendedProviders": {
-    "availibility":"Bugun bo'sh",
+    "availibility": "Bugun bo'sh",
     "analysisSummaryTitle": "Sizning tashxisingiz asosida",
     "analysisSummaryDescription": "Viral Infeksiya (ARVI) - Ishonchlilik: 87%",
     "analysisSummaryBadge": "Mos mutaxassislar topildi",
@@ -228,52 +230,51 @@
     "toastFiltersCleared": "Filtrlar tozalandi"
   },
   "aiDiagnosis": {
-  "title": "AI Tibbiy Tahlil",
-  "description": "Analizlaringizni yuklang va sun'iy intellekt yordamida professional tashxis oling",
-  "uploadTitle": "Analiz va Rasmlar Yuklash",
-  "uploadDescription": "Tibbiy analizlar, rentgen rasmlari yoki boshqa tibbiy hujjatlarni yuklang",
-  "uploadPrompt": "Fayllarni bu yerga tashlang yoki tanlash uchun bosing",
-  "supportedFormats": "PDF, JPG, PNG, DOC formatlarini qo'llab-quvvatlaymiz",
-  "uploadedFilesLabel": "Yuklangan fayllar:",
-  "removeButton": "O'chirish",
-  "symptomsTitle": "Simptomlar va Shikoyatlar",
-  "symptomsDescription": "Hozirgi holatingizdagi simptomlarni batafsil yozing",
-  "symptomsPlaceholder": "Masalan: Bosh og'rig'i, isitma, yo'tal, qorin og'rig'i va boshqa simptomlarni yozing...",
-  "symptomBadges": {
-    "headache": "Bosh og'rig'i",
-    "fever": "Isitma",
-    "cough": "Yo'tal",
-    "abdominalPain": "Qorin og'rig'i",
-    "fatigue": "Charchash"
+    "title": "AI Tibbiy Tahlil",
+    "description": "Analizlaringizni yuklang va sun'iy intellekt yordamida professional tashxis oling",
+    "uploadTitle": "Analiz va Rasmlar Yuklash",
+    "uploadDescription": "Tibbiy analizlar, rentgen rasmlari yoki boshqa tibbiy hujjatlarni yuklang",
+    "uploadPrompt": "Fayllarni bu yerga tashlang yoki tanlash uchun bosing",
+    "supportedFormats": "PDF, JPG, PNG, DOC formatlarini qo'llab-quvvatlaymiz",
+    "uploadedFilesLabel": "Yuklangan fayllar:",
+    "removeButton": "O'chirish",
+    "symptomsTitle": "Simptomlar va Shikoyatlar",
+    "symptomsDescription": "Hozirgi holatingizdagi simptomlarni batafsil yozing",
+    "symptomsPlaceholder": "Masalan: Bosh og'rig'i, isitma, yo'tal, qorin og'rig'i va boshqa simptomlarni yozing...",
+    "symptomBadges": {
+      "headache": "Bosh og'rig'i",
+      "fever": "Isitma",
+      "cough": "Yo'tal",
+      "abdominalPain": "Qorin og'rig'i",
+      "fatigue": "Charchash"
+    },
+    "analyzeButton": "AI Tahlil Boshlash",
+    "analyzingText": "Tahlil qilinmoqda...",
+    "analysisProgressLabel": "Tahlil jarayoni",
+    "resultsTitle": "Tahlil Natijalari",
+    "resultsDescription": "Fayllarni yuklang va simptomlarni kiriting, so'ngra tahlil tugmasini bosing",
+    "awaitingAnalysis": "Tahlil kutilmoqda...",
+    "diagnosisTitle": "Ehtimoliy Tashxis",
+    "diagnosisName": "Viral Infeksiya (ARVI)",
+    "confidenceLabel": "Ishonchlilik darajasi:",
+    "urgencyLabel": "Shoshilinchlik darajasi:",
+    "urgencyLevels": {
+      "medium": "O'rtacha"
+    },
+    "recommendedSpecialistTitle": "Tavsiya etilgan mutaxassis",
+    "specialistName": "Terapevt",
+    "specialistDescription": "Umumiy amaliyot shifokori bilan konsultatsiya tavsiya etiladi",
+    "viewDoctorsButton": "Shifokorlarni ko'rish",
+    "recommendationsTitle": "Tavsiyalar",
+    "recommendations": {
+      "fluid": "Ko'p suyuqlik iching",
+      "rest": "Dam oling va yetarli uxlang",
+      "fever": "Agar isitma 38.5°C dan oshsa, shifokorga murojaat qiling",
+      "duration": "Agar belgilar 7 kundan ortiq davom etsa, tekshiruvdan o'ting"
+    },
+    "saveResultButton": "Natijani saqlash",
+    "detailedReportButton": "Batafsil hisobot"
   },
-  "analyzeButton": "AI Tahlil Boshlash",
-  "analyzingText": "Tahlil qilinmoqda...",
-  "analysisProgressLabel": "Tahlil jarayoni",
-  "resultsTitle": "Tahlil Natijalari",
-  "resultsDescription": "Fayllarni yuklang va simptomlarni kiriting, so'ngra tahlil tugmasini bosing",
-  "awaitingAnalysis": "Tahlil kutilmoqda...",
-  "diagnosisTitle": "Ehtimoliy Tashxis",
-  "diagnosisName": "Viral Infeksiya (ARVI)",
-  "confidenceLabel": "Ishonchlilik darajasi:",
-  "urgencyLabel": "Shoshilinchlik darajasi:",
-  "urgencyLevels": {
-    "medium": "O'rtacha"
-  },
-  "recommendedSpecialistTitle": "Tavsiya etilgan mutaxassis",
-  "specialistName": "Terapevt",
-  "specialistDescription": "Umumiy amaliyot shifokori bilan konsultatsiya tavsiya etiladi",
-  "viewDoctorsButton": "Shifokorlarni ko'rish",
-  "recommendationsTitle": "Tavsiyalar",
-  "recommendations": {
-    "fluid": "Ko'p suyuqlik iching",
-    "rest": "Dam oling va yetarli uxlang",
-    "fever": "Agar isitma 38.5°C dan oshsa, shifokorga murojaat qiling",
-    "duration": "Agar belgilar 7 kundan ortiq davom etsa, tekshiruvdan o'ting"
-  },
-  "saveResultButton": "Natijani saqlash",
-  "detailedReportButton": "Batafsil hisobot"
-},
-
   "emergency": {
     "title": "Shoshilinch Tibbiy Yordam",
     "alertTitle": "Shoshilinch Ogohlantirish",
@@ -349,7 +350,7 @@
     "specialtiesDescription": "Mavjud shifokorlar bo'yicha mutaxassisliklar",
     "count": "{count} shifokor",
     "filters": {
-      "title":"Filterlar",
+      "title": "Filterlar",
       "searchLabel": "Qidiruv",
       "searchPlaceholder": "Shifokor nomi yoki mutaxassislik...",
       "cityLabel": "Shahar",
@@ -359,11 +360,11 @@
       "ratingLabel": "Reyting",
       "ratingPlaceholder": "Reytingni tanlang",
       "clearFiltersButton": "Filtrlarni tozalash",
-      "cities":{
-        "tashkent":"Toshkent",
+      "cities": {
+        "tashkent": "Toshkent",
         "samarkand": "Samarqanda",
         "bukhara": "Buxoro",
-        "namangan":"Namangan"
+        "namangan": "Namangan"
       }
     },
     "doctorsListTitle": "Shifokorlar ({count})",
@@ -381,11 +382,31 @@
     },
     "loadMoreButton": "Ko'proq shifokorlarni ko'rish",
     "specialties": {
-      "specialty1": { "name": "Terapevt", "count": 2, "icon": "🩺" },
-      "specialty2": { "name": "Kardiolog", "count": 1, "icon": "❤️" },
-      "specialty3": { "name": "Nevropatolog", "count": 1, "icon": "🧠" },
-      "specialty4": { "name": "Pediatr", "count": 1, "icon": "👶" },
-      "specialty5": { "name": "Dermatolog", "count": 1, "icon": "🧴" }
+      "specialty1": {
+        "name": "Terapevt",
+        "count": 2,
+        "icon": "🩺"
+      },
+      "specialty2": {
+        "name": "Kardiolog",
+        "count": 1,
+        "icon": "❤️"
+      },
+      "specialty3": {
+        "name": "Nevropatolog",
+        "count": 1,
+        "icon": "🧠"
+      },
+      "specialty4": {
+        "name": "Pediatr",
+        "count": 1,
+        "icon": "👶"
+      },
+      "specialty5": {
+        "name": "Dermatolog",
+        "count": 1,
+        "icon": "🧴"
+      }
     },
     "doctors": {
       "doctor1": {

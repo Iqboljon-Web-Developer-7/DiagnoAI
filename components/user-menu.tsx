@@ -84,25 +84,27 @@ export function UserMenu({ className }: { className?: string }) {
 
   return (
     <div className={className}>
-      <div className="flex items-center space-x-4">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="outline" size="icon" onClick={openLoginModal}>
-                <LogIn className="h-4 w-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{t('login')}</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+      <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4">
+        <div className="hidden sm:block">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="sm" onClick={openLoginModal}>
+                  <LogIn className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{t('login')}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
 
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button size="icon" className="bg-blue-600 hover:bg-blue-700" onClick={openRegisterModal}>
-                <UserPlus className="h-4 w-4" />
+              <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={openRegisterModal}>
+                <UserPlus size={3} />
               </Button>
             </TooltipTrigger>
             <TooltipContent>

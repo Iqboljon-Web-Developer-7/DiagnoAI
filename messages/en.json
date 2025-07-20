@@ -108,7 +108,9 @@
     "doctors": "Doctors",
     "emergencyHelp": "Emergency Help",
     "recommendedProviders": "Recommended Providers",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "hospitals": "Hospitals",
+    "education": "Education"
   },
   "Auth": {
     "login": {
@@ -147,7 +149,7 @@
     "switchLanguage": "Switch language",
     "uzbek": "O'zbekcha",
     "english": "English",
-    "russia":"Russia"
+    "russia": "Russia"
   },
   "UserMenu": {
     "dashboard": "Dashboard",
@@ -596,5 +598,143 @@
       "contactButton": "Contact Us",
       "careersButton": "Careers"
     }
+  },
+  "hospitals": {
+    "pageTitle": "Find Hospitals",
+    "pageDescription": "Discover the best hospitals near you.",
+    "typesTitle": "Hospital Types",
+    "typesDescription": "Browse hospitals by type.",
+    "types": {
+      "public": {
+        "name": "Public",
+        "count": 10,
+        "icon": "🏥"
+      },
+      "private": {
+        "name": "Private",
+        "count": 8,
+        "icon": "🏨"
+      }
+    },
+    "hospitals": {
+      "hospital1": {
+        "name": "City Hospital",
+        "type": "Public",
+        "address": "123 Main St",
+        "description": "A leading public hospital.",
+        "rating": 4.5,
+        "reviews": 120,
+        "distance": "2.5 km",
+        "beds": 200,
+        "services": "Emergency, Surgery"
+      }
+    },
+    "filters": {
+      "title": "Filter Hospitals",
+      "searchLabel": "Search",
+      "searchPlaceholder": "Search hospitals or types...",
+      "cityLabel": "City",
+      "cityPlaceholder": "Select a city",
+      "cities": {
+        "tashkent": "Tashkent",
+        "samarkand": "Samarkand",
+        "bukhara": "Bukhara",
+        "namangan": "Namangan"
+      },
+      "typeLabel": "Hospital Type",
+      "typePlaceholder": "Select type",
+      "ratingLabel": "Rating",
+      "ratingPlaceholder": "Select minimum rating",
+      "clearFiltersButton": "Clear Filters"
+    },
+    "hospitalsListTitle": "Hospitals ({count})",
+    "sortOptions": {
+      "rating": "Sort by Rating",
+      "distance": "Sort by Distance",
+      "beds": "Sort by Beds"
+    },
+    "hospitalCard": {
+      "reviews": "{count} reviews",
+      "beds": "beds",
+      "servicesSuffix": "services",
+      "callButton": "Call",
+      "bookButton": "Book Appointment"
+    },
+    "toastMessages": {
+      "call": "Calling {hospitalName}...",
+      "bookAppointment": "Appointment booked with {hospitalName}!",
+      "clearFilters": "Filters cleared."
+    },
+    "count": "{count} hospitals",
+    "loadMoreButton": "Load More"
+  },
+  "education": {
+    "pageTitle": "Find Educational Institutions",
+    "pageDescription": "Explore schools and universities near you.",
+    "typesTitle": "Institution Types",
+    "typesDescription": "Browse institutions by type.",
+    "types": {
+      "school": {
+        "name": "School",
+        "count": 15,
+        "icon": "🏫"
+      },
+      "university": {
+        "name": "University",
+        "count": 5,
+        "icon": "🎓"
+      }
+    },
+    "institutions": {
+      "institution1": {
+        "name": "City University",
+        "type": "University",
+        "address": "456 Academic Ave",
+        "description": "A prestigious university offering diverse programs.",
+        "rating": 4.7,
+        "reviews": 200,
+        "distance": "3.0 km",
+        "students": 5000,
+        "programs": "Engineering, Medicine"
+      }
+    },
+    "filters": {
+      "title": "Filter Institutions",
+      "searchLabel": "Search",
+      "searchPlaceholder": "Search institutions or types...",
+      "cityLabel": "City",
+      "cityPlaceholder": "Select a city",
+      "cities": {
+        "tashkent": "Tashkent",
+        "samarkand": "Samarkand",
+        "bukhara": "Bukhara",
+        "namangan": "Namangan"
+      },
+      "typeLabel": "Institution Type",
+      "typePlaceholder": "Select type",
+      "ratingLabel": "Rating",
+      "ratingPlaceholder": "Select minimum rating",
+      "clearFiltersButton": "Clear Filters"
+    },
+    "institutionsListTitle": "Institutions ({count})",
+    "sortOptions": {
+      "rating": "Sort by Rating",
+      "distance": "Sort by Distance",
+      "students": "Sort by Students"
+    },
+    "institutionCard": {
+      "reviews": "{count} reviews",
+      "students": "students",
+      "programsSuffix": "programs",
+      "callButton": "Call",
+      "inquiryButton": "Make Inquiry"
+    },
+    "toastMessages": {
+      "call": "Calling {institutionName}...",
+      "inquiry": "Inquiry submitted to {institutionName}!",
+      "clearFilters": "Filters cleared."
+    },
+    "count": "{count} institutions",
+    "loadMoreButton": "Load More"
   }
 }

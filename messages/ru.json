@@ -108,7 +108,9 @@
     "doctors": "Врачи",
     "emergencyHelp": "Экстренная помощь",
     "recommendedProviders": "Рекомендованные специалисты",
-    "dashboard": "Панель управления"
+    "dashboard": "Панель управления",
+    "hospita": "Больницы",
+    "education": "Образование"
   },
   "Auth": {
     "login": {

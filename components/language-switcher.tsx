@@ -2,10 +2,10 @@
 
 import { useLocale } from 'next-intl';
 import { usePathname } from '@/i18n/navigation';
-import {useTranslations} from 'next-intl';
-import {Globe} from 'lucide-react';
-import {useRouter} from 'next/navigation';
-import {useTransition} from 'react';
+import { useTranslations } from 'next-intl';
+import { Globe } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 import {
   Select,
   SelectContent,
@@ -25,22 +25,17 @@ export function LanguageSwitcher() {
     const isPathnameEqualToLocalse = pathname !== "uz" || "en" || "ru"
     console.log(newLocale);
     alert(isPathnameEqualToLocalse);
-    
-    
+
+
     startTransition(() => {
       router.replace(`/${newLocale}${pathname}`);
     });
   };
 
-  console.log(locale);
-  console.log(pathname);
-  console.log();
-  
-
   return (
     <Select defaultValue={locale} onValueChange={switchLocale}>
-      <SelectTrigger>
-        <Globe className="h-4 w-4 mr-2" />
+      <SelectTrigger className='text-xs sm:text-base'>
+        <Globe className="h-3 w-3 mr-1" />
         <SelectValue placeholder={t('switchLanguage')} />
       </SelectTrigger>
       <SelectContent>
