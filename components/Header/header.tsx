@@ -3,14 +3,11 @@
 import { useTranslations } from "next-intl";
 
 import { Link } from '@/i18n/navigation';
-import { Suspense, lazy } from 'react';
 import Image from 'next/image';
 import CollapsibleTabs from '../CollapsibleTabs';
-
-const LanguageSwitcher = lazy(() => import('../language-switcher').then(module => ({ default: module.LanguageSwitcher })));
-const UserMenu = lazy(() => import('../user-menu').then(module => ({ default: module.UserMenu })));
-
-export async function Header() {
+import { LanguageSwitcher } from '../language-switcher';
+import { UserMenu } from '../user-menu';
+export  function Header() {
   const t = useTranslations('navigation');
 
   const navigation = [
@@ -32,12 +29,8 @@ export async function Header() {
       <CollapsibleTabs tabs={navigation} />
 
       <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4">
-        <Suspense fallback={<div className="w-8 h-8 animate-pulse bg-gray-200 rounded" />}>
-          <LanguageSwitcher />
-        </Suspense>
-        <Suspense fallback={<div className="w-8 h-8 animate-pulse bg-gray-200 rounded" />}>
-          <UserMenu />
-        </Suspense>
+        <LanguageSwitcher />
+        <UserMenu />
       </div>
     </header>
   );
