@@ -49,7 +49,7 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
   return R * c; // Distance in km
 }
 
-export default function HospitalsPage({ params }: { params: { locale: string } }) {
+export default function page({ params }: { params: { locale: string } }) {
   const translations = useTranslations("hospitals");
   const { user, latitude, longitude, setLocation, addAppointment } = useAppStore();
   const [searchTerm, setSearchTerm] = useState("");
