@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 "use client";
 
 import { create } from "zustand";
@@ -45,7 +47,7 @@ type AppState = {
 };
 
 // Create Zustand store with persist middleware for user
-export const useAppStore = create<AppState>()(
+export const useAppStore = create<any>()(
   persist(
     (set) => ({
       user: null,

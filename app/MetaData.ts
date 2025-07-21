@@ -65,6 +65,5 @@ export const MetaData:Metadata = {
         shortcut: '/favicon.ico',
         apple: '/apple-touch-icon.png'
     },
-    manifest: '/site.webmanifest',
     category: 'healthcare'
 }

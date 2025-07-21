@@ -17,14 +17,14 @@ interface Hospital {
   name: string;
   latitude: number;
   longitude: number;
-  type?: string; // Optional, as API doesn’t provide it; derive from data or add manually
+  type?: string;
   address?: string;
   description?: string;
   rating?: number;
   reviews?: number;
   beds?: number;
   services?: string;
-  distance?: number; // Added for calculated distance
+  distance?: number;
   image?: string;
 }
 
@@ -37,7 +37,7 @@ interface HospitalType {
 
 const API_BASE_URL = "http://91.99.232.34:8000/api";
 
-// Haversine formula to calculate distance between two points
+// Haversine formula to calculate distance
 function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 6371; // Earth's radius in km
   const dLat = (lat2 - lat1) * (Math.PI / 180);
@@ -46,10 +46,10 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; // Distance in km
+  return R * c;
 }
 
-export default function page({ params }: { params: { locale: string } }) {
+export default function page() {
   const translations = useTranslations("hospitals");
   const { user, latitude, longitude, setLocation, addAppointment } = useAppStore();
   const [searchTerm, setSearchTerm] = useState("");
@@ -94,12 +94,12 @@ export default function page({ params }: { params: { locale: string } }) {
           name: hospital.name,
           latitude: hospital.latitude,
           longitude: hospital.longitude,
-          type: hospital.type || "General", // Fallback if API doesn't provide type
-          address: hospital.address || "N/A", // Fallback if not provided
+          type: hospital.type || "General",
+          address: hospital.address || "N/A",
           description: hospital.description || "No description available",
-          rating: hospital.rating || 4.0, // Fallback
+          rating: hospital.rating || 4.0,
           reviews: hospital.reviews || 0,
-          beds: hospital.beds || 100, // Fallback
+          beds: hospital.beds || 100,
           services: hospital.services || "General Services",
           image: hospital.image || "/placeholder-hospital.jpg",
           distance: latitude && longitude ? haversine(latitude, longitude, hospital.latitude, hospital.longitude) : 0,
@@ -109,6 +109,7 @@ export default function page({ params }: { params: { locale: string } }) {
       } catch (err) {
         console.error("Error fetching hospitals:", err);
         setError(translations("toastMessages.error") || "Failed to load hospitals");
+        setHospitals([]); // Ensure hospitals is an empty array on error
       } finally {
         setIsLoading(false);
       }
@@ -117,7 +118,7 @@ export default function page({ params }: { params: { locale: string } }) {
     fetchHospitals();
   }, [latitude, longitude, translations]);
 
-  // Derive hospital types from hospitals
+  // Derive hospital types
   const hospitalTypes: HospitalType[] = Array.from(new Set(hospitals.map((hospital) => hospital.type || "General"))).map(
     (type) => ({
       name: type,
@@ -126,13 +127,17 @@ export default function page({ params }: { params: { locale: string } }) {
     })
   );
 
-  // Derive cities from hospitals (if API provides address or city)
+  // Derive cities (fallback to static if address is unavailable)
   const cities = Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
     (city) => city !== "Unknown"
-  );
+  ).length > 0
+    ? Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
+        (city) => city !== "Unknown"
+      )
+    : ["Tashkent", "Samarkand", "Bukhara", "Namangan"];
 
   // Filter and sort hospitals
-  const filteredHospitals = hospitals
+  const filteredHospitals = (hospitals || [])
     .filter((hospital) => {
       const matchesSearch =
         hospital.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -158,7 +163,7 @@ export default function page({ params }: { params: { locale: string } }) {
   // Handle book appointment
   const handleBookAppointment = (hospital: Hospital) => {
     addAppointment({
-      doctor: hospital.name, // Using hospital name for consistency
+      doctor: hospital.name,
       specialty: hospital.type || "General",
       date: new Date().toISOString().split("T")[0],
       time: "14:00",
@@ -191,6 +196,9 @@ export default function page({ params }: { params: { locale: string } }) {
     }
   }, [showSuccessToast, toastMessage, toast]);
 
+  if (isLoading) {
+    return <div className="text-center py-8">{translations("loading") || "Loading..."}</div>;
+  }
 
   if (error) {
     return <div className="text-center py-8 text-red-600">{error}</div>;
@@ -260,15 +268,11 @@ export default function page({ params }: { params: { locale: string } }) {
                       <SelectValue placeholder={translations("filters.cityPlaceholder") || "Select a city"} />
                     </SelectTrigger>
                     <SelectContent>
-                      {cities.length > 0 ? (
-                        cities.map((city) => (
-                          <SelectItem key={city} value={city.toLowerCase()}>
-                            {city}
-                          </SelectItem>
-                        ))
-                      ) : (
-                        <SelectItem value="tashkent">{translations("filters.cities.tashkent") || "Tashkent"}</SelectItem>
-                      )}
+                      {cities.map((city) => (
+                        <SelectItem key={city} value={city.toLowerCase()}>
+                          {city}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -314,7 +318,7 @@ export default function page({ params }: { params: { locale: string } }) {
           <div className="lg:col-span-3">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-900">
-                {translations("hospitalsListTitle", { count: filteredHospitals.length }) || `${filteredHospitals.length} Hospitals`}
+                {translations("hospitalsListTitle", { count: filteredHospitals.length || 0 }) || `${filteredHospitals.length || 0} Hospitals`}
               </h2>
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-48">
@@ -353,9 +357,9 @@ export default function page({ params }: { params: { locale: string } }) {
                             <div className="flex items-center space-x-4 mb-3">
                               <div className="flex items-center space-x-1">
                                 <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                                <span className="font-medium">{hospital.rating}</span>
+                                <span className="font-medium">{hospital.rating || "N/A"}</span>
                                 <span className="text-gray-500 text-sm">
-                                  {translations("hospitalCard.reviews", { count: hospital.reviews! }) || `${hospital.reviews} reviews`}
+                                  {translations("hospitalCard.reviews", { count: hospital.reviews || 0 }) || `${hospital.reviews || 0} reviews`}
                                 </span>
                               </div>
 
@@ -366,13 +370,13 @@ export default function page({ params }: { params: { locale: string } }) {
 
                               <div className="flex items-center space-x-1 text-gray-600">
                                 <Hospital className="w-4 h-4" />
-                                <span className="text-sm">{hospital.beds} {translations("hospitalCard.beds") || "beds"}</span>
+                                <span className="text-sm">{hospital.beds || "N/A"} {translations("hospitalCard.beds") || "beds"}</span>
                               </div>
                             </div>
 
                             <div className="flex items-center justify-between">
                               <div>
-                                <span className="text-lg font-bold text-gray-900">{hospital.services}</span>
+                                <span className="text-lg font-bold text-gray-900">{hospital.services || "N/A"}</span>
                                 <span className="text-gray-500 text-sm ml-1">{translations("hospitalCard.servicesSuffix") || "services"}</span>
                               </div>
 
