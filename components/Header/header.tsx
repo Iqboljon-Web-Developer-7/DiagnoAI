@@ -1,4 +1,7 @@
-import { getTranslations } from 'next-intl/server';
+"use client"
+
+import { useTranslations } from "next-intl";
+
 import { Link } from '@/i18n/navigation';
 import { Suspense, lazy } from 'react';
 import Image from 'next/image';
@@ -8,7 +11,7 @@ const LanguageSwitcher = lazy(() => import('../language-switcher').then(module =
 const UserMenu = lazy(() => import('../user-menu').then(module => ({ default: module.UserMenu })));
 
 export async function Header() {
-  const t = await getTranslations('navigation');
+  const t = useTranslations('navigation');
 
   const navigation = [
     { path: '/ai-diagnosis', label: t('aiDiagnosis') },

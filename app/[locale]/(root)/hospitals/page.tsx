@@ -51,7 +51,7 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
 
 export default function page() {
   const translations = useTranslations("hospitals");
-  const { user, latitude, longitude, setLocation, addAppointment } = useAppStore();
+  const { latitude, longitude, setLocation, addAppointment } = useAppStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedType, setSelectedType] = useState("");
