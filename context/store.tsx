@@ -33,8 +33,11 @@ type Appointment = {
 type AppState = {
   user: User | null;
   isLoggedIn: boolean;
+  latitude: number;
+  longitude: number;
   diagnoses: Diagnosis[];
   appointments: Appointment[];
+  setLocation: (latitude: number, longitude: number) => void;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   addDiagnosis: (diagnosis: Omit<Diagnosis, "id" | "date">) => void;
@@ -47,6 +50,8 @@ export const useAppStore = create<AppState>()(
     (set) => ({
       user: null,
       isLoggedIn: false,
+      latitude: 0,
+      longitude: 0,
       diagnoses: [
         {
           id: "1",
@@ -127,6 +132,9 @@ export const useAppStore = create<AppState>()(
         set((state) => ({
           appointments: [newAppointment, ...state.appointments],
         }));
+      },
+      setLocation: (latitude: number, longitude: number) => {
+        set({ latitude, longitude });
       },
     }),
     {

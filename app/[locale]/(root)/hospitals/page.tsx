@@ -1,104 +1,217 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Star, MapPin, Phone, Calendar, Filter, Search, Hospital } from "lucide-react"
-import { useAppStore } from "@/context/store"
-import { useTranslations, useMessages } from "next-intl"
-import { useToast } from "@/hooks/use-toast"
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Star, MapPin, Phone, Calendar, Filter, Search, Hospital } from "lucide-react";
+import { useAppStore } from "@/context/store";
+import { useTranslations } from "next-intl";
+import { useToast } from "@/hooks/use-toast";
+import axios from "axios";
+
+// Define Hospital interface for type safety
+interface Hospital {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  type?: string; // Optional, as API doesn’t provide it; derive from data or add manually
+  address?: string;
+  description?: string;
+  rating?: number;
+  reviews?: number;
+  beds?: number;
+  services?: string;
+  distance?: number; // Added for calculated distance
+  image?: string;
+}
+
+// Define HospitalType interface for specialties/types
+interface HospitalType {
+  name: string;
+  count: number;
+  icon: string;
+}
+
+const API_BASE_URL = "http://91.99.232.34:8000/api";
+
+// Haversine formula to calculate distance between two points
+function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371; // Earth's radius in km
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // Distance in km
+}
 
 export default function HospitalsPage({ params }: { params: { locale: string } }) {
-  const translations = useTranslations("hospitals")
-  const messages = useMessages()
-  const { addAppointment } = useAppStore()
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCity, setSelectedCity] = useState("")
-  const [selectedType, setSelectedType] = useState("")
-  const [selectedRating, setSelectedRating] = useState("")
-  const [showSuccessToast, setShowSuccessToast] = useState(false)
-  const [toastMessage, setToastMessage] = useState("")
+  const translations = useTranslations("hospitals");
+  const { user, latitude, longitude, setLocation, addAppointment } = useAppStore();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedType, setSelectedType] = useState("");
+  const [selectedRating, setSelectedRating] = useState("");
+  const [sortBy, setSortBy] = useState("rating");
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [hospitals, setHospitals] = useState<Hospital[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const { toast } = useToast()
+  const { toast } = useToast();
 
-  // Extract hospital types and hospitals from messages
-  const hospitalTypes = Object.keys(messages.hospitals?.types || {}).map((key) => ({
-    name: messages.hospitals.types[key].name,
-    count: messages.hospitals.types[key].count,
-    icon: messages.hospitals.types[key].icon,
-  }))
+  // Get user location
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation(position.coords.latitude, position.coords.longitude);
+        },
+        (error) => {
+          console.error("Geolocation failed:", error);
+          toast({
+            title: translations("toastMessages.geolocationError") || "Failed to get location",
+            variant: "destructive",
+          });
+        }
+      );
+    }
+  }, [setLocation, toast, translations]);
 
-  const hospitals = Object.keys(messages.hospitals?.hospitals || {}).map((key) => ({
-    id: parseInt(key.replace("hospital", "")),
-    ...messages.hospitals.hospitals[key],
-    image: "/placeholder-hospital.jpg",
-  }))
+  // Fetch hospitals from API
+  useEffect(() => {
+    const fetchHospitals = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`${API_BASE_URL}/hospitals/`);
+        const apiHospitals: Hospital[] = response.data.map((hospital: any) => ({
+          id: hospital.id,
+          name: hospital.name,
+          latitude: hospital.latitude,
+          longitude: hospital.longitude,
+          type: hospital.type || "General", // Fallback if API doesn't provide type
+          address: hospital.address || "N/A", // Fallback if not provided
+          description: hospital.description || "No description available",
+          rating: hospital.rating || 4.0, // Fallback
+          reviews: hospital.reviews || 0,
+          beds: hospital.beds || 100, // Fallback
+          services: hospital.services || "General Services",
+          image: hospital.image || "/placeholder-hospital.jpg",
+          distance: latitude && longitude ? haversine(latitude, longitude, hospital.latitude, hospital.longitude) : 0,
+        }));
+        setHospitals(apiHospitals);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching hospitals:", err);
+        setError(translations("toastMessages.error") || "Failed to load hospitals");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const handleCall = (hospitalName: string) => {
-    setToastMessage(translations("toastMessages.call", { hospitalName }))
-    setShowSuccessToast(true)
-  }
+    fetchHospitals();
+  }, [latitude, longitude, translations]);
 
-  const handleBookAppointment = (hospital: any) => {
-    addAppointment({
-      doctor: hospital.name, // Using hospital name as doctor for consistency
-      specialty: hospital.type,
-      date: "2024-01-25",
-      time: "14:00",
-      type: translations("hospitalCard.bookButton"),
-      status: translations("toastMessages.bookAppointment").includes("confirmed") ? "Confirmed" : "Tasdiqlangan",
+  // Derive hospital types from hospitals
+  const hospitalTypes: HospitalType[] = Array.from(new Set(hospitals.map((hospital) => hospital.type || "General"))).map(
+    (type) => ({
+      name: type,
+      count: hospitals.filter((h) => (h.type || "General") === type).length,
+      icon: "🏥",
     })
+  );
 
-    setToastMessage(translations("toastMessages.bookAppointment", { hospitalName: hospital.name }))
-    setShowSuccessToast(true)
-  }
+  // Derive cities from hospitals (if API provides address or city)
+  const cities = Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
+    (city) => city !== "Unknown"
+  );
 
+  // Filter and sort hospitals
+  const filteredHospitals = hospitals
+    .filter((hospital) => {
+      const matchesSearch =
+        hospital.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (hospital.type || "").toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesType = !selectedType || (hospital.type || "General").toLowerCase() === selectedType.toLowerCase();
+      const matchesRating = !selectedRating || (hospital.rating || 0) >= Number.parseFloat(selectedRating);
+      const matchesCity = !selectedCity || hospital.address?.toLowerCase().includes(selectedCity.toLowerCase());
+      return matchesSearch && matchesType && matchesRating && matchesCity;
+    })
+    .sort((a, b) => {
+      if (sortBy === "rating") return (b.rating || 0) - (a.rating || 0);
+      if (sortBy === "distance") return (a.distance || 0) - (b.distance || 0);
+      if (sortBy === "beds") return (b.beds || 0) - (a.beds || 0);
+      return 0;
+    });
+
+  // Handle call button
+  const handleCall = (hospitalName: string) => {
+    setToastMessage(translations("toastMessages.call", { hospitalName }));
+    setShowSuccessToast(true);
+  };
+
+  // Handle book appointment
+  const handleBookAppointment = (hospital: Hospital) => {
+    addAppointment({
+      doctor: hospital.name, // Using hospital name for consistency
+      specialty: hospital.type || "General",
+      date: new Date().toISOString().split("T")[0],
+      time: "14:00",
+      type: translations("hospitalCard.bookButton") || "Appointment",
+      status: translations("toastMessages.bookAppointment").includes("confirmed") ? "Confirmed" : "Tasdiqlangan",
+    });
+
+    setToastMessage(translations("toastMessages.bookAppointment", { hospitalName: hospital.name }));
+    setShowSuccessToast(true);
+  };
+
+  // Clear filters
   const clearFilters = () => {
-    setSearchTerm("")
-    setSelectedCity("")
-    setSelectedType("")
-    setSelectedRating("")
-    setToastMessage(translations("toastMessages.clearFilters"))
-    setShowSuccessToast(true)
-  }
+    setSearchTerm("");
+    setSelectedCity("");
+    setSelectedType("");
+    setSelectedRating("");
+    setToastMessage(translations("toastMessages.clearFilters") || "Filters cleared");
+    setShowSuccessToast(true);
+  };
 
-  // Filter hospitals based on search criteria
-  const filteredHospitals = hospitals.filter((hospital) => {
-    const matchesSearch =
-      hospital.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      hospital.type.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesType = !selectedType || hospital.type.toLowerCase() === selectedType.toLowerCase()
-    const matchesRating = !selectedRating || hospital.rating >= Number.parseFloat(selectedRating)
-    const matchesCity = !selectedCity || hospital.city?.toLowerCase() === selectedCity.toLowerCase()
-
-    return matchesSearch && matchesType && matchesRating && matchesCity
-  })
-
+  // Show toast
   useEffect(() => {
     if (showSuccessToast) {
-      toast({ title: toastMessage })
-      setShowSuccessToast(false)
+      toast({
+        title: toastMessage,
+        variant: toastMessage.includes("error") ? "destructive" : "default",
+      });
+      setShowSuccessToast(false);
     }
-  }, [showSuccessToast, toastMessage, toast])
+  }, [showSuccessToast, toastMessage, toast]);
+
+
+  if (error) {
+    return <div className="text-center py-8 text-red-600">{error}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">{translations("pageTitle")}</h1>
-          <p className="text-xl text-gray-600">{translations("pageDescription")}</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">{translations("pageTitle") || "Find a Hospital"}</h1>
+          <p className="text-xl text-gray-600">{translations("pageDescription") || "Explore top hospitals near you"}</p>
         </div>
 
         {/* Hospital Types Overview */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <span>{translations("typesTitle")}</span>
+              <span>{translations("typesTitle") || "Hospital Types"}</span>
             </CardTitle>
-            <CardDescription>{translations("typesDescription")}</CardDescription>
+            <CardDescription>{translations("typesDescription") || "Explore hospitals by type"}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-5 gap-4">
@@ -110,7 +223,7 @@ export default function HospitalsPage({ params }: { params: { locale: string } }
                 >
                   <div className="text-2xl mb-2">{type.icon}</div>
                   <h3 className="font-semibold text-gray-900">{type.name}</h3>
-                  <p className="text-sm text-gray-600">{translations("count", { count: type.count })}</p>
+                  <p className="text-sm text-gray-600">{translations("count", { count: type.count }) || `${type.count} hospitals`}</p>
                 </div>
               ))}
             </div>
@@ -123,16 +236,16 @@ export default function HospitalsPage({ params }: { params: { locale: string } }
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Filter className="w-5 h-5" />
-                  <span>{translations("filters.title")}</span>
+                  <span>{translations("filters.title") || "Filters"}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.searchLabel")}</label>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.searchLabel") || "Search"}</label>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                     <Input
-                      placeholder={translations("filters.searchPlaceholder")}
+                      placeholder={translations("filters.searchPlaceholder") || "Search hospitals or types"}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-10"
@@ -141,25 +254,30 @@ export default function HospitalsPage({ params }: { params: { locale: string } }
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.cityLabel")}</label>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.cityLabel") || "City"}</label>
                   <Select value={selectedCity} onValueChange={setSelectedCity}>
                     <SelectTrigger>
-                      <SelectValue placeholder={translations("filters.cityPlaceholder")} />
+                      <SelectValue placeholder={translations("filters.cityPlaceholder") || "Select a city"} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="tashkent">{translations("filters.cities.tashkent")}</SelectItem>
-                      <SelectItem value="samarkand">{translations("filters.cities.samarkand")}</SelectItem>
-                      <SelectItem value="bukhara">{translations("filters.cities.bukhara")}</SelectItem>
-                      <SelectItem value="namangan">{translations("filters.cities.namangan")}</SelectItem>
+                      {cities.length > 0 ? (
+                        cities.map((city) => (
+                          <SelectItem key={city} value={city.toLowerCase()}>
+                            {city}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="tashkent">{translations("filters.cities.tashkent") || "Tashkent"}</SelectItem>
+                      )}
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.typeLabel")}</label>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.typeLabel") || "Type"}</label>
                   <Select value={selectedType} onValueChange={setSelectedType}>
                     <SelectTrigger>
-                      <SelectValue placeholder={translations("filters.typePlaceholder")} />
+                      <SelectValue placeholder={translations("filters.typePlaceholder") || "Select a type"} />
                     </SelectTrigger>
                     <SelectContent>
                       {hospitalTypes.map((type) => (
@@ -172,10 +290,10 @@ export default function HospitalsPage({ params }: { params: { locale: string } }
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.ratingLabel")}</label>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.ratingLabel") || "Rating"}</label>
                   <Select value={selectedRating} onValueChange={setSelectedRating}>
                     <SelectTrigger>
-                      <SelectValue placeholder={translations("filters.ratingPlaceholder")} />
+                      <SelectValue placeholder={translations("filters.ratingPlaceholder") || "Select a rating"} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="4.5">4.5</SelectItem>
@@ -186,7 +304,7 @@ export default function HospitalsPage({ params }: { params: { locale: string } }
                 </div>
 
                 <Button variant="outline" className="w-full" onClick={clearFilters}>
-                  {translations("filters.clearFiltersButton")}
+                  {translations("filters.clearFiltersButton") || "Clear Filters"}
                 </Button>
               </CardContent>
             </Card>
@@ -195,15 +313,17 @@ export default function HospitalsPage({ params }: { params: { locale: string } }
           {/* Hospitals List */}
           <div className="lg:col-span-3">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">{translations("hospitalsListTitle", { count: filteredHospitals.length })}</h2>
-              <Select defaultValue="rating">
+              <h2 className="text-2xl font-bold text-gray-900">
+                {translations("hospitalsListTitle", { count: filteredHospitals.length }) || `${filteredHospitals.length} Hospitals`}
+              </h2>
+              <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-48">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="rating">{translations("sortOptions.rating")}</SelectItem>
-                  <SelectItem value="distance">{translations("sortOptions.distance")}</SelectItem>
-                  <SelectItem value="beds">{translations("sortOptions.beds")}</SelectItem>
+                  <SelectItem value="rating">{translations("sortOptions.rating") || "Sort by Rating"}</SelectItem>
+                  <SelectItem value="distance">{translations("sortOptions.distance") || "Sort by Distance"}</SelectItem>
+                  <SelectItem value="beds">{translations("sortOptions.beds") || "Sort by Beds"}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -234,30 +354,32 @@ export default function HospitalsPage({ params }: { params: { locale: string } }
                               <div className="flex items-center space-x-1">
                                 <Star className="w-4 h-4 text-yellow-400 fill-current" />
                                 <span className="font-medium">{hospital.rating}</span>
-                                <span className="text-gray-500 text-sm">{translations("hospitalCard.reviews", { count: hospital.reviews })}</span>
+                                <span className="text-gray-500 text-sm">
+                                  {translations("hospitalCard.reviews", { count: hospital.reviews! }) || `${hospital.reviews} reviews`}
+                                </span>
                               </div>
 
                               <div className="flex items-center space-x-1 text-gray-600">
                                 <MapPin className="w-4 h-4" />
-                                <span className="text-sm">{hospital.distance}</span>
+                                <span className="text-sm">{hospital.distance ? `${hospital.distance.toFixed(2)} km` : "N/A"}</span>
                               </div>
 
                               <div className="flex items-center space-x-1 text-gray-600">
                                 <Hospital className="w-4 h-4" />
-                                <span className="text-sm">{hospital.beds} {translations("hospitalCard.beds")}</span>
+                                <span className="text-sm">{hospital.beds} {translations("hospitalCard.beds") || "beds"}</span>
                               </div>
                             </div>
 
                             <div className="flex items-center justify-between">
                               <div>
                                 <span className="text-lg font-bold text-gray-900">{hospital.services}</span>
-                                <span className="text-gray-500 text-sm ml-1">{translations("hospitalCard.servicesSuffix")}</span>
+                                <span className="text-gray-500 text-sm ml-1">{translations("hospitalCard.servicesSuffix") || "services"}</span>
                               </div>
 
                               <div className="flex space-x-3">
                                 <Button variant="outline" size="sm" onClick={() => handleCall(hospital.name)}>
                                   <Phone className="w-4 h-4 mr-1" />
-                                  {translations("hospitalCard.callButton")}
+                                  {translations("hospitalCard.callButton") || "Call"}
                                 </Button>
                                 <Button
                                   size="sm"
@@ -265,7 +387,7 @@ export default function HospitalsPage({ params }: { params: { locale: string } }
                                   onClick={() => handleBookAppointment(hospital)}
                                 >
                                   <Calendar className="w-4 h-4 mr-1" />
-                                  {translations("hospitalCard.bookButton")}
+                                  {translations("hospitalCard.bookButton") || "Book Appointment"}
                                 </Button>
                               </div>
                             </div>
@@ -280,12 +402,12 @@ export default function HospitalsPage({ params }: { params: { locale: string } }
 
             <div className="text-center mt-8">
               <Button variant="outline" size="lg">
-                {translations("loadMoreButton")}
+                {translations("loadMoreButton") || "Load More"}
               </Button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

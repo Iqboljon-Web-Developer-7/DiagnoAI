@@ -30,11 +30,11 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <meta name="google-site-verification" content="12WSlQkJPVKILaeoWFm5OQzdwMe_PdLyK2lWCsG0vNM" />
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header />
-          {children}
-          <Footer />
-        </NextIntlClientProvider>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <Header />
+            {children}
+            <Footer />
+          </NextIntlClientProvider>
       </body>
     </html>
   );
