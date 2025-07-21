@@ -33,7 +33,7 @@ export function Header() {
         transition={{ duration: 0.2 }}
       >
         <Link href="/" className="flex items-center space-x-2 shrink-0">
-          <Image src="/logo.jpg" width={128} height={32} alt="Logo" />
+          <Image src="/logo.png" width={128} height={32} alt="Logo" />
         </Link>
       </motion.div>
 

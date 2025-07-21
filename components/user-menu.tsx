@@ -83,7 +83,7 @@ export function UserMenu({ className }: { className?: string }) {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline" size="sm" onClick={openLoginModal}>
+                <Button variant="link" className='hover:bg-slate-100 duration-200' size="sm" onClick={openLoginModal}>
                   <LogIn className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
@@ -97,7 +97,7 @@ export function UserMenu({ className }: { className?: string }) {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={openRegisterModal}>
+              <Button size="sm" variant={"link"} className="hover:bg-blue-700 hover:text-slate-100 duration-200" onClick={openRegisterModal}>
                 <UserPlus size={3} />
               </Button>
             </TooltipTrigger>

@@ -35,7 +35,7 @@ interface HospitalType {
   icon: string;
 }
 
-const API_BASE_URL = "http://91.99.232.34:8000/api";
+const API_BASE_URL = "https://api.diagnoai.uz/api";
 
 // Haversine formula to calculate distance
 function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
