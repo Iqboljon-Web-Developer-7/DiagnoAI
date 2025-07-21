@@ -196,10 +196,6 @@ export default function page() {
     }
   }, [showSuccessToast, toastMessage, toast]);
 
-  if (isLoading) {
-    return <div className="text-center py-8">{translations("loading") || "Loading..."}</div>;
-  }
-
   if (error) {
     return <div className="text-center py-8 text-red-600">{error}</div>;
   }

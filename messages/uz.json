@@ -115,6 +115,75 @@
     "hospitals": "Shifoxonalar",
     "education": "Ta'lim"
   },
+    "hospitals": {
+    "pageTitle": "Shifoxonalarni topish",
+    "pageDescription": "Yaqin atrofdagi eng yaxshi shifoxonalarni toping.",
+    "typesTitle": "Shifoxona turlari",
+    "typesDescription": "Shifoxonalarni turi bo'yicha ko'ring.",
+    "types": {
+      "public": {
+        "name": "Davlat",
+        "count": 10,
+        "icon": "🏥"
+      },
+      "private": {
+        "name": "Xususiy",
+        "count": 8,
+        "icon": "🏨"
+      }
+    },
+    "hospitals": {
+      "hospital1": {
+        "name": "Shahar shifoxonasi",
+        "type": "Davlat",
+        "address": "123 Asosiy ko'cha",
+        "description": "Yetakchi davlat shifoxonasi.",
+        "rating": 4.5,
+        "reviews": 120,
+        "distance": "2.5 km",
+        "beds": 200,
+        "services": "Shoshilinch, Jarrohlik"
+      }
+    },
+    "filters": {
+      "title": "Shifoxonalarni filtrlash",
+      "searchLabel": "Qidirish",
+      "searchPlaceholder": "Shifoxona yoki turini qidiring...",
+      "cityLabel": "Shahar",
+      "cityPlaceholder": "Shaharni tanlang",
+      "cities": {
+        "tashkent": "Toshkent",
+        "samarkand": "Samarqand",
+        "bukhara": "Buxoro",
+        "namangan": "Namangan"
+      },
+      "typeLabel": "Shifoxona turi",
+      "typePlaceholder": "Turni tanlang",
+      "ratingLabel": "Reyting",
+      "ratingPlaceholder": "Minimal reytingni tanlang",
+      "clearFiltersButton": "Filtrlarni tozalash"
+    },
+    "hospitalsListTitle": "Shifoxonalar ({count})",
+    "sortOptions": {
+      "rating": "Reyting bo'yicha saralash",
+      "distance": "Masofa bo'yicha saralash", 
+      "beds": "O'rinlar soni bo'yicha saralash"
+    },
+    "hospitalCard": {
+      "reviews": "{count} sharh",
+      "beds": "o'rin",
+      "servicesSuffix": "xizmatlar",
+      "callButton": "Qo'ng'iroq qilish",
+      "bookButton": "Qabulga yozilish"
+    },
+    "toastMessages": {
+      "call": "{hospitalName}ga qo'ng'iroq qilinmoqda...",
+      "bookAppointment": "{hospitalName} bilan qabul belgilandi!",
+      "clearFilters": "Filtrlar tozalandi."
+    },
+    "count": "{count} shifoxona",
+    "loadMoreButton": "Ko'proq ko'rish"
+  },
   "Auth": {
     "login": {
       "title": "Kirish",
