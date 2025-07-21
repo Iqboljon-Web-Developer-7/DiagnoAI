@@ -17,7 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { useAppContext } from "@/context/app-context"
+import { useAppStore } from "@/context/store"
 import { User, LogOut, LogIn, UserPlus } from "lucide-react"
 import Link from "next/link"
 import { LoginModal } from "./login-modal"
@@ -25,7 +25,7 @@ import { RegisterModal } from "./register-modal"
 import { useRouter } from "next/navigation"
 
 export function UserMenu({ className }: { className?: string }) {
-  const { user, isLoggedIn, logout } = useAppContext()
+  const { user, isLoggedIn, logout } = useAppStore()
   const t = useTranslations('UserMenu')
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)

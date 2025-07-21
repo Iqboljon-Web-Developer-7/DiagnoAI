@@ -158,7 +158,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs }) => {
           />
         )}
       </div>
-      {tabs.length > 0 && (
+      {hiddenTabs.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="ml-2 p-2 text-gray-600 hover:text-blue-500 focus:outline-none">

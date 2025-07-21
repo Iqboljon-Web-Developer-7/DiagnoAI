@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { useAppContext } from "@/context/app-context"
+import { useAppStore } from "@/context/store"
 import { LoginModal } from "@/components/login-modal"
 import { RegisterModal } from "@/components/register-modal"
 import { HeroSection } from "@/app/[locale]/components/hero-section"
@@ -13,7 +13,7 @@ import { CTASection } from "@/app/[locale]/components/cta-section"
 
 export default function HomePage() {
   const router = useRouter()
-  const { isLoggedIn } = useAppContext()
+  const { isLoggedIn } = useAppStore()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
 

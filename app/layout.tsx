@@ -1,22 +1,19 @@
-import type { Metadata } from 'next'
-import '@/styles/globals.css'
-import { AppProvider } from "@/context/app-context"
-
-export const metadata: Metadata = MetaData
-
+import type { Metadata } from "next";
+import "@/styles/globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { MetaData } from './MetaData';
+import { MetaData } from "./MetaData";
 
+export const metadata: Metadata = MetaData;
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <AppProvider>
+    <>
       {children}
       <Toaster />
-    </AppProvider>
-  )
+    </>
+  );
 }

@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { useAppContext } from "@/context/app-context"
+import { useAppStore } from "@/context/store"
 import { Loader2 } from "lucide-react"
 
 interface LoginModalProps {
@@ -25,7 +25,7 @@ interface LoginModalProps {
 }
 
 export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
-  const { login } = useAppContext()
+  const { login } = useAppStore()
   const t = useTranslations('Auth')
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")

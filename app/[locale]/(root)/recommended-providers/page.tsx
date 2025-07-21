@@ -7,12 +7,12 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Star, MapPin, Clock, Phone, Calendar, Filter } from "lucide-react"
-import { useAppContext } from "@/context/app-context"
+import { useAppStore } from "@/context/store"
 import { useTranslations } from 'next-intl'
 import { useToast } from "@/hooks/use-toast"
 
 export default function RecommendedProvidersPage() {
-  const { addAppointment } = useAppContext()
+  const { addAppointment } = useAppStore()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCity, setSelectedCity] = useState("")
   const [selectedSpecialty, setSelectedSpecialty] = useState("")

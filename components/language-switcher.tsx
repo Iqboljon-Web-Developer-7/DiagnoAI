@@ -22,11 +22,6 @@ export function LanguageSwitcher() {
   const router = useRouter();
 
   const switchLocale = (newLocale: string) => {
-    const isPathnameEqualToLocalse = pathname !== "uz" || "en" || "ru"
-    console.log(newLocale);
-    alert(isPathnameEqualToLocalse);
-
-
     startTransition(() => {
       router.replace(`/${newLocale}${pathname}`);
     });

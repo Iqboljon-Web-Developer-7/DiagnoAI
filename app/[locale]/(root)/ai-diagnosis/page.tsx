@@ -8,7 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload, Brain, FileText, ImageIcon, AlertTriangle, CheckCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useAppContext } from "@/context/app-context";
+import { useAppStore } from "@/context/store";
 import { LoginModal } from "@/components/login-modal";
 import { useTranslations, useMessages } from "next-intl";
 import { useToast } from "@/hooks/use-toast";
@@ -25,7 +25,7 @@ const symptomKeys = ["headache", "fever", "cough", "abdominalPain", "fatigue"] a
 export default function AIDiagnosisPage() {
   const t = useTranslations('aiDiagnosis');
   const messages = useMessages();
-  const { isLoggedIn, addDiagnosis } = useAppContext();
+  const { isLoggedIn, addDiagnosis } = useAppStore();
 
   const [files, setFiles] = useState<File[]>([]);
   const [symptoms, setSymptoms] = useState('');

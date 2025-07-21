@@ -22,12 +22,12 @@ import {
   Loader2,
 } from "lucide-react"
 import Link from "next/link"
-import { useAppContext } from "@/context/app-context"
+import { useAppStore } from "@/context/store"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 
 export default function DashboardPage() {
-  const { user, diagnoses, appointments, addAppointment } = useAppContext()
+  const { user, diagnoses, appointments, addAppointment } = useAppStore()
   const router = useRouter()
   const [activeTab, setActiveTab] = useState("diagnoses")
   const [showSuccessToast, setShowSuccessToast] = useState(false)

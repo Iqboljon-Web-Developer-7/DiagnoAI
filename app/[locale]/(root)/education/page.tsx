@@ -6,14 +6,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Star, MapPin, Users, Phone, Calendar, Filter, Search } from "lucide-react"
-import { useAppContext } from "@/context/app-context"
+import { useAppStore } from "@/context/store"
 import { useTranslations, useMessages } from "next-intl"
 import { useToast } from "@/hooks/use-toast"
 
-export default function EducationPage({ params }: { params: { locale: string } }) {
+export default function EducationPage() {
   const translations = useTranslations("education")
   const messages = useMessages()
-  const { addAppointment } = useAppContext()
+  const { addAppointment } = useAppStore()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCity, setSelectedCity] = useState("")
   const [selectedType, setSelectedType] = useState("")

@@ -5,15 +5,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Star, MapPin, Clock, Phone, Calendar, Filter, Search, Hospital } from "lucide-react"
-import { useAppContext } from "@/context/app-context"
+import { Star, MapPin, Phone, Calendar, Filter, Search, Hospital } from "lucide-react"
+import { useAppStore } from "@/context/store"
 import { useTranslations, useMessages } from "next-intl"
 import { useToast } from "@/hooks/use-toast"
 
 export default function HospitalsPage({ params }: { params: { locale: string } }) {
   const translations = useTranslations("hospitals")
   const messages = useMessages()
-  const { addAppointment } = useAppContext()
+  const { addAppointment } = useAppStore()
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCity, setSelectedCity] = useState("")
   const [selectedType, setSelectedType] = useState("")
