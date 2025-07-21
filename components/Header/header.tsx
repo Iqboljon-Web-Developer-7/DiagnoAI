@@ -1,13 +1,14 @@
 "use client"
 
 import { useTranslations } from "next-intl";
-
+import { motion } from "framer-motion";
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import CollapsibleTabs from '../CollapsibleTabs';
 import { LanguageSwitcher } from '../language-switcher';
 import { UserMenu } from '../user-menu';
-export  function Header() {
+
+export function Header() {
   const t = useTranslations('navigation');
 
   const navigation = [
@@ -21,17 +22,32 @@ export  function Header() {
   ];
 
   return (
-    <header className="bg-white border-b shadow-sm max-w-7xl mx-auto px-[1%] flex justify-between items-center h-16 z-20">
-      <Link href="/" className="flex items-center space-x-2 shrink-0">
-        <Image src="/logo.jpg" width={128} height={32} alt="Logo" />
-      </Link>
+    <motion.header
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="bg-white/70 w-full rounded-2xl backdrop-blur-sm sticky top-0 border-b shadow-sm max-w-7xl mx-auto px-[1%] flex justify-between items-center h-16 z-20"
+    >
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        transition={{ duration: 0.2 }}
+      >
+        <Link href="/" className="flex items-center space-x-2 shrink-0">
+          <Image src="/logo.jpg" width={128} height={32} alt="Logo" />
+        </Link>
+      </motion.div>
 
       <CollapsibleTabs tabs={navigation} />
 
-      <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4">
+      <motion.div 
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4"
+      >
         <LanguageSwitcher />
         <UserMenu />
-      </div>
-    </header>
+      </motion.div>
+    </motion.header>
   );
 }

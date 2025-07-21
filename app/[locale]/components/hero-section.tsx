@@ -70,7 +70,7 @@ export function HeroSection({ handleGetDiagnosis, handleUploadAnalysis, handleEm
         animate="visible"
       ></motion.span>
       <motion.div
-        className="container relative max-w-6xl mx-auto px-1 sm:px-6 lg:px-8 z-20"
+        className="container relative max-w-6xl mx-auto px-1 sm:px-6 lg:px-8 z-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"

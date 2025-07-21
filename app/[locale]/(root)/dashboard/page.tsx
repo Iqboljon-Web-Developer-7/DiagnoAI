@@ -37,8 +37,8 @@ export default function DashboardPage() {
   const { toast } = useToast()
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user")
-    if (!storedUser) {
+    // const storedUser = localStorage.getItem("user")
+    if (user) {
       router.push("/")
     }
   }, [])

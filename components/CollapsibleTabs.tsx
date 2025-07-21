@@ -128,7 +128,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs }) => {
   }, [tabs]);
 
   return (
-    <div className="relative flex w-full items-center z-20">
+    <div className="relative flex w-full items-center z-30">
       <div className="flex flex-1 overflow-hidden relative items-center" ref={containerRef}>
         <div className="w-full flex items-center justify-center">
           {visibleTabs.map((tab, index) => (

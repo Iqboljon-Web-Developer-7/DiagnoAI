@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { useTranslations } from 'next-intl'
 import { Button } from "@/components/ui/button"
 import {
@@ -20,15 +19,11 @@ import {
 import { useAppStore } from "@/context/store"
 import { User, LogOut, LogIn, UserPlus } from "lucide-react"
 import Link from "next/link"
-import { LoginModal } from "./login-modal"
-import { RegisterModal } from "./register-modal"
 import { useRouter } from "next/navigation"
 
 export function UserMenu({ className }: { className?: string }) {
   const { user, isLoggedIn, logout } = useAppStore()
   const t = useTranslations('UserMenu')
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
   const router = useRouter()
 
   const handleLogout = () => {
@@ -37,13 +32,12 @@ export function UserMenu({ className }: { className?: string }) {
   }
 
   const openLoginModal = () => {
-    setIsRegisterModalOpen(false)
-    setIsLoginModalOpen(true)
+    router.push("/login")
   }
 
   const openRegisterModal = () => {
-    setIsLoginModalOpen(false)
-    setIsRegisterModalOpen(true)
+    router.push("/register")
+
   }
 
   if (isLoggedIn && user) {
@@ -114,13 +108,6 @@ export function UserMenu({ className }: { className?: string }) {
         </TooltipProvider>
       </div>
 
-      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
-
-      <RegisterModal
-        isOpen={isRegisterModalOpen}
-        onClose={() => setIsRegisterModalOpen(false)}
-        onLoginClick={openLoginModal}
-      />
     </div>
   )
 }
