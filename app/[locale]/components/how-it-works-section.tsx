@@ -1,9 +1,8 @@
 import { getTranslations } from 'next-intl/server';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Upload, Brain, UserCheck, MessageSquare } from "lucide-react"
-import { JSX } from 'react';
 
-export async function HowItWorksSection():Promise<JSX.Element> {
+export async function HowItWorksSection() {
   const t = await getTranslations('Index');
 
   return (
