@@ -12,7 +12,7 @@ export default async function HomePage() {
         analysisPath="/analysis"
         emergencyPath="/emergency-help"
       />
-      {await <HowItWorksSection />}
+      <HowItWorksSection />
       <FeaturesSection />
       <TestimonialsSection />
       <CTASection

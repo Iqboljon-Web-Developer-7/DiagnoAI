@@ -26,7 +26,7 @@ export function Header() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut", delay:1 }}
-      className="bg-white/70 w-full rounded-2xl backdrop-blur-sm sticky top-0 border-b shadow-sm max-w-7xl mx-auto px-[1%] flex justify-between items-center md:h-16 z-20"
+      className="bg-white/70 w-full rounded-2xl backdrop-blur-sm sticky top-0 border-b shadow-sm max-w-7xl mx-auto px-[1%] flex justify-between items-center md:h-16 z-30"
     >
       <motion.div
         whileHover={{ scale: 1.05 }}

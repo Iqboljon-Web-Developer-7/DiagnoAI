@@ -1,15 +1,17 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Upload, Brain, UserCheck, MessageSquare } from "lucide-react"
 
-export async function HowItWorksSection() {
-  const t = await getTranslations('Index');
+export function HowItWorksSection() {
+  const t = useTranslations('Index');
 
   return (
     <section className="py-8 sm:py-12 md:py-16 bg-[#F4F4F4]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 sm:mb-12 md:mb-16 text-center sm:text-left">
-          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
             {t('howItWorks.title')}
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto sm:mx-0">

@@ -10,7 +10,7 @@ export function FeaturesSection() {
     <section className="py-8 xs:py-10 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
         <div className="mb-8 xs:mb-10 sm:mb-12 md:mb-16 lg:mb-20">
-          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 xs:mb-4">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 xs:mb-4">
             {t('features.title')}
           </h2>
           <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl">
