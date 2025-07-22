@@ -25,24 +25,24 @@ export function Header() {
     <motion.header
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="bg-white/70 w-full rounded-2xl backdrop-blur-sm sticky top-0 border-b shadow-sm max-w-7xl mx-auto px-[1%] flex justify-between items-center h-16 z-20"
+      transition={{ duration: 0.5, ease: "easeOut", delay:1 }}
+      className="bg-white/70 w-full rounded-2xl backdrop-blur-sm sticky top-0 border-b shadow-sm max-w-7xl mx-auto px-[1%] flex justify-between items-center md:h-16 z-20"
     >
       <motion.div
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.2 }}
       >
         <Link href="/" className="flex items-center space-x-2 shrink-0">
-          <Image src="/logo.png" width={128} height={32} alt="Logo" />
+          <Image className="min-w-[2.125rem]" src="/logo.png" width={128} height={32} alt="Logo" />
         </Link>
       </motion.div>
 
       <CollapsibleTabs tabs={navigation} />
 
       <motion.div 
-        initial={{ x: 100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 1 }}
         className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4"
       >
         <LanguageSwitcher />

@@ -30,8 +30,10 @@ export function LanguageSwitcher() {
   return (
     <Select defaultValue={locale} onValueChange={switchLocale}>
       <SelectTrigger className='text-xs sm:text-base bg-transparent ring-0 border-none'>
-        <Globe className="h-3 w-3 mr-2" />
-        <SelectValue placeholder={t('switchLanguage')} />
+        <Globe className="h-3 w-3 sm:mr-2 mx-auto" />
+        <span className='!hidden sm:!block'>
+          <SelectValue className='hidden sm:block' placeholder={t('switchLanguage')} />
+        </span>
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="uz" className={locale === 'uz' ? 'bg-accent' : ''}>

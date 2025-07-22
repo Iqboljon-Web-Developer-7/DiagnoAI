@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Upload, Brain, Clock } from "lucide-react"
 import { motion, Variants } from "framer-motion"
 import HeroBgImg from "@/assets/images/hero/hero-bg.webp"
+import { Link } from "@/i18n/navigation"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -48,12 +49,12 @@ const overlayVariants = {
 };
 
 interface HeroSectionProps {
-  handleGetDiagnosis: () => void;
-  handleUploadAnalysis: () => void;
-  handleEmergencyHelp: () => void;
+  diagnosisPath: string;
+  analysisPath: string;
+  emergencyPath: string;
 }
 
-export function HeroSection({ handleGetDiagnosis, handleUploadAnalysis, handleEmergencyHelp }: HeroSectionProps) {
+export function HeroSection({ diagnosisPath, analysisPath, emergencyPath }: HeroSectionProps) {
   const t = useTranslations('Index');
 
   return (
@@ -61,7 +62,7 @@ export function HeroSection({ handleGetDiagnosis, handleUploadAnalysis, handleEm
       style={{
         backgroundImage: `url(${HeroBgImg.src})`,
       }}
-      className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-black bg-no-repeat"
+      className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-indigo-100 bg-no-repeat"
     >
       <motion.span
         className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2] z-10"
@@ -78,7 +79,7 @@ export function HeroSection({ handleGetDiagnosis, handleUploadAnalysis, handleEm
         <div className="items-center">
           <div className="text-center lg:text-left">
             <motion.h1
-              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6"
+              className="text-2xl max-w-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6"
               variants={textVariants as Variants}
             >
               {t('hero.title')}
@@ -96,34 +97,37 @@ export function HeroSection({ handleGetDiagnosis, handleUploadAnalysis, handleEm
               variants={containerVariants}
             >
               <motion.div variants={buttonVariants as Variants} whileHover="hover">
-                <Button
-                  variant="outline"
-                  className="w-full sm:w-auto bg-transparent hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base"
-                  onClick={handleGetDiagnosis}
-                >
-                  <Upload className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  {t('hero.getDiagnosis')}
-                </Button>
+                <Link href={diagnosisPath}>
+                  <Button
+                    variant="outline"
+                    className="w-full sm:w-auto bg-transparent hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base"
+                  >
+                    <Upload className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                    {t('hero.getDiagnosis')}
+                  </Button>
+                </Link>
               </motion.div>
               <motion.div variants={buttonVariants as Variants} whileHover="hover">
-                <Button
-                  variant="outline"
-                  className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base"
-                  onClick={handleUploadAnalysis}
-                >
-                  <Brain className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  {t('hero.uploadAnalysis')}
-                </Button>
+                <Link href={analysisPath}>
+                  <Button
+                    variant="outline"
+                    className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base"
+                  >
+                    <Brain className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                    {t('hero.uploadAnalysis')}
+                  </Button>
+                </Link>
               </motion.div>
               <motion.div variants={buttonVariants as Variants} whileHover="hover">
-                <Button
-                  variant="outline"
-                  className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base"
-                  onClick={handleEmergencyHelp}
-                >
-                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  {t('hero.emergencyHelp')}
-                </Button>
+                <Link href={emergencyPath}>
+                  <Button
+                    variant="outline"
+                    className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base"
+                  >
+                    <Clock className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                    {t('hero.emergencyHelp')}
+                  </Button>
+                </Link>
               </motion.div>
             </motion.div>
           </div>
