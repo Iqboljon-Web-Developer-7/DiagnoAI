@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { AlertTriangle, Phone, MapPin, Mic, Upload, Navigation, Loader2 } from "lucide-react"
 import { useTranslations, useMessages } from "next-intl"
 import { useToast } from "@/hooks/use-toast"
+import Image from "next/image"
 
 export default function EmergencyHelpPage() {
   const translations = useTranslations("emergency")
@@ -21,10 +22,11 @@ export default function EmergencyHelpPage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
 
+  console.log(selectedImage);
   const { toast } = useToast()
 
-  let messages = useMessages()
-  let immediateActions = Object.keys(messages.emergency?.immediateActions || {})
+  const messages = useMessages()
+  const immediateActions = Object.keys(messages.emergency?.immediateActions || {})
 
   const handleEmergencyAnalysis = () => {
     setIsAnalyzing(true)
@@ -86,16 +88,12 @@ export default function EmergencyHelpPage() {
   }
 
   useEffect(() => {
-    {
-      showSuccessToast && (
-        <>
-          {toast({
-            title: toastMessage,
-          })}
-        </>
-      )
+    if (showSuccessToast) {
+      toast({
+        title: toastMessage,
+      });
     }
-  }, [showSuccessToast])
+  }, [showSuccessToast, toast, toastMessage]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-red-50 to-red-100 flex flex-col">
@@ -157,7 +155,7 @@ export default function EmergencyHelpPage() {
 
                 {imagePreview && (
                   <div className="relative border border-red-200 rounded-lg p-2 bg-white shadow-sm">
-                    <img src={imagePreview} alt="Uploaded" className="max-h-40 sm:max-h-48 w-full object-contain rounded" />
+                    <Image src={imagePreview} alt="Uploaded" className="max-h-40 sm:max-h-48 w-full object-contain rounded" />
                     <Button
                       variant="outline"
                       size="sm"

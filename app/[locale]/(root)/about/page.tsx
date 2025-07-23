@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Brain, Shield, Clock, Users, Award, Globe, Heart, CheckCircle } from "lucide-react"
+import { Brain, Shield, Clock, Users, Award, Globe, Heart } from "lucide-react"
 import Link from "next/link"
 import { useTranslations, useMessages } from "next-intl"
 
@@ -11,6 +11,7 @@ import AlisherKarimovImage from "@/assets/images/doctor/doctor-man-1.jpg"
 import DilnozaRahimovaImage from "@/assets/images/doctor/doctor-woman-1.jpg"
 import BoburToshmatovImage from "@/assets/images/doctor/doctor-man-2.jpg"
 import MalikaUsmonovaImage from "@/assets/images/doctor/doctor-woman-2.jpg"
+import Image from "next/image"
 
 export default function AboutPage() {
   const timelineItems = [
@@ -63,11 +64,11 @@ export default function AboutPage() {
   }))
 
   // Extract milestones from messages
-  const milestones = Object.keys(messages.about?.history?.milestones || {}).map((key) => ({
-    year: messages.about.history.milestones[key].year,
-    title: messages.about.history.milestones[key].title,
-    description: messages.about.history.milestones[key].description,
-  }))
+  // const milestones = Object.keys(messages.about?.history?.milestones || {}).map((key) => ({
+  //   year: messages.about.history.milestones[key].year,
+  //   title: messages.about.history.milestones[key].title,
+  //   description: messages.about.history.milestones[key].description,
+  // }))
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -170,7 +171,7 @@ export default function AboutPage() {
             {teamMembers.map((member, index) => (
               <Card key={index} className="overflow-hidden border-0 shadow-lg">
                 <CardContent className="p-0">
-                  <img
+                  <Image
                     src={member.image || "/placeholder.svg"}
                     alt={member.name}
                     className="w-full h-48 object-cover object-top"
@@ -204,8 +205,8 @@ export default function AboutPage() {
             <span className="top-[37%] sticky left-1/2 transform -translate-x-1/2 bg-white w-4 h-4 z-10 flex justify-center">
               <div className="w-[30rem] h-[712px] shrink-0 bg-white z-10"></div>
             </span>
-            {timelineItems.map((item, _index) => (
-              <div key={item.year} className="relative">
+            {timelineItems.map((item, index) => (
+              <div key={item.year || index} className="relative">
                 <div
                   className={`flex relative ${item.position === "left" ? "justify-start" : "justify-end"} w-full`}
                 >

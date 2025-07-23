@@ -15,11 +15,14 @@ import {
 } from '@/components/ui/select';
 
 export function LanguageSwitcher() {
-  const [_, startTransition] = useTransition();
+  const [transition, startTransition] = useTransition();
   const locale = useLocale();
   const pathname = usePathname();
   const t = useTranslations('Language');
   const router = useRouter();
+
+  console.log(transition);
+
 
   const switchLocale = (newLocale: string) => {
     startTransition(() => {

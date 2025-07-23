@@ -18,6 +18,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayout) {
   try {
     messages = (await import(`../../messages/${locale}.json`)).default;
   } catch (error) {
+    console.log(error);
     return notFound();
   }
 
@@ -25,8 +26,10 @@ export default async function LocaleLayout({ children, params }: LocaleLayout) {
     <html lang={locale}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
+          {/* @ts-expect-error Async Server Component */}
           <Header />
           {children}
+          {/* @ts-expect-error Async Server Component */}
           <Footer />
         </NextIntlClientProvider>
       </body>

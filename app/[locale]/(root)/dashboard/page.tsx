@@ -37,23 +37,25 @@ export default function DashboardPage() {
   const { toast } = useToast()
 
   useEffect(() => {
-    // const storedUser = localStorage.getItem("user")
     if (user) {
       router.push("/")
     }
-  }, [])
+  }, [router, user])
 
   const handleDownload = (diagnosisId: string) => {
+    console.log(diagnosisId);
     setToastMessage("Hisobot yuklab olindi")
     setShowSuccessToast(true)
   }
 
   const handleReschedule = (appointmentId: string) => {
+    console.log(appointmentId);
     setToastMessage("Qayta rejalashtirish oynasi ochildi")
     setShowSuccessToast(true)
   }
 
   const handleCancel = (appointmentId: string) => {
+    console.log(appointmentId);
     setToastMessage("Uchrashish bekor qilindi")
     setShowSuccessToast(true)
   }
@@ -84,7 +86,7 @@ export default function DashboardPage() {
     { label: "Jami tashxislar", value: diagnoses.length.toString(), icon: Brain, color: "blue" },
     { label: "Shifokor uchrashuvlari", value: appointments.length.toString(), icon: User, color: "green" },
     { label: "Faol davolanish", value: "2", icon: Heart, color: "red" },
-    { label: "Sog'liq ko'rsatkichi", value: "85%", icon: Activity, color: "purple" },
+    { label: "Sog&apos;liq ko&apos;rsatkichi", value: "85%", icon: Activity, color: "purple" },
   ]
 
   return (
@@ -117,7 +119,7 @@ export default function DashboardPage() {
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Tezkor Harakatlar</CardTitle>
-            <CardDescription>Eng ko'p ishlatiladigan xizmatlar</CardDescription>
+            <CardDescription>Eng ko&apos;p ishlatiladigan xizmatlar</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-4 gap-4">
@@ -158,7 +160,7 @@ export default function DashboardPage() {
             <TabsTrigger value="diagnoses">Mening Tashxislarim</TabsTrigger>
             <TabsTrigger value="appointments">Qabulga Yozilganlar</TabsTrigger>
             <TabsTrigger value="consultations">Maslahatlar</TabsTrigger>
-            <TabsTrigger value="library">Sog'liq Kutubxonasi</TabsTrigger>
+            <TabsTrigger value="library">Sog&apos;liq Kutubxonasi</TabsTrigger>
             <TabsTrigger value="settings">Sozlamalar</TabsTrigger>
           </TabsList>
 
@@ -166,12 +168,19 @@ export default function DashboardPage() {
           <TabsContent value="diagnoses" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>So'nggi Tashxislar</CardTitle>
+                <CardTitle>So&apos;nggi Tashxislar</CardTitle>
                 <CardDescription>AI yordamida olingan tashxislaringiz tarixi</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {diagnoses.map((diagnosis:any) => (
+                  {diagnoses.map((diagnosis: {
+                    id: string;
+                    diagnosis: string;
+                    date: string;
+                    status: string;
+                    confidence: number;
+                    doctor: string;
+                  }) => (
                     <div key={diagnosis.id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-3">
                         <div>
@@ -222,7 +231,15 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {appointments.map((appointment:any) => (
+                  {appointments.map((appointment: {
+                    id: string;
+                    doctor: string;
+                    specialty: string;
+                    date: string;
+                    time: string;
+                    type: string;
+                    status: string;
+                  }) => (
                     <div key={appointment.id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-3">
                         <div>
@@ -275,7 +292,7 @@ export default function DashboardPage() {
               <CardContent>
                 <div className="text-center py-8">
                   <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500 mb-4">Hozircha faol maslahatlar yo'q</p>
+                  <p className="text-gray-500 mb-4">Hozircha faol maslahatlar yo&apos;q</p>
                   <Button onClick={handleStartConsultation}>
                     <MessageSquare className="w-4 h-4 mr-2" />
                     Yangi maslahat boshlash
@@ -289,7 +306,7 @@ export default function DashboardPage() {
           <TabsContent value="library" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Sog'liq Kutubxonasi</CardTitle>
+                <CardTitle>Sog&apos;liq Kutubxonasi</CardTitle>
                 <CardDescription>Foydali maqolalar, videolar va elektron kitoblar</CardDescription>
               </CardHeader>
               <CardContent>
@@ -297,18 +314,18 @@ export default function DashboardPage() {
                   <div className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow">
                     <BookOpen className="w-8 h-8 text-blue-600 mb-3" />
                     <h3 className="font-semibold mb-2">Viral infeksiyalar</h3>
-                    <p className="text-sm text-gray-600 mb-3">ARVI va gripp haqida to'liq ma'lumot</p>
+                    <p className="text-sm text-gray-600 mb-3">ARVI va gripp haqida to&apos;liq ma&apos;lumot</p>
                     <Button size="sm" variant="outline">
-                      O'qish
+                      O&apos;qish
                     </Button>
                   </div>
 
                   <div className="border border-gray-200 rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow">
                     <BookOpen className="w-8 h-8 text-green-600 mb-3" />
-                    <h3 className="font-semibold mb-2">Sog'lom turmush tarzi</h3>
-                    <p className="text-sm text-gray-600 mb-3">Sog'lom ovqatlanish va sport</p>
+                    <h3 className="font-semibold mb-2">Sog&apos;lom turmush tarzi</h3>
+                    <p className="text-sm text-gray-600 mb-3">Sog&apos;lom ovqatlanish va sport</p>
                     <Button size="sm" variant="outline">
-                      O'qish
+                      O&apos;qish
                     </Button>
                   </div>
 
@@ -317,7 +334,7 @@ export default function DashboardPage() {
                     <h3 className="font-semibold mb-2">Stress boshqaruvi</h3>
                     <p className="text-sm text-gray-600 mb-3">Ruhiy salomatlik va stress</p>
                     <Button size="sm" variant="outline">
-                      O'qish
+                      O&apos;qish
                     </Button>
                   </div>
                 </div>
@@ -330,13 +347,13 @@ export default function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Profil Sozlamalari</CardTitle>
-                <CardDescription>Shaxsiy ma'lumotlar va xizmat sozlamalari</CardDescription>
+                <CardDescription>Shaxsiy ma&apos;lumotlar va xizmat sozlamalari</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between py-3 border-b">
                     <div>
-                      <h3 className="font-medium">Shaxsiy ma'lumotlar</h3>
+                      <h3 className="font-medium">Shaxsiy ma&apos;lumotlar</h3>
                       <p className="text-sm text-gray-600">Ism, telefon, email</p>
                     </div>
                     <Button variant="outline" size="sm">
@@ -370,11 +387,11 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-between py-3">
                     <div>
                       <h3 className="font-medium">Maxfiylik</h3>
-                      <p className="text-sm text-gray-600">Ma'lumotlar maxfiyligi va ruxsatlar</p>
+                      <p className="text-sm text-gray-600">Ma&apos;lumotlar maxfiyligi va ruxsatlar</p>
                     </div>
                     <Button variant="outline" size="sm">
                       <Settings className="w-4 h-4 mr-1" />
-                      Ko'rish
+                      Ko&apos;rish
                     </Button>
                   </div>
                 </div>

@@ -10,6 +10,7 @@ import { useAppStore } from "@/context/store";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
+import Image from "next/image";
 
 // Define Hospital interface for type safety
 interface Hospital {
@@ -49,7 +50,7 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
   return R * c;
 }
 
-export default function page() {
+export default function Page() {
   const translations = useTranslations("hospitals");
   const { latitude, longitude, setLocation, addAppointment } = useAppStore();
   const [searchTerm, setSearchTerm] = useState("");
@@ -63,6 +64,7 @@ export default function page() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  console.log(isLoading);
   const { toast } = useToast();
 
   // Get user location
@@ -89,7 +91,22 @@ export default function page() {
       try {
         setIsLoading(true);
         const response = await axios.get(`${API_BASE_URL}/hospitals/`);
-        const apiHospitals: Hospital[] = response.data.map((hospital: any) => ({
+        interface ApiHospitalResponse {
+          id: number;
+          name: string;
+          latitude: number;
+          longitude: number;
+          type?: string;
+          address?: string;
+          description?: string;
+          rating?: number;
+          reviews?: number;
+          beds?: number;
+          services?: string;
+          image?: string;
+        }
+
+        const apiHospitals: Hospital[] = response.data.map((hospital: ApiHospitalResponse) => ({
           id: hospital.id,
           name: hospital.name,
           latitude: hospital.latitude,
@@ -334,8 +351,8 @@ export default function page() {
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
                       <div className="relative">
-                        <img
-                          src={hospital.image}
+                        <Image
+                          src={hospital.image!}
                           alt={hospital.name}
                           className="w-20 h-20 rounded-full object-cover"
                         />

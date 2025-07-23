@@ -18,7 +18,7 @@ export async function HeroSection({ diagnosisPath, analysisPath, emergencyPath }
       style={{
         backgroundImage: `url(${HeroBgImg.src})`,
       }}
-      className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-indigo-100 bg-no-repeat"
+      className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-sky-800 bg-no-repeat"
     >
       <span
         className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2] z-10"

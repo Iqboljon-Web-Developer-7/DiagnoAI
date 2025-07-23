@@ -10,6 +10,7 @@ import { Star, MapPin, Clock, Phone, Calendar, Filter } from "lucide-react"
 import { useAppStore } from "@/context/store"
 import { useTranslations } from 'next-intl'
 import { useToast } from "@/hooks/use-toast"
+import Image from "next/image"
 
 export default function RecommendedProvidersPage() {
   const { addAppointment } = useAppStore()
@@ -85,7 +86,10 @@ export default function RecommendedProvidersPage() {
     setShowSuccessToast(true)
   }
 
-  const handleBookAppointment = (doctor: any) => {
+  const handleBookAppointment = (doctor: {
+    name: string;
+    specialty: string;
+  }) => {
     addAppointment({
       doctor: doctor.name,
       specialty: doctor.specialty,
@@ -122,16 +126,12 @@ export default function RecommendedProvidersPage() {
   const { toast } = useToast()
 
   useEffect(() => {
-    {
-      showSuccessToast && (
-        <>
-          {toast({
-            title: toastMessage,
-          })}
-        </>
-      )
+    if (showSuccessToast) {
+      toast({
+        title: toastMessage,
+      });
     }
-  }, [])
+  }, [showSuccessToast, toast, toastMessage])
 
 
   return (
@@ -249,7 +249,7 @@ export default function RecommendedProvidersPage() {
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
                       <div className="relative">
-                        <img
+                        <Image
                           src={doctor.image || "/placeholder.svg"}
                           alt={doctor.name}
                           className="w-20 h-20 rounded-full object-cover"

@@ -1,10 +1,8 @@
 import Link from "next/link"
-import { Brain } from "lucide-react"
-import { useTranslations } from 'next-intl'
-import Image from "next/image"
+import { getTranslations } from 'next-intl/server'
 
-export function Footer() {
-  const t = useTranslations('Footer')
+export async function Footer() {
+  const t = await getTranslations('Footer')
 
   return (
     <footer className="bg-[#2B6A73] text-white py-12 z-20 relative">

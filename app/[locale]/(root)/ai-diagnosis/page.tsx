@@ -13,14 +13,14 @@ import { LoginModal } from "@/components/login-modal";
 import { useTranslations, useMessages } from "next-intl";
 import { useToast } from "@/hooks/use-toast";
 
-interface Diagnosis {
-  diagnosis: string;
-  confidence: number;
-  status: string;
-  doctor: string;
-}
+// interface Diagnosis {
+//   diagnosis: string;
+//   confidence: number;
+//   status: string;
+//   doctor: string;
+// }
 
-const symptomKeys = ["headache", "fever", "cough", "abdominalPain", "fatigue"] as const;
+// const symptomKeys = ["headache", "fever", "cough", "abdominalPain", "fatigue"] as const;
 
 export default function AIDiagnosisPage() {
   const t = useTranslations('aiDiagnosis');
@@ -47,11 +47,11 @@ export default function AIDiagnosisPage() {
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleAddSymptom = (symptom: string) => {
-    if (!symptoms.includes(symptom)) {
-      setSymptoms(prev => prev ? `${prev}, ${symptom}` : symptom);
-    }
-  };
+  // const handleAddSymptom = (symptom: string) => {
+  //   if (!symptoms.includes(symptom)) {
+  //     setSymptoms(prev => prev ? `${prev}, ${symptom}` : symptom);
+  //   }
+  // };
 
   const startAnalysis = () => {
     if (!isLoggedIn) return setShowLoginModal(true);

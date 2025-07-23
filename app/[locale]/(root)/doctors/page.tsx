@@ -10,6 +10,7 @@ import { useAppStore } from "@/context/store";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
+import Image from "next/image";
 
 // Define Doctor interface to ensure plain objects
 interface Doctor {
@@ -35,7 +36,7 @@ interface Specialty {
 
 const API_BASE_URL = "https://api.diagnoai.uz/api";
 
-export default function page() {
+export default function Page() {
   const translations = useTranslations("doctors");
   const { user, latitude, longitude, setLocation, addAppointment } = useAppStore();
   const [searchTerm, setSearchTerm] = useState("");
@@ -48,7 +49,10 @@ export default function page() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  console.log(isLoading);
+  
 
+  // Rest of the component code remains exactly the same
   // Get user location
   useEffect(() => {
     if (navigator.geolocation) {
@@ -72,11 +76,11 @@ export default function page() {
     const fetchDoctors = async () => {
       try {
         setIsLoading(true);
-        const params: Record<string, any> = { latitude, longitude };
+        const params: Record<string, string> = { latitude, longitude };
         if (selectedSpecialty) params.field = selectedSpecialty;
         
         const response = await axios.get(`${API_BASE_URL}/doctors/`, { params });
-        const mappedDoctors = response.data.map((doctor: any) => ({
+        const mappedDoctors: Doctor[] = response.data.map((doctor: Doctor) => ({
           id: doctor.id,
           name: doctor.name,
           field: doctor.field,
@@ -133,6 +137,7 @@ export default function page() {
       );
       setShowSuccessToast(true);
     } catch (err) {
+      console.log(err);
       setToastMessage(translations("toastMessages.error") || "Failed to book appointment");
       setShowSuccessToast(true);
     }
@@ -174,10 +179,6 @@ export default function page() {
       setShowSuccessToast(false);
     }
   }, [showSuccessToast, toastMessage, toast]);
-
-  // if (isLoading) {
-  //   return <div className="text-center py-8">{translations("loading") || "Loading..."}</div>;
-  // }
 
   if (error) {
     return (
@@ -308,7 +309,7 @@ export default function page() {
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
                       <div className="relative">
-                        <img
+                        <Image
                           src={doctor.image || "/placeholder-doctor.jpg"}
                           alt={doctor.name}
                           className="w-20 h-20 rounded-full object-cover"

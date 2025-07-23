@@ -57,6 +57,8 @@ export function RegisterModal({ isOpen, onClose, onSuccess, onLoginClick }: Regi
         setError(t('errors.registrationFailed'))
       }
     } catch (err) {
+      console.log(err);
+      
       setError(t('errors.general'))
     } finally {
       setIsLoading(false)

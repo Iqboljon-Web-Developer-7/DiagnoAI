@@ -7,9 +7,13 @@ import { Link } from '@/i18n/navigation';
 import { Button } from './ui/button';
 
 // Utility to debounce a function
-const debounce = (func: (...args: any[]) => void, wait: number) => {
-  let timeout: NodeJS.Timeout;
-  return (...args: any[]) => {
+interface DebouncedFunction<T extends unknown[]> {
+  (...args: T): void;
+}
+
+const debounce = <T extends unknown[]>(func: DebouncedFunction<T>, wait: number) => {
+  let timeout: ReturnType<typeof setTimeout>;
+  return (...args: T) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), wait);
   };
@@ -22,11 +26,12 @@ interface Tab {
 
 interface CollapsibleTabsProps {
   tabs: Tab[];
+  className?: string
 }
 
-const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs }) => {
+const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) => {
   const [visibleTabs, setVisibleTabs] = useState<Tab[]>([]);
-  const [hiddenTabs, setHiddenTabs] = useState<Tab[]>(tabs); // Initialize with all tabs hidden
+  const [hiddenTabs, setHiddenTabs] = useState<Tab[]>(tabs);
   const containerRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<(HTMLDivElement | null)[]>([]);
   const lastContainerWidth = useRef<number>(0);
@@ -38,7 +43,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs }) => {
       return;
     }
 
-    requestAnimationFrame(() => {
+    const updateTabs = () => {
       const containerWidth = Math.max(
         containerRef.current?.offsetWidth ? containerRef.current.offsetWidth - 40 : 0,
         100
@@ -53,13 +58,12 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs }) => {
       const visible: Tab[] = [];
       const hidden: Tab[] = [];
 
-      const firstTabWidth = tabsRef.current[0]?.offsetWidth || 100; // Fallback width
+      const firstTabWidth = tabsRef.current[0]?.offsetWidth || 100;
       if (tabs.length > 0 && firstTabWidth > containerWidth && containerWidth !== 0) {
         hidden.push(...tabs);
       } else {
         tabs.forEach((tab, index) => {
-          const tabWidth = tabsRef.current[index]?.offsetWidth || 100; // Fallback width
-          console.log(`Tab ${tab.label} width:`, tabWidth);
+          const tabWidth = tabsRef.current[index]?.offsetWidth || 100;
           totalWidth += tabWidth;
 
           if (totalWidth <= containerWidth || containerWidth === 0) {
@@ -70,52 +74,46 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs }) => {
         });
       }
 
-      const visibleChanged = visible.length !== visibleTabs.length ||
-        visible.some((tab, i) => tab.path !== visibleTabs[i]?.path);
-      const hiddenChanged = hidden.length !== hiddenTabs.length ||
-        hidden.some((tab, i) => tab.path !== hiddenTabs[i]?.path);
+      setVisibleTabs(visible);
+      setHiddenTabs(hidden);
+    };
 
-      if (visibleChanged || hiddenChanged) {
-        setVisibleTabs(visible);
-        setHiddenTabs(hidden);
-      }
-    });
-  }, [tabs, visibleTabs, hiddenTabs]);
+    requestAnimationFrame(updateTabs);
+  }, [tabs]);
 
-  const debouncedCalculateVisibleTabs = useCallback(
-    debounce(calculateVisibleTabs, 250),
-    [calculateVisibleTabs]
-  );
+  const debouncedCalculateVisibleTabs = useCallback(() => {
+    const debouncedFn = debounce(() => calculateVisibleTabs(), 250);
+    debouncedFn();
+  }, [calculateVisibleTabs]);
 
   useLayoutEffect(() => {
     calculateVisibleTabs();
+    const currentContainer = containerRef.current;
 
-    const resizeObserver = new ResizeObserver(() => {
-      debouncedCalculateVisibleTabs();
-    });
+    const resizeObserver = new ResizeObserver(debouncedCalculateVisibleTabs);
 
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
+    if (currentContainer) {
+      resizeObserver.observe(currentContainer);
     }
 
     window.addEventListener('resize', debouncedCalculateVisibleTabs);
 
     return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
+      if (currentContainer) {
+        resizeObserver.unobserve(currentContainer);
       }
       window.removeEventListener('resize', debouncedCalculateVisibleTabs);
     };
-  }, [debouncedCalculateVisibleTabs]);
+  }, [debouncedCalculateVisibleTabs, calculateVisibleTabs]);
 
   useLayoutEffect(() => {
     tabsRef.current = tabs.map((_, i) => tabsRef.current[i] || null);
   }, [tabs]);
 
   return (
-    <div className="relative flex w-full items-center z-30">
+    <div className={`relative flex w-full items-center z-30 ${className}`}>
       <div className="flex flex-1 overflow-hidden relative items-center" ref={containerRef}>
-        <div className="w-full flex items-center justify-center">
+        <div className={`w-full flex items-center justify-center ${visibleTabs?.length && 'animate-fade-in-down'}`}>
           {visibleTabs.map((tab, index) => (
             <div
               key={tab.path}

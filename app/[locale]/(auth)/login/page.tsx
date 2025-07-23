@@ -32,6 +32,7 @@ export default function LoginPage() {
         setError(t('errors.loginFailed'))
       }
     } catch (err) {
+      console.log(err);
       setError(t('errors.general'))
     } finally {
       setIsLoading(false)
@@ -45,7 +46,7 @@ export default function LoginPage() {
           <h1 className="text-2xl font-bold">{t('login.title')}</h1>
           <p className="text-muted-foreground">{t('login.description')}</p>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-4">
             <div className="space-y-2">
@@ -71,7 +72,7 @@ export default function LoginPage() {
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}
           </div>
-          
+
           <div className="flex justify-end space-x-2">
             <Button type="submit" disabled={isLoading}>
               {isLoading ? (

@@ -9,6 +9,7 @@ import { Star, MapPin, Users, Phone, Calendar, Filter, Search } from "lucide-rea
 import { useAppStore } from "@/context/store"
 import { useTranslations, useMessages } from "next-intl"
 import { useToast } from "@/hooks/use-toast"
+import Image from "next/image"
 
 export default function EducationPage() {
   const translations = useTranslations("education")
@@ -41,7 +42,10 @@ export default function EducationPage() {
     setShowSuccessToast(true)
   }
 
-  const handleInquiry = (institution: any) => {
+  const handleInquiry = (institution: {
+    name: string;
+    type: string;
+  }) => {
     addAppointment({
       doctor: institution.name, // Using institution name as doctor for consistency
       specialty: institution.type,
@@ -214,7 +218,7 @@ export default function EducationPage() {
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
                       <div className="relative">
-                        <img
+                        <Image
                           src={institution.image}
                           alt={institution.name}
                           className="w-20 h-20 rounded-full object-cover"

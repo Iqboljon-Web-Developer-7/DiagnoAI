@@ -41,6 +41,7 @@ export default function RegisterPage() {
                 setError(t('errors.registrationFailed'))
             }
         } catch (err) {
+            console.log(err);
             setError(t('errors.general'))
         } finally {
             setIsLoading(false)

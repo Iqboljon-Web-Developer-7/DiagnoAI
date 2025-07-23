@@ -46,6 +46,7 @@ export function LoginModal({ isOpen, onClose, onSuccess }: LoginModalProps) {
         setError(t('errors.loginFailed'))
       }
     } catch (err) {
+      console.log(err);
       setError(t('errors.general'))
     } finally {
       setIsLoading(false)

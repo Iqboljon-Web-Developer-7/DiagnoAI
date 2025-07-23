@@ -28,7 +28,7 @@ export default function NotFound() {
               <h1 className="text-6xl font-bold text-gray-900 mb-4">404</h1>
               <h2 className="text-3xl font-semibold text-gray-800 mb-6">Sahifa topilmadi</h2>
               <p className="text-xl text-gray-600 mb-8">
-                Siz qidirayotgan sahifa mavjud emas yoki o'chirilgan bo'lishi mumkin.
+                Siz qidirayotgan sahifa mavjud emas yoki o&apos;chirilgan bo&apos;lishi mumkin.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/">

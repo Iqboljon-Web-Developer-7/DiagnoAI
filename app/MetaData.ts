@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-export const MetaData:Metadata = {
+export const MetaData: Metadata = {
     title: {
         default: 'Diagno AI',
         template: '%s | Diagno AI'
@@ -65,5 +65,5 @@ export const MetaData:Metadata = {
         shortcut: '/favicon.ico',
         apple: '/favicon.ico'
     },
-    category: 'healthcare'
+    category: 'healthcare',
 }
