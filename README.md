@@ -21,7 +21,4 @@ Diagno AI is an intelligent medical diagnostic assistant that helps healthcare p
 
 - Frontend: Next.js, TailwindCSS
 - Deployment: Vercel
-
-## Getting Started
-
-1. Clone the repository:
+ 
