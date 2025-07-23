@@ -8,6 +8,7 @@ export default async function HomePage() {
 
   return (
     <div className="bg-gray-100">
+      {/* @ts-expect-error Async Server Component */}
       <HeroSection
         diagnosisPath="/diagnosis"
         analysisPath="/analysis"
