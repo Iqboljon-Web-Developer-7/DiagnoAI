@@ -1,7 +1,7 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Brain, Home, Search, ArrowLeft } from "lucide-react"
 import Image from "next/image"
+import { Home, Search, ArrowLeft } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function NotFound() {
   return (
@@ -49,12 +49,6 @@ export default function NotFound() {
 
           <footer className="bg-white py-6 border-t">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <div className="flex items-center justify-center space-x-2 mb-4">
-                <div className="w-6 h-6 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Brain className="w-3 h-3 text-white" />
-                </div>
-                <span className="text-lg font-bold text-gray-900">Diagno AI</span>
-              </div>
               <p className="text-gray-600">&copy; 2024 Diagno AI. Barcha huquqlar himoyalangan.</p>
             </div>
           </footer>

@@ -5,8 +5,9 @@ import { TestimonialsSection } from "@/app/[locale]/components/testimonials-sect
 import { CTASection } from "@/app/[locale]/components/cta-section";
 
 export default async function HomePage() {
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="bg-gray-100">
       <HeroSection
         diagnosisPath="/diagnosis"
         analysisPath="/analysis"
