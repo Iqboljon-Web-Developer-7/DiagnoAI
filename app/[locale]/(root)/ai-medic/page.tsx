@@ -1,8 +1,9 @@
-// @ts-nocheck
+// @typescript-eslint/ban-ts-comment
 
 "use client"
 
 import axios from "axios";
+import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 
 interface User {
@@ -44,7 +45,7 @@ export default function App() {
             }
         };
         fetchChats();
-    }, []);
+    }, [mockUser?.id]);
 
     // Fetch specific chat by ID
     const fetchChatById = async (id: string) => {
@@ -74,7 +75,7 @@ export default function App() {
         if (file) formData.append("file", file);
 
         try {
-            await axios.post(API_BASE_URL + "/chats/", formData, {       
+            await axios.post(API_BASE_URL + "/chats/", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             setChatMessages([...chatMessages, { user: message, ai: "AI response placeholder" }]);
@@ -208,8 +209,8 @@ export default function App() {
                     MediGrok is not a substitute for professional medical advice. Consult a healthcare professional for serious concerns.
                 </p>
                 <p>
-                    <a href="/contact" className="underline">Contact Support</a> |{' '}
-                    <a href="/privacy" className="underline">Privacy Policy</a>
+                    <Link href="/contact" className="underline">Contact Support</Link> |{' '}
+                    <Link href="/privacy" className="underline">Privacy Policy</Link>
                 </p>
             </footer>
         </div>
