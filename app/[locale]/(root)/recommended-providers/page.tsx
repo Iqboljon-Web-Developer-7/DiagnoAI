@@ -34,7 +34,7 @@ export default function RecommendedProvidersPage() {
       hospital: "Respublika Shifoxonasi",
       price: "150,000 so'm",
       availability: t("availibility"),
-      image: "/placeholder.svg?height=80&width=80",
+      image: "/placeholder-doctor.jpg",
       match: 95,
     },
     {
@@ -48,7 +48,7 @@ export default function RecommendedProvidersPage() {
       hospital: "Markaziy Klinika",
       price: "200,000 so'm",
       availability: t("availibility"),
-      image: "/placeholder.svg?height=80&width=80",
+      image: "/placeholder-doctor.jpg",
       match: 88,
     },
     {
@@ -62,7 +62,7 @@ export default function RecommendedProvidersPage() {
       hospital: "Oila Klinikasi",
       price: "120,000 so'm",
       availability: t("availibility"),
-      image: "/placeholder.svg?height=80&width=80",
+      image: "/placeholder-doctor.jpg",
       match: 92,
     },
     {
@@ -76,7 +76,7 @@ export default function RecommendedProvidersPage() {
       hospital: "Ixtisoslashgan Markaz",
       price: "250,000 so'm",
       availability: t("availibility"),
-      image: "/placeholder.svg?height=80&width=80",
+      image: "/placeholder-doctor.jpg",
       match: 85,
     },
   ]
@@ -136,9 +136,9 @@ export default function RecommendedProvidersPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-2 py-4 sm:py-6 sm:px-6 lg:px-8 lg:py-8">
         {/* Analysis Result Summary */}
-        <Card className="mb-8 border-green-200 bg-green-50">
+        {/* <Card className="mb-8 border-green-200 bg-green-50">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -151,19 +151,19 @@ export default function RecommendedProvidersPage() {
           <CardContent>
             <p className="text-green-800">{t('analysisSummaryText')}</p>
           </CardContent>
-        </Card>
+        </Card> */}
 
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Filters Sidebar */}
           <div className="lg:col-span-1">
             <Card>
-              <CardHeader>
+              <CardHeader className="p-4 sm:p-6">
                 <CardTitle className="flex items-center space-x-2">
                   <Filter className="w-5 h-5" />
                   <span>{t('filters')}</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="p-4 sm:p-6 space-y-4">
                 <div>
                   <label className="text-sm font-medium text-gray-700 mb-2 block">{t('searchLabel')}</label>
                   <Input
@@ -226,8 +226,8 @@ export default function RecommendedProvidersPage() {
 
           {/* Doctors List */}
           <div className="lg:col-span-3">
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-900">
+            <div className="flex justify-between items-center mb-6 flex-wrap gap-3">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
                 {t('recommendedDoctorsTitle', { count: filteredDoctors.length })}
               </h1>
               <Select defaultValue="match">
@@ -247,12 +247,14 @@ export default function RecommendedProvidersPage() {
               {filteredDoctors.map((doctor) => (
                 <Card key={doctor.id} className="hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
+                    <div className="flex items-start gap-4 flex-col sm:flex-row">
                       <div className="relative">
                         <Image
-                          src={doctor.image || "/placeholder.svg"}
+                          width={80}
+                          height={80}
+                          src={doctor.image || "/placeholder-doctor.jpg"}
                           alt={doctor.name}
-                          className="w-20 h-20 rounded-full object-cover"
+                          className="w-12 h-12 sm:w-20 sm:h-20 rounded-full object-cover"
                         />
                         <Badge className="absolute -top-2 -right-2 bg-green-600 text-white text-xs">
                           {doctor.match}%
@@ -260,7 +262,7 @@ export default function RecommendedProvidersPage() {
                       </div>
 
                       {/* Doctor Info */}
-                      <div className="flex-1">
+                      <div className="flex-1 w-full">
                         <div className="flex items-start justify-between w-full">
                           <div className="w-full">
                             <h3 className="text-xl font-bold text-gray-900 mb-1">{doctor.name}</h3>
@@ -269,7 +271,7 @@ export default function RecommendedProvidersPage() {
                               {doctor.experience} • {doctor.hospital}
                             </p>
 
-                            <div className="flex items-center space-x-4 mb-3">
+                            <div className="flex items-center space-x-4 mb-3 flex-wrap gap-3">
                               <div className="flex items-center space-x-1">
                                 <Star className="w-4 h-4 text-yellow-400 fill-current" />
                                 <span className="font-medium">{doctor.rating}</span>
@@ -287,20 +289,20 @@ export default function RecommendedProvidersPage() {
                               </div>
                             </div>
 
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between flex-wrap gap-2">
                               <div>
                                 <span className="text-lg font-bold text-gray-900">{doctor.price}</span>
                                 <span className="text-gray-500 text-sm ml-1">{t('doctorConsultation')}</span>
                               </div>
 
-                              <div className="flex space-x-3">
-                                <Button variant="outline" size="sm" onClick={() => handleCall(doctor.name)}>
+                              <div className="flex gap-3">
+                                <Button className="w-full sm:w-auto" variant="outline" size="sm" onClick={() => handleCall(doctor.name)}>
                                   <Phone className="w-4 h-4 mr-1" />
                                   {t('call')}
                                 </Button>
                                 <Button
                                   size="sm"
-                                  className="bg-blue-600 hover:bg-blue-700"
+                                  className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
                                   onClick={() => handleBookAppointment(doctor)}
                                 >
                                   <Calendar className="w-4 h-4 mr-1" />

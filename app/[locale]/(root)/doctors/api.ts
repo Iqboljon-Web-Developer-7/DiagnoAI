@@ -1,0 +1,90 @@
+// app/doctors/api.ts
+'use client';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useAppStore } from '@/context/store';
+import { useTranslations } from 'next-intl';
+import { useToast } from '@/hooks/use-toast';
+import { Doctor } from './types';
+
+const API_BASE_URL = 'https://api.diagnoai.uz/api';
+
+export async function fetchDoctors({
+    latitude,
+    longitude,
+    selectedSpecialty,
+}: {
+    latitude: number;
+    longitude: number;
+    selectedSpecialty: string;
+}) {
+    const params = new URLSearchParams({ latitude: latitude.toString(), longitude: longitude.toString() });
+    if (selectedSpecialty) params.append('field', selectedSpecialty);
+
+    const res = await fetch(`${API_BASE_URL}/doctors/?${params.toString()}`);
+    if (!res.ok) throw new Error('Failed to fetch doctors');
+    return res.json();
+}
+
+export function useDoctorsQuery(latitude: number, longitude: number, selectedSpecialty: string) {
+    return useQuery<Doctor[]>({
+        queryKey: ['doctors', latitude, longitude, selectedSpecialty],
+        queryFn: () => fetchDoctors({ latitude, longitude, selectedSpecialty }),
+        enabled: !!latitude && !!longitude,
+    });
+}
+
+export function useBookAppointmentMutation() {
+    const { user, latitude, longitude, addAppointment } = useAppStore();
+    const translations = useTranslations('doctors');
+    const { toast } = useToast();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async ({
+            userId,
+            latitude,
+            longitude,
+            doctorName,
+        }: {
+            userId: string;
+            latitude: number;
+            longitude: number;
+            doctorName: string;
+        }) => {
+            const formData = new FormData();
+            formData.append('user_id', userId);
+            formData.append('latitude', latitude.toString());
+            formData.append('longitude', longitude.toString());
+            formData.append('message', `Book appointment with ${doctorName}`);
+
+            const res = await fetch(`${API_BASE_URL}/chats/`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!res.ok) throw new Error('Failed to book appointment');
+            return res.json();
+        },
+        onSuccess: (_data, variables) => {
+            addAppointment({
+                doctor: variables.doctorName,
+                specialty: '', // Will be updated in todos.tsx
+                date: new Date().toISOString().split('T')[0],
+                time: '14:00',
+                type: translations('doctorCard.bookButton') || 'Appointment',
+                status: 'Tasdiqlangan',
+            });
+            toast({
+                title:
+                    translations('toastMessages.bookAppointment', { doctorName: variables.doctorName }) ||
+                    `Appointment booked with ${variables.doctorName}`,
+            });
+        },
+        onError: () => {
+            toast({
+                title: translations('toastMessages.error') || 'Failed to book appointment',
+                variant: 'destructive',
+            });
+        },
+    });
+}

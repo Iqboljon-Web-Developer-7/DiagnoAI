@@ -1,8 +1,8 @@
 import { locales } from '@/i18n';
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
-import { Footer } from '@/components/footer';
-import { Header } from '@/components/Header/header';
+import { Header } from '@/components/layout/Header/header';
+import { Footer } from '@/components/layout/footer';
 
 interface LocaleLayout {
   children: React.ReactNode;

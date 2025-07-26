@@ -9,33 +9,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { Upload, Brain, FileText, ImageIcon, AlertTriangle, CheckCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useAppStore } from "@/context/store";
-import { LoginModal } from "@/components/login-modal";
 import { useTranslations, useMessages } from "next-intl";
 import { useToast } from "@/hooks/use-toast";
-
-// interface Diagnosis {
-//   diagnosis: string;
-//   confidence: number;
-//   status: string;
-//   doctor: string;
-// }
-
-// const symptomKeys = ["headache", "fever", "cough", "abdominalPain", "fatigue"] as const;
+import { useRouter } from "@/i18n/navigation";
 
 export default function AIDiagnosisPage() {
   const t = useTranslations('aiDiagnosis');
   const messages = useMessages();
   const { isLoggedIn, addDiagnosis } = useAppStore();
 
+  const router = useRouter()
   const [files, setFiles] = useState<File[]>([]);
   const [symptoms, setSymptoms] = useState('');
   const [progress, setProgress] = useState(0);
   const [analyzing, setAnalyzing] = useState(false);
   const [complete, setComplete] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(!isLoggedIn);
 
   const { toast } = useToast()
-
 
   const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -47,14 +37,11 @@ export default function AIDiagnosisPage() {
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  // const handleAddSymptom = (symptom: string) => {
-  //   if (!symptoms.includes(symptom)) {
-  //     setSymptoms(prev => prev ? `${prev}, ${symptom}` : symptom);
-  //   }
-  // };
-
   const startAnalysis = () => {
-    if (!isLoggedIn) return setShowLoginModal(true);
+    if (!isLoggedIn) {
+      toast({ title: "You are not logged in. Please login!" })
+      router.push("/login")
+    }
     if (!files.length && !symptoms.trim()) return;
 
     setAnalyzing(true);
@@ -89,23 +76,21 @@ export default function AIDiagnosisPage() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <section className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('title')}</h1>
-          <p className="text-lg text-gray-600">{t('description')}</p>
-        </section>
+    <section className="min-h-screen bg-gray-50">
+      <div className="max-w-6xl mx-auto px-3 py-5 sm:px-6 lg:px-8 sm:py-8">
+        <div className="mb-4 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{t('title')}</h1>
+          <p className="sm:text-lg text-gray-600">{t('description')}</p>
+        </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Symptom & File Upload */}
             <Card>
-              <CardHeader>
-                <CardTitle>{t("symptomsTitle")}</CardTitle>
-                <CardDescription>{t("uploadDescription")}</CardDescription>
+              <CardHeader className="p-3 sm:p-4">
+                <CardTitle className="text-xl sm:text-2xl">{t("symptomsTitle")}</CardTitle>
+                <CardDescription className="text-sm sm:text-base">{t("uploadDescription")}</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-3 sm:p-4">
                 <Textarea
                   placeholder={t("symptomsPlaceholder")}
                   value={symptoms}
@@ -116,7 +101,7 @@ export default function AIDiagnosisPage() {
                   <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" id="file-upload" className="hidden" onChange={handleFileUpload} />
                   <label htmlFor="file-upload" className="cursor-pointer flex items-center gap-3">
                     <Upload className="w-5 h-5 text-gray-400" />
-                    <span>{t("uploadPrompt")}</span>
+                    <span className="text-sm sm:text-lg">{t("uploadPrompt")}</span>
                   </label>
                 </div>
 
@@ -142,11 +127,11 @@ export default function AIDiagnosisPage() {
 
             {/* Analyze Button */}
             <Card>
-              <CardContent className="pt-6">
+              <CardContent className="p-4 sm:p-6">
                 <Button
                   onClick={startAnalysis}
                   disabled={analyzing || (!files.length && !symptoms.trim())}
-                  className="w-full bg-[#2B6A73] hover:bg-[#268391] text-white text-lg py-6"
+                  className="w-full bg-[#2B6A73] hover:bg-[#268391] text-white sm:text-lg py-4 sm:py-6"
                 >
                   {analyzing ? (
                     <>
@@ -264,8 +249,6 @@ export default function AIDiagnosisPage() {
           </div>
         </div>
       </div>
-
-      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
-    </div>
+    </section>
   );
 }

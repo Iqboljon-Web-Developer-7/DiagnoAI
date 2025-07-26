@@ -1,21 +1,41 @@
-import Link from "next/link"
-import { getTranslations } from 'next-intl/server'
+"use client"
 
-export async function Footer() {
-  const t = await getTranslations('Footer')
+import Link from "next/link"
+import { useState } from 'react'
+import { useTranslations } from "next-intl"
+import { usePathname } from "@/i18n/navigation"
+
+export function Footer() {
+  const t = useTranslations('Footer')
+  const [openSection, setOpenSection] = useState<string | null>(null)
+
+  const pathname = usePathname()
+
+  console.log(pathname);
+
+
+  const toggleSection = (section: string) => {
+    setOpenSection(openSection === section ? null : section)
+  }
 
   return (
-    <footer className="bg-[#2B6A73] text-white py-12 z-20 relative">
+    <footer className={`bg-[#2B6A73] text-white py-12 z-20 relative ${pathname == '/ai-medic' && 'hidden'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-4 gap-3 md:gap-8">
           <div className="flex flex-col gap-2">
             <h2 className="text-3xl font-semibold">{t("brand")}</h2>
             <p className="text-indigo-100">{t('description')}</p>
           </div>
 
-          <div>
-            <h3 className="font-semibold mb-4">{t('services.title')}</h3>
-            <ul className="space-y-2 text-gray-400">
+          <div className="md:block">
+            <button
+              onClick={() => toggleSection('services')}
+              className="w-full flex text-xl justify-between items-center font-semibold md:cursor-default md:pointer-events-none"
+            >
+              {t('services.title')}
+              <span className="md:hidden">{openSection === 'services' ? '−' : '+'}</span>
+            </button>
+            <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-400 overflow-hidden transition-all duration-300 ${openSection === 'services' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
               <li>
                 <Link href="/ai-diagnosis" className="hover:text-white">
                   {t('services.aiDiagnosis')}
@@ -39,9 +59,15 @@ export async function Footer() {
             </ul>
           </div>
 
-          <div>
-            <h3 className="font-semibold mb-4">{t('company.title')}</h3>
-            <ul className="space-y-2 text-gray-400">
+          <div className="md:block">
+            <button
+              onClick={() => toggleSection('company')}
+              className="w-full flex text-xl justify-between items-center font-semibold md:cursor-default md:pointer-events-none"
+            >
+              {t('company.title')}
+              <span className="md:hidden">{openSection === 'company' ? '−' : '+'}</span>
+            </button>
+            <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-400 overflow-hidden transition-all duration-300 ${openSection === 'company' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
               <li>
                 <Link href="/about" className="hover:text-white">
                   {t('company.about')}
@@ -65,9 +91,15 @@ export async function Footer() {
             </ul>
           </div>
 
-          <div>
-            <h3 className="font-semibold mb-4">{t('help.title')}</h3>
-            <ul className="space-y-2 text-gray-400">
+          <div className="md:block">
+            <button
+              onClick={() => toggleSection('help')}
+              className="w-full flex text-xl justify-between items-center font-semibold md:cursor-default md:pointer-events-none"
+            >
+              {t('help.title')}
+              <span className="md:hidden">{openSection === 'help' ? '−' : '+'}</span>
+            </button>
+            <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-400 overflow-hidden transition-all duration-300 ${openSection === 'help' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
               <li>
                 <Link href="/support" className="hover:text-white">
                   {t('help.support')}

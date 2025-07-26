@@ -3,10 +3,9 @@
 import React, { useState, useLayoutEffect, useRef, useCallback } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Menu } from 'lucide-react';
-import { Link } from '@/i18n/navigation';
-import { Button } from './ui/button';
+import { Link, usePathname } from '@/i18n/navigation';
+import { Button } from '@/components/ui/button';
 
-// Utility to debounce a function
 interface DebouncedFunction<T extends unknown[]> {
   (...args: T): void;
 }
@@ -35,6 +34,16 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
   const containerRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<(HTMLDivElement | null)[]>([]);
   const lastContainerWidth = useRef<number>(0);
+
+  const pathname = usePathname()
+  const header = document.querySelector("header")
+  console.log(pathname);
+  
+  if (pathname == '/ai-medic') {
+    header?.classList.add("hidden")
+  } else {
+    header?.classList.remove("hidden")
+  }
 
   const calculateVisibleTabs = useCallback(() => {
     if (!containerRef.current || !tabs.length) {
@@ -135,7 +144,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
       {hiddenTabs.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button size={"icon"} variant={"link"} className="ml-0 p-2 text-gray-600 hover:text-blue-500 focus:outline-none bg-transparent">
+            <Button size={"icon"} variant={"link"} className="ml-0 p-2 text-gray-600 hover:text-blue-500 focus:outline-none bg-transparent animate-fade-in-down opacity-0 delay-700">
               <Menu className="h-5 w-5" />
             </Button>
           </DropdownMenuTrigger>

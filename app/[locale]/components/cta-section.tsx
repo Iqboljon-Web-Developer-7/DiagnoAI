@@ -1,14 +1,14 @@
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Button } from "@/components/ui/button"
-import {Link} from '@/i18n/navigation'
+import { Link } from '@/i18n/navigation'
 
 interface CTASectionProps {
   diagnosisPath: string;
   emergencyPath: string;
 }
 
-export function CTASection({ diagnosisPath, emergencyPath }: CTASectionProps) {
-  const t = useTranslations('Index');
+export async function CTASection({ diagnosisPath, emergencyPath }: CTASectionProps) {
+  const t = await getTranslations('Index');
 
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-blue-600 to-blue-800 text-white">

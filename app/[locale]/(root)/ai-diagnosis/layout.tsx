@@ -61,13 +61,6 @@ export const metadata: Metadata = {
       'max-video-preview': -1
     }
   },
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/apple-touch-icon.png'
-  },
-  manifest: '/site.webmanifest',
-  category: 'healthcare'
 }
 
 const layout = ({children}: {children: React.ReactNode}) => {

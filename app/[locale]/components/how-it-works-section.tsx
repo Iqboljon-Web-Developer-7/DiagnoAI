@@ -1,11 +1,9 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Upload, Brain, UserCheck, MessageSquare } from "lucide-react"
 
-export function HowItWorksSection() {
-  const t = useTranslations('Index');
+export async function HowItWorksSection() {
+  const t = await getTranslations('Index');
 
   return (
     <section className="py-8 sm:py-12 md:py-16 bg-[#F4F4F4]">

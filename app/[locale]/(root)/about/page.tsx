@@ -100,7 +100,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="p-8 rounded-2xl">
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid sm:grid-cols-2 gap-6">
                 <Card>
                   <CardContent className="pt-6">
                     <Users className="w-12 h-12 text-blue-600 mb-4" />
@@ -172,6 +172,8 @@ export default function AboutPage() {
               <Card key={index} className="overflow-hidden border-0 shadow-lg">
                 <CardContent className="p-0">
                   <Image
+                    width={192}
+                    height={192}
                     src={member.image || "/placeholder.svg"}
                     alt={member.name}
                     className="w-full h-48 object-cover object-top"
@@ -203,7 +205,7 @@ export default function AboutPage() {
           <div className="relative flex flex-col">
             <span className="top-[35%] sticky left-1/2 transform -translate-x-1/2 bg-[#2b6a73] w-4 h-4 inline-block rounded-full z-20"></span>
             <span className="top-[37%] sticky left-1/2 transform -translate-x-1/2 bg-white w-4 h-4 z-10 flex justify-center">
-              <div className="w-[30rem] h-[712px] shrink-0 bg-white z-10"></div>
+              <div className="w-[26rem] sm:w-[30rem] h-[712px] shrink-0 bg-white z-10"></div>
             </span>
             {timelineItems.map((item, index) => (
               <div key={item.year || index} className="relative">
@@ -211,7 +213,7 @@ export default function AboutPage() {
                   className={`flex relative ${item.position === "left" ? "justify-start" : "justify-end"} w-full`}
                 >
                   <span className={`absolute left-1/2 transform -translate-x-1/2 flex items-center ${item.position === "left" ? "justify-start" : "justify-end"} bg-[#2b6a73] w-4 h-4 rounded-full`}>
-                    <div className="h-[1px] w-52 transform -translate-y-1/2 top-1/2 bg-[#2b6a73] shrink-0"></div>
+                    <div className="h-[1px] w-40 sm:w-52 transform -translate-y-1/2 top-1/2 bg-[#2b6a73] shrink-0"></div>
                   </span>
                   <Card
                     className={`bg-transparent w-full max-w-[700px] border-none shadow-none ${item.position === "right" ? "ml-auto" : "mr-auto"}`}

@@ -1,10 +1,8 @@
-"use client"
-
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Brain, UserCheck, Clock } from "lucide-react"
 
-export function FeaturesSection() {
-  const t = useTranslations('Index');
+export async function FeaturesSection() {
+  const t = await getTranslations('Index');
 
   return (
     <section className="py-8 xs:py-10 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
