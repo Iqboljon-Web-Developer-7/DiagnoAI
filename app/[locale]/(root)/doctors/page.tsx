@@ -39,7 +39,7 @@ export default function Page() {
         }
       );
     }
-  }, [setLocation, bookMutation]);
+  }, [setLocation, bookMutation, latitude, longitude]);
 
   // Filter doctors (client-side)
   const filteredDoctors = doctors.filter((doctor) => {

@@ -87,6 +87,8 @@ export default function App() {
   // Get geolocation with fallback to mock coordinates
   const getGeolocation = () => {
     return new Promise<{ latitude: number; longitude: number }>((resolve, reject) => {
+      console.log(reject);
+
       navigator.geolocation.getCurrentPosition(
         (position) => resolve({
           latitude: position.coords.latitude,
@@ -124,6 +126,8 @@ export default function App() {
       formData.append("latitude", latitude.toString());
       formData.append("longitude", longitude.toString());
     } catch (error) {
+      console.log(error);
+      
       formData.append("latitude", "0");
       formData.append("longitude", "0");
     }
@@ -171,7 +175,7 @@ export default function App() {
       }
 
       setChatMessages(
-        response.data.messages?.map((msg: any) => ({
+        response.data.messages?.map((msg: { id: number; content: string; is_from_user: boolean; created_at: string }) => ({
           user: msg.is_from_user ? msg.content : undefined,
           ai: !msg.is_from_user ? msg.content : undefined,
         })) || [...chatMessages, { user: message, ai: response?.data?.message }]

@@ -1,6 +1,6 @@
 // app/doctors/api.ts
 'use client';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAppStore } from '@/context/store';
 import { useTranslations } from 'next-intl';
 import { useToast } from '@/hooks/use-toast';
@@ -34,10 +34,9 @@ export function useDoctorsQuery(latitude: number, longitude: number, selectedSpe
 }
 
 export function useBookAppointmentMutation() {
-    const { user, latitude, longitude, addAppointment } = useAppStore();
+    const { addAppointment } = useAppStore();
     const translations = useTranslations('doctors');
     const { toast } = useToast();
-    const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: async ({

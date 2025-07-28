@@ -11,7 +11,7 @@ interface DoctorListProps {
     doctors: Doctor[];
     onBookAppointment: (doctor: Doctor) => void;
     isBookingPending: boolean;
-    user: any; // Replace with proper user type from your Zustand store
+    user: string; // Replace with proper user type from your Zustand store
 }
 
 export function DoctorList({ doctors, onBookAppointment, isBookingPending, user }: DoctorListProps) {
