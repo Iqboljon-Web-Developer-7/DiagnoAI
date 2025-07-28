@@ -2,12 +2,12 @@
 
 import axios from "axios";
 import { Trash, X } from "lucide-react";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Circles } from "react-loader-spinner";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import './styles.css'
+import './styles.css';
 
 interface User {
   id: string;
@@ -33,8 +33,11 @@ export default function App() {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const [isUserScrolling, setIsUserScrolling] = useState<boolean>(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null); // Ref for auto-scrolling
+  const chatContainerRef = useRef<HTMLDivElement>(null); // Ref for scroll tracking
 
-  const mockUser: User = { id: "user123" }; // Simulated user_id
+  const mockUser: User = { id: "user123" };
   const API_BASE_URL = "https://api.diagnoai.uz/api";
 
   // Fetch all chats for the user
@@ -53,13 +56,38 @@ export default function App() {
     fetchChats();
   }, [mockUser.id]);
 
-  // Scroll to the latest message when chatMessages update
+  // Track user scrolling to prevent auto-scroll when viewing older messages
   useEffect(() => {
-    const chatContainer = document.querySelector(".animate-fade-in-down");
-    if (chatContainer) {
-      chatContainer.scrollTop = chatContainer.scrollHeight;
+    const chatContainer = chatContainerRef.current;
+    if (!chatContainer) return;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = chatContainer;
+      // Consider user scrolling if not within 50px of the bottom
+      setIsUserScrolling(scrollTop + clientHeight < scrollHeight - 50);
+    };
+
+    // Debounce scroll event for performance
+    let timeout: NodeJS.Timeout;
+    const debouncedHandleScroll = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(handleScroll, 100);
+    };
+
+    chatContainer.addEventListener("scroll", debouncedHandleScroll);
+    return () => {
+      chatContainer.removeEventListener("scroll", debouncedHandleScroll);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  // Auto-scroll to the latest message
+  useEffect(() => {
+    if (isUserScrolling) return; // Skip auto-scroll if user is viewing older messages
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
-  }, [chatMessages]);
+  }, [chatMessages, selectedChat, isUserScrolling]);
 
   // Fetch specific chat by ID
   const fetchChatById = async (id: string) => {
@@ -81,14 +109,9 @@ export default function App() {
     }
   };
 
-  console.log(selectedChat);
-
-
   // Get geolocation with fallback to mock coordinates
   const getGeolocation = () => {
-    return new Promise<{ latitude: number; longitude: number }>((resolve, reject) => {
-      console.log(reject);
-
+    return new Promise<{ latitude: number; longitude: number }>((resolve) => {
       navigator.geolocation.getCurrentPosition(
         (position) => resolve({
           latitude: position.coords.latitude,
@@ -96,7 +119,7 @@ export default function App() {
         }),
         (error) => {
           console.error("Geolocation error:", error);
-          resolve({ latitude: 0, longitude: 0 }); // Fallback to mock coordinates
+          resolve({ latitude: 0, longitude: 0 });
         }
       );
     });
@@ -127,7 +150,7 @@ export default function App() {
       formData.append("longitude", longitude.toString());
     } catch (error) {
       console.log(error);
-      
+
       formData.append("latitude", "0");
       formData.append("longitude", "0");
     }
@@ -140,6 +163,7 @@ export default function App() {
         response = await axios.post(`${API_BASE_URL}/chats/`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+        setSelectedChat(response.data);
       } else {
         let chatId = selectedChat.id
         if (!chatId) {
@@ -151,7 +175,6 @@ export default function App() {
           headers: { "Content-Type": "multipart/form-data" },
         });
       }
-      console.log(response);
 
       if (!selectedChat) {
         setSelectedChat({
@@ -227,7 +250,7 @@ export default function App() {
             lg:top-auto lg:left-auto
             shadow-lg lg:shadow-none
             max-h-screen
-            `}
+          `}
           style={{ minWidth: 0 }}
         >
           <div className="flex justify-between items-center mb-4 lg:mb-4">
@@ -284,7 +307,10 @@ export default function App() {
         )}
         {/* Chat Interface */}
         <main className="flex-1 p-2 sm:p-4 flex flex-col relative md:ml-0 overflow-y-auto">
-          <div className="flex-1 rounded-lg overflow-y-auto max-h-[calc(100vh-100px)] h-fit">
+          <div
+            className="flex-1 rounded-lg overflow-y-auto max-h-[calc(100vh-100px)] h-fit"
+            ref={chatContainerRef}
+          >
             {selectedChat ? (
               <div className="animate-fade-in-down overflow-auto">
                 {chatMessages.map((msg, index) => (
@@ -305,17 +331,15 @@ export default function App() {
                     )}
                   </div>
                 ))}
+                <div ref={messagesEndRef} /> {/* Dummy element for auto-scrolling */}
               </div>
             ) : (
               !isLoading && (
                 <p className="text-center text-gray-500">Select a chat or start a new one</p>
               )
             )}
-            {isLoading && (
-              <div className="animate-fade-in-down flex flex-col justify-center items-center w-full min-h-8">
-                <Circles color="#00BFFF" height={50} width={200} />
-              </div>
-            )}
+
+
           </div>
           {/* Message Input Form */}
           <form
@@ -330,7 +354,7 @@ export default function App() {
               className="flex-1 p-2 border rounded-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-600"
               aria-label="Message input"
             />
-            <label className="flex items-center cursor-pointer">
+            {/* <label className="flex items-center cursor-pointer">
               <input
                 type="file"
                 onChange={(e) => setFile(e.target.files?.[0] || null)}
@@ -349,14 +373,21 @@ export default function App() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828L18 9.828M7 17V7a2 2 0 012-2h8" />
                 </svg>
               </span>
-            </label>
-            <button
-              type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm sm:text-base w-full sm:w-auto hover:bg-blue-700 disabled:bg-blue-400"
-              disabled={isLoading}
-            >
-              Send
-            </button>
+            </label> */}
+            {isLoading && (
+              <div className="animate-fade-in-down flex flex-col justify-center items-center min-h-8">
+                <Circles color="#00BFFF" height={30} width={30} />
+              </div>
+            )}
+            {!isLoading && (
+              <button
+                type="submit"
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm sm:text-base w-full sm:w-auto hover:bg-blue-700 disabled:bg-blue-400"
+                disabled={isLoading}
+              >
+                Send
+              </button>
+            )}
           </form>
         </main>
       </div>
