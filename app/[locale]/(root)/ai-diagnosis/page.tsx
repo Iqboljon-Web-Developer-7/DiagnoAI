@@ -3,7 +3,6 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload, Brain, FileText, ImageIcon, Loader2 } from "lucide-react";
@@ -12,7 +11,7 @@ import { useAppStore } from "@/context/store";
 import { useTranslations, useMessages } from "next-intl";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "@/i18n/navigation";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import ReactMarkdown from "react-markdown";
 import { Circles } from "react-loader-spinner";
 
@@ -34,17 +33,28 @@ interface Doctor {
   name: string;
   specialty: string;
   hospital: string;
-  field:string;
+  field: string;
   description: string
+}
+
+interface ChatApiResponse {
+  id: string;
+  created_at: string;
+  updated_at?: string;
+  messages?: { id: number; content: string; is_from_user: boolean; created_at: string }[];
+  message?: string;
+  doctors?: number[];
 }
 
 export default function AIDiagnosisPage() {
   const t = useTranslations('aiDiagnosis');
   const messages = useMessages();
-  // const { isLoggedIn, user_id } = useAppStore();
+  const { isLoggedIn, user } = useAppStore();
+
+  const user_id = user?.id
   // Use dummy user_id for now
-  const isLoggedIn = true;
-  const user_id = "12456";
+  // const isLoggedIn = true;
+  // const user_id = "12456";
   const router = useRouter();
   const { toast } = useToast();
 
@@ -116,12 +126,12 @@ export default function AIDiagnosisPage() {
     setAnalyzing(true);
     try {
       // The response now contains .data.messages (array of message objects)
-      const response = await axios.get(`${API_BASE_URL}/chats/${id}`);
+      const response: AxiosResponse<ChatApiResponse> = await axios.get(`${API_BASE_URL}/chats/${id}`);
       const messagesArr = response?.data?.messages || [];
       const doctorsArr = response?.data?.doctors || [];
 
       // Map the messages array to ChatMessage[]
-      const mappedMessages: ChatMessage[] = messagesArr.map((msg: any) => {
+      const mappedMessages: ChatMessage[] = messagesArr.map((msg) => {
         if (msg.is_from_user) {
           return { user: msg.content };
         } else {
@@ -217,6 +227,8 @@ export default function AIDiagnosisPage() {
       formData.append("latitude", latitude.toString());
       formData.append("longitude", longitude.toString());
     } catch (error) {
+      console.log(error);
+  
       formData.append("latitude", "0");
       formData.append("longitude", "0");
     }
@@ -224,9 +236,9 @@ export default function AIDiagnosisPage() {
     files.forEach(file => formData.append("file", file));
 
     try {
-      let response;
+      let response: AxiosResponse<ChatApiResponse>;
       if (!selectedChat) {
-        response = await axios.post(`${API_BASE_URL}/chats/`, formData, {
+        response = await axios.post<ChatApiResponse>(`${API_BASE_URL}/chats/`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
           onUploadProgress: (progressEvent) => {
             const percent = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
@@ -235,7 +247,7 @@ export default function AIDiagnosisPage() {
         });
         setSelectedChat(response.data);
       } else {
-        response = await axios.patch(`${API_BASE_URL}/chats/${selectedChat.id}/`, formData, {
+        response = await axios.patch<ChatApiResponse>(`${API_BASE_URL}/chats/${selectedChat.id}/`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
           onUploadProgress: (progressEvent) => {
             const percent = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
@@ -246,7 +258,7 @@ export default function AIDiagnosisPage() {
 
       // If the response contains messages array, map them
       if (response?.data?.messages && Array.isArray(response.data.messages)) {
-        const mappedMessages: ChatMessage[] = response.data.messages.map((msg: any) => {
+        const mappedMessages: ChatMessage[] = response.data.messages.map((msg) => {
           if (msg.is_from_user) {
             return { user: msg.content };
           } else {
@@ -259,7 +271,7 @@ export default function AIDiagnosisPage() {
         setChatMessages(prev => [
           ...prev,
           { user: symptoms },
-          { ai: response.data.message, doctors: response.data.doctors },
+          { ai: response.data.message ?? "", doctors: response.data.doctors },
         ]);
       }
 
