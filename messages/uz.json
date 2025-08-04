@@ -299,6 +299,10 @@
     "toastFiltersCleared": "Filtrlar tozalandi"
   },
   "aiDiagnosis": {
+    "newChat": "Yangi chat",
+    "chatHistory": "Chat tarixi",
+    "deleteFail": "O'chirish muvaffaqiyatsiz tugadi",
+    "deleteSuccess": "Muvaffaqiyatli o'chirildi",
     "title": "AI tibbiy tahlil",
     "description": "Tahlillaringizni yuklang va sun'iy intellekt yordamida professional tashxis oling",
     "uploadTitle": "Tahlillar va rasmlarni yuklash",

@@ -230,6 +230,7 @@
     "newChat": "New Chat",
     "chatHistory": "Chat History",
     "deleteFail": "Deleting Failed",
+    "deleteSuccess": "Deleted Successfully",
     "title": "AI Medical Analysis",
     "description": "Upload your analyses and get professional diagnosis with AI assistance",
     "uploadTitle": "Upload Analyses and Images",
