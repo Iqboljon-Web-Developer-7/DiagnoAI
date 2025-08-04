@@ -1,19 +1,23 @@
-'use client';
+"use client";
 
-import React, { useState, useCallback, useEffect, useRef } from "react";
+import React, { useState, useCallback, useEffect, useRef, FormEvent } from "react";
+import axios, { AxiosResponse } from "axios";
+import { Menu, X, Trash, Upload, Brain, FileText, ImageIcon, Loader2 } from "lucide-react";
+import { Circles } from "react-loader-spinner";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload, Brain, FileText, ImageIcon, Loader2 } from "lucide-react";
-import Link from "next/link";
+
 import { useAppStore } from "@/context/store";
 import { useTranslations, useMessages } from "next-intl";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "@/i18n/navigation";
-import axios, { AxiosResponse } from "axios";
-import ReactMarkdown from "react-markdown";
-import { Circles } from "react-loader-spinner";
 
 interface Chat {
   id: string;
@@ -25,7 +29,6 @@ interface Chat {
 interface ChatMessage {
   user?: string;
   ai?: string;
-  doctors?: number[];
 }
 
 interface Doctor {
@@ -34,7 +37,7 @@ interface Doctor {
   specialty: string;
   hospital: string;
   field: string;
-  description: string
+  description: string;
 }
 
 interface ChatApiResponse {
@@ -47,328 +50,370 @@ interface ChatApiResponse {
 }
 
 export default function AIDiagnosisPage() {
-  const t = useTranslations('aiDiagnosis');
-  const messages = useMessages();
+  const t = useTranslations("aiDiagnosis");
+  const messagesIntl = useMessages();
   const { isLoggedIn, user } = useAppStore();
-
-  const user_id = user?.id
-  // Use dummy user_id for now
-  // const isLoggedIn = true;
-  // const user_id = "12456";
   const router = useRouter();
-  const { toast } = useToast();
+  const { toast: toastUI } = useToast();
 
+  const user_id = user?.id;
+
+  const API_BASE_URL = "https://api.diagnoai.uz/api";
+
+  // Sidebar and chats state
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [chats, setChats] = useState<Chat[]>([]);
+
+  // Diagnosis UI state
   const [files, setFiles] = useState<File[]>([]);
-  const [symptoms, setSymptoms] = useState('');
+  const [symptoms, setSymptoms] = useState("");
   const [progress, setProgress] = useState(0);
   const [analyzing, setAnalyzing] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [isUserScrolling, setIsUserScrolling] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-  const API_BASE_URL = "https://api.diagnoai.uz/api";
 
-  // Fetch the latest chat on mount
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Fetch all chats on mount
   useEffect(() => {
     if (!isLoggedIn) return;
     const fetchChats = async () => {
       try {
-        const response = await axios.get<Chat[]>(`${API_BASE_URL}/chats`, {
+        const resp = await axios.get<Chat[]>(`${API_BASE_URL}/chats`, {
           params: { user_id },
         });
-        const latestChat = response.data.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
-        if (latestChat) {
-          fetchChatById(latestChat.id);
-        }
-      } catch (error) {
-        console.error("Error fetching chats:", error);
-        toast({ title: t("failedToLoadChats") });
+        setChats(resp.data);
+      } catch (err) {
+        toastUI({ title: t("failedToLoadChats") });
       }
     };
     fetchChats();
-  }, [isLoggedIn, user_id, t]);
+  }, [isLoggedIn, user_id, t, toastUI]);
 
-  // Track user scrolling
-  useEffect(() => {
-    const chatContainer = chatContainerRef.current;
-    if (!chatContainer) return;
-
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = chatContainer;
-      setIsUserScrolling(scrollTop + clientHeight < scrollHeight - 50);
-    };
-
-    let timeout: NodeJS.Timeout;
-    const debouncedHandleScroll = () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(handleScroll, 100);
-    };
-
-    chatContainer.addEventListener("scroll", debouncedHandleScroll);
-    return () => {
-      chatContainer.removeEventListener("scroll", debouncedHandleScroll);
-      clearTimeout(timeout);
-    };
-  }, []);
-
-  // Auto-scroll to latest message
-  useEffect(() => {
-    if (isUserScrolling) return;
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
-    }
-  }, [chatMessages, isUserScrolling]);
-
-  // Fetch specific chat by ID
+  // Fetch specific chat
   const fetchChatById = async (id: string) => {
     setAnalyzing(true);
     try {
-      // The response now contains .data.messages (array of message objects)
-      const response: AxiosResponse<ChatApiResponse> = await axios.get(`${API_BASE_URL}/chats/${id}`);
-      const messagesArr = response?.data?.messages || [];
-      const doctorsArr = response?.data?.doctors || [];
-
-      // Map the messages array to ChatMessage[]
-      const mappedMessages: ChatMessage[] = messagesArr.map((msg) => {
-        if (msg.is_from_user) {
-          return { user: msg.content };
-        } else {
-          return { ai: msg.content };
-        }
-      });
-
-      setChatMessages(mappedMessages);
-
+      const resp = await axios.get<ChatApiResponse>(`${API_BASE_URL}/chats/${id}`);
+      const msgs = resp.data.messages || [];
+      setChatMessages(
+        msgs.map(m => (m.is_from_user ? { user: m.content } : { ai: m.content }))
+      );
       setSelectedChat({
         id,
-        created_at: response?.data?.created_at || new Date().toISOString(),
-        updated_at: response?.data?.updated_at,
-        messages: messagesArr,
+        created_at: resp.data.created_at,
+        updated_at: resp.data.updated_at,
+        messages: msgs,
       });
-
-      // Fetch doctor details if any
-      if (doctorsArr.length > 0) {
-        const doctorResponse = await axios.post<Doctor[]>(`${API_BASE_URL}/doctors`, {
-          ids: doctorsArr,
+      // load doctors if any
+      if (resp.data.doctors?.length) {
+        const docResp = await axios.post<Doctor[]>(`${API_BASE_URL}/doctors`, {
+          ids: resp.data.doctors,
         });
-        setDoctors(doctorResponse.data);
+        setDoctors(docResp.data);
       }
-    } catch (error) {
-      console.error("Error fetching chat:", error);
-      toast({ title: t("failedToLoadChat") });
+    } catch {
+      toastUI({ title: t("failedToLoadChat") });
     } finally {
       setAnalyzing(false);
     }
   };
 
-  // Get geolocation
-  const getGeolocation = () => {
-    return new Promise<{ latitude: number; longitude: number }>((resolve) => {
-      navigator.geolocation.getCurrentPosition(
-        (position) => resolve({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }),
-        (error) => {
-          console.error("Geolocation error:", error);
-          resolve({ latitude: 0, longitude: 0 });
-        }
-      );
-    });
+  // New Chat
+  const handleNewChat = () => {
+    setSelectedChat(null);
+    setChatMessages([]);
+    setDoctors([]);
   };
 
-  // Handle file upload
-  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const validFiles = Array.from(e.target.files).filter(file => {
-        const validTypes = ["image/jpeg", "image/png", "application/pdf"];
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (!validTypes.includes(file.type)) {
-          toast({ title: t("invalidFileType") });
-          return false;
-        }
-        if (file.size > maxSize) {
-          toast({ title: t("fileTooLarge") });
-          return false;
-        }
-        return true;
-      });
-      setFiles(prev => [...prev, ...validFiles]);
+  // Delete Chat
+  const handleDeleteChat = async (id: string) => {
+    try {
+      await axios.delete(`${API_BASE_URL}/chats/${id}/`);
+      setChats(chats.filter(c => c.id !== id));
+      if (selectedChat?.id === id) handleNewChat();
+      toast.success(t("deleteSuccess") ?? "Chat deleted");
+    } catch {
+      toast.error(t("deleteFail") ?? "Failed to delete");
     }
-  }, [t]);
-
-  // Remove file
-  const removeFile = (index: number) => {
-    setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  // Handle sending message or file
-  const handleSendMessage = async (e: React.FormEvent) => {
+  // Track scrolling
+  useEffect(() => {
+    const container = chatContainerRef.current;
+    if (!container) return;
+    let timeout: NodeJS.Timeout;
+    const onScroll = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        const { scrollTop, scrollHeight, clientHeight } = container;
+        setIsUserScrolling(scrollTop + clientHeight < scrollHeight - 50);
+      }, 100);
+    };
+    container.addEventListener("scroll", onScroll);
+    return () => {
+      container.removeEventListener("scroll", onScroll);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  // Auto-scroll
+  useEffect(() => {
+    if (!isUserScrolling && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [chatMessages, isUserScrolling]);
+
+  // Geolocation helper
+  const getGeolocation = () =>
+    new Promise<{ latitude: number; longitude: number }>(res =>
+      navigator.geolocation.getCurrentPosition(
+        pos => res({ latitude: pos.coords.latitude, longitude: pos.coords.longitude }),
+        () => res({ latitude: 0, longitude: 0 })
+      )
+    );
+
+  // File upload handler
+  const handleFileUpload = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!e.target.files) return;
+      const valid = Array.from(e.target.files).filter(file => {
+        const okType = ["image/jpeg", "image/png", "application/pdf"].includes(file.type);
+        const okSize = file.size <= 5 * 1024 * 1024;
+        if (!okType) toastUI({ title: t("invalidFileType") });
+        if (!okSize) toastUI({ title: t("fileTooLarge") });
+        return okType && okSize;
+      });
+      setFiles(prev => [...prev, ...valid]);
+    },
+    [t, toastUI]
+  );
+
+  const removeFile = (idx: number) => setFiles(f => f.filter((_, i) => i !== idx));
+
+  // Send message
+  const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
     if (!isLoggedIn) {
-      toast({ title: t("notLoggedIn") });
+      toastUI({ title: t("notLoggedIn") });
       router.push("/login");
       return;
     }
     if (!symptoms.trim() && !files.length) {
-      toast({ title: t("noInputProvided") });
+      toastUI({ title: t("noInputProvided") });
       return;
     }
 
     setAnalyzing(true);
     setProgress(0);
-
-    const formData = new FormData();
-    formData.append("user_id", user_id);
-    try {
-      const { latitude, longitude } = await getGeolocation();
-      formData.append("latitude", latitude.toString());
-      formData.append("longitude", longitude.toString());
-    } catch (error) {
-      console.log(error);
-  
-      formData.append("latitude", "0");
-      formData.append("longitude", "0");
-    }
-    if (symptoms) formData.append("message", symptoms);
-    files.forEach(file => formData.append("file", file));
+    const form = new FormData();
+    form.append("user_id", user_id!);
+    const { latitude, longitude } = await getGeolocation();
+    form.append("latitude", latitude.toString());
+    form.append("longitude", longitude.toString());
+    if (symptoms) form.append("message", symptoms);
+    files.forEach(f => form.append("file", f));
 
     try {
-      let response: AxiosResponse<ChatApiResponse>;
+      let resp: AxiosResponse<ChatApiResponse>;
       if (!selectedChat) {
-        response = await axios.post<ChatApiResponse>(`${API_BASE_URL}/chats/`, formData, {
+        resp = await axios.post(`${API_BASE_URL}/chats/`, form, {
           headers: { "Content-Type": "multipart/form-data" },
-          onUploadProgress: (progressEvent) => {
-            const percent = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
-            setProgress(percent);
-          },
+          onUploadProgress: e => setProgress(Math.round((e.loaded * 100) / (e.total || 1))),
         });
-        setSelectedChat(response.data);
+        setSelectedChat(resp.data);
       } else {
-        response = await axios.patch<ChatApiResponse>(`${API_BASE_URL}/chats/${selectedChat.id}/`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-          onUploadProgress: (progressEvent) => {
-            const percent = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
-            setProgress(percent);
-          },
-        });
+        let chatId = selectedChat.id
+        if (!chatId) {
+          chatId = chats[chats.length - 1].id
+        }
+
+        resp = await axios.patch(
+          `${API_BASE_URL}/chats/${chatId}/`,
+          form,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+            onUploadProgress: e => setProgress(Math.round((e.loaded * 100) / (e.total || 1))),
+          }
+        );
       }
 
-      // If the response contains messages array, map them
-      if (response?.data?.messages && Array.isArray(response.data.messages)) {
-        const mappedMessages: ChatMessage[] = response.data.messages.map((msg) => {
-          if (msg.is_from_user) {
-            return { user: msg.content };
-          } else {
-            return { ai: msg.content };
-          }
-        });
-        setChatMessages(mappedMessages);
+      if (Array.isArray(resp.data.messages)) {
+        setChatMessages(
+          resp.data.messages.map(m =>
+            m.is_from_user ? { user: m.content } : { ai: m.content }
+          )
+        );
       } else {
-        // fallback: push the new user/ai message as before
         setChatMessages(prev => [
           ...prev,
           { user: symptoms },
-          { ai: response.data.message ?? "", doctors: response.data.doctors },
+          { ai: resp.data.message || "" },
         ]);
       }
 
-      // Fetch doctor details
-      if (response.data.doctors && response.data.doctors.length > 0) {
-        const doctorIds = response.data.doctors;
-        const doctorPromises = doctorIds.map((id: number | string) =>
-          axios.get<Doctor>(`${API_BASE_URL}/doctors/${id}`)
+      // load any returned doctors
+      if (resp.data.doctors?.length) {
+        const docs = await Promise.all(
+          resp.data.doctors.map(id => axios.get<Doctor>(`${API_BASE_URL}/doctors/${id}`))
         );
-        const doctorResponses = await Promise.all(doctorPromises);
-        setDoctors(doctorResponses.map(res => res.data));
+        setDoctors(docs.map(d => d.data));
       }
 
       setSymptoms("");
       setFiles([]);
-    } catch (error) {
-      console.error("Error sending message:", error);
-      toast({ title: t("failedToSendMessage") });
+      // refresh sidebar list
+      const updated = await axios.get<Chat[]>(`${API_BASE_URL}/chats`, {
+        params: { user_id },
+      });
+      setChats(updated.data);
+    } catch {
+      toastUI({ title: t("failedToSendMessage") });
     } finally {
       setAnalyzing(false);
       setProgress(100);
     }
   };
 
-  console.log(chatMessages);
-  console.log(selectedChat);
-  console.log(doctors);
-
   return (
-    <section className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto px-3 py-5 sm:px-6 lg:px-8 sm:py-8">
-        <div className="mb-4 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{t('title')}</h1>
-          <p className="sm:text-lg text-gray-600">{t('description')}</p>
+    <div className="min-h-screen bg-gray-50 flex">
+      <ToastContainer position="top-right" autoClose={3000} />
+
+      {/* Sidebar */}
+      <aside
+        className={`
+          fixed inset-y-0 left-0 bg-slate-100 border-r p-4
+          w-64 transform transition-transform duration-300 ease-in-out
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0 lg:static lg:w-1/5
+        `}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold">{t("chatHistory")}</h2>
+          <button
+            className="lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+            aria-label={t("closeSidebar")}
+          >
+            <X size={24} />
+          </button>
         </div>
+        <button
+          className="w-full mb-4 px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          onClick={handleNewChat}
+        >
+          {t("newChat")}
+        </button>
+        <ul className="overflow-y-auto space-y-2 h-[calc(100vh-152px)]">
+          {chats.map((chat, i) => (
+            <li
+              key={chat.id}
+              className="flex justify-between items-center p-2 bg-white rounded hover:bg-gray-100 cursor-pointer"
+              onClick={() => {
+                fetchChatById(chat.id);
+                setSidebarOpen(false);
+              }}
+            >
+              <span className="truncate text-sm">
+                {/* {{ number: i + 1)} */}
+                {new Date(chat.created_at).toLocaleString("uz-UZ", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+              <button
+                onClick={e => {
+                  e.stopPropagation();
+                  handleDeleteChat(chat.id);
+                }}
+                className="text-red-500 hover:text-red-700"
+                aria-label={t("deleteChatTooltip", { number: i + 1 })}
+              >
+                <Trash size={16} />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </aside>
+
+      {/* Mobile toggle */}
+      <button
+        className="fixed top-4 left-4 lg:hidden p-2 bg-white rounded shadow"
+        onClick={() => setSidebarOpen(true)}
+        aria-label={t("openSidebar")}
+      >
+        <Menu size={24} />
+      </button>
+
+      {/* Main content */}
+      <main className="flex-1 p-4 space-y-6">
+        <header className="mb-4">
+          <h1 className="text-2xl font-bold">{t("title")}</h1>
+          <p className="text-gray-600">{t("description")}</p>
+        </header>
 
         <div className="grid lg:grid-cols-3 gap-8">
+          {/* Chat area */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Chat Messages */}
             <Card>
-              <CardContent className="p-3 sm:p-4">
+              <CardContent className="p-4">
                 <div
-                  className="flex-1 rounded-lg overflow-y-auto max-h-[400px] h-fit"
+                  className="overflow-y-auto max-h-[400px] space-y-4"
                   ref={chatContainerRef}
                 >
                   {chatMessages.length > 0 ? (
-                    <div className="animate-fade-in-down overflow-auto">
-                      {chatMessages.map((msg, index) => (
-                        <div key={index} className="mb-2 sm:mb-4">
-                          {msg.user && (
-                            <div className="flex justify-end">
-                              <div className="bg-gray-300 p-2 rounded-lg max-w-[80vw] sm:max-w-md break-words">
-                                <p className="text-sm sm:text-base">{msg.user}</p>
-                              </div>
+                    chatMessages.map((msg, idx) => (
+                      <div key={idx}>
+                        {msg.user && (
+                          <div className="flex justify-end">
+                            <div className="bg-gray-300 p-2 rounded max-w-md">
+                              <p>{msg.user}</p>
                             </div>
-                          )}
-                          {msg.ai && (
-                            <div className="flex justify-start">
-                              <div className="p-2 rounded-lg max-w-[80vw] sm:max-w-md break-words">
-                                <ReactMarkdown >{msg.ai}</ReactMarkdown>
-                              </div>
+                          </div>
+                        )}
+                        {msg.ai && (
+                          <div className="flex justify-start">
+                            <div className="bg-white p-2 rounded max-w-md">
+                              <ReactMarkdown>{msg.ai}</ReactMarkdown>
                             </div>
-                          )}
-                        </div>
-                      ))}
-                      <div ref={messagesEndRef} />
-                    </div>
-                  ) : (
-                    !analyzing && (
-                      <p className="text-center text-gray-500">{t("noMessages")}</p>
-                    )
-                  )}
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  ) : !analyzing ? (
+                    <p className="text-center text-gray-500">{t("noMessages")}</p>
+                  ) : null}
                   {analyzing && (
-                    <div className="flex justify-center items-center">
-                      <Circles color="#00BFFF" height={30} width={30} />
+                    <div className="flex justify-center">
+                      <Circles height={30} width={30} color="#00BFFF" />
                     </div>
                   )}
+                  <div ref={messagesEndRef} />
                 </div>
               </CardContent>
             </Card>
 
-            {/* Input Form */}
             <Card>
-              <CardHeader className="p-3 sm:p-4">
-                <CardTitle className="text-xl sm:text-2xl">{t("symptomsTitle")}</CardTitle>
-                <CardDescription className="text-sm sm:text-base">{t("uploadDescription")}</CardDescription>
+              <CardHeader className="p-4">
+                <CardTitle>{t("symptomsTitle")}</CardTitle>
+                <CardDescription>{t("uploadDescription")}</CardDescription>
               </CardHeader>
-              <CardContent className="p-3 sm:p-4">
-                <form onSubmit={handleSendMessage}>
+              <CardContent className="p-4">
+                <form onSubmit={handleSendMessage} className="space-y-4">
                   <Textarea
                     placeholder={t("symptomsPlaceholder")}
                     value={symptoms}
                     onChange={e => setSymptoms(e.target.value)}
-                    className="min-h-32 mb-2"
-                    aria-label={t("symptomsPlaceholder")}
+                    className="min-h-[120px]"
                   />
-                  <div className="border-2 border-dashed p-2 text-center hover:border-blue-400 transition rounded">
+
+                  <div className="border-2 border-dashed p-4 text-center rounded hover:border-blue-400">
                     <input
                       type="file"
                       multiple
@@ -376,25 +421,23 @@ export default function AIDiagnosisPage() {
                       id="file-upload"
                       className="hidden"
                       onChange={handleFileUpload}
-                      aria-label={t("uploadPrompt")}
                     />
-                    <label htmlFor="file-upload" className="cursor-pointer flex items-center gap-3 justify-center">
-                      <Upload className="w-5 h-5 text-gray-400" />
-                      <span className="text-sm sm:text-lg">{t("uploadPrompt")}</span>
+                    <label htmlFor="file-upload" className="cursor-pointer flex items-center justify-center gap-2">
+                      <Upload />
+                      <span>{t("uploadPrompt")}</span>
                     </label>
                   </div>
 
                   {files.length > 0 && (
-                    <div className="mt-4 space-y-2">
-                      <h4 className="font-medium text-gray-700">{t("uploadedFilesLabel")}</h4>
+                    <div className="space-y-2">
+                      <h4 className="font-medium">{t("uploadedFilesLabel")}</h4>
                       {files.map((file, i) => (
                         <div key={i} className="flex justify-between items-center bg-gray-50 p-3 rounded">
-                          <div className="flex items-center gap-2 text-sm">
-                            {file.type.startsWith("image/") ? <ImageIcon className="text-blue-600 w-5 h-5" /> : <FileText className="text-green-600 w-5 h-5" />}
-                            <span>{file.name}</span>
-                            <span className="text-gray-500 text-xs">({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                          <div className="flex items-center gap-2">
+                            {file.type.startsWith("image/") ? <ImageIcon /> : <FileText />}
+                            <span>{file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
                           </div>
-                          <Button variant="ghost" size="sm" onClick={() => removeFile(i)} className="text-red-600">
+                          <Button variant="ghost" size="sm" onClick={() => removeFile(i)}>
                             {t("removeButton")}
                           </Button>
                         </div>
@@ -404,24 +447,24 @@ export default function AIDiagnosisPage() {
 
                   <Button
                     type="submit"
-                    disabled={analyzing || (!files.length && !symptoms.trim())}
-                    className="w-full bg-[#2B6A73] hover:bg-[#268391] text-white sm:text-lg py-4 sm:py-6 mt-4"
+                    disabled={analyzing || (!symptoms.trim() && !files.length)}
+                    className="w-full mt-4 flex justify-center items-center"
                   >
                     {analyzing ? (
                       <>
-                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        <Loader2 className="animate-spin mr-2" />
                         {t("analyzingText")}
                       </>
                     ) : (
                       <>
-                        <Brain className="w-5 h-5 mr-2" />
+                        <Brain className="mr-2" />
                         {t("analyzeButton")}
                       </>
                     )}
                   </Button>
 
                   {analyzing && (
-                    <div className="mt-4">
+                    <div>
                       <div className="flex justify-between text-sm text-gray-600 mb-1">
                         <span>{t("analysisProgressLabel")}</span>
                         <span>{progress}%</span>
@@ -434,7 +477,7 @@ export default function AIDiagnosisPage() {
             </Card>
           </div>
 
-          {/* Right Column: Recommended Doctors */}
+          {/* Doctors column */}
           <div className="space-y-6">
             <Card>
               <CardHeader>
@@ -444,20 +487,20 @@ export default function AIDiagnosisPage() {
               <CardContent>
                 {doctors.length > 0 ? (
                   <ul className="space-y-4">
-                    {doctors.map(doctor => (
-                      <li key={doctor.id} className="border-b pb-2">
-                        <p className="font-medium text-gray-900">{doctor.name}</p>
-                        <p className="text-sm text-gray-600">Field: {doctor.field}</p>
-                        <p className="text-sm text-gray-600 line-clamp-2">Description: {doctor.description}</p>
-                        <p className="text-sm text-gray-500">Hospital: {doctor.hospital}</p>
+                    {doctors.map(doc => (
+                      <li key={doc.id} className="border-b pb-2">
+                        <p className="font-medium">{doc.name}</p>
+                        <p className="text-sm">Field: {doc.field}</p>
+                        <p className="text-sm line-clamp-2">Description: {doc.description}</p>
+                        <p className="text-xs text-gray-500">Hospital: {doc.hospital}</p>
                       </li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-gray-500 text-center">{t("noDoctors")}</p>
+                  <p className="text-center text-gray-500">{t("noDoctors")}</p>
                 )}
-                <Link href="/recommended-providers">
-                  <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 mt-4">
+                <Link href="/recommended-providers" passHref>
+                  <Button size="sm" className="w-full mt-4">
                     {t("viewDoctorsButton")}
                   </Button>
                 </Link>
@@ -465,7 +508,7 @@ export default function AIDiagnosisPage() {
             </Card>
           </div>
         </div>
-      </div>
-    </section>
+      </main>
+    </div>
   );
 }

@@ -300,7 +300,7 @@
   },
   "aiDiagnosis": {
     "title": "AI tibbiy tahlil",
-    "description": "Tahlillaringizni yuklang va AI yordamida professional tashxis oling",
+    "description": "Tahlillaringizni yuklang va sun'iy intellekt yordamida professional tashxis oling",
     "uploadTitle": "Tahlillar va rasmlarni yuklash",
     "uploadDescription": "Tibbiy tahlillar, rentgen rasmlari yoki boshqa tibbiy hujjatlarni yuklang",
     "uploadPrompt": "Fayllarni shu yerga torting yoki tanlash uchun bosing",
@@ -308,7 +308,7 @@
     "uploadedFilesLabel": "Yuklangan fayllar:",
     "removeButton": "O'chirish",
     "symptomsTitle": "Simptomlar va shikoyatlar",
-    "symptomsDescription": "Joriy simptomlaringizni batafsil tasvirlang",
+    "symptomsDescription": "Joriy simptomlaringizni batafsil tasvirlab bering",
     "symptomsPlaceholder": "Masalan: bosh og'rig'i, isitma, yo'tal, qorin og'rig'i va boshqa simptomlar...",
     "symptomBadges": {
       "headache": "Bosh og'rig'i",
@@ -343,6 +343,16 @@
     },
     "saveResultButton": "Natijani saqlash",
     "detailedReportButton": "Batafsil hisobot",
+
+    "chatHistoryTitle": "Chat tarixi",
+    "newChatButton": "Yangi chat",
+    "deleteChatAria": "Chatni o'chirish",
+    "selectChatPrompt": "Chatni tanlang yoki yangi chat boshlang",
+    "loadingChats": "Chatlar yuklanmoqda...",
+    "chatDeletedSuccess": "Chat muvaffaqiyatli o'chirildi.",
+    "chatDeleteFailed": "Chatni o'chirib bo'lmadi. Iltimos, qayta urinib ko'ring.",
+    "startNewChat": "Yangi tashxis boshlash",
+
     "noDoctors": "Shifokorlar topilmadi",
     "noMessages": "Hozircha xabarlar yo'q",
     "failedToLoadChats": "Chat tarixini yuklab bo'lmadi. Iltimos, keyinroq urinib ko'ring.",

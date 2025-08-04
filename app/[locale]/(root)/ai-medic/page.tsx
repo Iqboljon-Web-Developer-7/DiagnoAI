@@ -56,6 +56,14 @@ export default function App() {
     fetchChats();
   }, [mockUser.id]);
 
+  // If the selected chat is deleted, clear selectedChat and chatMessages
+  useEffect(() => {
+    if (selectedChat && !chats.some(chat => chat.id === selectedChat.id)) {
+      setSelectedChat(null);
+      setChatMessages([]);
+    }
+  }, [chats, selectedChat]);
+
   // Track user scrolling to prevent auto-scroll when viewing older messages
   useEffect(() => {
     const chatContainer = chatContainerRef.current;
@@ -222,11 +230,15 @@ export default function App() {
   const handleDeleteChat = async (id: string) => {
     try {
       await axios.delete(`${API_BASE_URL}/chats/${id}/`);
-      setChats(chats.filter((chat) => chat.id !== id));
-      if (selectedChat?.id === id) {
-        setSelectedChat(null);
-        setChatMessages([]);
-      }
+      setChats(prevChats => {
+        const updatedChats = prevChats.filter((chat) => chat.id !== id);
+        // If the deleted chat is the selected one, clear selectedChat and chatMessages
+        if (selectedChat?.id === id) {
+          setSelectedChat(null);
+          setChatMessages([]);
+        }
+        return updatedChats;
+      });
       toast.success("Chat deleted successfully.");
     } catch (error) {
       console.error("Error deleting chat:", error);
@@ -311,7 +323,7 @@ export default function App() {
             className="flex-1 rounded-lg overflow-y-auto max-h-[calc(100svh-100px)] h-fit"
             ref={chatContainerRef}
           >
-            {selectedChat ? (
+            {selectedChat && chats.some(chat => chat.id === selectedChat.id) ? (
               <div className="animate-fade-in-down overflow-auto">
                 {chatMessages.map((msg, index) => (
                   <div key={index} className="mb-2 sm:mb-4">
