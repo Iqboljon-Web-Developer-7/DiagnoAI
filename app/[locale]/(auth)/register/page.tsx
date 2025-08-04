@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation"
 
 export default function RegisterPage() {
     const router = useRouter()
-    const { login } = useAppStore()
+    const { setUser } = useAppStore()
     const t = useTranslations('Auth')
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
@@ -33,13 +33,16 @@ export default function RegisterPage() {
         setIsLoading(true)
 
         try {
+            // Simulate registration delay
             await new Promise((resolve) => setTimeout(resolve, 1500))
-            const success = await login(email, password)
-            if (success) {
-                router.push('/')
-            } else {
-                setError(t('errors.registrationFailed'))
-            }
+            // Set user in zustand store
+            setUser({
+                id: `user-${Date.now()}`,
+                name,
+                email,
+                avatar: "/placeholder.svg?height=32&width=32",
+            })
+            router.push('/')
         } catch (err) {
             console.log(err);
             setError(t('errors.general'))

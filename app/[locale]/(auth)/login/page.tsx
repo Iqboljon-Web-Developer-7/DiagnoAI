@@ -11,7 +11,7 @@ import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
-  const { login } = useAppStore()
+  const { login, setUser } = useAppStore()
   const router = useRouter()
   const t = useTranslations('Auth')
   const [email, setEmail] = useState("")
@@ -27,6 +27,13 @@ export default function LoginPage() {
     try {
       const success = await login(email, password)
       if (success) {
+        // Set user in zustand store
+        setUser({
+          id: `user-${Date.now()}`,
+          name: "Anvar Karimov",
+          email,
+          avatar: "/placeholder.svg?height=32&width=32",
+        })
         router.push("/ai-diagnosis")
       } else {
         setError(t('errors.loginFailed'))

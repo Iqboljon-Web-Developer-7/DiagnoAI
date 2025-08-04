@@ -44,6 +44,7 @@ type AppState = {
   logout: () => void;
   addDiagnosis: (diagnosis: Omit<Diagnosis, "id" | "date">) => void;
   addAppointment: (appointment: Omit<Appointment, "id">) => void;
+  setUser: (user: User) => void; // <-- Added setUser
 };
 
 // Create Zustand store with persist middleware for user
@@ -137,6 +138,9 @@ export const useAppStore = create<any>()(
       },
       setLocation: (latitude: number, longitude: number) => {
         set({ latitude, longitude });
+      },
+      setUser: (user: User) => {
+        set({ user, isLoggedIn: true });
       },
     }),
     {

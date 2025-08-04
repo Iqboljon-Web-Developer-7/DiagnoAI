@@ -270,7 +270,16 @@
       "duration": "If symptoms persist for more than 7 days, get checked"
     },
     "saveResultButton": "Save Result",
-    "detailedReportButton": "Detailed Report"
+    "detailedReportButton": "Detailed Report",
+    "noDoctors": "No doctors found",
+    "noMessages": "No messages yet",
+    "failedToLoadChats": "Failed to load chat history. Please try again later.",
+    "failedToLoadChat": "Failed to load chat details. Please try again.",
+    "invalidFileType": "Invalid file type. Please upload PDF, JPG, or PNG files.",
+    "fileTooLarge": "File size exceeds 5MB limit. Please upload a smaller file.",
+    "notLoggedIn": "You must be logged in to use this feature. Please log in.",
+    "failedToSendMessage": "Failed to send message. Please try again.",
+    "noInputProvided": "Please provide symptoms or upload files to proceed."
   },
   "emergency": {
     "title": "Emergency Medical Help",

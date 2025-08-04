@@ -37,7 +37,9 @@ export default function DashboardPage() {
   const { toast } = useToast()
 
   useEffect(() => {
-    if (user) {
+    console.log(user);
+    
+    if (!user) {
       router.push("/")
     }
   }, [router, user])

@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useLayoutEffect, useRef, useCallback } from 'react';
+import React, { useState, useLayoutEffect, useRef, useCallback, useEffect } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Menu } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 
 interface DebouncedFunction<T extends unknown[]> {
-  (...args: T): void;
+  (...args: T) : void;
 }
 
 const debounce = <T extends unknown[]>(func: DebouncedFunction<T>, wait: number) => {
@@ -35,15 +35,18 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
   const tabsRef = useRef<(HTMLDivElement | null)[]>([]);
   const lastContainerWidth = useRef<number>(0);
 
-  const pathname = usePathname()
-  const header = document.querySelector("header")
-  console.log(pathname);
-  
-  if (pathname == '/ai-medic') {
-    header?.classList.add("hidden")
-  } else {
-    header?.classList.remove("hidden")
-  }
+  const pathname = usePathname();
+
+  // Move document usage into useEffect to avoid SSR issues
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const header = document.querySelector("header");
+    if (pathname === '/ai-medic') {
+      header?.classList.add("hidden");
+    } else {
+      header?.classList.remove("hidden");
+    }
+  }, [pathname]);
 
   const calculateVisibleTabs = useCallback(() => {
     if (!containerRef.current || !tabs.length) {

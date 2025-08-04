@@ -115,7 +115,7 @@
     "hospitals": "Shifoxonalar",
     "education": "Ta'lim"
   },
-    "hospitals": {
+  "hospitals": {
     "pageTitle": "Shifoxonalarni topish",
     "pageDescription": "Yaqin atrofdagi eng yaxshi shifoxonalarni toping.",
     "typesTitle": "Shifoxona turlari",
@@ -166,7 +166,7 @@
     "hospitalsListTitle": "Shifoxonalar ({count})",
     "sortOptions": {
       "rating": "Reyting bo'yicha saralash",
-      "distance": "Masofa bo'yicha saralash", 
+      "distance": "Masofa bo'yicha saralash",
       "beds": "O'rinlar soni bo'yicha saralash"
     },
     "hospitalCard": {
@@ -299,32 +299,32 @@
     "toastFiltersCleared": "Filtrlar tozalandi"
   },
   "aiDiagnosis": {
-    "title": "AI Tibbiy Tahlil",
-    "description": "Analizlaringizni yuklang va sun'iy intellekt yordamida professional tashxis oling",
-    "uploadTitle": "Analiz va Rasmlar Yuklash",
-    "uploadDescription": "Tibbiy analizlar, rentgen rasmlari yoki boshqa tibbiy hujjatlarni yuklang",
-    "uploadPrompt": "Fayllarni bu yerga tashlang yoki tanlash uchun bosing",
-    "supportedFormats": "PDF, JPG, PNG, DOC formatlarini qo'llab-quvvatlaymiz",
+    "title": "AI tibbiy tahlil",
+    "description": "Tahlillaringizni yuklang va AI yordamida professional tashxis oling",
+    "uploadTitle": "Tahlillar va rasmlarni yuklash",
+    "uploadDescription": "Tibbiy tahlillar, rentgen rasmlari yoki boshqa tibbiy hujjatlarni yuklang",
+    "uploadPrompt": "Fayllarni shu yerga torting yoki tanlash uchun bosing",
+    "supportedFormats": "PDF, JPG, PNG, DOC formatlari qo'llab-quvvatlanadi",
     "uploadedFilesLabel": "Yuklangan fayllar:",
     "removeButton": "O'chirish",
-    "symptomsTitle": "Simptomlar va Shikoyatlar",
-    "symptomsDescription": "Hozirgi holatingizdagi simptomlarni batafsil yozing",
-    "symptomsPlaceholder": "Masalan: Bosh og'rig'i, isitma, yo'tal, qorin og'rig'i va boshqa simptomlarni yozing...",
+    "symptomsTitle": "Simptomlar va shikoyatlar",
+    "symptomsDescription": "Joriy simptomlaringizni batafsil tasvirlang",
+    "symptomsPlaceholder": "Masalan: bosh og'rig'i, isitma, yo'tal, qorin og'rig'i va boshqa simptomlar...",
     "symptomBadges": {
       "headache": "Bosh og'rig'i",
       "fever": "Isitma",
       "cough": "Yo'tal",
       "abdominalPain": "Qorin og'rig'i",
-      "fatigue": "Charchash"
+      "fatigue": "Holzizlik"
     },
-    "analyzeButton": "AI Tahlil Boshlash",
+    "analyzeButton": "AI tahlilini boshlash",
     "analyzingText": "Tahlil qilinmoqda...",
     "analysisProgressLabel": "Tahlil jarayoni",
-    "resultsTitle": "Tahlil Natijalari",
-    "resultsDescription": "Fayllarni yuklang va simptomlarni kiriting, so'ngra tahlil tugmasini bosing",
+    "resultsTitle": "Tahlil natijalari",
+    "resultsDescription": "Fayllarni yuklang va simptomlarni kiriting, so'ng tahlil tugmasini bosing",
     "awaitingAnalysis": "Tahlil kutilmoqda...",
-    "diagnosisTitle": "Ehtimoliy Tashxis",
-    "diagnosisName": "Viral Infeksiya (ARVI)",
+    "diagnosisTitle": "Taxminiy tashxis",
+    "diagnosisName": "Viral infeksiya (ORVI)",
     "confidenceLabel": "Ishonchlilik darajasi:",
     "urgencyLabel": "Shoshilinchlik darajasi:",
     "urgencyLevels": {
@@ -332,17 +332,26 @@
     },
     "recommendedSpecialistTitle": "Tavsiya etilgan mutaxassis",
     "specialistName": "Terapevt",
-    "specialistDescription": "Umumiy amaliyot shifokori bilan konsultatsiya tavsiya etiladi",
+    "specialistDescription": "Umumiy amaliyot shifokori bilan maslahat tavsiya etiladi",
     "viewDoctorsButton": "Shifokorlarni ko'rish",
     "recommendationsTitle": "Tavsiyalar",
     "recommendations": {
-      "fluid": "Ko'p suyuqlik iching",
-      "rest": "Dam oling va yetarli uxlang",
+      "fluid": "Ko'proq suyuqlik iching",
+      "rest": "Dam oling va yetarlicha uxlang",
       "fever": "Agar isitma 38.5°C dan oshsa, shifokorga murojaat qiling",
-      "duration": "Agar belgilar 7 kundan ortiq davom etsa, tekshiruvdan o'ting"
+      "duration": "Agar simptomlar 7 kundan ortiq davom etsa, shifokorga murojaat qiling"
     },
     "saveResultButton": "Natijani saqlash",
-    "detailedReportButton": "Batafsil hisobot"
+    "detailedReportButton": "Batafsil hisobot",
+    "noDoctors": "Shifokorlar topilmadi",
+    "noMessages": "Hozircha xabarlar yo'q",
+    "failedToLoadChats": "Chat tarixini yuklab bo'lmadi. Iltimos, keyinroq urinib ko'ring.",
+    "failedToLoadChat": "Chat tafsilotlarini yuklab bo'lmadi. Iltimos, qayta urinib ko'ring.",
+    "invalidFileType": "Noto'g'ri fayl turi. Iltimos, PDF, JPG yoki PNG fayllarni yuklang.",
+    "fileTooLarge": "Fayl hajmi 5MB dan oshib ketdi. Iltimos, kichikroq fayl yuklang.",
+    "notLoggedIn": "Bu funksiyadan foydalanish uchun tizimga kirishingiz kerak. Iltimos, tizimga kiring.",
+    "failedToSendMessage": "Xabar yuborilmadi. Iltimos, qayta urinib ko'ring.",
+    "noInputProvided": "Davom etish uchun simptomlarni kiriting yoki fayllarni yuklang."
   },
   "emergency": {
     "title": "Shoshilinch Tibbiy Yordam",

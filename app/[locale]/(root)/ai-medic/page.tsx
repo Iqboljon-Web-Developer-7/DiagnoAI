@@ -308,7 +308,7 @@ export default function App() {
         {/* Chat Interface */}
         <main className="flex-1 p-2 sm:p-4 flex flex-col relative md:ml-0 overflow-y-auto">
           <div
-            className="flex-1 rounded-lg overflow-y-auto max-h-[calc(100vh-100px)] h-fit"
+            className="flex-1 rounded-lg overflow-y-auto max-h-[calc(100svh-100px)] h-fit"
             ref={chatContainerRef}
           >
             {selectedChat ? (

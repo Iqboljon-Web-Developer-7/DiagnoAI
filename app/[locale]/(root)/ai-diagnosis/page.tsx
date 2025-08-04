@@ -1,79 +1,292 @@
 'use client';
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload, Brain, FileText, ImageIcon, AlertTriangle, CheckCircle, Loader2 } from "lucide-react";
+import { Upload, Brain, FileText, ImageIcon, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useAppStore } from "@/context/store";
 import { useTranslations, useMessages } from "next-intl";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "@/i18n/navigation";
+import axios from "axios";
+import ReactMarkdown from "react-markdown";
+import { Circles } from "react-loader-spinner";
+
+interface Chat {
+  id: string;
+  created_at: string;
+  updated_at?: string;
+  messages?: { id: number; content: string; is_from_user: boolean; created_at: string }[];
+}
+
+interface ChatMessage {
+  user?: string;
+  ai?: string;
+  doctors?: number[];
+}
+
+interface Doctor {
+  id: number;
+  name: string;
+  specialty: string;
+  hospital: string;
+  field:string;
+  description: string
+}
 
 export default function AIDiagnosisPage() {
   const t = useTranslations('aiDiagnosis');
   const messages = useMessages();
-  const { isLoggedIn, addDiagnosis } = useAppStore();
+  // const { isLoggedIn, user_id } = useAppStore();
+  // Use dummy user_id for now
+  const isLoggedIn = true;
+  const user_id = "12456";
+  const router = useRouter();
+  const { toast } = useToast();
 
-  const router = useRouter()
   const [files, setFiles] = useState<File[]>([]);
   const [symptoms, setSymptoms] = useState('');
   const [progress, setProgress] = useState(0);
   const [analyzing, setAnalyzing] = useState(false);
-  const [complete, setComplete] = useState(false);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const API_BASE_URL = "https://api.diagnoai.uz/api";
 
-  const { toast } = useToast()
+  // Fetch the latest chat on mount
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    const fetchChats = async () => {
+      try {
+        const response = await axios.get<Chat[]>(`${API_BASE_URL}/chats`, {
+          params: { user_id },
+        });
+        const latestChat = response.data.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
+        if (latestChat) {
+          fetchChatById(latestChat.id);
+        }
+      } catch (error) {
+        console.error("Error fetching chats:", error);
+        toast({ title: t("failedToLoadChats") });
+      }
+    };
+    fetchChats();
+  }, [isLoggedIn, user_id, t]);
 
-  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFiles(prev => [...prev, ...(e.target.files ? Array.from(e.target.files) : [])]);
-    }
+  // Track user scrolling
+  useEffect(() => {
+    const chatContainer = chatContainerRef.current;
+    if (!chatContainer) return;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = chatContainer;
+      setIsUserScrolling(scrollTop + clientHeight < scrollHeight - 50);
+    };
+
+    let timeout: NodeJS.Timeout;
+    const debouncedHandleScroll = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(handleScroll, 100);
+    };
+
+    chatContainer.addEventListener("scroll", debouncedHandleScroll);
+    return () => {
+      chatContainer.removeEventListener("scroll", debouncedHandleScroll);
+      clearTimeout(timeout);
+    };
   }, []);
 
+  // Auto-scroll to latest message
+  useEffect(() => {
+    if (isUserScrolling) return;
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [chatMessages, isUserScrolling]);
+
+  // Fetch specific chat by ID
+  const fetchChatById = async (id: string) => {
+    setAnalyzing(true);
+    try {
+      // The response now contains .data.messages (array of message objects)
+      const response = await axios.get(`${API_BASE_URL}/chats/${id}`);
+      const messagesArr = response?.data?.messages || [];
+      const doctorsArr = response?.data?.doctors || [];
+
+      // Map the messages array to ChatMessage[]
+      const mappedMessages: ChatMessage[] = messagesArr.map((msg: any) => {
+        if (msg.is_from_user) {
+          return { user: msg.content };
+        } else {
+          return { ai: msg.content };
+        }
+      });
+
+      setChatMessages(mappedMessages);
+
+      setSelectedChat({
+        id,
+        created_at: response?.data?.created_at || new Date().toISOString(),
+        updated_at: response?.data?.updated_at,
+        messages: messagesArr,
+      });
+
+      // Fetch doctor details if any
+      if (doctorsArr.length > 0) {
+        const doctorResponse = await axios.post<Doctor[]>(`${API_BASE_URL}/doctors`, {
+          ids: doctorsArr,
+        });
+        setDoctors(doctorResponse.data);
+      }
+    } catch (error) {
+      console.error("Error fetching chat:", error);
+      toast({ title: t("failedToLoadChat") });
+    } finally {
+      setAnalyzing(false);
+    }
+  };
+
+  // Get geolocation
+  const getGeolocation = () => {
+    return new Promise<{ latitude: number; longitude: number }>((resolve) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => resolve({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        }),
+        (error) => {
+          console.error("Geolocation error:", error);
+          resolve({ latitude: 0, longitude: 0 });
+        }
+      );
+    });
+  };
+
+  // Handle file upload
+  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const validFiles = Array.from(e.target.files).filter(file => {
+        const validTypes = ["image/jpeg", "image/png", "application/pdf"];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (!validTypes.includes(file.type)) {
+          toast({ title: t("invalidFileType") });
+          return false;
+        }
+        if (file.size > maxSize) {
+          toast({ title: t("fileTooLarge") });
+          return false;
+        }
+        return true;
+      });
+      setFiles(prev => [...prev, ...validFiles]);
+    }
+  }, [t]);
+
+  // Remove file
   const removeFile = (index: number) => {
     setFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  const startAnalysis = () => {
+  // Handle sending message or file
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!isLoggedIn) {
-      toast({ title: "You are not logged in. Please login!" })
-      router.push("/login")
+      toast({ title: t("notLoggedIn") });
+      router.push("/login");
+      return;
     }
-    if (!files.length && !symptoms.trim()) return;
+    if (!symptoms.trim() && !files.length) {
+      toast({ title: t("noInputProvided") });
+      return;
+    }
 
     setAnalyzing(true);
     setProgress(0);
 
-    const timer = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          setAnalyzing(false);
-          setComplete(true);
+    const formData = new FormData();
+    formData.append("user_id", user_id);
+    try {
+      const { latitude, longitude } = await getGeolocation();
+      formData.append("latitude", latitude.toString());
+      formData.append("longitude", longitude.toString());
+    } catch (error) {
+      formData.append("latitude", "0");
+      formData.append("longitude", "0");
+    }
+    if (symptoms) formData.append("message", symptoms);
+    files.forEach(file => formData.append("file", file));
 
-          addDiagnosis({
-            diagnosis: t('diagnosisName'),
-            confidence: 87,
-            status: "Yangi",
-            doctor: "Dr. Aziza Karimova",
-          });
+    try {
+      let response;
+      if (!selectedChat) {
+        response = await axios.post(`${API_BASE_URL}/chats/`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: (progressEvent) => {
+            const percent = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
+            setProgress(percent);
+          },
+        });
+        setSelectedChat(response.data);
+      } else {
+        response = await axios.patch(`${API_BASE_URL}/chats/${selectedChat.id}/`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: (progressEvent) => {
+            const percent = Math.round((progressEvent.loaded * 100) / (progressEvent.total || 1));
+            setProgress(percent);
+          },
+        });
+      }
 
-          return 100;
-        }
-        return prev + 5;
-      });
-    }, 150);
+      // If the response contains messages array, map them
+      if (response?.data?.messages && Array.isArray(response.data.messages)) {
+        const mappedMessages: ChatMessage[] = response.data.messages.map((msg: any) => {
+          if (msg.is_from_user) {
+            return { user: msg.content };
+          } else {
+            return { ai: msg.content };
+          }
+        });
+        setChatMessages(mappedMessages);
+      } else {
+        // fallback: push the new user/ai message as before
+        setChatMessages(prev => [
+          ...prev,
+          { user: symptoms },
+          { ai: response.data.message, doctors: response.data.doctors },
+        ]);
+      }
+
+      // Fetch doctor details
+      if (response.data.doctors && response.data.doctors.length > 0) {
+        const doctorIds = response.data.doctors;
+        const doctorPromises = doctorIds.map((id: number | string) =>
+          axios.get<Doctor>(`${API_BASE_URL}/doctors/${id}`)
+        );
+        const doctorResponses = await Promise.all(doctorPromises);
+        setDoctors(doctorResponses.map(res => res.data));
+      }
+
+      setSymptoms("");
+      setFiles([]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast({ title: t("failedToSendMessage") });
+    } finally {
+      setAnalyzing(false);
+      setProgress(100);
+    }
   };
 
-  const download = (msg: string) => (
-    toast({ title: msg })
-  )
-
-  const recommendations = Object.keys(messages.aiDiagnosis.recommendations);
-
+  console.log(chatMessages);
+  console.log(selectedChat);
+  console.log(doctors);
 
   return (
     <section className="min-h-screen bg-gray-50">
@@ -85,167 +298,159 @@ export default function AIDiagnosisPage() {
 
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
+            {/* Chat Messages */}
+            <Card>
+              <CardContent className="p-3 sm:p-4">
+                <div
+                  className="flex-1 rounded-lg overflow-y-auto max-h-[400px] h-fit"
+                  ref={chatContainerRef}
+                >
+                  {chatMessages.length > 0 ? (
+                    <div className="animate-fade-in-down overflow-auto">
+                      {chatMessages.map((msg, index) => (
+                        <div key={index} className="mb-2 sm:mb-4">
+                          {msg.user && (
+                            <div className="flex justify-end">
+                              <div className="bg-gray-300 p-2 rounded-lg max-w-[80vw] sm:max-w-md break-words">
+                                <p className="text-sm sm:text-base">{msg.user}</p>
+                              </div>
+                            </div>
+                          )}
+                          {msg.ai && (
+                            <div className="flex justify-start">
+                              <div className="p-2 rounded-lg max-w-[80vw] sm:max-w-md break-words">
+                                <ReactMarkdown >{msg.ai}</ReactMarkdown>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      <div ref={messagesEndRef} />
+                    </div>
+                  ) : (
+                    !analyzing && (
+                      <p className="text-center text-gray-500">{t("noMessages")}</p>
+                    )
+                  )}
+                  {analyzing && (
+                    <div className="flex justify-center items-center">
+                      <Circles color="#00BFFF" height={30} width={30} />
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Input Form */}
             <Card>
               <CardHeader className="p-3 sm:p-4">
                 <CardTitle className="text-xl sm:text-2xl">{t("symptomsTitle")}</CardTitle>
                 <CardDescription className="text-sm sm:text-base">{t("uploadDescription")}</CardDescription>
               </CardHeader>
               <CardContent className="p-3 sm:p-4">
-                <Textarea
-                  placeholder={t("symptomsPlaceholder")}
-                  value={symptoms}
-                  onChange={e => setSymptoms(e.target.value)}
-                  className="min-h-32 mb-2"
-                />
-                <div className="border-2 border-dashed p-2 text-center hover:border-blue-400 transition rounded">
-                  <input type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" id="file-upload" className="hidden" onChange={handleFileUpload} />
-                  <label htmlFor="file-upload" className="cursor-pointer flex items-center gap-3">
-                    <Upload className="w-5 h-5 text-gray-400" />
-                    <span className="text-sm sm:text-lg">{t("uploadPrompt")}</span>
-                  </label>
-                </div>
-
-                {files.length > 0 && (
-                  <div className="mt-4 space-y-2">
-                    <h4 className="font-medium text-gray-700">{t("uploadedFilesLabel")}</h4>
-                    {files.map((file, i) => (
-                      <div key={i} className="flex justify-between items-center bg-gray-50 p-3 rounded">
-                        <div className="flex items-center gap-2 text-sm">
-                          {file.type.startsWith("image/") ? <ImageIcon className="text-blue-600 w-5 h-5" /> : <FileText className="text-green-600 w-5 h-5" />}
-                          <span>{file.name}</span>
-                          <span className="text-gray-500 text-xs">({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
-                        </div>
-                        <Button variant="ghost" size="sm" onClick={() => removeFile(i)} className="text-red-600">
-                          {t("removeButton")}
-                        </Button>
-                      </div>
-                    ))}
+                <form onSubmit={handleSendMessage}>
+                  <Textarea
+                    placeholder={t("symptomsPlaceholder")}
+                    value={symptoms}
+                    onChange={e => setSymptoms(e.target.value)}
+                    className="min-h-32 mb-2"
+                    aria-label={t("symptomsPlaceholder")}
+                  />
+                  <div className="border-2 border-dashed p-2 text-center hover:border-blue-400 transition rounded">
+                    <input
+                      type="file"
+                      multiple
+                      accept=".jpg,.jpeg,.png,.pdf"
+                      id="file-upload"
+                      className="hidden"
+                      onChange={handleFileUpload}
+                      aria-label={t("uploadPrompt")}
+                    />
+                    <label htmlFor="file-upload" className="cursor-pointer flex items-center gap-3 justify-center">
+                      <Upload className="w-5 h-5 text-gray-400" />
+                      <span className="text-sm sm:text-lg">{t("uploadPrompt")}</span>
+                    </label>
                   </div>
-                )}
-              </CardContent>
-            </Card>
 
-            {/* Analyze Button */}
-            <Card>
-              <CardContent className="p-4 sm:p-6">
-                <Button
-                  onClick={startAnalysis}
-                  disabled={analyzing || (!files.length && !symptoms.trim())}
-                  className="w-full bg-[#2B6A73] hover:bg-[#268391] text-white sm:text-lg py-4 sm:py-6"
-                >
-                  {analyzing ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      {t("analyzingText")}
-                    </>
-                  ) : (
-                    <>
-                      <Brain className="w-5 h-5 mr-2" />
-                      {t("analyzeButton")}
-                    </>
-                  )}
-                </Button>
-
-                {analyzing && (
-                  <div className="mt-4">
-                    <div className="flex justify-between text-sm text-gray-600 mb-1">
-                      <span>{t("analysisProgressLabel")}</span>
-                      <span>{progress}%</span>
-                    </div>
-                    <Progress value={progress} />
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Analysis Result */}
-            {complete && (
-              <div className="grid grid-cols-2 gap-2">
-                <Card className="border-green-200 bg-green-50">
-                  <CardHeader>
-                    <div className="flex justify-between items-center">
-                      <CardTitle className="text-green-800">{t("diagnosisTitle")}</CardTitle>
-                      <CheckCircle className="text-green-600 w-6 h-6" />
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <h3 className="text-xl font-bold text-green-900 mb-2">{t("diagnosisName")}</h3>
-                    <div className="space-y-2">
-                      <div>
-                        <span className="text-sm text-green-700">{t("confidenceLabel")}</span>
-                        <div className="flex items-center mt-1 gap-2">
-                          <Progress value={87} />
-                          <span className="font-bold text-green-800">87%</span>
+                  {files.length > 0 && (
+                    <div className="mt-4 space-y-2">
+                      <h4 className="font-medium text-gray-700">{t("uploadedFilesLabel")}</h4>
+                      {files.map((file, i) => (
+                        <div key={i} className="flex justify-between items-center bg-gray-50 p-3 rounded">
+                          <div className="flex items-center gap-2 text-sm">
+                            {file.type.startsWith("image/") ? <ImageIcon className="text-blue-600 w-5 h-5" /> : <FileText className="text-green-600 w-5 h-5" />}
+                            <span>{file.name}</span>
+                            <span className="text-gray-500 text-xs">({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                          </div>
+                          <Button variant="ghost" size="sm" onClick={() => removeFile(i)} className="text-red-600">
+                            {t("removeButton")}
+                          </Button>
                         </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-green-700">{t("urgencyLabel")}</span>
-                        <Badge variant="outline" className="border-yellow-400 text-yellow-700">
-                          {t("urgencyLevels.medium")}
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle>{t("recommendationsTitle")}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2 text-sm">
-                      {recommendations.map((rec, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          {i < 3 ? <CheckCircle className="text-green-600 w-4 h-4 mt-0.5" /> : <AlertTriangle className="text-red-500 w-4 h-4 mt-0.5" />}
-                          <span className={i >= 3 ? "text-red-500" : ""}>{t(`recommendations.${rec}`)}</span>
-                        </li>
                       ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
+                    </div>
+                  )}
+
+                  <Button
+                    type="submit"
+                    disabled={analyzing || (!files.length && !symptoms.trim())}
+                    className="w-full bg-[#2B6A73] hover:bg-[#268391] text-white sm:text-lg py-4 sm:py-6 mt-4"
+                  >
+                    {analyzing ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        {t("analyzingText")}
+                      </>
+                    ) : (
+                      <>
+                        <Brain className="w-5 h-5 mr-2" />
+                        {t("analyzeButton")}
+                      </>
+                    )}
+                  </Button>
+
+                  {analyzing && (
+                    <div className="mt-4">
+                      <div className="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>{t("analysisProgressLabel")}</span>
+                        <span>{progress}%</span>
+                      </div>
+                      <Progress value={progress} />
+                    </div>
+                  )}
+                </form>
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Right Column */}
+          {/* Right Column: Recommended Doctors */}
           <div className="space-y-6">
-            {!complete ? (
-              <Card>
-                <CardHeader>
-                  <CardTitle>{t("resultsTitle")}</CardTitle>
-                  <CardDescription>{t("resultsDescription")}</CardDescription>
-                </CardHeader>
-                <CardContent className="text-center py-8">
-                  <Brain className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500">{t("awaitingAnalysis")}</p>
-                </CardContent>
-              </Card>
-            ) : (
-              <>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>{t("recommendedSpecialistTitle")}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 my-2">{t("specialistDescription")}</p>
-                    <Link href="/recommended-providers">
-                      <Button size="sm" className="w-full bg-green-600 hover:bg-green-700">
-                        {t("viewDoctorsButton")}
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-
-                <div className="space-y-3">
-                  <Button variant="outline" className="w-full" onClick={() => download(t("saveResultButton"))}>
-                    {t("saveResultButton")}
+            <Card>
+              <CardHeader>
+                <CardTitle>{t("recommendedSpecialistTitle")}</CardTitle>
+                <CardDescription>{t("specialistDescription")}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {doctors.length > 0 ? (
+                  <ul className="space-y-4">
+                    {doctors.map(doctor => (
+                      <li key={doctor.id} className="border-b pb-2">
+                        <p className="font-medium text-gray-900">{doctor.name}</p>
+                        <p className="text-sm text-gray-600">Field: {doctor.field}</p>
+                        <p className="text-sm text-gray-600 line-clamp-2">Description: {doctor.description}</p>
+                        <p className="text-sm text-gray-500">Hospital: {doctor.hospital}</p>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-500 text-center">{t("noDoctors")}</p>
+                )}
+                <Link href="/recommended-providers">
+                  <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 mt-4">
+                    {t("viewDoctorsButton")}
                   </Button>
-                  <Button variant="outline" className="w-full" onClick={() => download(t("detailedReportButton"))}>
-                    {t("detailedReportButton")}
-                  </Button>
-                </div>
-              </>
-            )}
+                </Link>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
