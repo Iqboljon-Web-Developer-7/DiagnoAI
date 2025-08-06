@@ -1,295 +1,281 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Star, MapPin, Users, Phone, Calendar, Filter, Search } from "lucide-react"
-import { useAppStore } from "@/context/store"
-import { useTranslations, useMessages } from "next-intl"
-import { useToast } from "@/hooks/use-toast"
-import Image from "next/image"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Play, Clock, BookOpen, GraduationCap, Search } from "lucide-react";
+import { VideoModal } from "../../components/VideoModal";
+import heroImage from "@/assets/images/education/education-hero.jpg";
 
-export default function EducationPage() {
-  const translations = useTranslations("education")
-  const messages = useMessages()
-  const { addAppointment } = useAppStore()
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCity, setSelectedCity] = useState("")
-  const [selectedType, setSelectedType] = useState("")
-  const [selectedRating, setSelectedRating] = useState("")
-  const [showSuccessToast, setShowSuccessToast] = useState(false)
-  const [toastMessage, setToastMessage] = useState("")
+interface Video {
+  id: string;
+  title: string;
+  description: string;
+  videoUrl: string;
+  thumbnail: string;
+  duration: string;
+  category: string;
+}
 
-  const { toast } = useToast()
+const mockVideos: Video[] = [
+  {
+    id: "1",
+    title: "ProfMedService ko'p tarmoqli klinikasi",
+    description: "Siz har doim har bir bemorga katta e'tibor va hurmat bilan munosabatda bo'ladigan klinikani qidirganmisiz? Eng qiyin holatlarda yordam bera oladigan professional shifokorlar va jarrohlar qayerda ishlaydi? 🤕 ProfMedService ko'p tarmoqli klinikasi mutaxassislari allaqachon sizni kutmoqda! To'g'ri shifokor bilan uchrashing va sog'lom bo'ling! 🤗 ☎️ Sizni qiziqtirgan barcha savollar bo'yicha bizning call-markazimizga murojaat qiling: 1️⃣2️⃣1️⃣0️⃣ 🕑Lor shifokorlari qabuli 24/7 ochiq 📍Yunusobod tumani, st. Amira Temura, 119 ____ Har bir bemorga ga'mxo'rlik va hurmat bilan munosabatda bo'lib, eng qiyin vaziyatlarda ham yordam bera iloji boricha foydali va jarroh ishlovchi klinikani izlaysizmi? Kerakli va sal qabuliga yoziling! 🤗 ☎️ Qiziqtirgan barcha savollar bo'yicha qo'ng'iroq markazimizga murojaat qiling: 1️⃣2️⃣1️⃣0️⃣ 🕑LOR hisoblar qabuli 24/7 ochiq 📍Yunusobod tumani, Amir Temur ko'ch, 119",
+    videoUrl: "https://www.youtube.com/embed/uXdGHzguoeA?si=VHuMYeHP2csZPWA4",
+    thumbnail: "https://i.ytimg.com/vi/uXdGHzguoeA/maxresdefault.jpg",
+    duration: "45 min",
+    category: "Reklama"
+  },
+  {
+    id: "2", 
+    title: "Mutaxassisimiz LOR shifokor Umarov Ravshan Ziyavidinovich",
+    description: `Mirkamol Nasirjanovning yangi dasturi mehmoni bo'ldi👨‍⚕️
 
-  // Extract institution types and institutions from messages
-  const institutionTypes = Object.keys(messages.education?.types || {}).map((key) => ({
-    name: messages.education.types[key].name,
-    count: messages.education.types[key].count,
-    icon: messages.education.types[key].icon,
-  }))
+Gaymorit va uni davolash usullari mavzusiga qiziqasizmi?
 
-  const institutions = Object.keys(messages.education?.institutions || {}).map((key) => ({
-    id: parseInt(key.replace("institution", "")),
-    ...messages.education.institutions[key],
-    image: "/placeholder-institution.jpg",
-  }))
+ LOR kasalliklari va ularni davolash haqida ko'proq bilishni istaysizmi? 
 
-  const handleCall = (institutionName: string) => {
-    setToastMessage(translations("toastMessages.call", { institutionName }))
-    setShowSuccessToast(true)
+Unda havola orqali o'ting va ushbu videoni to’liq tomosha qiling✅`,
+    videoUrl: "https://www.youtube.com/embed/6Js5kSVYA1Q?si=NdWAcFQa8gIR3g4D",
+    thumbnail: "https://i.ytimg.com/vi/6Js5kSVYA1Q/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGH8gMigpMA8=&rs=AOn4CLA59cetPQJpkmzhAWnSe2JulO94zg",
+    duration: "32 min",
+    category: "Podcast"
+  },
+  {
+    id: "3",
+    title: "ProfMedService в Андижане👨‍⚕️",
+    description: `
+Клиника, вобравшая в себя новейшие технологии и профессиональных врачей, отличается слаженной работой профессиональных врачей. Все заболевания, с высокой точностью диагностируются и лечатся нашими специалистами. Комфортные условия, созданные в клинике, способствуют скорейшему выздоровлению наших пациентов🤗
+
+Телефоны для справок:
+📞+99874-228-38-83
+📞+99874-228-39-93`,
+    videoUrl: "https://www.youtube.com/embed/OTJzNqgQo3Y?si=wkpLyI6OpTGSYIPp",
+    thumbnail: "https://i.ytimg.com/vi/OTJzNqgQo3Y/maxresdefault.jpg",
+    duration: "28 min",
+    category: "Reklama"
+  },
+  {
+    id: "4",
+    title: "Yurak kasal ekanligining belgilari!",
+    description: `
+Agar sizda yoki yaqinlaringizda yurak bilan bog'liq muommolar bo'lsa albatta bizga murojaat qiling. 
+
+Bunda sizga 5 yillik  yillik tajribaga ega kardiolog shifokor Akbar madaliyev yordam beradi. 
+
+☎️+998 (71) 200-23-03
+📍manzil: Chilonzor 20\kv`,
+    videoUrl: "https://www.youtube.com/embed/HBJ9O64xUYM?si=dUQAT3h64nPE1-JU",
+    thumbnail: "https://i.ytimg.com/vi/HBJ9O64xUYM/maxresdefault.jpg",
+    duration: "52 min",
+    category: "Education"
+  },
+  {
+    id: "5",
+    title: "Oshkozon yarasi sababi | kattalik va davolash vositalari",
+    description: `Oshqozon yarasi sabablari! ☎️+998 (71) 200-23-03 📍manzil: Chilonzor 20\kv "Bizda halollik foydadan ustun" 🌐Bizni ijtimoiy tarmoqlarda kuzatish ▪️ Instagram:  / hilolmed   
+▪️ telegram: https://t.me/HILOLMEDCLINIC 
+▪️ tik tok: https: /  hilol_med`,
+    videoUrl: "https://www.youtube.com/embed/bbDdp3z3uTw?si=fGUMfSJ6qdNmhNgG",
+    thumbnail: "https://i.ytimg.com/vi/bbDdp3z3uTw/maxresdefault.jpg",
+    duration: "38 min",
+    category: "Explainer"
+  },
+  {
+    id: "6",
+    title: "Qandli diabet Belgilari!",
+    description: `Qandli diabet Belgilari!
+
+Videoga like bosing va fikringizni, qasi mavzudagi videolar sizni qiziqtirishini yozib qoldiring!
+
+.
+Ijtimoiy tarmoqdagi sahifalarimizga obuna bo'ling:
+       Instagram: https://instagram.com/drdilshod?igshi...
+       Telegram: https://t.me/DrDilshodtursunov
+       Facebook:   / drdilshodtur.  .
+.
+Murojaat uchun: +998 94 651 30 00`,
+    videoUrl: "https://www.youtube.com/embed/OQPaN911LEA?si=6x93e6xDj3NAAskc",
+    thumbnail: "https://i.ytimg.com/vi/OQPaN911LEA/maxresdefault.jpg",
+    duration: "41 min",
+    category: "Education"
+  },
+    {
+    id: "7",
+    title: "What is Diagno AI? - Overview Presentation",
+    description: `This video provides an overview of Diagno AI – an intelligent healthcare assistant platform that leverages AI to support patient diagnostics and analysis. Learn more at @DiagnoAI.`,
+    videoUrl: "https://www.youtube.com/embed/OubN6MI9iHY?si=l1KWq9pEgqRZvEWk",
+    thumbnail: "https://i.ytimg.com/vi/OubN6MI9iHY/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGDYgYShyMA8=&rs=AOn4CLBdTzaWrEHRLps61gkG6JWqwBdETg",
+    duration: "41 min",
+    category: "Using Diagno AI"
+  },
+      {
+    id: "8",
+    title:"Diagno AI ilovasi haqida.",
+    description: `Tibbiyotda sun'iy intellektni qo'llash asoslari. #diagnoai #O'zbekistondagi birinchi tibbiy sun'iy intellekt​`,
+    videoUrl: "https://www.youtube.com/embed/0GPz8Cy_vnU?si=FqKczA4nnklX1Wif",
+    thumbnail: "https://i.ytimg.com/vi/OubN6MI9iHY/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGDYgYShyMA8=&rs=AOn4CLBdTzaWrEHRLps61gkG6JWqwBdETg",
+    duration: "41 min",
+    category: "Using Diagno AI"
   }
+];
 
-  const handleInquiry = (institution: {
-    name: string;
-    type: string;
-  }) => {
-    addAppointment({
-      doctor: institution.name, // Using institution name as doctor for consistency
-      specialty: institution.type,
-      date: "2024-01-25",
-      time: "10:00",
-      type: translations("institutionCard.inquiryButton"),
-      status: translations("toastMessages.inquiry").includes("submitted") ? "Submitted" : "Yuborildi",
-    })
+const Education = () => {
+  const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-    setToastMessage(translations("toastMessages.inquiry", { institutionName: institution.name }))
-    setShowSuccessToast(true)
-  }
+  const categories = ["All", "Reklama", "Podcast", "Education", "Explainer","Using Diagno AI"];
 
-  const clearFilters = () => {
-    setSearchTerm("")
-    setSelectedCity("")
-    setSelectedType("")
-    setSelectedRating("")
-    setToastMessage(translations("toastMessages.clearFilters"))
-    setShowSuccessToast(true)
-  }
+  const filteredVideos = mockVideos.filter(video => {
+    const matchesCategory = selectedCategory === "All" || video.category === selectedCategory;
+    const matchesSearch = searchQuery === "" || 
+      video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      video.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      video.category.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
-  // Filter institutions based on search criteria
-  const filteredInstitutions = institutions.filter((institution) => {
-    const matchesSearch =
-      institution.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      institution.type.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesType = !selectedType || institution.type.toLowerCase() === selectedType.toLowerCase()
-    const matchesRating = !selectedRating || institution.rating >= Number.parseFloat(selectedRating)
-    const matchesCity = !selectedCity || institution.city?.toLowerCase() === selectedCity.toLowerCase()
+  const handleVideoSelect = (video: Video) => {
+    setSelectedVideo(video);
+    setIsModalOpen(true);
+  };
 
-    return matchesSearch && matchesType && matchesRating && matchesCity
-  })
-
-  useEffect(() => {
-    if (showSuccessToast) {
-      toast({ title: toastMessage })
-      setShowSuccessToast(false)
-    }
-  }, [showSuccessToast, toastMessage, toast])
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedVideo(null);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Section */}
-        <div className="mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">{translations("pageTitle")}</h1>
-          <p className="text-xl text-gray-600">{translations("pageDescription")}</p>
-        </div>
-
-        {/* Institution Types Overview */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <span>{translations("typesTitle")}</span>
-            </CardTitle>
-            <CardDescription>{translations("typesDescription")}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-5 gap-4">
-              {institutionTypes.map((type, index) => (
-                <div
-                  key={index}
-                  className="text-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer"
-                  onClick={() => setSelectedType(type.name.toLowerCase())}
-                >
-                  <div className="text-2xl mb-2">{type.icon}</div>
-                  <h3 className="font-semibold text-gray-900">{type.name}</h3>
-                  <p className="text-sm text-gray-600">{translations("count", { count: type.count })}</p>
-                </div>
-              ))}
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 bg-black/40 bg-bottom bg-cover bg-no-repeat"
+          style={{
+            backgroundImage: `url(${heroImage.src})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundBlendMode: 'overlay'
+          }}
+        />
+        <div className="relative container mx-auto px-4 py-24 ">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <GraduationCap className="h-8 w-8 text-primary" />
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Learn & Grow
+              </h1>
             </div>
-          </CardContent>
-        </Card>
+            <p className="text-xl text-indigo-200 leading-relaxed">
+              Master new skills with our comprehensive video library. From fundamentals to advanced concepts, 
+              we have everything you need to advance your career.
+            </p>
+            <div className="flex items-center justify-center gap-6 text-sm text-gray-200">
+              <div className="flex items-center gap-2">
+                <BookOpen className="h-4 w-4" />
+                <span>{mockVideos.length} Video Lessons</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4" />
+                <span>Expert-Led Content</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <div className="grid lg:grid-cols-4 gap-8">
-          <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Filter className="w-5 h-5" />
-                  <span>{translations("filters.title")}</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.searchLabel")}</label>
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                    <Input
-                      placeholder={translations("filters.searchPlaceholder")}
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
-                    />
+      <section className="container mx-auto px-4 py-8">
+        <div className="max-w-md mx-auto mb-8">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              type="text"
+              placeholder="Search videos..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+        </div>
+        
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+          {categories.map((category) => (
+            <Button
+              key={category}
+              variant={selectedCategory === category ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory(category)}
+              className="transition-all duration-200"
+            >
+              {category}
+            </Button>
+          ))}
+        </div>
+      </section>
+
+      {/* Video Grid */}
+      <section className="container mx-auto px-4 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredVideos.map((video) => (
+            <Card 
+              key={video.id} 
+              className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1"
+              onClick={() => handleVideoSelect(video)}
+            >
+              <CardContent className="p-0">
+                <div className="relative overflow-hidden rounded-t-lg">
+                  <img
+                    src={video.thumbnail}
+                    alt={video.title}
+                    className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="bg-primary/90 rounded-full p-4">
+                      <Play className="h-6 w-6 text-primary-foreground fill-current" />
+                    </div>
+                  </div>
+                  <Badge 
+                    className="absolute top-3 left-3 bg-primary/90 text-primary-foreground"
+                  >
+                    {video.category}
+                  </Badge>
+                </div>
+                
+                <div className="p-4 space-y-3">
+                  <h3 className="font-semibold text-lg leading-tight group-hover:text-primary transition-colors">
+                    {video.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm line-clamp-2">
+                    {video.description}
+                  </p>
+                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      {/* <Clock className="h-4 w-4" /> */}
+                      {/* <span>{video.duration}</span> */}
+                    </div>
+                    <Button variant="ghost" size="sm" className="text-primary">
+                      Watch Now
+                    </Button>
                   </div>
                 </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.cityLabel")}</label>
-                  <Select value={selectedCity} onValueChange={setSelectedCity}>
-                    <SelectTrigger>
-                      <SelectValue placeholder={translations("filters.cityPlaceholder")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="tashkent">{translations("filters.cities.tashkent")}</SelectItem>
-                      <SelectItem value="samarkand">{translations("filters.cities.samarkand")}</SelectItem>
-                      <SelectItem value="bukhara">{translations("filters.cities.bukhara")}</SelectItem>
-                      <SelectItem value="namangan">{translations("filters.cities.namangan")}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.typeLabel")}</label>
-                  <Select value={selectedType} onValueChange={setSelectedType}>
-                    <SelectTrigger>
-                      <SelectValue placeholder={translations("filters.typePlaceholder")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {institutionTypes.map((type) => (
-                        <SelectItem key={type.name} value={type.name.toLowerCase()}>
-                          {type.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 block">{translations("filters.ratingLabel")}</label>
-                  <Select value={selectedRating} onValueChange={setSelectedRating}>
-                    <SelectTrigger>
-                      <SelectValue placeholder={translations("filters.ratingPlaceholder")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="4.5">4.5</SelectItem>
-                      <SelectItem value="4.0">4.0</SelectItem>
-                      <SelectItem value="3.5">3.5</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <Button variant="outline" className="w-full" onClick={clearFilters}>
-                  {translations("filters.clearFiltersButton")}
-                </Button>
               </CardContent>
             </Card>
-          </div>
-
-          {/* Institutions List */}
-          <div className="lg:col-span-3">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">{translations("institutionsListTitle", { count: filteredInstitutions.length })}</h2>
-              <Select defaultValue="rating">
-                <SelectTrigger className="w-48">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="rating">{translations("sortOptions.rating")}</SelectItem>
-                  <SelectItem value="distance">{translations("sortOptions.distance")}</SelectItem>
-                  <SelectItem value="students">{translations("sortOptions.students")}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-6">
-              {filteredInstitutions.map((institution) => (
-                <Card key={institution.id} className="hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="relative">
-                        <Image
-                          src={institution.image}
-                          alt={institution.name}
-                          className="w-20 h-20 rounded-full object-cover"
-                        />
-                      </div>
-
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between">
-                          <div className="w-full">
-                            <h3 className="text-xl font-bold text-gray-900 mb-1">{institution.name}</h3>
-                            <p className="text-blue-600 font-medium mb-2">{institution.type}</p>
-                            <p className="text-gray-600 text-sm mb-3">{institution.address}</p>
-
-                            <p className="text-gray-700 mb-3">{institution.description}</p>
-
-                            <div className="flex items-center space-x-4 mb-3">
-                              <div className="flex items-center space-x-1">
-                                <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                                <span className="font-medium">{institution.rating}</span>
-                                <span className="text-gray-500 text-sm">{translations("institutionCard.reviews", { count: institution.reviews })}</span>
-                              </div>
-
-                              <div className="flex items-center space-x-1 text-gray-600">
-                                <MapPin className="w-4 h-4" />
-                                <span className="text-sm">{institution.distance}</span>
-                              </div>
-
-                              <div className="flex items-center space-x-1 text-gray-600">
-                                <Users className="w-4 h-4" />
-                                <span className="text-sm">{institution.students} {translations("institutionCard.students")}</span>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center justify-between">
-                              <div>
-                                <span className="text-lg font-bold text-gray-900">{institution.programs}</span>
-                                <span className="text-gray-500 text-sm ml-1">{translations("institutionCard.programsSuffix")}</span>
-                              </div>
-
-                              <div className="flex space-x-3">
-                                <Button variant="outline" size="sm" onClick={() => handleCall(institution.name)}>
-                                  <Phone className="w-4 h-4 mr-1" />
-                                  {translations("institutionCard.callButton")}
-                                </Button>
-                                <Button
-                                  size="sm"
-                                  className="bg-blue-600 hover:bg-blue-700"
-                                  onClick={() => handleInquiry(institution)}
-                                >
-                                  <Calendar className="w-4 h-4 mr-1" />
-                                  {translations("institutionCard.inquiryButton")}
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div className="text-center mt-8">
-              <Button variant="outline" size="lg">
-                {translations("loadMoreButton")}
-              </Button>
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
+      </section>
+
+      <VideoModal 
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        video={selectedVideo}
+      />
     </div>
-  )
-}
+  );
+};
+
+export default Education;

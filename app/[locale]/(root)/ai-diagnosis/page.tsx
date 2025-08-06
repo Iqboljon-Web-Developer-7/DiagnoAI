@@ -286,7 +286,7 @@ export default function AIDiagnosisPage() {
       <aside
         className={`
           fixed inset-y-0 left-0 bg-slate-100 border-r p-4
-          w-64 transform transition-transform duration-300 ease-in-out
+          w-64 transform transition-transform duration-300 ease-in-out z-50
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0 lg:static lg:w-1/5
         `}
@@ -344,11 +344,12 @@ export default function AIDiagnosisPage() {
 
       {/* Mobile toggle */}
       <button
-        className="fixed top-4 left-4 lg:hidden p-2 bg-white rounded shadow"
+        className="fixed top-12 left-4 lg:hidden p-1 bg-white rounded shadow bg-white/50 backdrop-blur"
         onClick={() => setSidebarOpen(true)}
         aria-label={t("openSidebar")}
+        
       >
-        <Menu size={24} />
+        <Menu size={22} />
       </button>
 
       {/* Main content */}

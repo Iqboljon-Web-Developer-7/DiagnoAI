@@ -352,6 +352,8 @@ export default function Page() {
                     <div className="flex items-start space-x-4">
                       <div className="relative">
                         <Image
+                        width={'200'}
+                        height={'200'}
                           src={hospital.image!}
                           alt={hospital.name}
                           className="w-20 h-20 rounded-full object-cover"
