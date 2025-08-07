@@ -7,7 +7,7 @@ import Link from "next/link"
 import { useTranslations, useMessages } from "next-intl"
 
 import aboutImg from "@/assets/images/about/about-bg.jpg"
-import AlisherKarimovImage from "@/assets/images/doctor/doctor-man-1.jpg"
+import AlisherKarimovImage from "@/assets/images/about/Javohir.jpg"
 import DilnozaRahimovaImage from "@/assets/images/doctor/doctor-woman-1.jpg"
 import BoburToshmatovImage from "@/assets/images/doctor/doctor-man-2.jpg"
 import MalikaUsmonovaImage from "@/assets/images/doctor/doctor-woman-2.jpg"
@@ -222,7 +222,7 @@ export default function AboutPage() {
                       <div
                         className={`flex flex-col ${item.position === "right" ? "items-end text-right" : "items-start text-left"}`}
                       >
-                        <h2 className="font-medium text-[#1e1e1e] text-xl mb-2 z-20">
+                        <h2 className="font-medium text-[#1e1e1e]     text-xl mb-2 z-20">
                           {item.title}
                         </h2>
                         <span className="font-normal text-[#2b6a73] text-lg z-20">
