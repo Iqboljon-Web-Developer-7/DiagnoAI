@@ -32,40 +32,73 @@ interface TeamMembersData {
 }
 
 // Define team members data with explicit types
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Brain, Shield, Clock, Users, Award, Globe, Heart } from "lucide-react"
+import Link from "next/link"
+import { useTranslations } from "next-intl"
+import Image from "next/image"
+
+import aboutImg from "@/assets/images/about/about-bg.jpg"
+import Javohir from "@/assets/images/about/Javohir.jpg"
+import Sunnatillo from "@/assets/images/about/Sunnatillo.webp"
+import Iqboljon from "@/assets/images/about/Iqboljon.jpg"
+import Shahobiddin from "@/assets/images/about/Shahobiddin.jpg"
+import Firdavs from "@/assets/images/about/Firdavs.jpg"
+
+// Define TypeScript interface for team members data
+interface TeamMember {
+  name: string;
+  role: string;
+  description: string;
+}
+
+interface TeamMembersData {
+  about: {
+    team: {
+      members: {
+        [key: string]: TeamMember;
+      };
+    };
+  };
+}
+
+// Define team members data with updated team from PDF
 const teamMembersData: TeamMembersData = {
   about: {
     team: {
       members: {
         member1: {
-          name: "Javohir Khudoyberdiev",
-          role: "CEO & Founder",
-          description: "Visionary leader with over 10 years of experience in AI and healthcare innovation."
+          name: "Shohnat Panjiyev Sherzod o'g'li",
+          role: "Co-Founder & Yurist",
+          description: "Graduated from Tashkent State Law University, Bachelor. Experience: 2022-2025."
         },
         member2: {
-          name: "Sunnatillo Rakhimov",
-          role: "CTO",
-          description: "Expert in machine learning and system architecture, driving technical innovation."
+          name: "Javohir Jahonov Jasur o'g'li",
+          role: "Founder & Backend Developer",
+          description: "Graduated from PDP University, Bachelor. Experience: 2023-2027."
         },
         member3: {
-          name: "Iqboljon Mirzayev",
-          role: "Lead AI Engineer",
-          description: "Specializes in developing advanced AI algorithms for medical diagnostics."
+          name: "Iqboljon Ummataliyev Kamoliddin o'g'li",
+          role: "Frontend Developer",
+          description: "Graduated from Najot Ta'lim, IT Park & SAMMI. Experience: 2022-2024."
         },
         member4: {
-          name: "Shahobiddin Yuldashev",
-          role: "Product Manager",
-          description: "Oversees product development and ensures user-centric solutions."
+          name: "Firdavs Safarmakhmadov",
+          role: "Web-dizayner & Grafik dizayner",
+          description: "Graduated from ProWeb & Central Asian University, Bachelor. Experience: 2023-2027."
         },
         member5: {
-          name: "Firdavs Normurodov",
-          role: "UX/UI Designer",
-          description: "Designs intuitive and accessible interfaces for seamless user experiences."
+          name: "Shahobiddin",
+          role: "AI Mutaxassis",
+          description: "Graduated from PDP University, Bachelor. Experience: 2023-2027."
         }
       }
     }
   }
 }
-
 export default function AboutPage() {
   const timelineItems = [
     {
@@ -220,7 +253,7 @@ export default function AboutPage() {
                 <CardContent className="p-0">
                   <Image
                     width={192}
-                    height={192}
+                    height={320}
                     src={member.image || "/placeholder.svg"}
                     alt={member.name}
                     className="w-full h-48 object-cover object-top"
