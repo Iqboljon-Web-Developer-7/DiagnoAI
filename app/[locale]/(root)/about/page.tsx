@@ -32,40 +32,7 @@ interface TeamMembersData {
 }
 
 // Define team members data with explicit types
-"use client"
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Brain, Shield, Clock, Users, Award, Globe, Heart } from "lucide-react"
-import Link from "next/link"
-import { useTranslations } from "next-intl"
-import Image from "next/image"
-
-import aboutImg from "@/assets/images/about/about-bg.jpg"
-import Javohir from "@/assets/images/about/Javohir.jpg"
-import Sunnatillo from "@/assets/images/about/Sunnatillo.webp"
-import Iqboljon from "@/assets/images/about/Iqboljon.jpg"
-import Shahobiddin from "@/assets/images/about/Shahobiddin.jpg"
-import Firdavs from "@/assets/images/about/Firdavs.jpg"
-
-// Define TypeScript interface for team members data
-interface TeamMember {
-  name: string;
-  role: string;
-  description: string;
-}
-
-interface TeamMembersData {
-  about: {
-    team: {
-      members: {
-        [key: string]: TeamMember;
-      };
-    };
-  };
-}
-
-// Define team members data with updated team from PDF
 const teamMembersData: TeamMembersData = {
   about: {
     team: {
