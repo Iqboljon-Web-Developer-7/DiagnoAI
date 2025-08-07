@@ -7,10 +7,11 @@ import Link from "next/link"
 import { useTranslations, useMessages } from "next-intl"
 
 import aboutImg from "@/assets/images/about/about-bg.jpg"
-import AlisherKarimovImage from "@/assets/images/about/Javohir.jpg"
-import DilnozaRahimovaImage from "@/assets/images/doctor/doctor-woman-1.jpg"
-import BoburToshmatovImage from "@/assets/images/doctor/doctor-man-2.jpg"
-import MalikaUsmonovaImage from "@/assets/images/doctor/doctor-woman-2.jpg"
+import Javohir from "@/assets/images/about/Javohir.jpg"
+import Sunnatillo from "@/assets/images/about/Sunnatillo.webp"
+import Iqboljon from "@/assets/images/about/Iqboljon.jpg"
+import Shahobiddin from "@/assets/images/about/Shahobiddin.jpg"
+import Firdavs from "@/assets/images/about/Firdavs.jpg"
 import Image from "next/image"
 
 export default function AboutPage() {
@@ -60,7 +61,7 @@ export default function AboutPage() {
     name: messages.about.team.members[key].name,
     role: messages.about.team.members[key].role,
     description: messages.about.team.members[key].description,
-    image: [AlisherKarimovImage.src, DilnozaRahimovaImage.src, BoburToshmatovImage.src, MalikaUsmonovaImage.src][index],
+    image: [Javohir.src, Sunnatillo.src, Iqboljon.src, Shahobiddin.src,Firdavs.src][index],
   }))
 
   // Extract milestones from messages
