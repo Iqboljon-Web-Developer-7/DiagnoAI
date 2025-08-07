@@ -38,7 +38,7 @@ const teamMembersData: TeamMembersData = {
     team: {
       members: {
         member1: {
-          name: "Shohnat Panjiyev Sherzod o'g'li",
+          name: "Sunnat Panjiyev Sherzod o'g'li",
           role: "Co-Founder & Yurist",
           description: "Graduated from Tashkent State Law University, Bachelor. Experience: 2022-2025."
         },
@@ -112,7 +112,7 @@ export default function AboutPage() {
     name: teamMembersData.about.team.members[key].name,
     role: teamMembersData.about.team.members[key].role,
     description: teamMembersData.about.team.members[key].description,
-    image: [Javohir.src, Sunnatillo.src, Iqboljon.src, Shahobiddin.src, Firdavs.src][index],
+    image: [Sunnatillo.src, Javohir.src, Iqboljon.src, Firdavs.src, Shahobiddin.src][index],
   }))
 
   return (
@@ -223,7 +223,7 @@ export default function AboutPage() {
                     height={320}
                     src={member.image || "/placeholder.svg"}
                     alt={member.name}
-                    className="w-full h-48 object-cover object-top"
+                    className="w-full h-80 object-cover object-top"
                   />
                   <div className="p-6">
                     <h3 className="text-lg font-bold text-gray-900 mb-1">{member.name}</h3>
