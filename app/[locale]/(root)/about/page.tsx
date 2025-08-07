@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Brain, Shield, Clock, Users, Award, Globe, Heart } from "lucide-react"
 import Link from "next/link"
-import { useTranslations, useMessages } from "next-intl"
+import { useTranslations } from "next-intl"
+import Image from "next/image"
 
 import aboutImg from "@/assets/images/about/about-bg.jpg"
 import Javohir from "@/assets/images/about/Javohir.jpg"
@@ -12,7 +13,41 @@ import Sunnatillo from "@/assets/images/about/Sunnatillo.webp"
 import Iqboljon from "@/assets/images/about/Iqboljon.jpg"
 import Shahobiddin from "@/assets/images/about/Shahobiddin.jpg"
 import Firdavs from "@/assets/images/about/Firdavs.jpg"
-import Image from "next/image"
+
+// Define team members data
+const teamMembersData = {
+  about: {
+    team: {
+      members: {
+        member1: {
+          name: "Javohir Khudoyberdiev",
+          role: "CEO & Founder",
+          description: "Visionary leader with over 10 years of experience in AI and healthcare innovation."
+        },
+        member2: {
+          name: "Sunnatillo Rakhimov",
+          role: "CTO",
+          description: "Expert in machine learning and system architecture, driving technical innovation."
+        },
+        member3: {
+          name: "Iqboljon Mirzayev",
+          role: "Lead AI Engineer",
+          description: "Specializes in developing advanced AI algorithms for medical diagnostics."
+        },
+        member4: {
+          name: "Shahobiddin Yuldashev",
+          role: "Product Manager",
+          description: "Oversees product development and ensures user-centric solutions."
+        },
+        member5: {
+          name: "Firdavs Normurodov",
+          role: "UX/UI Designer",
+          description: "Designs intuitive and accessible interfaces for seamless user experiences."
+        }
+      }
+    }
+  }
+}
 
 export default function AboutPage() {
   const timelineItems = [
@@ -51,32 +86,25 @@ export default function AboutPage() {
         "Yangi funktsiyalar va xizmatlar qo'shildi, foydalanuvchilar soni 100,000 dan oshdi.",
       position: "left",
     },
-  ];
+  ]
 
   const translations = useTranslations("about")
-  const messages = useMessages()
 
-  // Extract team members from messages
-  const teamMembers = Object.keys(messages.about?.team?.members || {}).map((key, index) => ({
-    name: messages.about.team.members[key].name,
-    role: messages.about.team.members[key].role,
-    description: messages.about.team.members[key].description,
-    image: [Javohir.src, Sunnatillo.src, Iqboljon.src, Shahobiddin.src,Firdavs.src][index],
+  // Map team members data
+  const teamMembers = Object.keys(teamMembersData.about?.team?.members || {}).map((key, index) => ({
+    name: teamMembersData.about.team.members[key].name,
+    role: teamMembersData.about.team.members[key].role,
+    description: teamMembersData.about.team.members[key].description,
+    image: [Javohir.src, Sunnatillo.src, Iqboljon.src, Shahobiddin.src, Firdavs.src][index],
   }))
-
-  // Extract milestones from messages
-  // const milestones = Object.keys(messages.about?.history?.milestones || {}).map((key) => ({
-  //   year: messages.about.history.milestones[key].year,
-  //   title: messages.about.history.milestones[key].title,
-  //   description: messages.about.history.milestones[key].description,
-  // }))
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <section
         style={{ backgroundImage: `url(${aboutImg.src})` }}
-        className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[8%] bg-black bg-no-repeat min-h-96">
+        className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[8%] bg-black bg-no-repeat min-h-96"
+      >
         <span className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2]"></span>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <h1 className="text-4xl lg:text-6xl font-bold mb-6">{translations("hero.title")}</h1>
@@ -95,7 +123,8 @@ export default function AboutPage() {
               <div className="space-y-4">
                 {["item1", "item2", "item3", "item4"].map((item, index) => (
                   <div key={item} className="flex items-start space-x-3">
-                    <span>{index + 1}.</span><p className="text-gray-700">{translations(`mission.checklist.${item}`)}</p>
+                    <span>{index + 1}.</span>
+                    <p className="text-gray-700">{translations(`mission.checklist.${item}`)}</p>
                   </div>
                 ))}
               </div>
@@ -191,6 +220,7 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Timeline Section */}
       <section className="w-full container mx-auto py-16 px-4 bg-white">
         <div className="mb-12">
           <h1 className="font-medium text-3xl text-[#1e1e1e]">
@@ -223,13 +253,13 @@ export default function AboutPage() {
                       <div
                         className={`flex flex-col ${item.position === "right" ? "items-end text-right" : "items-start text-left"}`}
                       >
-                        <h2 className="font-medium text-[#1e1e1e]     text-xl mb-2 z-20">
+                        <h2 className="font-medium text-[#1e1e1e] text-xl mb-2 z-20">
                           {item.title}
                         </h2>
                         <span className="font-normal text-[#2b6a73] text-lg z-20">
                           {item.year}
                         </span>
-                        <p className="  font-normal text-[#00000080] z-20">
+                        <p className="font-normal text-[#00000080] z-20">
                           {item.description}
                         </p>
                       </div>
@@ -242,6 +272,7 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Call to Action */}
       <section className="py-20 bg-blue-600 z-20 relative">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">{translations("cta.title")}</h2>
@@ -264,6 +295,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-    </div >
+    </div>
   )
 }
