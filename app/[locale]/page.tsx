@@ -10,7 +10,6 @@ export default async function HomePage() {
       {/* @ts-expect-error Async Server Component */}
       <HeroSection
         diagnosisPath="/ai-diagnosis"
-        analysisPath="/analysis"
         emergencyPath="/emergency-help"
       />
       {/* @ts-expect-error Async Server Component */}

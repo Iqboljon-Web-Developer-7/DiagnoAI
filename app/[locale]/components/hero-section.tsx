@@ -6,11 +6,10 @@ import { Link } from "@/i18n/navigation"
 
 interface HeroSectionProps {
   diagnosisPath: string;
-  analysisPath: string;
   emergencyPath: string;
 }
 
-export async function HeroSection({ diagnosisPath, analysisPath, emergencyPath }: HeroSectionProps) {
+export async function HeroSection({ diagnosisPath, emergencyPath }: HeroSectionProps) {
   const t = await getTranslations('Index');
 
   return (
@@ -51,17 +50,6 @@ export async function HeroSection({ diagnosisPath, analysisPath, emergencyPath }
                   >
                     <Upload className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                     {t('hero.getDiagnosis')}
-                  </Button>
-                </Link>
-              </div>
-              <div>
-                <Link href={analysisPath}>
-                  <Button
-                    variant="outline"
-                    className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base hover:scale-105 transition-transform"
-                  >
-                    <Brain className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                    {t('hero.uploadAnalysis')}
                   </Button>
                 </Link>
               </div>
