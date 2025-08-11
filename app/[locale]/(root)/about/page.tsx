@@ -214,16 +214,16 @@ export default function AboutPage() {
             <p className="text-xl text-gray-600 max-w-3xl">{translations("team.description")}</p>
           </div>
 
-          <div className="flex items-center justify-center flex-wrap gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
               <Card key={index} className="overflow-hidden border-0 shadow-lg">
                 <CardContent className="p-0">
                   <Image
-                    width={192}
-                    height={320}
+                    width={400}
+                    height={440}
                     src={member.image || "/placeholder.svg"}
                     alt={member.name}
-                    className="w-full h-80 object-cover object-top"
+                    className="w-full h-96 object-cover object-top"
                   />
                   <div className="p-6">
                     <h3 className="text-lg font-bold text-gray-900 mb-1">{member.name}</h3>
