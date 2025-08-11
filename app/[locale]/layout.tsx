@@ -30,6 +30,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayout) {
     <html lang={locale}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
+          {/* @ts-expect-error Async Server Component */}
           <Header />
 
           {children}
