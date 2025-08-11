@@ -11,15 +11,12 @@ export function Footer() {
 
   const pathname = usePathname()
 
-  console.log(pathname);
-
-
   const toggleSection = (section: string) => {
     setOpenSection(openSection === section ? null : section)
   }
 
   return (
-    <footer className={`bg-[#2B6A73] text-white py-12 z-20 relative ${pathname == '/ai-medic' && 'hidden'}`}>
+    <footer className={`bg-[#2B6A73] text-white py-12 z-20 relative ${pathname == '/ai-medic' || pathname == '/register' || pathname == '/login' ? 'hidden' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-3 md:gap-8">
           <div className="flex flex-col gap-2">

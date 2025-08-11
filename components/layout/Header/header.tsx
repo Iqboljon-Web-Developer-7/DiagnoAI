@@ -4,9 +4,24 @@ import Image from 'next/image';
 import CollapsibleTabs from './CollapsibleTabs';
 import { LanguageSwitcher } from './language-switcher';
 import { UserMenu } from './user-menu';
+import { headers } from "next/headers";
+
+
+
 
 export async function Header() {
   const t = await getTranslations('navigation');
+
+  const headerList = await headers();
+  const pathname = headerList.get("x-current-path");
+
+  const filteredP = pathname?.split('/').reverse()[0]
+  const isHidden = filteredP == "register" || filteredP == "login"
+
+  console.log(filteredP);
+  console.log(isHidden);
+  
+  
 
   const navigation = [
     { path: '/ai-diagnosis', label: t('aiDiagnosis') },
@@ -19,8 +34,7 @@ export async function Header() {
   ];
 
   return (
-
-    <header className="min-h-16 w-screen flex items-center justify-center bg-transparent sticky top-0 z-30 px-3">
+    <header className={`min-h-16 w-full items-center justify-center bg-transparent sticky top-0 z-30 px-3`} style={{ display: isHidden ? 'none' : 'flex' }}>
       <div className="sticky top-0 bg-white/70 w-full rounded-2xl backdrop-blur-sm max-w-7xl mx-auto px-[1%] flex justify-between items-center z-30">
         <div className="hover:scale-105 transition-transform duration-200 animate-fade-in-down opacity-0 delay-1000">
           <Link href="/" className="flex items-center space-x-2 shrink-0">

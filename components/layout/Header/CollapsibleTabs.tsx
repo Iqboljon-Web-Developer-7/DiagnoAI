@@ -37,6 +37,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
 
   const pathname = usePathname();
 
+
   // Move document usage into useEffect to avoid SSR issues
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -136,7 +137,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
             >
               <Link
                 href={tab.path}
-                className="p-2 text-sm whitespace-nowrap text-gray-600 hover:text-blue-500"
+                className={`transition-all p-2 text-sm whitespace-nowrap text-gray-600 hover:text-blue-500 ${tab.path === pathname ? 'font-semibold underline' : ''}`}
               >
                 {tab.label}
               </Link>

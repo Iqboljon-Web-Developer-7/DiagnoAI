@@ -1,7 +1,3 @@
-// @ts-nocheck
-
-"use client";
-
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -123,7 +119,7 @@ export const useAppStore = create<any>()(
           id: `diagnosis-${Date.now()}`,
           date: new Date().toISOString().split("T")[0],
         };
-        set((state) => ({
+        set((state:AppState) => ({
           diagnoses: [newDiagnosis, ...state.diagnoses],
         }));
       },
@@ -132,7 +128,7 @@ export const useAppStore = create<any>()(
           ...appointment,
           id: `appointment-${Date.now()}`,
         };
-        set((state) => ({
+        set((state: AppState) => ({
           appointments: [newAppointment, ...state.appointments],
         }));
       },

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Header } from '@/components/layout/Header/header';
 import { Footer } from '@/components/layout/footer';
 
+
 interface LocaleLayout {
   children: React.ReactNode;
   params: { locale: "uz" | "en" | "ru" };
@@ -11,6 +12,9 @@ interface LocaleLayout {
 
 export default async function LocaleLayout({ children, params }: LocaleLayout) {
   const { locale } = await params;
+
+  console.log(locale);
+  
 
   if (!locales.includes(locale)) notFound();
 

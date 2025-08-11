@@ -46,7 +46,7 @@ export async function HeroSection({ diagnosisPath, emergencyPath }: HeroSectionP
                 <Link href={diagnosisPath}>
                   <Button
                     variant="outline"
-                    className="w-full sm:w-auto bg-transparent hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base hover:scale-105 transition-transform"
+                    className=" w-full sm:w-auto bg-transparent hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base hover:scale-105 transition-all hover:border-none duration-300"
                   >
                     <Upload className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                     {t('hero.getDiagnosis')}
@@ -57,7 +57,7 @@ export async function HeroSection({ diagnosisPath, emergencyPath }: HeroSectionP
                 <Link href={emergencyPath}>
                   <Button
                     variant="outline"
-                    className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base hover:scale-105 transition-transform"
+                    className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base hover:scale-105 transition-all hover:border-none duratino-300"
                   >
                     <Clock className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                     {t('hero.emergencyHelp')}
