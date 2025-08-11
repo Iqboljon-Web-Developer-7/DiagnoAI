@@ -380,7 +380,7 @@ export default function AIDiagnosisPage() {
                             )}
                             {msg.ai && (
                               <div className="flex justify-start">
-                                <div className="flex gap-3 max-w-[80%]">
+                                <div className="flex flex-col sm:flex-row gap-3 max-w-full sm:max-w-[80%]">
                                   <Avatar className="h-8 w-8 border-2 border-blue-200">
                                     <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs">
                                       AI
