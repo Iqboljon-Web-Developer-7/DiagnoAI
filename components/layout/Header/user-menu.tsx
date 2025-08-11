@@ -45,7 +45,7 @@ export function UserMenu({ className }: { className?: string }) {
       <>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="relative" variant={"outline"} size={"icon"}>
+            <Button className="relative" variant={"link"} size={"icon"}>
               <div className="flex items-center justify-center h-8 w-8 rounded-full">
                 <User color="black" className="h-4 w-4 text-blue-600" />
               </div>

@@ -286,8 +286,8 @@ export default function AIDiagnosisPage() {
       <aside
         className={`
           fixed inset-y-0 left-0 bg-slate-100 border-r p-4
-          w-64 transform transition-transform duration-300 ease-in-out z-50
-          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          w-64 transform transition-transform duration-300 ease-in-out
+          ${sidebarOpen ? "translate-x-0 z-50" : "-translate-x-full"}
           lg:translate-x-0 lg:static lg:w-1/5
         `}
       >
