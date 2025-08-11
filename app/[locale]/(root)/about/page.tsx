@@ -239,7 +239,7 @@ const timelineItems = [
       </section>
 
       {/* Timeline Section */}
-      <section className="w-full container mx-auto py-16 px-4 bg-white">
+      <section className="w-full container mx-auto py-16 px-4">
         <div className="mb-12">
           <h1 className="font-medium text-3xl text-[#1e1e1e]">
             Bizning tarixmiz
@@ -254,7 +254,7 @@ const timelineItems = [
           <div className="relative flex flex-col">
             <span className="top-[35%] sticky left-1/2 transform -translate-x-1/2 bg-[#2b6a73] w-4 h-4 inline-block rounded-full z-20"></span>
             <span className="top-[37%] sticky left-1/2 transform -translate-x-1/2 bg-white w-4 h-4 z-10 flex justify-center">
-              <div className="w-[26rem] sm:w-[30rem] h-[712px] shrink-0 bg-white z-10"></div>
+              <div className="w-[26rem] sm:w-[30rem] h-[712px] shrink-0 bg-neutral-50 z-10"></div>
             </span>
             {timelineItems.map((item, index) => (
               <div key={item.year || index} className="relative">
