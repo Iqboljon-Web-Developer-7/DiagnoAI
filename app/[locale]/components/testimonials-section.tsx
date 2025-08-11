@@ -1,6 +1,4 @@
 import { getTranslations } from 'next-intl/server';
-import { Quote } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import EmblaCarousel from '@/components/TestimoniolsCarousel/EmblaCarousel';
 
 const testimonialData = [

@@ -192,7 +192,7 @@ export default function RegisterPage() {
                     ) : (
                       <div className="flex items-center gap-1 text-red-600">
                         <AlertCircle className="w-4 h-4" />
-                        <span className="text-xs">Passwords don't match</span>
+                        <span className="text-xs">Passwords don&lsquo;t match</span>
                       </div>
                     )}
                   </div>

@@ -6,7 +6,6 @@ import axios, { type AxiosResponse } from "axios"
 import {
   X,
   Trash,
-  Upload,
   Brain,
   FileText,
   ImageIcon,
@@ -16,7 +15,6 @@ import {
   Stethoscope,
   MapPin,
   User,
-  Sparkles,
   Send,
   Paperclip,
 } from "lucide-react"
@@ -45,7 +43,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { useAppStore } from "@/context/store"
-import { useTranslations, useMessages } from "next-intl"
+import { useTranslations  } from "next-intl"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "@/i18n/navigation"
 
@@ -81,7 +79,6 @@ interface ChatApiResponse {
 
 export default function AIDiagnosisPage() {
   const t = useTranslations("aiDiagnosis")
-  const messagesIntl = useMessages()
   const { isLoggedIn, user } = useAppStore()
   const router = useRouter()
   const { toast: toastUI } = useToast()
@@ -112,6 +109,8 @@ export default function AIDiagnosisPage() {
         setChats(resp.data)
       } catch (err) {
         toastUI({ title: t("failedToLoadChats") })
+        console.log(err);
+        
       }
     }
     fetchChats()
@@ -281,7 +280,7 @@ export default function AIDiagnosisPage() {
   }
 
   useEffect(() => {
-    let header = document.querySelector("header")
+    const header = document.querySelector("header")
     if (header && header.style) {
       header.style.display = "none"
     }

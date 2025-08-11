@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Play, Clock, BookOpen, GraduationCap, Search } from "lucide-react";
 import { VideoModal } from "../../components/VideoModal";
 import heroImage from "@/assets/images/education/education-hero.jpg";
+import Image from "next/image";
 
 interface Video {
   id: string;
@@ -229,7 +230,9 @@ const Education = () => {
             >
               <CardContent className="p-0">
                 <div className="relative overflow-hidden rounded-t-lg">
-                  <img
+                  <Image
+                    width={1920}
+                    height={1080}
                     src={video.thumbnail}
                     alt={video.title}
                     className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"

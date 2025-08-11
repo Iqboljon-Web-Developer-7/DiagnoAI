@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { Button } from "@/components/ui/button"
-import { Upload, Brain, Clock } from "lucide-react"
+import { Upload , Clock } from "lucide-react"
 import HeroBgImg from "@/assets/images/hero/hero-bg.webp"
 import { Link } from "@/i18n/navigation"
 

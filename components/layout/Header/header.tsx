@@ -7,8 +7,6 @@ import { UserMenu } from './user-menu';
 import { headers } from "next/headers";
 
 
-
-
 export async function Header() {
   const t = await getTranslations('navigation');
 
