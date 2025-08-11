@@ -1,13 +1,20 @@
 import { getTranslations } from 'next-intl/server';
 import { Quote } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import EmblaCarousel from '@/components/TestimoniolsCarousel/EmblaCarousel';
 
-const testimonialData = [1, 2, 3].map(i => ({
-  id: i,
-  imageSrc: `/testimonial${i}.jpg`,
-  fallback: `T${i}`
-}));
-
+const testimonialData = [
+  { id: 1, imageSrc: 'https://picsum.photos/100?random=1', fallback: 'JD', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', name: 'John Doe', role: 'CEO, Company A' },
+  { id: 2, imageSrc: 'https://picsum.photos/100?random=2', fallback: 'JS', content: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', name: 'Jane Smith', role: 'CTO, Company B' },
+  { id: 3, imageSrc: 'https://picsum.photos/100?random=3', fallback: 'EM', content: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco.', name: 'Emily Martin', role: 'Designer, Company C' },
+  { id: 4, imageSrc: 'https://picsum.photos/100?random=4', fallback: 'MW', content: 'Duis aute irure dolor in reprehenderit in voluptate velit.', name: 'Michael Wong', role: 'Developer, Company D' },
+  { id: 5, imageSrc: 'https://picsum.photos/100?random=5', fallback: 'AL', content: 'Excepteur sint occaecat cupidatat non proident.', name: 'Anna Lee', role: 'Manager, Company E' },
+  { id: 6, imageSrc: 'https://picsum.photos/100?random=6', fallback: 'TB', content: 'Sunt in culpa qui officia deserunt mollit anim id est laborum.', name: 'Tom Brown', role: 'Founder, Company F' },
+  { id: 7, imageSrc: 'https://picsum.photos/100?random=7', fallback: 'LC', content: 'Nemo enim ipsam voluptatem quia voluptas sit aspernatur.', name: 'Lisa Chen', role: 'Marketing, Company G' },
+  { id: 8, imageSrc: 'https://picsum.photos/100?random=8', fallback: 'RG', content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.', name: 'Robert Garcia', role: 'Analyst, Company H' },
+  { id: 9, imageSrc: 'https://picsum.photos/100?random=9', fallback: 'SK', content: 'Consectetur, adipisci velit, sed quia non numquam eius modi.', name: 'Sarah Kim', role: 'Consultant, Company I' },
+  { id: 10, imageSrc: 'https://picsum.photos/100?random=10', fallback: 'DP', content: 'At vero eos et accusamus et iusto odio dignissimos ducimus.', name: 'David Patel', role: 'Engineer, Company J' },
+];
 export async function TestimonialsSection() {
   const t = await getTranslations('Index');
 
@@ -22,38 +29,7 @@ export async function TestimonialsSection() {
             {t('testimonials.description')}
           </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-          {testimonialData.map((testimonial) => (
-            <div key={testimonial.id} className="bg-gray-50 rounded-xl p-6 sm:p-8 relative">
-              <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
-                <Quote className="w-8 h-8 sm:w-10 sm:h-10 text-blue-200" />
-              </div>
-              <div className="mb-6">
-                <p className="text-gray-600 text-sm sm:text-base italic">
-                  {t(`testimonials.testimonial${testimonial.id}.content`)}
-                </p>
-              </div>
-              <div className="flex items-center">
-                <Avatar className="h-10 w-10 sm:h-12 sm:w-12">
-                  <AvatarImage 
-                    src={testimonial.imageSrc} 
-                    alt={t(`testimonials.testimonial${testimonial.id}.name`)} 
-                  />
-                  <AvatarFallback>{testimonial.fallback}</AvatarFallback>
-                </Avatar>
-                <div className="ml-3">
-                  <p className="text-sm sm:text-base font-semibold text-gray-900">
-                    {t(`testimonials.testimonial${testimonial.id}.name`)}
-                  </p>
-                  <p className="text-xs sm:text-sm text-gray-500">
-                    {t(`testimonials.testimonial${testimonial.id}.role`)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+      <EmblaCarousel slides={testimonialData} />
       </div>
     </section>
   )
