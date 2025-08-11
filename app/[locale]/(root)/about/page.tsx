@@ -214,7 +214,7 @@ export default function AboutPage() {
             <p className="text-xl text-gray-600 max-w-3xl">{translations("team.description")}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="flex items-center justify-center flex-wrap gap-8">
             {teamMembers.map((member, index) => (
               <Card key={index} className="overflow-hidden border-0 shadow-lg">
                 <CardContent className="p-0">

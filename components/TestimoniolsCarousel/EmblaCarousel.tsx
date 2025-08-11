@@ -1,7 +1,6 @@
 'use client'
 
 import React  from 'react'
-import { EmblaOptionsType } from 'embla-carousel'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { useAutoplay } from './EmblaCarouselAutoPlay'
@@ -9,6 +8,15 @@ import { useAutoplay } from './EmblaCarouselAutoPlay'
 import "./css/styles.css"
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import {   PlayCircle, Quote, StopCircle } from 'lucide-react'
+
+type EmblaOptionsType = {
+    container?: string | HTMLElement | null | undefined;
+    slides?: string | HTMLElement[] | NodeListOf<HTMLElement> | null | undefined;
+    dragFree?: boolean | undefined;
+    breakpoints?: {
+        [key: string]: EmblaOptionsType;
+    } | undefined;
+}
 
 type SlideType = {
   id: number
