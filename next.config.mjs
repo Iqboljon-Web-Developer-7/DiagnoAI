@@ -4,7 +4,16 @@ const withNextIntl = createNextIntlPlugin();
 
 const nextConfig = {
     images: {
-        dangerouslyAllowSVG: true
+        dangerouslyAllowSVG: true,
+        
+        remotePatterns: [
+         {
+          protocol: "https",
+          hostname: "i.ytimg.com",
+          port: "",
+          pathname: "/vi/**",
+         },
+     ],
     }
 };
 
