@@ -6,6 +6,7 @@ import { Star, MapPin, Clock, Calendar } from 'lucide-react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Doctor } from '../types';
+import { useRouter } from 'next/navigation';
 
 interface DoctorListProps {
     doctors: Doctor[];
@@ -16,19 +17,23 @@ interface DoctorListProps {
 
 export function DoctorList({ doctors, onBookAppointment, isBookingPending, user }: DoctorListProps) {
     const translations = useTranslations('doctors');
+    const router = useRouter()
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 cursor-pointer">
             {doctors.map((doctor) => (
-                <Card key={doctor.id} className="hover:shadow-lg transition-shadow">
+                <Card
+                onClick={() => router.push(`/doctors/${doctor.id}`)}
+                key={doctor.id} className="hover:shadow-lg transition-shadow">
                     <CardContent className="p-4 sm:p-6">
                         <div className="flex items-start gap-2 sm:gap-4 flex-col sm:flex-row">
                             <div className="relative shrink-0">
                                 <Image
                                     width={80}
                                     height={80}
-                                    src={doctor.image || '/placeholder-doctor.jpg'}
+                                    src={`https://api.diagnoai.uz${doctor?.image}`}
                                     alt={doctor.name}
+                                   
                                     className="w-10 h-10 sm:w-20 sm:h-20 rounded-full object-cover"
                                 />
                             </div>

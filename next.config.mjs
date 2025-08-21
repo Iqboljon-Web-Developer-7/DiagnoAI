@@ -13,6 +13,12 @@ const nextConfig = {
           port: "",
           pathname: "/vi/**",
          },
+         {
+          protocol: "https",
+          hostname: "api.diagnoai.uz",
+          port: "",
+          pathname: "/media/**", // Updated pathname to specifically allow media directory
+         },
      ],
     }
 };

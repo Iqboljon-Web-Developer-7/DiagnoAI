@@ -33,7 +33,6 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
@@ -43,7 +42,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { useAppStore } from "@/context/store"
-import { useTranslations  } from "next-intl"
+import { useTranslations } from "next-intl"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "@/i18n/navigation"
 
@@ -110,7 +109,7 @@ export default function AIDiagnosisPage() {
       } catch (err) {
         toastUI({ title: t("failedToLoadChats") })
         console.log(err);
-        
+
       }
     }
     fetchChats()
@@ -292,7 +291,7 @@ export default function AIDiagnosisPage() {
   }, [])
 
   return (
-    <div className="min-h-screen z-50 bg-neutral-200">
+    <div className="min-h-screen z-50">
       <ToastContainer position="top-right" autoClose={3000} />
 
       <SidebarProvider defaultOpen={false}>
@@ -312,9 +311,9 @@ export default function AIDiagnosisPage() {
 
           <SidebarContent className="p-4">
             <SidebarGroup>
-              <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+              {/* <SidebarGroupLabel className="font-semibold text-gray-500 uppercase tracking-wider mb-3">
                 Conversations
-              </SidebarGroupLabel>
+              </SidebarGroupLabel> */}
               <SidebarGroupContent>
                 <Button
                   onClick={handleNewChat}
@@ -324,12 +323,12 @@ export default function AIDiagnosisPage() {
                   New Consultation
                 </Button>
 
-                <SidebarMenu>
+                <SidebarMenu className="gap-3">
                   {chats.map((chat, i) => (
                     <SidebarMenuItem key={chat.id}>
                       <SidebarMenuButton
                         onClick={() => fetchChatById(chat.id)}
-                        className="group relative p-3 rounded-lg hover:bg-blue-50 transition-all duration-200"
+                        className="group relative p-0 rounded-lg hover:bg-blue-50 transition-all duration-200"
                       >
                         <div className="flex items-center gap-3 w-full">
                           <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
@@ -361,13 +360,13 @@ export default function AIDiagnosisPage() {
         </Sidebar>
 
         <SidebarInset>
-          <main className="flex-1 p-6">
-                <SidebarTrigger className="absolute bg-neutral-200 z-10" />
+          <main className="flex-1 p-6 bg-[#f8f7ff]">
+            <SidebarTrigger className="absolute bg-neutral-200 z-10" />
             <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
               <div className="lg:col-span-2 space-y-6 relative">
                 <Card className="shadow-xl border-0 bg-[#edf8f4] backdrop-blur-sm">
                   <CardContent className="p-0">
-                    <div className="h-[500px] overflow-y-auto p-6 space-y-4" ref={chatContainerRef}>
+                    <div className={`h-[500px] overflow-y-auto p-6 space-y-4 ${chatMessages.length === 0 ? "flex items-center justify-center" : ""}`} ref={chatContainerRef}>
                       {chatMessages.length > 0 ? (
                         chatMessages.map((msg, idx) => (
                           <div key={idx} className="space-y-4">
@@ -397,7 +396,7 @@ export default function AIDiagnosisPage() {
                           </div>
                         ))
                       ) : !analyzing ? (
-                        <div className="flex flex-col items-center justify-center h-full text-center">
+                        <div className="flex flex-col items-center justify-center text-center">
                           <div className="p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full mb-4">
                             <Stethoscope className="h-12 w-12 text-blue-600" />
                           </div>
@@ -541,8 +540,9 @@ export default function AIDiagnosisPage() {
                       <div className="space-y-4">
                         {doctors.map((doc) => (
                           <div
+                            onClick={() => router.push(`/doctors/${doc.id}`)}
                             key={doc.id}
-                            className="p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-gradient-to-br from-white to-gray-50"
+                            className="cursor-pointer p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-gradient-to-br from-white to-gray-50"
                           >
                             <div className="flex items-start gap-3">
                               <Avatar className="h-12 w-12 border-2 border-green-200">

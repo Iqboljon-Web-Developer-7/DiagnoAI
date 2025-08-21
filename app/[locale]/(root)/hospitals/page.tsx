@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 // Define Hospital interface for type safety
 interface Hospital {
@@ -216,6 +217,7 @@ export default function Page() {
   if (error) {
     return <div className="text-center py-8 text-red-600">{error}</div>;
   }
+    const router = useRouter()
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -347,14 +349,17 @@ export default function Page() {
 
             <div className="space-y-6">
               {filteredHospitals.map((hospital) => (
-                <Card key={hospital.id} className="hover:shadow-lg transition-shadow">
+                <Card
+                onClick={() => router.push(`/hospitals/${hospital.id}`)}
+                
+                key={hospital.id} className="hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
                       <div className="relative">
                         <Image
                         width={'200'}
                         height={'200'}
-                          src={hospital.image!}
+                          src={`https://api.diagnoai.uz${hospital?.image}`}
                           alt={hospital.name}
                           className="w-20 h-20 rounded-full object-cover"
                         />
