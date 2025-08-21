@@ -70,7 +70,7 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
 
                                         <div className="flex items-center justify-between flex-wrap gap-1">
                                             <div>
-                                                <span className="text-lg font-bold text-gray-900">{doctor.price || 'N/A'}</span>
+                                                <span className="text-lg font-bold text-gray-900">{doctor.prize || 'N/A'}</span>
                                                 <span className="text-gray-500 text-sm ml-1">
                                                     {translations('doctorCard.consultationPriceSuffix') || 'per consultation'}
                                                 </span>
