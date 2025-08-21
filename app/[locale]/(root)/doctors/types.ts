@@ -10,6 +10,7 @@ export interface Doctor {
     distance?: string;
     availability?: string;
     price?: string;
+    prize?:string;
     image?: string;
     experience?: string;
 }
