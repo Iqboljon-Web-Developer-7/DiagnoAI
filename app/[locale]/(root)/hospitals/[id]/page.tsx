@@ -1,6 +1,7 @@
 import React from 'react';
 import { MapPin, Phone, Building2, Users, Clock, Star, Award, Stethoscope, Heart, Shield, Calendar, Navigation } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
+import Image from 'next/image';
 
 interface Hospital {
   id: number;
@@ -52,7 +53,9 @@ async function page({ params }: { params: { id: string } }) {
           <div className="relative">
             {/* Hospital Image */}
             <div className="h-64 lg:h-80 bg-gradient-to-r from-blue-600 to-blue-800 relative overflow-hidden">
-              <img
+              <Image
+              width={400}
+              height={400}
                 src="https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=1200"
                 alt={hospital.name}
                 className="w-full h-full object-cover opacity-30"

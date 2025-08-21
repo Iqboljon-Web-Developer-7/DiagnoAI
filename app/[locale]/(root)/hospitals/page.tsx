@@ -64,8 +64,9 @@ export default function Page() {
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+    const router = useRouter()
 
-  console.log(isLoading);
+ 
   const { toast } = useToast();
 
   // Get user location
@@ -217,7 +218,6 @@ export default function Page() {
   if (error) {
     return <div className="text-center py-8 text-red-600">{error}</div>;
   }
-    const router = useRouter()
 
   return (
     <div className="min-h-screen bg-gray-50">

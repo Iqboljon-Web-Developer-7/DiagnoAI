@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Phone, DollarSign, Building2, Stethoscope, User, Clock, Star } from 'lucide-react';
+import Image from 'next/image';
 
 interface Doctor {
     id: number;
@@ -46,7 +47,9 @@ async function page({ params }: { params: { id: string } }) {
                             {/* Doctor Image */}
                             <div className="relative">
                                 <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-white p-1 shadow-2xl">
-                                    <img
+                                    <Image
+                                    width={400}
+                                    height={400}
                                         src={`https://api.diagnoai.uz${doctor.image}`}
                                         alt={doctor.name}
                                         className="w-full h-full rounded-full object-cover"
