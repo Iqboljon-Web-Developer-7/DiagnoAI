@@ -62,7 +62,6 @@ export default function Page() {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
     const router = useRouter()
 
@@ -91,7 +90,6 @@ export default function Page() {
   useEffect(() => {
     const fetchHospitals = async () => {
       try {
-        setIsLoading(true);
         const response = await axios.get(`${API_BASE_URL}/hospitals/`);
         interface ApiHospitalResponse {
           id: number;
@@ -129,9 +127,7 @@ export default function Page() {
         console.error("Error fetching hospitals:", err);
         setError(translations("toastMessages.error") || "Failed to load hospitals");
         setHospitals([]); // Ensure hospitals is an empty array on error
-      } finally {
-        setIsLoading(false);
-      }
+      }  
     };
 
     fetchHospitals();
