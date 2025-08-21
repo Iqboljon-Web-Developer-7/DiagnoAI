@@ -11,7 +11,7 @@ interface Hospital {
   image: string;
 }
 
-async function page({ params }: { params: { id: string } }) {
+async function page({ params }: { params: Promise<{ id: string, locale: string }> }) {
   const { id } = await params;
 
   const res = await fetch(`https://api.diagnoai.uz/api/hospitals/${id}/`);
