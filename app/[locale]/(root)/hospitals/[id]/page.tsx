@@ -52,7 +52,7 @@ async function page({ params }: { params: Promise<{ id: string, locale: string }
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
           <div className="relative">
             {/* Hospital Image */}
-            <div className="h-64 lg:h-80 bg-gradient-to-r from-blue-600 to-blue-800 relative overflow-hidden">
+            <div className="h-96 bg-gradient-to-r from-blue-600 to-blue-800 relative overflow-hidden">
               <Image
               width={400}
               height={400}
