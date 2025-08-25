@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Home, Search, ArrowLeft } from "lucide-react"
+import { Home, Search  } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function NotFound() {
