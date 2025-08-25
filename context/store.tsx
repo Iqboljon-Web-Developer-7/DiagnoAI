@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-
-// Define types (same as in app-context.tsx)
+ 
 type User = {
   id: string;
   name: string;
@@ -40,10 +39,9 @@ type AppState = {
   logout: () => void;
   addDiagnosis: (diagnosis: Omit<Diagnosis, "id" | "date">) => void;
   addAppointment: (appointment: Omit<Appointment, "id">) => void;
-  setUser: (user: User) => void; // <-- Added setUser
+  setUser: (user: User) => void;  
 };
 
-// Create Zustand store with persist middleware for user
 export const useAppStore = create<any>()(
   persist(
     (set) => ({
@@ -140,9 +138,9 @@ export const useAppStore = create<any>()(
       },
     }),
     {
-      name: "app-storage", // Key for localStorage
-      storage: createJSONStorage(() => localStorage), // Use localStorage
-      partialize: (state) => ({ user: state.user, isLoggedIn: state.isLoggedIn }), // Persist only user and isLoggedIn
+      name: "app-storage",  
+      storage: createJSONStorage(() => localStorage), 
+      partialize: (state) => ({ user: state.user, isLoggedIn: state.isLoggedIn }), 
     }
   )
 );

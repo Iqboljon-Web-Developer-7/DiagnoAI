@@ -209,7 +209,8 @@
     "toastMessages": {
       "call": "Звоним в {hospitalName}...",
       "bookAppointment": "Запись в {hospitalName} оформлена!",
-      "clearFilters": "Фильтры очищены."
+      "clearFilters": "Фильтры очищены.",
+      "error": "Произошла ошибка. Пожалуйста, попробуйте снова."
     },
     "count": "{count} больниц",
     "loadMoreButton": "Загрузить еще"
@@ -230,6 +231,7 @@
   "Footer": {
     "brand": "Diagno AI",
     "description": "Платформа для медицинской диагностики и рекомендаций врачей с использованием ИИ",
+    "education": "Образование",
     "services": {
       "title": "Услуги",
       "aiDiagnosis": "Диагностика ИИ",
@@ -572,7 +574,8 @@
     "toastMessages": {
       "call": "Звонок {doctorName}...",
       "bookAppointment": "Запись на прием к {doctorName} оформлена",
-      "clearFilters": "Фильтры очищены"
+      "clearFilters": "Фильтры очищены",
+      "error": "Произошла ошибка. Пожалуйста, попробуйте еще раз."
     }
   },
   "about": {

@@ -8,15 +8,17 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAppStore } from "@/context/store"
-import { Loader2, User, Mail, Lock, Eye, EyeOff, CheckCircle2, AlertCircle } from "lucide-react"
+import { Loader2, User, Mail, Lock, Eye, EyeOff, CheckCircle2, AlertCircle, Phone } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 export default function RegisterPage() {
   const router = useRouter()
   const { setUser } = useAppStore()
   const t = useTranslations("Auth")
-  const [name, setName] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
+  const [phoneNumber, setPhoneNumber] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -36,18 +38,53 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
-      // Simulate registration delay
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      // Set user in zustand store
-      setUser({
-        id: `user-${Date.now()}`,
-        name,
-        email,
-        avatar: "/placeholder.svg?height=32&width=32",
+      const response = await fetch('https://api.diagnoai.uz/api/users/register/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          phone_number: phoneNumber,
+          password
+        }),
       })
-      router.push("/")
+
+      const data = await response.json()
+
+      if (response.status === 201) {
+        setUser({
+          id: `user-${Date.now()}`,
+          name: `${data.user.first_name} ${data.user.last_name}`,
+          email: data.user.email,
+          avatar: "/placeholder.svg?height=32&width=32",
+          token: data.token
+        })
+        router.push("/")
+      } else {
+        console.log(data);
+        
+        // Handle error messages from API response
+        if (data.phone_number) {
+          setError(data.phone_number[0])
+        } else if (data.email) {
+          setError(data.email[0])
+        } else if (typeof data === 'object') {
+          // Get first error message from any field
+          const firstError = Object.values(data)[0]
+          if (Array.isArray(firstError)) {
+            setError(firstError[0])
+          } else {
+            setError(String(firstError))
+          }
+        } else {
+          setError(t("errors.general"))
+        }
+      }
     } catch (err) {
-      console.log(err)
+      console.error(err)
       setError(t("errors.general"))
     } finally {
       setIsLoading(false)
@@ -72,21 +109,41 @@ export default function RegisterPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium text-gray-700">
-                  {t("register.fullName")}
-                </Label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                  <Input
-                    id="name"
-                    type="text"
-                    placeholder={t("register.fullNamePlaceholder")}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="pl-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
-                    required
-                  />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">
+                    First Name
+                  </Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      id="firstName"
+                      type="text"
+                      placeholder="First Name"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      className="pl-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">
+                    Last Name
+                  </Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      id="lastName"
+                      type="text"
+                      placeholder="Last Name"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      className="pl-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
+                      required
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -102,6 +159,24 @@ export default function RegisterPage() {
                     placeholder={t("register.emailPlaceholder")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    className="pl-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="phoneNumber" className="text-sm font-medium text-gray-700">
+                  Phone Number
+                </Label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Input
+                    id="phoneNumber"
+                    type="tel"
+                    placeholder="Enter phone number"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                     className="pl-10 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
                     required
                   />

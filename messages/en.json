@@ -161,6 +161,7 @@
   "Footer": {
     "brand": "Diagno AI",
     "description": "AI-powered medical diagnosis and doctor recommendations platform",
+    "education": "Education",
     "services": {
       "title": "Services",
       "aiDiagnosis": "AI Diagnosis",
@@ -503,7 +504,8 @@
     "toastMessages": {
       "call": "Calling {doctorName}...",
       "bookAppointment": "Appointment booked with {doctorName}",
-      "clearFilters": "Filters cleared"
+      "clearFilters": "Filters cleared",
+      "error": "An error occurred. Please try again."
     }
   },
   "about": {
@@ -684,7 +686,8 @@
     "toastMessages": {
       "call": "Calling {hospitalName}...",
       "bookAppointment": "Appointment booked with {hospitalName}!",
-      "clearFilters": "Filters cleared."
+      "clearFilters": "Filters cleared.",
+      "error": "An error occurred. Please try again."
     },
     "count": "{count} hospitals",
     "loadMoreButton": "Load More"

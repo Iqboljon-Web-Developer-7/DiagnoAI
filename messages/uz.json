@@ -110,7 +110,7 @@
     "aiDiagnosis": "AI tashxis",
     "doctors": "Shifokorlar",
     "emergencyHelp": "Shoshilinch yordam",
-    "recommendedProviders": "Tavsiya etilgan provayderlar",
+    "recommendedProviders": "Tavsiya etilgan shifokorlar",
     "dashboard": "Boshqaruv paneli",
     "hospitals": "Shifoxonalar",
     "education": "Ta'lim"
@@ -179,7 +179,8 @@
     "toastMessages": {
       "call": "{hospitalName}ga qo'ng'iroq qilinmoqda...",
       "bookAppointment": "{hospitalName} bilan qabul belgilandi!",
-      "clearFilters": "Filtrlar tozalandi."
+      "clearFilters": "Filtrlar tozalandi.",
+      "error": "Xatolik yuz berdi. Iltimos, qayta urinib ko'ring."
     },
     "count": "{count} shifoxona",
     "loadMoreButton": "Ko'proq ko'rish"
@@ -233,6 +234,7 @@
   "Footer": {
     "brand": "Diagno AI",
     "description": "Sun'iy intellekt yordamida tibbiy tashxis va shifokor tavsiyalari platformasi",
+    "education": "Ta'lim",
     "services": {
       "title": "Xizmatlar",
       "aiDiagnosis": "AI tashxis",
@@ -569,7 +571,7 @@
         "reviews": 142,
         "distance": "3.5 km",
         "hospital": "Teri Kasalliklari Markazi",
-        "price": "180,000 so'm",
+        "price": "180,000 so'm",  
         "availability": "Ertaga mavjud",
         "description": "Teri kasalliklari va kosmetologiya bo'yicha mutaxassis. Zamonaviy lazer texnologiyalarini qo'llaydi."
       }
@@ -577,7 +579,9 @@
     "toastMessages": {
       "call": "{doctorName} ga qo'ng'iroq qilinmoqda...",
       "bookAppointment": "{doctorName} bilan uchrashish belgilandi",
-      "clearFilters": "Filtrlar tozalandi"
+      "clearFilters": "Filtrlar tozalandi",
+      "error": "Xatolik yuz berdi. Iltimos, qayta urinib ko'ring."
+      
     }
   },
   "about": {

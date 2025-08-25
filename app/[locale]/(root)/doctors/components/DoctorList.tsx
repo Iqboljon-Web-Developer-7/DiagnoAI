@@ -59,7 +59,7 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
 
                                             <div className="flex items-center space-x-1 text-gray-600">
                                                 <MapPin className="w-4 h-4" />
-                                                <span className="text-sm">{doctor.distance || 'N/A'}</span>
+                                                <span className="text-sm">{doctor.langitude}, {doctor.latitude}</span>
                                             </div>
 
                                             <div className="flex items-center space-x-1 text-gray-600">

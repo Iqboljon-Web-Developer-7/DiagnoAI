@@ -7,12 +7,12 @@ export default function NotFound() {
   return (
     <html>
       <body>
-        <div className="min-h-screen bg-gray-50 flex flex-col">
+        <div className="min-h-screen bg-[#f1faee] flex flex-col">
           <header className="bg-white shadow-sm border-b">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between items-center h-16">
+              <div className="flex justify-center items-center h-16">
                 <Link href="/" className="flex items-center space-x-2">
-                  <Image src="/logo.jpg" width={128} height={32} alt="Logo" />
+                  <Image src="/logo.png" width={128} height={32} alt="Logo" />
                 </Link>
               </div>
             </div>
@@ -35,12 +35,6 @@ export default function NotFound() {
                   <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
                     <Home className="w-5 h-5 mr-2" />
                     Bosh sahifaga qaytish
-                  </Button>
-                </Link>
-                <Link href="javascript:history.back()">
-                  <Button size="lg" variant="outline">
-                    <ArrowLeft className="w-5 h-5 mr-2" />
-                    Orqaga qaytish
                   </Button>
                 </Link>
               </div>

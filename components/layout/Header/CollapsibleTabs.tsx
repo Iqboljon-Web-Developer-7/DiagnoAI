@@ -152,12 +152,12 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
               <Menu className="h-5 w-5" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="min-w-[150px]">
+          <DropdownMenuContent align="center" className="min-w-[150px]">
             {hiddenTabs.map((tab) => (
               <DropdownMenuItem key={tab.path} asChild>
                 <Link
                   href={tab.path}
-                  className="w-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                  className={`w-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline' : ''}`}
                 >
                   {tab.label}
                 </Link>

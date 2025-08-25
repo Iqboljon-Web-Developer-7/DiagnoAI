@@ -16,7 +16,7 @@ export function Footer() {
   }
 
   return (
-    <footer className={`bg-[#2B6A73] text-white py-12 z-20 relative ${pathname == '/ai-diagnosis' || pathname == '/register' || pathname == '/login' ? 'hidden' : ''}`}>
+    <footer className={`bg-[#274c77] text-white py-12 z-20 relative ${pathname == '/ai-diagnosis' || pathname == '/register' || pathname == '/login' ? 'hidden' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-3 md:gap-8">
           <div className="flex flex-col gap-2">
@@ -32,7 +32,7 @@ export function Footer() {
               {t('services.title')}
               <span className="md:hidden">{openSection === 'services' ? '−' : '+'}</span>
             </button>
-            <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-400 overflow-hidden transition-all duration-300 ${openSection === 'services' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
+            <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-300 overflow-hidden transition-all duration-300 ${openSection === 'services' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
               <li>
                 <Link href="/ai-diagnosis" className="hover:text-white">
                   {t('services.aiDiagnosis')}
@@ -48,11 +48,6 @@ export function Footer() {
                   {t('services.doctors')}
                 </Link>
               </li>
-              <li>
-                <Link href="/consultation" className="hover:text-white">
-                  {t('services.consultation')}
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -64,25 +59,20 @@ export function Footer() {
               {t('company.title')}
               <span className="md:hidden">{openSection === 'company' ? '−' : '+'}</span>
             </button>
-            <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-400 overflow-hidden transition-all duration-300 ${openSection === 'company' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
+            <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-300 overflow-hidden transition-all duration-300 ${openSection === 'company' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
               <li>
                 <Link href="/about" className="hover:text-white">
                   {t('company.about')}
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white">
+                <Link href="mailto:contactdiagnoai@gmail.com" className="hover:text-white">
                   {t('company.contact')}
                 </Link>
               </li>
               <li>
-                <Link href="/careers" className="hover:text-white">
-                  {t('company.careers')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="hover:text-white">
-                  {t('company.blog')}
+                <Link href="/education" className="hover:text-white">
+                  {t('education')}
                 </Link>
               </li>
             </ul>
@@ -96,7 +86,7 @@ export function Footer() {
               {t('help.title')}
               <span className="md:hidden">{openSection === 'help' ? '−' : '+'}</span>
             </button>
-            <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-400 overflow-hidden transition-all duration-300 ${openSection === 'help' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
+            <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-300 overflow-hidden transition-all duration-300 ${openSection === 'help' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
               <li>
                 <Link href="/support" className="hover:text-white">
                   {t('help.support')}
@@ -121,10 +111,10 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white mt-8 pt-8 text-center text-gray-400">
+      </div>
+        <div className="border-t border-indigo-400 mt-8 pt-8 text-center text-gray-300">
           <p>{t('copyright', { year: new Date().getFullYear() })}</p>
         </div>
-      </div>
     </footer>
   )
 }

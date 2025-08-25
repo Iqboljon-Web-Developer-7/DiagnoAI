@@ -20,7 +20,7 @@ export async function fetchDoctors({
     const params = new URLSearchParams({ latitude: latitude.toString(), longitude: longitude.toString() });
     if (selectedSpecialty) params.append('field', selectedSpecialty);
 
-    const res = await fetch(`${API_BASE_URL}/doctors/?${params.toString()}`);
+    const res = await fetch(`${API_BASE_URL}/my-doctors/?${params.toString()}`);
     if (!res.ok) throw new Error('Failed to fetch doctors');
     return res.json();
 }

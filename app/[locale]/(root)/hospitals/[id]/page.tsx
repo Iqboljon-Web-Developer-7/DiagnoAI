@@ -52,50 +52,51 @@ async function page({ params }: { params: Promise<{ id: string, locale: string }
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
           <div className="relative">
             {/* Hospital Image */}
-            <div className="h-64 lg:h-80 bg-gradient-to-r from-blue-600 to-blue-800 relative overflow-hidden">
+            <div className="  bg-gradient-to-r from-blue-600 to-blue-800 relative overflow-hidden">
               <Image
-              width={400}
-              height={400}
-                src="https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                width={1200}
+                height={400}
+                src={`https://api.diagnoai.uz${hospital?.image}`}
                 alt={hospital.name}
-                className="w-full h-full object-cover opacity-30"
+                className="max-h-80 w-full h-full object-cover opacity-30"
+                priority
               />
               <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-800/70"></div>
-
               {/* Hospital Info Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-8">
-                <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between">
-                  <div>
-                    <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
+                <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-4">
+                  <div className="w-full lg:w-auto">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">
                       {hospital.name}
                     </h1>
-                    <div className="flex items-center space-x-2 mb-4">
-                      <MapPin className="h-5 w-5 text-blue-200" />
-                      <span className="text-blue-200">Tashkent, Uzbekistan</span>
+                    <div className="flex items-center space-x-2 mb-2 sm:mb-4">
+                      <MapPin className="h-4 sm:h-5 w-4 sm:w-5 text-blue-200" />
+                      <span className="text-blue-200 text-sm sm:text-base">Tashkent, Uzbekistan</span>
                     </div>
-                    <div className="flex items-center space-x-1 mb-4">
+                    <div className="flex flex-wrap items-center gap-1 mb-2 sm:mb-4">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                        <Star key={i} className="h-4 sm:h-5 w-4 sm:w-5 text-yellow-400 fill-current" />
                       ))}
-                      <span className="text-blue-200 ml-2">4.8 (2,341 reviews)</span>
+                      <span className="text-blue-200 ml-2 text-sm sm:text-base">4.8 (2,341 reviews)</span>
                     </div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-3 mt-4 lg:mt-0">
-                    <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2">
-                      <Calendar className="h-5 w-5" />
+                  <div className="flex flex-col xs:flex-row gap-2 sm:gap-3 w-full lg:w-auto">
+                    <button className="w-full xs:w-auto bg-white text-blue-600 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base">
+                      <Calendar className="h-4 sm:h-5 w-4 sm:w-5" />
                       <span>Book Appointment</span>
                     </button>
-                      <Link
-                        href={`https://yandex.com/maps/?ll=${hospital?.longitude},${hospital?.latitude}&z=15&pt=${hospital?.longitude},${hospital?.latitude}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                    <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
-                        <Navigation className="h-5 w-5" />
+                    <Link
+                      href={`https://yandex.com/maps/?ll=${hospital?.longitude},${hospital?.latitude}&z=15&pt=${hospital?.longitude},${hospital?.latitude}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full xs:w-auto"
+                    >
+                      <button className="w-full border-2 border-white text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base">
+                        <Navigation className="h-4 sm:h-5 w-4 sm:w-5" />
                         <span>Get Directions</span>
-                    </button>
-                      </Link>
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -20,8 +20,8 @@ export default async function HomePage() {
       <TestimonialsSection />
       {/* @ts-expect-error Async Server Component */}
       <CTASection
-        diagnosisPath="/diagnosis"
-        emergencyPath="/emergency-help"
+        diagnosisPath="/ai-diagnosis"
+        emergencyPath="/about"
       />
     </div>
   );

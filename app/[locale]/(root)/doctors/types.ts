@@ -12,6 +12,9 @@ export interface Doctor {
     price?: string;
     image?: string;
     experience?: string;
+    langitude?: number;
+    latitude?: number;
+
 }
 
 export interface Specialty {
