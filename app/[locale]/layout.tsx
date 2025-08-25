@@ -6,28 +6,31 @@ import { Footer } from '@/components/layout/footer';
 
 interface LocaleLayout {
   children: React.ReactNode;
-  params: Promise<{ locale: "uz" | "en" | "ru" }>;
+  params: Promise<{ locale: string }>;
 }
+
+type ValidLocale = "uz" | "en" | "ru";
 
 export default async function LocaleLayout({ 
   children, 
   params
 }: LocaleLayout) {
   const { locale } = await params;
-  if (!locales.includes(locale)) notFound();
+  const validLocale = locale as ValidLocale;
+  if (!locales.includes(validLocale)) notFound();
 
   let messages;
   try {
-    messages = (await import(`../../messages/${locale}.json`)).default;
+    messages = (await import(`../../messages/${validLocale}.json`)).default;
   } catch (error) {
     console.log(error);
     return notFound();
   }
 
   return (
-    <html lang={locale}>
+    <html lang={validLocale}>
       <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <NextIntlClientProvider locale={validLocale} messages={messages}>
           {/* @ts-expect-error Async Server Component */}
           <Header />
 
