@@ -175,7 +175,7 @@ export default function App() {
       } else {
         let chatId = selectedChat.id
         if (!chatId) {
-          chatId = chats[chats.length - 1].id
+          chatId = chats[chats?.length - 1].id
         }
         console.log(chatId);
 

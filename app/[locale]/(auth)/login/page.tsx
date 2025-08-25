@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation"
 import { Link } from "@/i18n/navigation"
 
 export default function LoginPage() {
-  const { login, setUser } = useAppStore()
+  const { setUser } = useAppStore()
   const router = useRouter()
   const t = useTranslations("Auth")
   const [email, setEmail] = useState("")
@@ -27,14 +27,27 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      const success = await login(email, password)
-      if (success) {
+      const response = await fetch('https://api.diagnoai.uz/api/users/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email_or_phone: email,
+          password: password
+        })
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
         // Set user in zustand store
         setUser({
           id: `user-${Date.now()}`,
-          name: "Anvar Karimov",
-          email,
+          email: email,
           avatar: "/placeholder.svg?height=32&width=32",
+          role: data.role,
+          token: data.token
         })
         router.push("/ai-diagnosis")
       } else {

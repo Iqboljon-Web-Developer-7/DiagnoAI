@@ -88,7 +88,7 @@ export function Footer() {
             </button>
             <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-300 overflow-hidden transition-all duration-300 ${openSection === 'help' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
               <li>
-                <Link href="/support" className="hover:text-white">
+                <Link href="mailto:contactdiagnoai@gmail.com" className="hover:text-white">
                   {t('help.support')}
                 </Link>
               </li>

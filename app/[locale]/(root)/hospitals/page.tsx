@@ -137,7 +137,7 @@ export default function Page() {
   const hospitalTypes: HospitalType[] = Array.from(new Set(hospitals.map((hospital) => hospital.type || "General"))).map(
     (type) => ({
       name: type,
-      count: hospitals.filter((h) => (h.type || "General") === type).length,
+      count: hospitals.filter((h) => (h.type || "General") === type)?.length,
       icon: "🏥",
     })
   );
@@ -145,7 +145,7 @@ export default function Page() {
   // Derive cities (fallback to static if address is unavailable)
   const cities = Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
     (city) => city !== "Unknown"
-  ).length > 0
+  )?.length > 0
     ? Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
         (city) => city !== "Unknown"
       )
@@ -329,7 +329,7 @@ export default function Page() {
           <div className="lg:col-span-3">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-900">
-                {translations("hospitalsListTitle", { count: filteredHospitals.length || 0 }) || `${filteredHospitals.length || 0} Hospitals`}
+                {translations("hospitalsListTitle", { count: filteredHospitals?.length || 0 }) || `${filteredHospitals?.length || 0} Hospitals`}
               </h2>
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-48">

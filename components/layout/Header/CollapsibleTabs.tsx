@@ -50,7 +50,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
   }, [pathname]);
 
   const calculateVisibleTabs = useCallback(() => {
-    if (!containerRef.current || !tabs.length) {
+    if (!containerRef.current || !tabs?.length) {
       setVisibleTabs([]);
       setHiddenTabs(tabs);
       return;
@@ -72,7 +72,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
       const hidden: Tab[] = [];
 
       const firstTabWidth = tabsRef.current[0]?.offsetWidth || 100;
-      if (tabs.length > 0 && firstTabWidth > containerWidth && containerWidth !== 0) {
+      if (tabs?.length > 0 && firstTabWidth > containerWidth && containerWidth !== 0) {
         hidden.push(...tabs);
       } else {
         tabs.forEach((tab, index) => {
@@ -145,7 +145,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
           ))}
         </div>
       </div>
-      {hiddenTabs.length > 0 && (
+      {hiddenTabs?.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button size={"icon"} variant={"link"} className="ml-0 p-2 text-gray-600 hover:text-blue-500 focus:outline-none bg-transparent animate-fade-in-down opacity-0 delay-700">

@@ -15,14 +15,8 @@ interface Doctor {
     phone_number: string;
 }
 
-type DoctorPageParams = {
-    id: string;
-    locale: string;
-};
-
 async function page({ params }: { params: Promise<{ id: string, locale: string }> }) {
-    const paramsData = await params;
-    const id = paramsData.id;
+    const { id } = await params;
     const res = await fetch(`https://api.diagnoai.uz/api/doctors/${id}/`);
     const doctor: Doctor = res.status === 200 ? await res.json() : {};
     

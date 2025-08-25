@@ -92,7 +92,7 @@ export default function RegisterPage() {
   }
 
   const passwordsMatch = password && confirmPassword && password === confirmPassword
-  const passwordStrength = password.length >= 8 ? "strong" : password.length >= 6 ? "medium" : "weak"
+  const passwordStrength = password && password.length >= 8 ? "strong" : password && password.length >= 6 ? "medium" : "weak"
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4 fixed inset-0 z-50">

@@ -85,8 +85,8 @@ export default function DashboardPage() {
   }
 
   const healthStats = [
-    { label: "Jami tashxislar", value: diagnoses.length.toString(), icon: Brain, color: "blue" },
-    { label: "Shifokor uchrashuvlari", value: appointments.length.toString(), icon: User, color: "green" },
+    { label: "Jami tashxislar", value: diagnoses?.length?.toString(), icon: Brain, color: "blue" },
+    { label: "Shifokor uchrashuvlari", value: appointments?.length?.toString(), icon: User, color: "green" },
     { label: "Faol davolanish", value: "2", icon: Heart, color: "red" },
     { label: "Sog&apos;liq ko&apos;rsatkichi", value: "85%", icon: Activity, color: "purple" },
   ]

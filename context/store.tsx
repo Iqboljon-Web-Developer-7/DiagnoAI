@@ -95,19 +95,19 @@ export const useAppStore = create<any>()(
           status: "Kutilmoqda",
         },
       ],
-      login: async (email: string, password: string) => {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+      // login: async (email: string, password: string) => {
+      //   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        const mockUser = {
-          id: "user-1",
-          name: "Anvar Karimov",
-          email,
-          avatar: "/placeholder.svg?height=32&width=32",
-        };
+      //   const mockUser = {
+      //     id: "user-1",
+      //     name: "Anvar Karimov",
+      //     email,
+      //     avatar: "/placeholder.svg?height=32&width=32",
+      //   };
 
-        set({ user: mockUser, isLoggedIn: true });
-        return true;
-      },
+      //   set({ user: mockUser, isLoggedIn: true });
+      //   return true;
+      // },
       logout: () => {
         set({ user: null, isLoggedIn: false });
       },
