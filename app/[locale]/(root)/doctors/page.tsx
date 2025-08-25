@@ -17,6 +17,8 @@ export default function Page() {
 
   const { data: doctors = [], isLoading, error } = useDoctorsQuery(latitude, longitude, selectedSpecialty);
 
+
+
   // Book appointment mutation
   const bookMutation = useBookAppointmentMutation();
 
