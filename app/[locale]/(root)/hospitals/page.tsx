@@ -9,6 +9,7 @@ import { Star, MapPin, Phone, Calendar, Filter, Search, Hospital } from "lucide-
 import { useAppStore } from "@/context/store";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -53,7 +54,8 @@ function haversine(lat1: number, lon1: number, lat2: number, lon2: number): numb
 
 export default function Page() {
   const translations = useTranslations("hospitals");
-  const { latitude, longitude, setLocation, addAppointment } = useAppStore();
+  const { latitude, longitude, setLocation, addAppointment, user } = useAppStore();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedType, setSelectedType] = useState("");
@@ -63,9 +65,7 @@ export default function Page() {
   const [toastMessage, setToastMessage] = useState("");
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
   const [error, setError] = useState<string | null>(null);
-    const router = useRouter()
-
- 
+  const router = useRouter();
   const { toast } = useToast();
 
   // Get user location
@@ -89,8 +89,23 @@ export default function Page() {
   // Fetch hospitals from API
   useEffect(() => {
     const fetchHospitals = async () => {
+      if (!user?.token) {
+        setError(translations("toastMessages.authRequired") || "Please sign in to view hospitals");
+        toast({
+          title: translations("toastMessages.authRequired") || "Please sign in to view hospitals",
+          variant: "destructive",
+        });
+        router.push("/sign-in");
+        return;
+      }
+
       try {
-        const response = await axios.get(`${API_BASE_URL}/hospitals/`);
+        const response = await axios.get(`${API_BASE_URL}/hospitals/`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+
         interface ApiHospitalResponse {
           id: number;
           name: string;
@@ -126,30 +141,94 @@ export default function Page() {
       } catch (err) {
         console.error("Error fetching hospitals:", err);
         setError(translations("toastMessages.error") || "Failed to load hospitals");
-        setHospitals([]); // Ensure hospitals is an empty array on error
-      }  
+        setHospitals([]);
+        toast({
+          title: translations("toastMessages.error") || "Failed to load hospitals",
+          variant: "destructive",
+        });
+      }
     };
 
     fetchHospitals();
-  }, [latitude, longitude, translations]);
+  }, [latitude, longitude, translations, user?.token, router, toast]);
+
+  // Book appointment mutation
+  const bookAppointmentMutation = useMutation({
+    mutationFn: async ({
+      userId,
+      latitude,
+      longitude,
+      hospitalName,
+      type,
+    }: {
+      userId: string;
+      latitude: number;
+      longitude: number;
+      hospitalName: string;
+      type?: string;
+    }) => {
+      if (!user?.token) {
+        throw new Error("Authentication required");
+      }
+
+      const formData = new FormData();
+      formData.append("user_id", userId);
+      formData.append("latitude", latitude.toString());
+      formData.append("longitude", longitude.toString());
+      formData.append("message", `Book appointment at ${hospitalName}`);
+
+      const res = await fetch(`${API_BASE_URL}/chats/`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Failed to book appointment");
+      return res.json();
+    },
+    onSuccess: (_data, variables) => {
+      addAppointment({
+        doctor: variables.hospitalName,
+        specialty: variables.type || "General",
+        date: new Date().toISOString().split("T")[0],
+        time: "14:00",
+        type: translations("hospitalCard.bookButton") || "Appointment",
+        status: "Tasdiqlangan",
+      });
+      toast({
+        title:
+          translations("toastMessages.bookAppointment", { hospitalName: variables.hospitalName }) ||
+          `Appointment booked at ${variables.hospitalName}`,
+      });
+    },
+    onError: () => {
+      toast({
+        title: translations("toastMessages.error") || "Failed to book appointment",
+        variant: "destructive",
+      });
+    },
+  });
 
   // Derive hospital types
   const hospitalTypes: HospitalType[] = Array.from(new Set(hospitals.map((hospital) => hospital.type || "General"))).map(
     (type) => ({
       name: type,
-      count: hospitals.filter((h) => (h.type || "General") === type)?.length,
+      count: hospitals.filter((h) => (h.type || "General") === type).length,
       icon: "🏥",
     })
   );
 
   // Derive cities (fallback to static if address is unavailable)
-  const cities = Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
-    (city) => city !== "Unknown"
-  )?.length > 0
-    ? Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
-        (city) => city !== "Unknown"
-      )
-    : ["Tashkent", "Samarkand", "Bukhara", "Namangan"];
+  const cities =
+    Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
+      (city) => city !== "Unknown"
+    ).length > 0
+      ? Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
+          (city) => city !== "Unknown"
+        )
+      : ["Tashkent", "Samarkand", "Bukhara", "Namangan"];
 
   // Filter and sort hospitals
   const filteredHospitals = (hospitals || [])
@@ -176,18 +255,27 @@ export default function Page() {
   };
 
   // Handle book appointment
-  const handleBookAppointment = (hospital: Hospital) => {
-    addAppointment({
-      doctor: hospital.name,
-      specialty: hospital.type || "General",
-      date: new Date().toISOString().split("T")[0],
-      time: "14:00",
-      type: translations("hospitalCard.bookButton") || "Appointment",
-      status: translations("toastMessages.bookAppointment").includes("confirmed") ? "Confirmed" : "Tasdiqlangan",
-    });
+  const handleBookAppointment = async (hospital: Hospital) => {
+    if (!user) {
+      toast({
+        title: translations("toastMessages.authRequired") || "Please sign in to book an appointment",
+        variant: "destructive",
+      });
+      router.push("/login");
+      return;
+    }
 
-    setToastMessage(translations("toastMessages.bookAppointment", { hospitalName: hospital.name }));
-    setShowSuccessToast(true);
+    try {
+      await bookAppointmentMutation.mutateAsync({
+        userId: user.id,
+        latitude,
+        longitude,
+        hospitalName: hospital.name,
+        type: hospital.type || "General",
+      });
+    } catch (error) {
+      console.error("Error booking appointment:", error);
+    }
   };
 
   // Clear filters
@@ -346,16 +434,17 @@ export default function Page() {
             <div className="space-y-6">
               {filteredHospitals.map((hospital) => (
                 <Card
-                onClick={() => router.push(`/hospitals/${hospital.id}`)}
-                
-                key={hospital.id} className="hover:shadow-lg transition-shadow">
+                  onClick={() => router.push(`/hospitals/${hospital.id}`)}
+                  key={hospital.id}
+                  className="hover:shadow-lg transition-shadow"
+                >
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
                       <div className="relative">
                         <Image
-                        width={'200'}
-                        height={'200'}
-                          src={`https://api.diagnoai.uz${hospital?.image}`}
+                          width={200}
+                          height={200}
+                          src={`https://api.diagnoai.uz${hospital.image}`}
                           alt={hospital.name}
                           className="w-20 h-20 rounded-full object-cover"
                         />
@@ -397,14 +486,14 @@ export default function Page() {
                               </div>
 
                               <div className="flex space-x-3">
-                                <Button variant="outline" size="sm" onClick={() => handleCall(hospital.name)}>
+                                <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); handleCall(hospital.name); }}>
                                   <Phone className="w-4 h-4 mr-1" />
                                   {translations("hospitalCard.callButton") || "Call"}
                                 </Button>
                                 <Button
                                   size="sm"
                                   className="bg-blue-600 hover:bg-blue-700"
-                                  onClick={() => handleBookAppointment(hospital)}
+                                  onClick={(e) => { e.stopPropagation(); handleBookAppointment(hospital); }}
                                 >
                                   <Calendar className="w-4 h-4 mr-1" />
                                   {translations("hospitalCard.bookButton") || "Book Appointment"}

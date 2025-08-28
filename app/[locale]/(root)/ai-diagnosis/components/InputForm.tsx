@@ -36,8 +36,9 @@ const InputForm: React.FC<InputFormProps> = ({
             <Textarea
               placeholder="Describe your symptoms in detail..."
               value={symptoms}
+              rows={4}
               onChange={(e) => setSymptoms(e.target.value)}
-              className="min-h-[120px] pr-12 border-2 border-gray-200 focus:border-blue-400 rounded-xl resize-none"
+              className="pr-12 border-2 border-gray-200 focus:border-blue-400 rounded-xl "
               aria-label="Symptom description"
             />
             <div className="rounded-xl text-center transition-colors absolute bottom-3 right-3">

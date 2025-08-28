@@ -95,8 +95,8 @@ export default function RegisterPage() {
   const passwordStrength = password && password.length >= 8 ? "strong" : password && password.length >= 6 ? "medium" : "weak"
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4 fixed inset-0 z-50">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex justify-center   fixed inset-0 z-50">
+      <div className="w-full max-w-md m-4 overflow-auto">
         <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
           <CardHeader className="text-center pb-2">
             <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mb-4 shadow-lg">

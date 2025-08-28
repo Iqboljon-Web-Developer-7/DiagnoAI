@@ -37,7 +37,7 @@ export default function AIDiagnosisPage() {
     const header = document.querySelector("header");
     if (!header) return;
 
-        header.classList.add("hidden");
+    header.classList.add("hidden");
 
     return () => {
       header.classList.remove("hidden");
@@ -49,19 +49,17 @@ export default function AIDiagnosisPage() {
       <ToastContainer />
       <SidebarProvider>
         <div className="z-50 fixed inset-0 flex min-h-screen bg-gradient-to-b from-blue-50 to-white w-full">
-       <SidebarTrigger className="absolute left-4 top-6  bg-neutral-200  text-black z-50" />
-          <ChatSidebar 
-            chats={chats} 
-            handleNewChat={handleNewChat} 
-            handleDeleteChat={handleDeleteChat} 
+          <SidebarTrigger className="absolute left-4 top-6  bg-neutral-200  text-black z-50" />
+          <ChatSidebar
+            chats={chats}
+            handleNewChat={handleNewChat}
+            handleDeleteChat={handleDeleteChat}
             fetchChatById={fetchChatById}
           />
 
-          {/* Main content */}
           <div className="flex-1 p-6 md:p-10 overflow-auto ai-main">
             <div className="max-w-6xl mx-auto space-y-8">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Chat container - takes up 2/3 of the space on large screens */}
                 <div className="lg:col-span-2 space-y-6">
                   {/* Chat messages */}
                   <ChatContainer
@@ -73,7 +71,7 @@ export default function AIDiagnosisPage() {
                     scrollToEnd={scrollToEnd}
                   />
 
-                 
+
                   <InputForm
                     symptoms={symptoms}
                     setSymptoms={setSymptoms}
@@ -86,7 +84,6 @@ export default function AIDiagnosisPage() {
                   />
                 </div>
 
-                {/* Doctor recommendations - takes up 1/3 of the space on large screens */}
                 <div className="lg:col-span-1">
                   <DoctorRecommendations doctors={doctors} />
                 </div>

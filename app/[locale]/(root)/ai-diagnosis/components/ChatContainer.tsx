@@ -29,7 +29,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
   
   
   return (
-    <Card className="shadow-xl border-0 bg-[#edf8f4] backdrop-blur-sm">
+    <Card className="border-0 bg-transparent backdrop-blur-sm">
       <CardContent className="p-0">
         <div
           className={`h-[500px] overflow-y-auto p-6 space-y-4 ${deferredChatMessages?.length === 0 ? "flex items-center justify-center" : ""}`}

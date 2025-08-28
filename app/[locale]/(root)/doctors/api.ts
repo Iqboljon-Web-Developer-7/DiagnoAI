@@ -1,4 +1,3 @@
-// app/doctors/api.ts
 'use client';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAppStore } from '@/context/store';
@@ -12,29 +11,49 @@ export async function fetchDoctors({
     latitude,
     longitude,
     selectedSpecialty,
+    token,
 }: {
     latitude: number;
     longitude: number;
     selectedSpecialty: string;
+    token: string | undefined;
 }) {
-    const params = new URLSearchParams({ latitude: latitude.toString(), longitude: longitude.toString() });
+    if (!token) {
+        throw new Error('Authentication required');
+    }
+
+    const params = new URLSearchParams({ 
+        latitude: latitude.toString(), 
+        longitude: longitude.toString() 
+    });
     if (selectedSpecialty) params.append('field', selectedSpecialty);
 
-    const res = await fetch(`${API_BASE_URL}/my-doctors/?${params.toString()}`);
+    const res = await fetch(`${API_BASE_URL}/my-doctors/?${params.toString()}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
     if (!res.ok) throw new Error('Failed to fetch doctors');
     return res.json();
 }
 
 export function useDoctorsQuery(latitude: number, longitude: number, selectedSpecialty: string) {
+    const { user } = useAppStore();
+    
     return useQuery<Doctor[]>({
         queryKey: ['doctors', latitude, longitude, selectedSpecialty],
-        queryFn: () => fetchDoctors({ latitude, longitude, selectedSpecialty }),
-        enabled: !!latitude && !!longitude,
+        queryFn: () => fetchDoctors({ 
+            latitude, 
+            longitude, 
+            selectedSpecialty,
+            token: user?.token 
+        }),
+        enabled: !!latitude && !!longitude && !!user?.token,
     });
 }
 
 export function useBookAppointmentMutation() {
-    const { addAppointment } = useAppStore();
+    const { addAppointment, user } = useAppStore();
     const translations = useTranslations('doctors');
     const { toast } = useToast();
 
@@ -50,6 +69,10 @@ export function useBookAppointmentMutation() {
             longitude: number;
             doctorName: string;
         }) => {
+            if (!user?.token) {
+                throw new Error('Authentication required');
+            }
+
             const formData = new FormData();
             formData.append('user_id', userId);
             formData.append('latitude', latitude.toString());
@@ -58,6 +81,9 @@ export function useBookAppointmentMutation() {
 
             const res = await fetch(`${API_BASE_URL}/chats/`, {
                 method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
                 body: formData,
             });
 
@@ -79,7 +105,7 @@ export function useBookAppointmentMutation() {
                     `Appointment booked with ${variables.doctorName}`,
             });
         },
-        onError: () => {
+        onError: (error) => {
             toast({
                 title: translations('toastMessages.error') || 'Failed to book appointment',
                 variant: 'destructive',

@@ -38,6 +38,7 @@ export const useChat = () => {
   // Refs for scrolling
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const progressIntervalRef = useRef<NodeJS.Timeout>(null);
 
   // Deferred value for smooth rendering
   const deferredChatMessages = useDeferredValue(chatMessages);
@@ -45,25 +46,18 @@ export const useChat = () => {
   // Scroll to bottom of chat
   const scrollToEnd = useCallback((ref: { current: HTMLSpanElement | null }) => {
     if (ref.current) {
-      console.log(ref?.current?.className);
-      
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
   }, []);
 
-  // Auto-scroll when new messages arrive
-  useEffect(() => {
-    // if (messagesEndRef.current) {
-    //   messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    // }
-  }, [deferredChatMessages]);
-
   // Fetch chats from API
-  const fetchChats = async () => {
+  const fetchChats = useCallback(async () => {
+    if (!user?.token) return;
+    
     try {
       const response = await axios.get("https://api.diagnoai.uz/chats/", {
         headers: {
-          Authorization: `Bearer ${user?.token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       });
       setChats(response.data);
@@ -71,31 +65,42 @@ export const useChat = () => {
       console.error("Error fetching chats:", error);
       toast.error("Failed to load chat history. Please try again later.");
     }
-  };
+  }, [user?.token]);
 
   // Fetch chats on component mount
   useEffect(() => {
     if (user?.id) {
       fetchChats();
     }
-  }, [fetchChats, user?.id]);
+  }, [user?.id, fetchChats]);
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
+    };
+  }, []);
 
   // Fetch chat by ID
   const fetchChatById = async (chatId: string) => {
+    if (!user?.token) return;
+
     try {
       const response = await axios.get(`https://api.diagnoai.uz/chats/${chatId}/`, {
         headers: {
-          Authorization: `Bearer ${user?.token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       });
       setChatMessages(response.data.messages);
       setDoctors(response.data.doctors || []);
       setCurrentChatId(chatId);
-      setTimeout(() => {
-        scrollToEnd(messagesEndRef)
-
-      }, 1000);
+      
+      // Use RAF for smoother scrolling
+      requestAnimationFrame(() => {
+        scrollToEnd(messagesEndRef);
+      });
     } catch (error) {
       console.error("Error fetching chat:", error);
       toast.error("Failed to load chat history");
@@ -103,22 +108,24 @@ export const useChat = () => {
   };
 
   // Create a new chat
-  const handleNewChat = () => {
+  const handleNewChat = useCallback(() => {
     setChatMessages([]);
     setDoctors([]);
     setCurrentChatId(null);
     router.push("/ai-diagnosis");
-  };
+  }, [router]);
 
   // Delete a chat
   const handleDeleteChat = async (chatId: string) => {
+    if (!user?.token) return;
+
     try {
       await axios.delete(`https://api.diagnoai.uz/chats/${chatId}/`, {
         headers: {
-          Authorization: `Bearer ${user?.token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       });
-      setChats(chats.filter((chat) => chat.id !== chatId));
+      setChats(prevChats => prevChats.filter(chat => chat.id !== chatId));
       if (pathname.includes(chatId)) {
         router.push("/ai-diagnosis");
       }
@@ -128,93 +135,76 @@ export const useChat = () => {
     }
   };
 
-  // Get geolocation
+  // Get geolocation with timeout
   const getGeolocation = async () => {
-    if (navigator.geolocation) {
-      return new Promise<{ latitude: number; longitude: number }>((resolve) => {
-        const timeoutId = setTimeout(() => {
-          console.warn("Geolocation request timed out");
+    if (!navigator.geolocation) {
+      return { latitude: 0, longitude: 0 };
+    }
+
+    return new Promise<{ latitude: number; longitude: number }>((resolve) => {
+      const timeoutId = setTimeout(() => {
+        resolve({ latitude: 0, longitude: 0 });
+      }, 5000);
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          clearTimeout(timeoutId);
+          resolve({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        () => {
+          clearTimeout(timeoutId);
           resolve({ latitude: 0, longitude: 0 });
-        }, 5000);
-
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            clearTimeout(timeoutId);
-            resolve({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            });
-          },
-          (error) => {
-            clearTimeout(timeoutId);
-            console.error("Error getting geolocation:", error);
-
-            // Handle specific geolocation errors
-            switch (error.code) {
-              case error.PERMISSION_DENIED:
-                toast.error("Location access was denied. Using default location instead.");
-                break;
-              case error.POSITION_UNAVAILABLE:
-                toast.error("Your location information is unavailable. Using default location instead.");
-                break;
-              case error.TIMEOUT:
-                toast.error("The location request timed out. Using default location instead.");
-                break;
-            }
-
-            resolve({ latitude: 0, longitude: 0 });
-          },
-          { timeout: 5000, enableHighAccuracy: false, maximumAge: 0 }
-        );
-      });
-    }
-    return { latitude: 0, longitude: 0 };
-  };
-
-  // Handle file upload
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const newFiles = Array.from(e.target.files);
-
-      // Validate file types
-      const invalidFiles = newFiles.filter(
-        (file) => !file.type.match(/(image\/jpeg|image\/png|application\/pdf)/)
+        },
+        { timeout: 5000, enableHighAccuracy: false }
       );
-
-      if (invalidFiles?.length > 0) {
-        toast.error("Only JPG, PNG, and PDF files are allowed");
-        return;
-      }
-
-      // Validate file sizes (max 5MB)
-      const oversizedFiles = newFiles.filter((file) => file.size > 5 * 1024 * 1024);
-
-      if (oversizedFiles?.length > 0) {
-        toast.error("Files must be less than 5MB");
-        return;
-      }
-
-      setFiles([...files, ...newFiles]);
-    }
+    });
   };
+
+  // Handle file upload with memoized validation
+  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.length) return;
+
+    const newFiles = Array.from(e.target.files);
+    const isValidType = (file: File) => file.type.match(/(image\/jpeg|image\/png|application\/pdf)/);
+    const isValidSize = (file: File) => file.size <= 5 * 1024 * 1024;
+
+    const invalidFiles = newFiles.filter(file => !isValidType(file));
+    const oversizedFiles = newFiles.filter(file => !isValidSize(file));
+
+    if (invalidFiles.length > 0) {
+      toast.error("Only JPG, PNG, and PDF files are allowed");
+      return;
+    }
+
+    if (oversizedFiles.length > 0) {
+      toast.error("Files must be less than 5MB");
+      return;
+    }
+
+    setFiles(prevFiles => [...prevFiles, ...newFiles]);
+  }, []);
 
   // Remove a file
-  const removeFile = (idx: number) => {
-    setFiles(files.filter((_, i) => i !== idx));
-  };
-useEffect(() => {
-  const aiMainContainer = document.querySelector(".ai-main");
-  if (aiMainContainer) {
-    document.body.style.overflow = analyzing ? "hidden" : "auto";
-    aiMainContainer.classList.toggle("overflow-hidden", analyzing);
-    aiMainContainer.classList.toggle("overflow-auto", !analyzing);
-  }
-}, [analyzing]);
+  const removeFile = useCallback((idx: number) => {
+    setFiles(prevFiles => prevFiles.filter((_, i) => i !== idx));
+  }, []);
+
+  // Handle overflow based on analyzing state
+  useEffect(() => {
+    const aiMainContainer = document.querySelector(".ai-main");
+    if (aiMainContainer) {
+      document.body.style.overflow = analyzing ? "hidden" : "auto";
+      aiMainContainer.classList.toggle("overflow-hidden", analyzing);
+      aiMainContainer.classList.toggle("overflow-auto", !analyzing);
+    }
+  }, [analyzing]);
 
   // Send a message
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    let progressInterval: NodeJS.Timeout | undefined;
 
     if (!user?.id) {
       toast.error("Please sign in to use the AI diagnosis feature");
@@ -222,7 +212,7 @@ useEffect(() => {
       return;
     }
 
-    if (!symptoms.trim() && files?.length === 0) {
+    if (!symptoms.trim() && files.length === 0) {
       toast.error("Please describe your symptoms or upload relevant medical documents");
       return;
     }
@@ -230,9 +220,9 @@ useEffect(() => {
     setAnalyzing(true);
     setProgress(0);
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       scrollToEnd(messagesEndRef);
-    }, 1000);
+    });
 
     try {
       const geolocation = await getGeolocation();
@@ -241,82 +231,44 @@ useEffect(() => {
       formData.append("message", symptoms);
       formData.append("latitude", geolocation.latitude.toString());
       formData.append("longitude", geolocation.longitude.toString());
+      files.forEach(file => formData.append("files", file));
 
-      files.forEach((file) => {
-        formData.append("files", file);
-      });
-
-      // Simulate progress
-      progressInterval = setInterval(() => {
-        setProgress((prev) => (prev < 90 ? prev + 10 : prev));
+      progressIntervalRef.current = setInterval(() => {
+        setProgress(prev => (prev < 90 ? prev + 10 : prev));
       }, 1000);
 
-      let response: ChatApiResponse;
+      const headers = {
+        Authorization: `Bearer ${user.token}`,
+        "Content-Type": "multipart/form-data",
+      };
+
+      const response: ChatApiResponse = !currentChatId
+        ? await axios.post("https://api.diagnoai.uz/chats/", formData, { headers })
+        : await axios.patch(`https://api.diagnoai.uz/chats/${currentChatId}/`, formData, { headers });
 
       if (!currentChatId) {
-        // Create new chat
-        response = await axios.post("https://api.diagnoai.uz/chats/", formData, {
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        });
-
-        // Add new chat to list
-        setChats([response.data.chat!, ...chats]);
-      } else {
-        // Add to existing chat
-        response = await axios.patch(`https://api.diagnoai.uz/chats/${currentChatId}/`, formData, {
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        setChats(prevChats => [response.data.chat!, ...prevChats]);
       }
 
-      // Update messages and doctors
       setChatMessages(response.data.messages!);
       setDoctors(response.data.doctors!);
-
-      // Clear form
       setSymptoms("");
       setFiles([]);
 
-      // Complete progress
-      clearInterval(progressInterval);
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+      }
       setProgress(100);
 
-      // Update URL if new chat
       if (!currentChatId && response.data.chat) {
         router.push(`/ai-diagnosis/${response.data.chat.id}`);
       }
-    } catch (error: unknown) {
+    } catch (error) {
       console.error("Error sending message:", error);
-
-      if (typeof progressInterval !== 'undefined') {
-        clearInterval(progressInterval);
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
       }
-
-      // Handle different types of errors
-      // if (error.response) {
-      //   const statusCode = error.response.status;
-      //   let errorMessage = "Failed to process your request";
-
-      //   if (statusCode === 401 || statusCode === 403) {
-      //     errorMessage = "Authentication error. Please sign in again.";
-      //     router.push("/sign-in");
-      //   } else if (statusCode === 413) {
-      //     errorMessage = "Files are too large. Please reduce file size or number.";
-      //   } else if (statusCode >= 500) {
-      //     errorMessage = "Server error. Please try again later.";
-      //   }
-
-      //   toast.error(errorMessage);
-      // } else if (error.request) {
-      //   toast.error("Unable to connect to the server. Please check your internet connection.");
-      // } else {
-      //   toast.error("Failed to process your request. Please try again.");
-      // }
+      toast.error("Failed to send message. Please try again.");
     } finally {
       setAnalyzing(false);
     }
