@@ -19,11 +19,24 @@ async function page({ params }: { params: Promise<{ id: string, locale: string }
     const { id } = await params;
     const res = await fetch(`https://api.diagnoai.uz/api/doctors/${id}/`);
     const doctor: Doctor = res.status === 200 ? await res.json() : {};
-    
-    console.log(doctor);
+
+    // Fetch free times
+    const [freeTimes, setFreeTimes] = React.useState([]);
+    React.useEffect(() => {
+        const fetchFreeTimes = async () => {
+            const res = await fetch(`https://api.diagnoai.uz/api/bookings/doctors/${id}/free-times?date=2025-08-28`);
+            if (res.status === 200) setFreeTimes(await res.json());
+        };
+        fetchFreeTimes();
+    }, [id]);
 
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat('en-US').format(price);
+    };
+
+    const handleBookAppointment = (time) => {
+        // Add booking logic here, e.g., API call with date and time
+        alert(`Booking ${time} for 2025-08-28`);
     };
 
     return (
@@ -47,8 +60,8 @@ async function page({ params }: { params: Promise<{ id: string, locale: string }
                             <div className="relative">
                                 <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-white p-1 shadow-2xl">
                                     <Image
-                                    width={400}
-                                    height={400}
+                                        width={400}
+                                        height={400}
                                         src={`https://api.diagnoai.uz${doctor.image}`}
                                         alt={doctor.name}
                                         className="w-full h-full rounded-full object-cover"
@@ -59,7 +72,6 @@ async function page({ params }: { params: Promise<{ id: string, locale: string }
                                 </div>
                             </div>
 
-                            {/* Rest of the component remains the same */}
                             {/* Doctor Info */}
                             <div className="flex-1 text-center lg:text-left">
                                 <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">
@@ -140,6 +152,29 @@ async function page({ params }: { params: Promise<{ id: string, locale: string }
                                     </div>
                                 ))}
                             </div>
+                        </div>
+
+                        {/* Available Time Slots */}
+                        <div className="bg-white rounded-xl shadow-lg p-6">
+                            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
+                                <Clock className="h-6 w-6 text-blue-600" />
+                                <span>Available Time Slots (Aug 28, 2025)</span>
+                            </h2>
+                            {freeTimes.length > 0 ? (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    {freeTimes.map((time, index) => (
+                                        <button
+                                            key={index}
+                                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                                            onClick={() => handleBookAppointment(time)}
+                                        >
+                                            {time} - Book
+                                        </button>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-gray-600">No available slots today.</p>
+                            )}
                         </div>
                     </div>
 
@@ -222,4 +257,4 @@ async function page({ params }: { params: Promise<{ id: string, locale: string }
     );
 }
 
-export default page
+export default page;
