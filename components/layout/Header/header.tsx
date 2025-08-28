@@ -12,8 +12,8 @@ export async function Header() {
     { path: '/ai-diagnosis', label: t('aiDiagnosis') },
     { path: '/doctors', label: t('doctors') },
     { path: '/hospitals', label: t('hospitals') },
-    { path: '/emergency-help', label: t('emergencyHelp') },
-    { path: '/recommended-providers', label: t('recommendedProviders') },
+    // { path: '/emergency-help', label: t('emergencyHelp') },
+    // { path: '/recommended-providers', label: t('recommendedProviders') },
     { path: '/education', label: t('education') },
     { path: '/about', label: t('about') },
   ];
