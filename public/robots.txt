@@ -1,3 +1,28 @@
+# DiagnoAI Robots.txt
+# Last updated: 2025 08
+
+# Allow all crawlers
 User-agent: *
-Disallow:
-Sitemap: https://diagno-ai-startup.vercel.app/sitemap.xml
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /*?*
+
+# Specific rules for major crawlers
+User-agent: Googlebot
+Disallow: /nogooglebot/
+
+User-agent: Bingbot
+Disallow: /nobingbot/
+
+User-agent: Baiduspider
+Disallow: /nobaidu/
+
+# Crawl delay for all bots
+Crawl-delay: 10
+
+# Sitemap location
+Sitemap: https://diagnoai.uz/sitemap.xml

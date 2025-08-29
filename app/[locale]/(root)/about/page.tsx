@@ -14,7 +14,6 @@ import Iqboljon from "@/assets/images/about/Iqboljon.jpg"
 import Shahobiddin from "@/assets/images/about/Shahobiddin.jpg"
 import Firdavs from "@/assets/images/about/Firdavs.jpg"
 
-// Define TypeScript interface for team members data
 interface TeamMember {
   name: string;
   role: string;
@@ -30,8 +29,6 @@ interface TeamMembersData {
     };
   };
 }
-
-// Define team members data with explicit types
 
 const teamMembersData: TeamMembersData = {
   about: {
@@ -108,7 +105,6 @@ const timelineItems = [
 
   const translations = useTranslations("about")
 
-  // Map team members data with explicit typing
   const teamMembers = Object.keys(teamMembersData.about?.team?.members || {}).map((key, index) => ({
     name: teamMembersData.about.team.members[key].name,
     role: teamMembersData.about.team.members[key].role,
@@ -147,7 +143,7 @@ const timelineItems = [
                 ))}
               </div>
             </div>
-            <div className="p-8 rounded-2xl">
+            <div className="p-2 md:p-8 rounded-2xl">
               <div className="grid sm:grid-cols-2 gap-6">
                 <Card>
                   <CardContent className="pt-6">
@@ -183,7 +179,6 @@ const timelineItems = [
         </div>
       </section>
 
-      {/* Our Values */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
@@ -297,7 +292,7 @@ const timelineItems = [
           <p className="text-xl text-blue-100 mb-8">{translations("cta.description")}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
+              <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 w-full">
                 {translations("cta.contactButton")}
               </Button>
             </Link>
@@ -305,7 +300,7 @@ const timelineItems = [
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white hover:bg-white hover:text-blue-600"
+                className="border-white hover:bg-white hover:text-blue-600 w-full"
               >
                 {translations("cta.careersButton")}
               </Button>

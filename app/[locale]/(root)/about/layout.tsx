@@ -19,18 +19,18 @@ export const metadata: Metadata = {
     'Diagno AI'
   ],
   authors: [
-    { name: 'Diagno AI Team', url: 'https://diagno-ai-startup.vercel.app' }
+    { name: 'Diagno AI Team', url: 'https://diagnoai.uz' }
   ],
   creator: 'Diagno AI',
   publisher: 'Diagno AI',
   openGraph: {
     title: 'About Diagno AI',
     description: 'Discover the story, mission, and team behind Diagno AI, the platform for AI-powered medical diagnosis and emergency help.',
-    url: 'https://diagno-ai-startup.vercel.app/about',
+    url: 'https://diagnoai.uz/about',
     siteName: 'Diagno AI',
     images: [
       {
-        url: 'https://diagno-ai-startup.vercel.app/og-image.png',
+        url: 'https://diagnoai.uz/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Diagno AI Open Graph Image'
@@ -45,9 +45,9 @@ export const metadata: Metadata = {
     description: 'Learn about the Diagno AI team, our mission, and how we are transforming healthcare with AI.',
     site: '@diagnoai',
     creator: '@diagnoai',
-    images: ['https://diagno-ai-startup.vercel.app/og-image.png']
+    images: ['https://diagnoai.uz/og-image.png']
   },
-  metadataBase: new URL('https://diagno-ai-startup.vercel.app'),
+  metadataBase: new URL('https://diagnoai.uz'),
   robots: {
     index: true,
     follow: true,

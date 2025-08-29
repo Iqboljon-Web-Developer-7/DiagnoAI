@@ -1,39 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- DiagnoAI Sitemap -->
+<!-- Last Generated: 2023-11-15 -->
 <urlset
       xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xhtml="http://www.w3.org/1999/xhtml"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<!-- English URLs -->
 <url>
-  <loc>https://diagno-ai-startup.vercel.app/en</loc>
-  <lastmod>2025-06-19T06:13:16+00:00</lastmod>
+  <loc>https://diagnoai.uz/en</loc>
+  <lastmod>2023-11-15T10:30:00+00:00</lastmod>
   <priority>1.00</priority>
+  <changefreq>weekly</changefreq>
+  <xhtml:link rel="alternate" hreflang="ru" href="https://diagnoai.uz/ru"/>
+  <xhtml:link rel="alternate" hreflang="uz" href="https://diagnoai.uz/uz"/>
 </url>
 <url>
-  <loc>https://diagno-ai-startup.vercel.app/en/ai-diagnosis</loc>
-  <lastmod>2025-06-19T06:13:16+00:00</lastmod>
-  <priority>0.80</priority>
+  <loc>https://diagnoai.uz/en/ai-diagnosis</loc>
+  <lastmod>2023-11-15T10:30:00+00:00</lastmod>
+  <priority>0.90</priority>
+  <changefreq>weekly</changefreq>
+  <xhtml:link rel="alternate" hreflang="ru" href="https://diagnoai.uz/ru/ai-diagnosis"/>
+  <xhtml:link rel="alternate" hreflang="uz" href="https://diagnoai.uz/uz/ai-diagnosis"/>
 </url>
 <url>
-  <loc>https://diagno-ai-startup.vercel.app/en/emergency-help</loc>
-  <lastmod>2025-06-19T06:13:16+00:00</lastmod>
-  <priority>0.80</priority>
+  <loc>https://diagnoai.uz/en/emergency-help</loc>
+  <lastmod>2023-11-15T10:30:00+00:00</lastmod>
+  <priority>0.90</priority>
+  <changefreq>weekly</changefreq>
+  <xhtml:link rel="alternate" hreflang="ru" href="https://diagnoai.uz/ru/emergency-help"/>
+  <xhtml:link rel="alternate" hreflang="uz" href="https://diagnoai.uz/uz/emergency-help"/>
 </url>
 <url>
-  <loc>https://diagno-ai-startup.vercel.app/en/doctors</loc>
-  <lastmod>2025-06-19T06:13:16+00:00</lastmod>
+  <loc>https://diagnoai.uz/en/doctors</loc>
+  <lastmod>2023-11-15T10:30:00+00:00</lastmod>
   <priority>0.80</priority>
+  <changefreq>weekly</changefreq>
+  <xhtml:link rel="alternate" hreflang="ru" href="https://diagnoai.uz/ru/doctors"/>
+  <xhtml:link rel="alternate" hreflang="uz" href="https://diagnoai.uz/uz/doctors"/>
 </url>
 <url>
-  <loc>https://diagno-ai-startup.vercel.app/en/recommended-providers</loc>
-  <lastmod>2025-06-19T06:13:16+00:00</lastmod>
+  <loc>https://diagnoai.uz/en/recommended-providers</loc>
+  <lastmod>2023-11-15T10:30:00+00:00</lastmod>
   <priority>0.80</priority>
+  <changefreq>monthly</changefreq>
+  <xhtml:link rel="alternate" hreflang="ru" href="https://diagnoai.uz/ru/recommended-providers"/>
+  <xhtml:link rel="alternate" hreflang="uz" href="https://diagnoai.uz/uz/recommended-providers"/>
 </url>
 <url>
-  <loc>https://diagno-ai-startup.vercel.app/en/about</loc>
-  <lastmod>2025-06-19T06:13:16+00:00</lastmod>
+  <loc>https://diagnoai.uz/en/about</loc>
+  <lastmod>2023-11-15T10:30:00+00:00</lastmod>
   <priority>0.80</priority>
+  <changefreq>monthly</changefreq>
+  <xhtml:link rel="alternate" hreflang="ru" href="https://diagnoai.uz/ru/about"/>
+  <xhtml:link rel="alternate" hreflang="uz" href="https://diagnoai.uz/uz/about"/>
 </url>
 
+<!-- Russian URLs -->
+<url>
+  <loc>https://diagnoai.uz/ru</loc>
+  <lastmod>2023-11-15T10:30:00+00:00</lastmod>
+  <priority>0.90</priority>
+  <changefreq>weekly</changefreq>
+  <xhtml:link rel="alternate" hreflang="en" href="https://diagnoai.uz/en"/>
+  <xhtml:link rel="alternate" hreflang="uz" href="https://diagnoai.uz/uz"/>
+</url>
+
+<!-- Uzbek URLs -->
+<url>
+  <loc>https://diagnoai.uz/uz</loc>
+  <lastmod>2023-11-15T10:30:00+00:00</lastmod>
+  <priority>0.90</priority>
+  <changefreq>weekly</changefreq>
+  <xhtml:link rel="alternate" hreflang="en" href="https://diagnoai.uz/en"/>
+  <xhtml:link rel="alternate" hreflang="ru" href="https://diagnoai.uz/ru"/>
+</url>
 
 </urlset>
