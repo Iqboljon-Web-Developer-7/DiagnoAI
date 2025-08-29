@@ -228,7 +228,7 @@ export default function RecommendedProvidersPage() {
           <div className="lg:col-span-3">
             <div className="flex justify-between items-center mb-6 flex-wrap gap-3">
               <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-                {t('recommendedDoctorsTitle', { count: filteredDoctors?.length })}
+                {t('recommendedDoctorsTitle', { count: filteredDoctors ? filteredDoctors.length : 0 })}
               </h1>
               <Select defaultValue="match">
                 <SelectTrigger className="w-48">

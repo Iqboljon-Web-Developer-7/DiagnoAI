@@ -1,7 +1,6 @@
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { MetaData } from "./MetaData";
-import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner"
 import TanstackProvider from "@/providers/Tanstack";
 
@@ -20,8 +19,8 @@ export default function RootLayout({
       <TanstackProvider>
         {children}
       </TanstackProvider>
-      <Toaster />
       <SonnerToaster />
+      
       <Analytics />
       <SpeedInsights />
     </>

@@ -2,12 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { Button } from "@/components/ui/button"
 import { Link } from '@/i18n/navigation'
 
-interface CTASectionProps {
-  diagnosisPath: string;
-  emergencyPath: string;
-}
-
-export async function CTASection({ diagnosisPath, emergencyPath }: CTASectionProps) {
+export async function CTASection() {
   const t = await getTranslations('Index');
 
   return (
@@ -21,7 +16,7 @@ export async function CTASection({ diagnosisPath, emergencyPath }: CTASectionPro
             {t('cta.description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link href={diagnosisPath} className="w-full sm:w-auto">
+            <Link href="/ai-diagnosis" className="w-full sm:w-auto">
               <Button
                 size="lg"
                 className="w-full bg-white text-blue-600 hover:bg-blue-50 text-sm sm:text-base px-8"
@@ -29,7 +24,7 @@ export async function CTASection({ diagnosisPath, emergencyPath }: CTASectionPro
                 {t('cta.primaryButton')}
               </Button>
             </Link>
-            <Link href={emergencyPath} className="w-full sm:w-auto">
+            <Link href="/about" className="w-full sm:w-auto">
               <Button
                 size="lg"
                 variant="outline"

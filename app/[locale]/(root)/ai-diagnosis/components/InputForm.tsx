@@ -56,7 +56,7 @@ const InputForm: React.FC<InputFormProps> = ({
             </div>
           </div>
 
-          {files?.length > 0 && (
+          {files && files.length > 0 && (
             <div className="space-y-3">
               <h4 className="font-medium text-gray-900">Uploaded Files</h4>
               {files.map((file, i) => (
@@ -90,7 +90,7 @@ const InputForm: React.FC<InputFormProps> = ({
 
           <Button
             type="submit"
-            disabled={analyzing || (!symptoms.trim() && !files?.length)}
+            disabled={analyzing || (!symptoms.trim() && !(files && files.length))}
             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg h-12"
             aria-label="Submit diagnosis"
           >

@@ -10,14 +10,6 @@ interface DebouncedFunction<T extends unknown[]> {
   (...args: T) : void;
 }
 
-const debounce = <T extends unknown[]>(func: DebouncedFunction<T>, wait: number) => {
-  let timeout: ReturnType<typeof setTimeout>;
-  return (...args: T) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  };
-};
-
 interface Tab {
   label: string;
   path: string;
@@ -27,6 +19,14 @@ interface CollapsibleTabsProps {
   tabs: Tab[];
   className?: string
 }
+
+const debounce = <T extends unknown[]>(func: DebouncedFunction<T>, wait: number) => {
+  let timeout: ReturnType<typeof setTimeout>;
+  return (...args: T) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+};
 
 const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) => {
   const [visibleTabs, setVisibleTabs] = useState<Tab[]>([]);

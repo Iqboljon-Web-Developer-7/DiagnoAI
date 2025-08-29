@@ -32,10 +32,10 @@ const ChatContainer: React.FC<ChatContainerProps> = ({
     <Card className="border-0 bg-transparent backdrop-blur-sm">
       <CardContent className="p-0">
         <div
-          className={`h-[500px] overflow-y-auto p-6 space-y-4 ${deferredChatMessages?.length === 0 ? "flex items-center justify-center" : ""}`}
+          className={`h-[500px] overflow-y-auto p-6 space-y-4 ${deferredChatMessages && deferredChatMessages.length === 0 ? "flex items-center justify-center" : ""}`}
           ref={chatContainerRef}
         >
-          {deferredChatMessages?.length > 0 ? (
+          {deferredChatMessages && deferredChatMessages.length > 0 ? (
             deferredChatMessages.map((msg, idx) => (
               <MessageItem key={idx} message={msg} index={idx} scrollToEnd={scrollToEnd} />
             ))

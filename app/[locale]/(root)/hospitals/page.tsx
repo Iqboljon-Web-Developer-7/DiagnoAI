@@ -167,6 +167,8 @@ export default function Page() {
       hospitalName: string;
       type?: string;
     }) => {
+      console.log(type);
+      
       if (!user?.token) {
         throw new Error("Authentication required");
       }
@@ -221,10 +223,10 @@ export default function Page() {
   );
 
   // Derive cities (fallback to static if address is unavailable)
-  const cities =
-    Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
+  const citiesArray = Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
       (city) => city !== "Unknown"
-    ).length > 0
+    );
+  const cities = citiesArray && citiesArray.length > 0
       ? Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
           (city) => city !== "Unknown"
         )

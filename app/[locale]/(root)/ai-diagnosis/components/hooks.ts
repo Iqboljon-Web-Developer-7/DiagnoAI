@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback, useDeferredValue } from "reac
 import { useRouter } from "@/i18n/navigation";
 import { toast } from "sonner"
 import { useAppStore } from "@/context/store";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { Chat, ChatMessage, Doctor, ChatApiResponse } from "./types";
 import { usePathname } from "@/i18n/navigation";
 
@@ -212,7 +212,7 @@ export const useChat = () => {
       return;
     }
 
-    if (!symptoms.trim() && files.length === 0) {
+    if (!symptoms.trim() && (!files || files.length === 0)) {
       toast.error("Please describe your symptoms or upload relevant medical documents");
       return;
     }

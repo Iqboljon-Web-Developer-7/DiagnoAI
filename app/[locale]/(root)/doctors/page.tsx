@@ -53,11 +53,14 @@ export default function Page() {
   });
 
   // Derive specialties
-  const specialties: Specialty[] = Array.from(new Set(doctors.map((doctor) => doctor.field))).map((name) => ({
-    name,
-    count: doctors.filter((d) => d.field === name)?.length,
-    icon: '🩺',
-  }));
+  const specialties: Specialty[] = Array.from(new Set(doctors.map((doctor) => doctor.field))).map((name) => {
+    const filtered = doctors.filter((d) => d.field === name);
+    return {
+      name,
+      count: filtered ? filtered.length : 0,
+      icon: '🩺',
+    };
+  });
 
   if (error) {
     return (
@@ -137,8 +140,8 @@ export default function Page() {
           <div className="lg:col-span-3">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-900">
-                {translations('doctorsListTitle', { count: filteredDoctors?.length }) ||
-                  `${filteredDoctors?.length} Doctors`}
+                {translations('doctorsListTitle', { count: filteredDoctors ? filteredDoctors.length : 0 }) ||
+                  `${filteredDoctors ? filteredDoctors.length : 0} Doctors`}
               </h2>
             </div>
 

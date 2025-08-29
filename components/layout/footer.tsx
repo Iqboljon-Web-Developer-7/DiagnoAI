@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useState } from 'react'
 import { useTranslations } from "next-intl"
 import { usePathname } from "@/i18n/navigation"
+import { ArrowDown, ArrowUp } from "lucide-react"
 
 export function Footer() {
   const t = useTranslations('Footer')
@@ -30,7 +31,7 @@ export function Footer() {
               className="w-full flex text-xl justify-between items-center font-semibold md:cursor-default md:pointer-events-none"
             >
               {t('services.title')}
-              <span className="md:hidden">{openSection === 'services' ? '−' : '+'}</span>
+              <span className="md:hidden">{openSection === 'services'  ? <ArrowUp size={18}/> : <ArrowDown size={18} />}</span>
             </button>
             <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-300 overflow-hidden transition-all duration-300 ${openSection === 'services' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
               <li>
@@ -57,7 +58,7 @@ export function Footer() {
               className="w-full flex text-xl justify-between items-center font-semibold md:cursor-default md:pointer-events-none"
             >
               {t('company.title')}
-              <span className="md:hidden">{openSection === 'company' ? '−' : '+'}</span>
+              <span className="md:hidden">{openSection === 'company' ? <ArrowUp size={18}/> : <ArrowDown size={18} />}</span>
             </button>
             <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-300 overflow-hidden transition-all duration-300 ${openSection === 'company' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
               <li>
@@ -84,7 +85,7 @@ export function Footer() {
               className="w-full flex text-xl justify-between items-center font-semibold md:cursor-default md:pointer-events-none"
             >
               {t('help.title')}
-              <span className="md:hidden">{openSection === 'help' ? '−' : '+'}</span>
+              <span className="md:hidden">{openSection === 'help' ? <ArrowUp size={18}/> : <ArrowDown size={18} />}</span>
             </button>
             <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-300 overflow-hidden transition-all duration-300 ${openSection === 'help' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
               <li>

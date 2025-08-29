@@ -105,7 +105,7 @@ export function useBookAppointmentMutation() {
                     `Appointment booked with ${variables.doctorName}`,
             });
         },
-        onError: (error) => {
+        onError: () => {
             toast({
                 title: translations('toastMessages.error') || 'Failed to book appointment',
                 variant: 'destructive',

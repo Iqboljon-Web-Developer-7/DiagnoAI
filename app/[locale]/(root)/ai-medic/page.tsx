@@ -174,8 +174,8 @@ export default function App() {
         setSelectedChat(response.data);
       } else {
         let chatId = selectedChat.id
-        if (!chatId) {
-          chatId = chats[chats?.length - 1].id
+        if (!chatId && chats && chats.length > 0) {
+          chatId = chats[chats.length - 1].id
         }
         console.log(chatId);
 

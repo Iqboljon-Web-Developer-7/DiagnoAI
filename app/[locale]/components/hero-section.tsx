@@ -4,12 +4,7 @@ import { Upload , Clock } from "lucide-react"
 import HeroBgImg from "@/assets/images/hero/hero-bg.webp"
 import { Link } from "@/i18n/navigation"
 
-interface HeroSectionProps {
-  diagnosisPath: string;
-  emergencyPath: string;
-}
-
-export async function HeroSection({ diagnosisPath, emergencyPath }: HeroSectionProps) {
+export async function HeroSection() {
   const t = await getTranslations('Index');
 
   return (
@@ -43,7 +38,7 @@ export async function HeroSection({ diagnosisPath, emergencyPath }: HeroSectionP
               className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start my-14 md:my-32 flex-wrap animate-fade-in-down delay-700 opacity-0 duration-700"
             >
               <div>
-                <Link href={diagnosisPath}>
+                <Link href="/ai-diagnosis">
                   <Button
                     variant="outline"
                     className=" w-full sm:w-auto bg-transparent hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base hover:scale-105 transition-all hover:border-none duration-300"
@@ -54,7 +49,7 @@ export async function HeroSection({ diagnosisPath, emergencyPath }: HeroSectionP
                 </Link>
               </div>
               <div>
-                <Link href={emergencyPath}>
+                <Link href="/emergency-help">
                   <Button
                     variant="outline"
                     className="w-full sm:w-auto border-white bg-transparent text-white hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base hover:scale-105 transition-all hover:border-none duratino-300"

@@ -16,21 +16,20 @@ export default async function LocaleLayout({
   params
 }: LocaleLayout) {
   const { locale } = await params;
-  const validLocale = locale as ValidLocale;
-  if (!locales.includes(validLocale)) notFound();
+  if (!locales.includes(locale as ValidLocale)) notFound();
 
   let messages;
   try {
-    messages = (await import(`../../messages/${validLocale}.json`)).default;
+    messages = (await import(`../../messages/${locale}.json`)).default;
   } catch (error) {
     console.log(error);
     return notFound();
   }
 
   return (
-    <html lang={validLocale}>
+    <html lang={locale}>
       <body>
-        <NextIntlClientProvider locale={validLocale} messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           {/* @ts-expect-error Async Server Component */}
           <Header />
 

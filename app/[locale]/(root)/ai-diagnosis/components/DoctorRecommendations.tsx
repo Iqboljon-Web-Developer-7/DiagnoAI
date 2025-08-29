@@ -30,7 +30,7 @@ const DoctorRecommendations: React.FC<DoctorRecommendationsProps> = ({ doctors }
         </div>
       </CardHeader>
       <CardContent>
-        {doctors?.length > 0 ? (
+        {doctors && doctors.length > 0 ? (
           <div className="space-y-4">
             {doctors.map((doc) => (
               <DoctorItem key={doc.id} doctor={doc} router={router} />

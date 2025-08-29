@@ -15,26 +15,33 @@ interface Doctor {
     phone_number: string;
 }
 
-async function page({ params }: { params: Promise<{ id: string, locale: string }> }) {
+async function DoctorPage({ params }: { params: Promise<{ id: string, locale: string }> }) {
     const { id } = await params;
     const res = await fetch(`https://api.diagnoai.uz/api/doctors/${id}/`);
     const doctor: Doctor = res.status === 200 ? await res.json() : {};
+    
+    return (
+        <DoctorPageClient doctor={doctor} doctorId={id} />
+    );
+}
 
-    // Fetch free times
+// Client component to handle React hooks
+function DoctorPageClient({ doctor, doctorId }: { doctor: Doctor, doctorId: string }) {
     const [freeTimes, setFreeTimes] = React.useState([]);
+    
     React.useEffect(() => {
         const fetchFreeTimes = async () => {
-            const res = await fetch(`https://api.diagnoai.uz/api/bookings/doctors/${id}/free-times?date=2025-08-28`);
+            const res = await fetch(`https://api.diagnoai.uz/api/bookings/doctors/${doctorId}/free-times?date=2025-08-28`);
             if (res.status === 200) setFreeTimes(await res.json());
         };
         fetchFreeTimes();
-    }, [id]);
+    }, [doctorId]);
 
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat('en-US').format(price);
     };
 
-    const handleBookAppointment = (time) => {
+    const handleBookAppointment = (time:number) => {
         // Add booking logic here, e.g., API call with date and time
         alert(`Booking ${time} for 2025-08-28`);
     };
@@ -160,7 +167,7 @@ async function page({ params }: { params: Promise<{ id: string, locale: string }
                                 <Clock className="h-6 w-6 text-blue-600" />
                                 <span>Available Time Slots (Aug 28, 2025)</span>
                             </h2>
-                            {freeTimes.length > 0 ? (
+                            {freeTimes && freeTimes.length > 0 ? (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {freeTimes.map((time, index) => (
                                         <button
@@ -257,4 +264,4 @@ async function page({ params }: { params: Promise<{ id: string, locale: string }
     );
 }
 
-export default page;
+export default DoctorPage;

@@ -179,7 +179,7 @@ const Education = () => {
             <div className="flex items-center justify-center gap-6 text-sm text-gray-200">
               <div className="flex items-center gap-2">
                 <BookOpen className="h-4 w-4" />
-                <span>{mockVideos?.length} Video Lessons</span>
+                <span>{mockVideos ? mockVideos.length : 0} Video Lessons</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
