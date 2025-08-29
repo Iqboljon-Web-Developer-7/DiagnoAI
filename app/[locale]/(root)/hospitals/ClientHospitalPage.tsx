@@ -1,8 +1,5 @@
 "use client"
 
-// ClientHospitalsPage.tsx
-// Client-side component for handling interactive features of the hospitals page
-
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,11 +8,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Star, MapPin, Phone, Calendar, Filter, Search, HospitalIcon } from "lucide-react"
 import { useAppStore } from "@/context/store"
 import { useTranslations } from "next-intl"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { useBookAppointmentMutation, useGetHospitals } from "./api"
-import { Hospital, HospitalType, Appointment } from "./types"
+import { Hospital, HospitalType  } from "./types"
 
 // Haversine formula to calculate distance
 function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -34,15 +31,16 @@ interface ClientHospitalsPageProps {
   error: string | null
 }
 
-export default function ClientHospitalsPage( ) {
-  
-  
+export default function ClientHospitalsPage() {
+
+
   const t = useTranslations("hospitals")
   const { latitude, longitude, setLocation, addAppointment, user } = useAppStore()
-  const { toast } = useToast()
+
   const router = useRouter()
-  
+
   const { data: initialHospitals = [], error } = useGetHospitals(user?.token)
+
   // Client-side state
   const [hospitals, setHospitals] = useState<Hospital[]>(initialHospitals)
   const [searchTerm, setSearchTerm] = useState("")
@@ -65,10 +63,9 @@ export default function ClientHospitalsPage( ) {
         },
         (err) => {
           console.error("Geolocation failed:", err)
-          toast({
-            title: t("toastMessages.geolocationError") || "Failed to get location",
-            variant: "destructive",
-          })
+          toast.error(
+            t("toastMessages.geolocationError") || "Failed to get location",
+          )
         }
       )
     }
@@ -128,10 +125,9 @@ export default function ClientHospitalsPage( ) {
   // Handle book appointment
   const handleBookAppointment = async (hospital: Hospital) => {
     if (!user) {
-      toast({
-        title: t("toastMessages.authRequired") || "Please sign in to book an appointment",
-        variant: "destructive",
-      })
+      toast.error(
+        t("toastMessages.authRequired") || "Please sign in to book an appointment",
+      )
       router.push("/auth/login")
       return
     }
@@ -155,15 +151,14 @@ export default function ClientHospitalsPage( ) {
               type: t("hospitalCard.bookButton") || "Appointment",
               status: "Tasdiqlangan",
             })
-            toast({
-              title: t("toastMessages.bookAppointment", { hospitalName: hospital.name }) || `Appointment booked at ${hospital.name}`,
-            })
+            toast(
+              t("toastMessages.bookAppointment", { hospitalName: hospital.name }) || `Appointment booked at ${hospital.name}`,
+            )
           },
           onError: () => {
-            toast({
-              title: t("toastMessages.error") || "Failed to book appointment",
-              variant: "destructive",
-            })
+            toast.error(
+              t("toastMessages.error") || "Failed to book appointment",
+            )
           },
         }
       )
@@ -185,16 +180,22 @@ export default function ClientHospitalsPage( ) {
   // Show toast
   useEffect(() => {
     if (showSuccessToast) {
-      toast({
-        title: toastMessage,
-        variant: toastMessage.includes("error") ? "destructive" : "default",
-      })
+      toast(toastMessage)
       setShowSuccessToast(false)
     }
   }, [showSuccessToast, toastMessage, toast])
 
   if (error) {
-    return <div className="text-center py-8 text-red-600">{error?.message}</div>
+    if ((error as any)?.response?.status === 401) {
+      router.push('/auth/login')
+      toast.error(
+        t("toastMessages.authRequired") || "Please sign in to view hospitals",
+      )
+    }
+    return <div className="text-center py-8 text-red-600">
+      {error?.message}
+      <p>{(error as any)?.response?.data?.detail || error?.message}</p>
+    </div>
   }
 
   return (

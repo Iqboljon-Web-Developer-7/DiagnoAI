@@ -174,7 +174,8 @@
       "beds": "o'rin",
       "servicesSuffix": "xizmatlar",
       "callButton": "Qo'ng'iroq qilish",
-      "bookButton": "Qabulga yozilish"
+      "bookButton": "Qabulga yozilish",
+      "authRequired": "Iltimos, avtorizatsiya qilishingiz kerak."
     },
     "toastMessages": {
       "call": "{hospitalName}ga qo'ng'iroq qilinmoqda...",

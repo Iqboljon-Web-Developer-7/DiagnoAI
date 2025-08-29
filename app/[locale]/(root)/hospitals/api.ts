@@ -42,10 +42,6 @@ export const useBookAppointmentMutation = (token: string | undefined) => {
 }
 
 export const useGetHospitals = (token: string | undefined) => {
-  if (!token) {
-    throw new Error("Authentication required")
-  }
-
   return useQuery({
     queryKey: ['hospitals'],
     queryFn: async () => {

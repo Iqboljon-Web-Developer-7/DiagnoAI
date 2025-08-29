@@ -113,8 +113,8 @@
     "education": "Education"
   },
   "Auth": {
-      "title": "Welcome to DiagnoAI",
-      "description": "Join our community of healthcare professionals and experience the future of medical diagnostics. Get started by creating your account or signing in.",
+    "title": "Welcome to DiagnoAI",
+    "description": "Join our community of healthcare professionals and experience the future of medical diagnostics. Get started by creating your account or signing in.",
     "login": {
       "title": "Login",
       "description": "Login to access Diagno AI platform",
@@ -691,7 +691,8 @@
       "call": "Calling {hospitalName}...",
       "bookAppointment": "Appointment booked with {hospitalName}!",
       "clearFilters": "Filters cleared.",
-      "error": "An error occurred. Please try again."
+      "error": "An error occurred. Please try again.",
+      "authRequired": "Please login to book an appointment."
     },
     "count": "{count} hospitals",
     "loadMoreButton": "Load More"
