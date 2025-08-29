@@ -32,11 +32,11 @@ export function UserMenu({ className }: { className?: string }) {
   }
 
   const openLoginModal = () => {
-    router.push("/login")
+    router.push("/auth/login")
   }
 
   const openRegisterModal = () => {
-    router.push("/register")
+    router.push("/auth/register")
 
   }
 

@@ -5,7 +5,7 @@ import { MapPin } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "@/i18n/navigation";
-import { Doctor } from "./types";
+import { Doctor } from "../types";
 
 interface DoctorItemProps {
   doctor: Doctor;

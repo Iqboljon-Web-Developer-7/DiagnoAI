@@ -19,6 +19,7 @@ export default function RootLayout({
       <TanstackProvider>
         {children}
       </TanstackProvider>
+
       <SonnerToaster />
       
       <Analytics />

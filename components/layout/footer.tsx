@@ -17,7 +17,7 @@ export function Footer() {
   }
 
   return (
-    <footer className={`bg-[#274c77] text-white py-12 z-20 relative ${pathname == '/ai-diagnosis' || pathname == '/register' || pathname == '/login' ? 'hidden' : ''}`}>
+    <footer className={`bg-[#274c77] text-white py-12 z-20 relative ${pathname == '/ai-diagnosis' || pathname == '/auth/register' || pathname == '/auth/login' ? 'hidden' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-3 md:gap-8">
           <div className="flex flex-col gap-2">

@@ -14,7 +14,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import ChatItem from "./ChatItem";
-import { Chat } from "./types";
+import { Chat } from "../types";
 
 interface ChatSidebarProps {
   chats: Chat[];

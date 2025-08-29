@@ -113,6 +113,8 @@
     "education": "Education"
   },
   "Auth": {
+      "title": "Welcome to DiagnoAI",
+      "description": "Join our community of healthcare professionals and experience the future of medical diagnostics. Get started by creating your account or signing in.",
     "login": {
       "title": "Login",
       "description": "Login to access Diagno AI platform",
@@ -121,7 +123,9 @@
       "password": "Password",
       "submit": "Login",
       "cancel": "Cancel",
-      "loading": "Logging in..."
+      "loading": "Logging in...",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register here"
     },
     "register": {
       "title": "Register",

@@ -31,7 +31,7 @@ const mockVideos: Video[] = [
     category: "Reklama"
   },
   {
-    id: "2", 
+    id: "2",
     title: "Mutaxassisimiz LOR shifokor Umarov Ravshan Ziyavidinovich",
     description: `Mirkamol Nasirjanovning yangi dasturi mehmoni bo'ldi👨‍⚕️
 
@@ -104,7 +104,7 @@ Murojaat uchun: +998 94 651 30 00`,
     duration: "41 min",
     category: "Education"
   },
-    {
+  {
     id: "7",
     title: "What is Diagno AI? - Overview Presentation",
     description: `This video provides an overview of Diagno AI – an intelligent healthcare assistant platform that leverages AI to support patient diagnostics and analysis. Learn more at @DiagnoAI.`,
@@ -113,9 +113,9 @@ Murojaat uchun: +998 94 651 30 00`,
     duration: "41 min",
     category: "Using Diagno AI"
   },
-      {
+  {
     id: "8",
-    title:"Diagno AI ilovasi haqida.",
+    title: "Diagno AI ilovasi haqida.",
     description: `Tibbiyotda sun'iy intellektni qo'llash asoslari. #diagnoai #O'zbekistondagi birinchi tibbiy sun'iy intellekt​`,
     videoUrl: "https://www.youtube.com/embed/0GPz8Cy_vnU?si=FqKczA4nnklX1Wif",
     thumbnail: "https://i.ytimg.com/vi/OubN6MI9iHY/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGDYgYShyMA8=&rs=AOn4CLBdTzaWrEHRLps61gkG6JWqwBdETg",
@@ -124,17 +124,17 @@ Murojaat uchun: +998 94 651 30 00`,
   }
 ];
 
+const categories = ["All", "Reklama", "Podcast", "Education", "Explainer", "Using Diagno AI"];
+
 const Education = () => {
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const categories = ["All", "Reklama", "Podcast", "Education", "Explainer","Using Diagno AI"];
-
   const filteredVideos = mockVideos.filter(video => {
     const matchesCategory = selectedCategory === "All" || video.category === selectedCategory;
-    const matchesSearch = searchQuery === "" || 
+    const matchesSearch = searchQuery === "" ||
       video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       video.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       video.category.toLowerCase().includes(searchQuery.toLowerCase());
@@ -153,9 +153,8 @@ const Education = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 bg-black/40 bg-bottom bg-cover bg-no-repeat"
           style={{
             backgroundImage: `url(${heroImage.src})`,
@@ -165,7 +164,7 @@ const Education = () => {
           }}
         />
         <div className="relative container mx-auto px-4 py-24 ">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+          <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-in-down delay-100 opacity-0">
             <div className="flex items-center justify-center gap-2 mb-4">
               <GraduationCap className="h-8 w-8 text-primary" />
               <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
@@ -173,7 +172,7 @@ const Education = () => {
               </h1>
             </div>
             <p className="text-xl text-indigo-200 leading-relaxed">
-              Master new skills with our comprehensive video library. From fundamentals to advanced concepts, 
+              Master new skills with our comprehensive video library. From fundamentals to advanced concepts,
               we have everything you need to advance your career.
             </p>
             <div className="flex items-center justify-center gap-6 text-sm text-gray-200">
@@ -203,7 +202,7 @@ const Education = () => {
             />
           </div>
         </div>
-        
+
         <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
           {categories.map((category) => (
             <Button
@@ -223,9 +222,9 @@ const Education = () => {
       <section className="container mx-auto px-4 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredVideos.map((video) => (
-            <Card 
-              key={video.id} 
-              className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1"
+            <Card
+              key={video.id}
+              className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 animate-fade-in-down delay-200 opacity-0"
               onClick={() => handleVideoSelect(video)}
             >
               <CardContent className="p-0">
@@ -242,13 +241,13 @@ const Education = () => {
                       <Play className="h-6 w-6 text-primary-foreground fill-current" />
                     </div>
                   </div>
-                  <Badge 
+                  <Badge
                     className="absolute top-3 left-3 bg-primary/90 text-primary-foreground"
                   >
                     {video.category}
                   </Badge>
                 </div>
-                
+
                 <div className="p-4 space-y-3">
                   <h3 className="font-semibold text-lg leading-tight group-hover:text-primary transition-colors">
                     {video.title}
@@ -272,7 +271,7 @@ const Education = () => {
         </div>
       </section>
 
-      <VideoModal 
+      <VideoModal
         isOpen={isModalOpen}
         onClose={handleModalClose}
         video={selectedVideo}

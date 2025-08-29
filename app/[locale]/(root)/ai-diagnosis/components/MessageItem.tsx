@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MarkdownTypewriter } from "react-markdown-typewriter";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
-import { ChatMessage } from "./types";
+import { ChatMessage } from "../types";
 
 interface MessageItemProps {
   message: ChatMessage;

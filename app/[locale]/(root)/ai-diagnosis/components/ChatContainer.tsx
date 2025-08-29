@@ -5,7 +5,7 @@ import { Loader2, Stethoscope } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import MessageItem from "./MessageItem";
-import { ChatMessage } from "./types";
+import { ChatMessage } from "../types";
 
 interface ChatContainerProps {
   chatMessages?: ChatMessage[] | null;

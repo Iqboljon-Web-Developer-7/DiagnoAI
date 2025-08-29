@@ -37,15 +37,16 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
 
   const pathname = usePathname();
 
-
-  // Move document usage into useEffect to avoid SSR issues
   useEffect(() => {
     if (typeof window === "undefined") return;
     const header = document.querySelector("header");
-    if (pathname === '/ai-medic') {
+    const footer = document.querySelector("footer")
+    if (pathname === '/ai-medic' || pathname === '/auth/register' || pathname === '/auth/login' || pathname === '/ai-diagnosis') {
       header?.classList.add("hidden");
+      footer?.classList.add("hidden");
     } else {
       header?.classList.remove("hidden");
+      footer?.classList.remove("hidden");
     }
   }, [pathname]);
 

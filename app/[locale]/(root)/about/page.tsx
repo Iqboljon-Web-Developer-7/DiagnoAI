@@ -1,10 +1,8 @@
-"use client"
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Brain, Shield, Clock, Users, Award, Globe, Heart } from "lucide-react"
 import Link from "next/link"
-import { useTranslations } from "next-intl"
+import { getTranslations } from "next-intl/server"
 import Image from "next/image"
 
 import aboutImg from "@/assets/images/about/about-bg.jpg"
@@ -63,47 +61,47 @@ const teamMembersData: TeamMembersData = {
     }
   }
 }
-export default function AboutPage() {
-const timelineItems = [
-  {
-    year: "2025 Fevral",
-    title: "Boshlanish",
-    description:
-      "AI va tibbiyotga qiziqqan eng yaxshi mutaxassislarni bir jamoaga to‘pladik. Maqsad — eng dolzarb tibbiy muammoni topish va hal qilish.",
-    position: "left",
-  },
-  {
-    year: "2025 Mart",
-    title: "Muammo aniqlash",
-    description:
-      "Keng tahlillar va shifokorlar bilan uchrashuvlar orqali eng katta muammo sifatida erta diagnostika kechikishini tanladik.",
-    position: "right",
-  },
-  {
-    year: "2025 Aprel",
-    title: "Ilk prototip",
-    description:
-      "Minimal ishlaydigan AI modelini yaratdik va kichik klinikalarda testdan o‘tkaza boshladik.",
-    position: "left",
-  },
-  {
-    year: "2025 May",
-    title: "Dastlabki natijalar",
-    description:
-      "Testlar ijobiy bo‘ldi — model ayrim kasalliklarni ancha tez aniqlashga muvaffaq bo‘ldi.",
-    position: "right",
-  },
-  {
-    year: "2025 Avgust",
-    title: "Kengaytirish rejalari",
-    description:
-      "Investitsiya jalb qilish va ko‘proq klinikalar bilan hamkorlik qilish bo‘yicha muzokaralar boshlandi.",
-    position: "left",
-  },
-];
+export default async function AboutPage() {
+  const timelineItems = [
+    {
+      year: "2025 Fevral",
+      title: "Boshlanish",
+      description:
+        "AI va tibbiyotga qiziqqan eng yaxshi mutaxassislarni bir jamoaga to‘pladik. Maqsad — eng dolzarb tibbiy muammoni topish va hal qilish.",
+      position: "left",
+    },
+    {
+      year: "2025 Mart",
+      title: "Muammo aniqlash",
+      description:
+        "Keng tahlillar va shifokorlar bilan uchrashuvlar orqali eng katta muammo sifatida erta diagnostika kechikishini tanladik.",
+      position: "right",
+    },
+    {
+      year: "2025 Aprel",
+      title: "Ilk prototip",
+      description:
+        "Minimal ishlaydigan AI modelini yaratdik va kichik klinikalarda testdan o‘tkaza boshladik.",
+      position: "left",
+    },
+    {
+      year: "2025 May",
+      title: "Dastlabki natijalar",
+      description:
+        "Testlar ijobiy bo‘ldi — model ayrim kasalliklarni ancha tez aniqlashga muvaffaq bo‘ldi.",
+      position: "right",
+    },
+    {
+      year: "2025 Avgust",
+      title: "Kengaytirish rejalari",
+      description:
+        "Investitsiya jalb qilish va ko‘proq klinikalar bilan hamkorlik qilish bo‘yicha muzokaralar boshlandi.",
+      position: "left",
+    },
+  ];
 
 
-  const translations = useTranslations("about")
+  const translations = await getTranslations("about")
 
   const teamMembers = Object.keys(teamMembersData.about?.team?.members || {}).map((key, index) => ({
     name: teamMembersData.about.team.members[key].name,
@@ -120,7 +118,7 @@ const timelineItems = [
         className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[8%] bg-black bg-no-repeat min-h-96"
       >
         <span className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2]"></span>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative animate-fade-in-down opacity-0 delay-200">
           <h1 className="text-4xl lg:text-6xl font-bold mb-6">{translations("hero.title")}</h1>
           <p className="md:text-2xl mb-8 text-blue-50 max-w-3xl">{translations("hero.description")}</p>
         </div>

@@ -1,6 +1,8 @@
 "use client"
 
-import type React from "react"
+// page.tsx
+// User login page component with form and UI
+
 import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
@@ -10,59 +12,108 @@ import { useAppStore } from "@/context/store"
 import { Loader2, Mail, Lock, Eye, EyeOff, Shield } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Link } from "@/i18n/navigation"
+import { useLoginMutation } from "./api"
+import { LoginFormData, ErrorResponse, User } from "./types"
+import { toast } from "sonner"
 
-export default function LoginPage() {
+// Main login page component
+const LoginPage: React.FC = () => {
   const { setUser } = useAppStore()
   const router = useRouter()
   const t = useTranslations("Auth")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Form state
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: "",
+    password: "",
+  })
+
+  // UI state
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [error, setError] = useState<string>("")
+
+  // TanStack Query mutation for login
+  const loginMutation = useLoginMutation()
+
+  // Handle form input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { id, value } = e.target
+    setFormData((prev) => ({ ...prev, [id]: value }))
+  }
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     setError("")
-    setIsLoading(true)
 
-    try {
-      const response = await fetch('https://api.diagnoai.uz/api/users/login/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email_or_phone: email,
-          password: password
-        })
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        // Set user in zustand store
+    loginMutation.mutate(formData, {
+      onSuccess: (data) => {
         setUser({
           id: `user-${Date.now()}`,
-          email: email,
+          email: formData.email,
           avatar: "/placeholder.svg?height=32&width=32",
           role: data.role,
-          token: data.token
+          token: data.token,
         })
-        router.push("/ai-diagnosis")
-      } else {
-        setError(t("errors.loginFailed"))
-      }
-    } catch (err) {
-      console.log(err)
-      setError(t("errors.general"))
-    } finally {
-      setIsLoading(false)
+        toast.success("Login successful!")
+        router.push("/")
+      },
+      onError: (error: Error) => {
+        try {
+          const parsedError = JSON.parse(error.message)
+          if (parsedError.status === 400) {
+            handleErrorResponse(parsedError.data as ErrorResponse)
+          } else {
+            setError(t("errors.loginFailed"))
+          }
+        } catch {
+          setError(t("errors.general"))
+        }
+      },
+    })
+  }
+
+  // Handle API error responses
+  const handleErrorResponse = (data: ErrorResponse): void => {
+    if (data.detail) {
+      setError(data.detail)
+    } else if (typeof data === "object") {
+      const firstError = Object.values(data)[0]
+      setError(Array.isArray(firstError) ? firstError[0] : String(firstError))
+    } else {
+      setError(t("errors.loginFailed"))
     }
   }
 
+  // Render input field with icon
+  const renderInputField = (
+    id: keyof LoginFormData,
+    label: string,
+    type: string,
+    placeholder: string,
+    Icon: React.ElementType
+  ) => (
+    <div className="space-y-2">
+      <Label htmlFor={id} className="text-sm font-medium text-gray-700">
+        {label}
+      </Label>
+      <div className="relative">
+        <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-950 w-5 h-5" />
+        <Input
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          value={formData[id]}
+          onChange={handleInputChange}
+          className="pl-11 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500/20 rounded-xl bg-white/50 transition-all duration-200"
+          required
+        />
+      </div>
+    </div>
+  )
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4 fixed inset-0 z-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-blue-50 to-purple-200 flex items-center justify-center p-4  animate-fade-in-down delay-200 opacity-0">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10" />
 
@@ -86,23 +137,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-5">
               {/* Email Field */}
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                  {t("login.email")}
-                </Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-950 w-5 h-5" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder={t("login.emailPlaceholder")}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="pl-11 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500/20 rounded-xl bg-white/50 transition-all duration-200"
-                    required
-                  />
-                </div>
-              </div>
+              {renderInputField("email", t("login.email"), "email", t("login.emailPlaceholder"), Mail)}
 
               {/* Password Field */}
               <div className="space-y-2">
@@ -114,9 +149,9 @@ export default function LoginPage() {
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="pl-11 pr-11 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500/20 rounded-xl bg-white/50   transition-all duration-200"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className="pl-11 pr-11 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500/20 rounded-xl bg-white/50 transition-all duration-200"
                     required
                   />
                   <button
@@ -130,9 +165,9 @@ export default function LoginPage() {
               </div>
 
               {/* Error Message */}
-              {error && (
+              {(error || loginMutation.error) && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-3">
-                  <p className="text-sm text-red-600 text-center">{error}</p>
+                  <p className="text-sm text-red-600 text-center">{error || t("errors.general")}</p>
                 </div>
               )}
             </div>
@@ -140,10 +175,10 @@ export default function LoginPage() {
             {/* Submit Button */}
             <Button
               type="submit"
-              disabled={isLoading}
+              disabled={loginMutation.isPending}
               className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? (
+              {loginMutation.isPending ? (
                 <div className="flex items-center justify-center space-x-2">
                   <Loader2 className="w-5 h-5 animate-spin" />
                   <span>{t("login.loading")}</span>
@@ -158,20 +193,18 @@ export default function LoginPage() {
 
           {/* Footer */}
           <div className="text-center pt-4 border-t border-gray-100">
-            <p className="text-xs text-gray-500">{"Secure login powered by advanced encryption"}</p>
-          </div>
+              <p className="text-sm text-gray-600">
+                <span>{t("login.noAccount")}</span>{' '}
+                <Link href="/auth/register" className="text-blue-600 hover:underline">
+                  {t("login.registerLink")}
+                </Link>
+              </p>
+            </div>
         </div>
 
-        {/* Additional Info */}
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            <span>{"Already have an account?"}</span>{' '}
-            <Link href="/register" className="text-blue-600 hover:underline">
-              Register
-            </Link>
-          </p>
-        </div>
       </div>
     </div>
   )
 }
+
+export default LoginPage

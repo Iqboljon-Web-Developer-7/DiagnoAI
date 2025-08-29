@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { useChat } from "./components/hooks";
+import { useChat } from "./hooks";
 import ChatSidebar from "./components/ChatSidebar";
 import ChatContainer from "./components/ChatContainer";
 import InputForm from "./components/InputForm";

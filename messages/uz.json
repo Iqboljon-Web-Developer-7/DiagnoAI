@@ -186,6 +186,8 @@
     "loadMoreButton": "Ko'proq ko'rish"
   },
   "Auth": {
+    "title": "DiagnoAI ga xush kelibsiz",
+    "description": "Tibbiy diagnostikaning kelajagini his qilish uchun sog'liqni saqlash mutaxassislari jamoamizga qo'shiling. Hisobingizni yarating yoki tizimga kiring.",
     "login": {
       "title": "Kirish",
       "description": "Diagno AI platformasiga kirish",
@@ -194,7 +196,9 @@
       "password": "Parol",
       "submit": "Kirish",
       "cancel": "Bekor qilish",
-      "loading": "Kirish..."
+      "loading": "Kirish...",
+      "noAccount": "Hisobingiz yo'qmi?",
+      "registerLink": "Bu yerda ro'yxatdan o'ting"
     },
     "register": {
       "title": "Ro'yxatdan o'tish",

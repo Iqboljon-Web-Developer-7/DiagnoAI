@@ -6,7 +6,7 @@ import { Stethoscope, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import DoctorItem from "./DoctorItem";
-import { Doctor } from "./types";
+import { Doctor } from "../types";
 import { useRouter } from "@/i18n/navigation";
 
 interface DoctorRecommendationsProps {
