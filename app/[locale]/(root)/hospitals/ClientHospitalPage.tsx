@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Star, MapPin, Phone, Calendar, Filter, Search, HospitalIcon } from "lucide-react"
+import { MapPin, Phone, Calendar, Filter, Search, HospitalIcon } from "lucide-react"
 import { useAppStore } from "@/context/store"
 import { useTranslations } from "next-intl"
 import { toast } from "sonner"
@@ -32,7 +32,7 @@ export default function ClientHospitalsPage() {
   const { latitude, longitude, setLocation, addAppointment, user } = useAppStore()
   const router = useRouter()
 
-  const { data: hospitals = [], error, isLoading, isPending  } = useGetHospitals(user?.token)
+  const { data: hospitals = [], error, isLoading, isPending } = useGetHospitals(user?.token)
   const bookAppointmentMutation = useBookAppointmentMutation(user?.token)
 
   // Filter states
@@ -55,8 +55,8 @@ export default function ClientHospitalsPage() {
   // Enrich hospitals with distance
   const enrichedHospitals = useMemo(() => {
     if (!latitude || !longitude) return hospitals
-    
-    return hospitals.map((h:Hospital) => ({
+
+    return hospitals.map((h: Hospital) => ({
       ...h,
       distance: haversine(latitude, longitude, h.latitude, h.longitude),
       rating: h.rating || 0,
@@ -66,10 +66,10 @@ export default function ClientHospitalsPage() {
 
   // Unique types
   const hospitalTypes = useMemo(() => {
-    const types = Array.from(new Set(enrichedHospitals.map((h:Hospital) => h.type || "General")))
+    const types = Array.from(new Set(enrichedHospitals.map((h: Hospital) => h.type || "General")))
     return types.map(type => ({
       name: type as string,
-      count: enrichedHospitals.filter((h:Hospital) => (h.type || "General") === type).length,
+      count: enrichedHospitals.filter((h: Hospital) => (h.type || "General") === type).length,
       icon: "🏥",
     }))
   }, [enrichedHospitals])
@@ -77,7 +77,7 @@ export default function ClientHospitalsPage() {
   // Unique cities
   const cities = useMemo(() => {
     const extracted = Array.from(
-      new Set(enrichedHospitals.map((h:Hospital) => h.address?.split(",")[1]?.trim() || "Unknown"))
+      new Set(enrichedHospitals.map((h: Hospital) => h.address?.split(",")[1]?.trim() || "Unknown"))
     ).filter(c => c !== "Unknown")
     return extracted.length ? extracted : ["Tashkent", "Samarkand", "Bukhara", "Namangan"]
   }, [enrichedHospitals])
@@ -85,18 +85,39 @@ export default function ClientHospitalsPage() {
   // Final filtered + sorted hospitals
   const filteredHospitals = useMemo(() => {
     return enrichedHospitals
-      .filter((h:Hospital) => {
+      .filter((h: Hospital) => {
+        // Existing filters
         const matchesSearch =
           h.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           (h.type || "").toLowerCase().includes(searchTerm.toLowerCase())
         const matchesType = !selectedType || (h.type || "General").toLowerCase() === selectedType.toLowerCase()
         const matchesRating = !selectedRating || (h.rating || 0) >= parseFloat(selectedRating)
-        const matchesCity = !selectedCity || h.address?.toLowerCase().includes(selectedCity.toLowerCase())
-        return matchesSearch && matchesType && matchesRating && matchesCity
+        const matchesCity = !selectedCity || (h.address?.toLowerCase().includes(selectedCity.toLowerCase()) || !h.address)
+
+        // Adjusted "real content" filters (more lenient)
+        const hasDoctors = true// Allow null or non-negative doctors
+        const hasDepartments = true // Temporarily allow empty departments for testing
+        const hasValidDescription = h.description && h.description.trim() !== "" // Ensure non-empty description
+        const hasValidImage = h.image && h.image.startsWith("http") // Ensure valid image URL
+        const hasValidCoordinates = h.latitude != null && h.longitude != null && // Ensure valid coordinates
+          h.latitude >= -90 && h.latitude <= 90 && h.longitude >= -180 && h.longitude <= 180
+
+        // Combine all filters
+        return (
+          matchesSearch &&
+          matchesType &&
+          matchesRating &&
+          matchesCity &&
+          hasDoctors &&
+          hasDepartments &&
+          hasValidDescription &&
+          hasValidImage &&
+          hasValidCoordinates
+        )
       })
-      .sort((a:Hospital, b:Hospital) => {
+      .sort((a: Hospital, b: Hospital) => {
         if (sortBy === "rating") return (b.rating || 0) - (a.rating || 0)
-        if (sortBy === "distance") return (a.distance || 0) - (b.distance || 0)
+        if (sortBy === "distance") return (a.distance || Infinity) - (b.distance || Infinity)
         if (sortBy === "beds") return (b.beds || 0) - (a.beds || 0)
         return 0
       })
@@ -265,7 +286,7 @@ export default function ClientHospitalsPage() {
 
         {/* Hospitals List */}
         <div className="lg:col-span-3">
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-6 flex-wrap gap-3">
             <h2 className="text-2xl font-bold text-gray-900">
               {t("hospitalsListTitle", { count: filteredHospitals?.length || 0 }) ||
                 `${filteredHospitals?.length || 0} Hospitals`}
@@ -283,43 +304,47 @@ export default function ClientHospitalsPage() {
           </div>
 
           <div className="space-y-6">
-            {filteredHospitals.map((hospital:Hospital) => (
+            {filteredHospitals.length === 0 && !isLoading && !isPending && (
+              <p className="text-center text-gray-600">
+                No hospitals match your criteria
+              </p>
+            )}
+            {filteredHospitals.map((hospital: Hospital) => (
               <Card
                 onClick={() => router.push(`/hospitals/${hospital.id}`)}
                 key={hospital.id}
                 className="hover:shadow-lg transition-shadow"
               >
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="relative">
-                      <Image
-                        width={200}
-                        height={200}
-                        src={`${hospital.image}`}
-                        alt={hospital.name}
-                        className="w-20 h-20 rounded-full object-cover"
-                      />
-                    </div>
+                <CardContent className="p-0">
+                  <div className="flex items-start flex-col sm:flex-row gap-3">
+                    <div
+                      className="relative min-w-64 hidden sm:block h-[-webkit-fill-available]"
+                      style={{
+                        backgroundImage: `url(${hospital.image})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    />
 
-                    <div className="flex-1">
+                    <div className="flex-1 p-5 py-5 sm:p-4 md:p-6">
                       <div className="flex items-start justify-between">
                         <div className="w-full">
-                          <h3 className="text-xl font-bold text-gray-900 mb-1">{hospital.name}</h3>
-                          <p className="text-blue-600 font-medium mb-2">{hospital.type}</p>
-                          <p className="text-gray-600 text-sm mb-3">{hospital.address}</p>
+                          <div className="flex items-center gap-3">
+                            <img
+                              width={66}
+                              height={66}
+                              src={hospital.image}
+                              alt={hospital.name}
+                              className="w-16 h-16 rounded-full sm:hidden"
+                            />
+                            <h3 className="text-xl font-bold text-gray-900 mb-1">{hospital.name}</h3>
+                          </div>
+                          <p className="text-blue-600 font-medium mb-2">{hospital.type || "General"}</p>
+                          <p className="text-gray-600 text-sm mb-3">{hospital.address || "N/A"}</p>
 
-                          <p className="text-gray-700 mb-3">{hospital.description}</p>
+                          <p className="text-gray-700 mb-3 line-clamp-4">{hospital.description}</p>
 
-                          <div className="flex items-center space-x-4 mb-3">
-                            <div className="flex items-center space-x-1">
-                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                              <span className="font-medium">{hospital.rating || "N/A"}</span>
-                              <span className="text-gray-500 text-sm">
-                                {t("hospitalCard.reviews", { count: hospital.reviews || 0 }) ||
-                                  `${hospital.reviews || 0} reviews`}
-                              </span>
-                            </div>
-
+                          <div className="flex items-center space-x-4 mb-3 flex-wrap">
                             <div className="flex items-center space-x-1 text-gray-600">
                               <MapPin className="w-4 h-4" />
                               <span className="text-sm">
@@ -335,21 +360,14 @@ export default function ClientHospitalsPage() {
                             </div>
                           </div>
 
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <span className="text-lg font-bold text-gray-900">
-                                {hospital.services || "N/A"}
-                              </span>
-                              <span className="text-gray-500 text-sm ml-1">
-                                {t("hospitalCard.servicesSuffix") || "services"}
-                              </span>
-                            </div>
-
+                          <div className="flex items-center justify-between flex-wrap">
                             <div className="flex space-x-3">
-                              <Link href={"tel:"+hospital.phone_number}
+                              <Link
+                                onClick={(e) => e.stopPropagation()}
+                                className="shrink-0 text-sm min-w-11 flex items-center justify-center bg-blue-600 hover:bg-blue-700 p-2 rounded-lg text-white"
+                                href={"tel:" + hospital.phone_number}
                               >
                                 <Phone className="w-4 h-4 mr-1" />
-                                {t("hospitalCard.callButton") || "Call"}
                               </Link>
                               <Button
                                 size="sm"
@@ -378,12 +396,6 @@ export default function ClientHospitalsPage() {
               <p className="text-red-500 text-center animate-pulse">Please sign in to view hospitals</p>
             </div>
           )}
-
-          {/* <div className="text-center mt-8">
-            <Button variant="outline" size="lg">
-              {t("loadMoreButton") || "Load More"}
-            </Button>
-          </div> */}
         </div>
       </div>
     </>

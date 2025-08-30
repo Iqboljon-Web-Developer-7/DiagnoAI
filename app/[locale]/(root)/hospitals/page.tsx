@@ -19,9 +19,8 @@ export default async function HospitalsPage() {
             </CardTitle>
             <CardDescription>{t("typesDescription") || "Explore hospitals by type"}</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ClientHospitalsPage 
-            />
+          <CardContent className="p-4">
+            <ClientHospitalsPage />
           </CardContent>
         </Card>
       </div>
