@@ -56,3 +56,19 @@ export const useGetHospitals = (token: string | undefined) => {
     enabled: !!token
   })
 }
+
+// Fetch single hospital by ID
+export const useGetHospital = (id: string | undefined, token?: string) => {
+  return useQuery({
+    queryKey: ["hospital", id],
+    queryFn: async () => {
+      if (!id) throw new Error("Invalid hospital id")
+      const response = await axios.get(`${API_BASE_URL}/hospitals/${id}/`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      })
+      return response.data
+    },
+    enabled: !!id,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  })
+}

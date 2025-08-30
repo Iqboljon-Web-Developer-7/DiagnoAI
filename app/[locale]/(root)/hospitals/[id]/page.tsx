@@ -1,6 +1,10 @@
+"use client";
+
 import React from 'react';
+import { useGetHospital } from "../api";
 import { MapPin, Phone, Building2, Users, Clock, Star, Award, Stethoscope, Heart, Shield, Calendar, Navigation } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
+import { useAppStore } from '@/context/store';
 import Image from 'next/image';
 
 interface Hospital {
@@ -11,11 +15,22 @@ interface Hospital {
   image: string;
 }
 
-async function page({ params }: { params: Promise<{ id: string, locale: string }> }) {
-  const { id } = await params;
+function Page({ params }: { params: { id: string; locale: string } }) {
+  const { id } = params;
+  const {user} = useAppStore()
+  const { data: hospital = {} as Hospital, error, isLoading } = useGetHospital(id, user?.token);
 
-  const res = await fetch(`https://api.diagnoai.uz/api/hospitals/${id}/`);
-  const hospital: Hospital = res.status === 200 ? await res?.json() : {};
+  if (isLoading) {
+    return <div className="text-center py-8">Loading...</div>;
+  }
+  if (error) {
+    return <div className="text-center py-8 text-red-600">{(error as Error).message}</div>;
+  }
+
+  
+  
+  console.log(hospital);
+  
 
   const departments = [
     { name: 'Emergency Medicine', icon: Heart, color: 'text-red-600' },
@@ -56,12 +71,12 @@ async function page({ params }: { params: Promise<{ id: string, locale: string }
               <Image
                 width={1200}
                 height={400}
-                src={`https://api.diagnoai.uz${hospital?.image}`}
+                src={`${hospital?.image}`}
                 alt={hospital.name}
-                className="max-h-80 w-full h-full object-cover opacity-30"
+                className="w-full h-full object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-800/70"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-blue-800/50"></div>
               {/* Hospital Info Overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
                 <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-4">
@@ -272,4 +287,4 @@ async function page({ params }: { params: Promise<{ id: string, locale: string }
   );
 }
 
-export default page
+export default Page
