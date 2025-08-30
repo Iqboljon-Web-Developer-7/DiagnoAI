@@ -16,6 +16,7 @@ export interface Hospital {
   services?: string
   distance?: number
   image?: string
+  phone:number
 }
 
 // Hospital type for filtering

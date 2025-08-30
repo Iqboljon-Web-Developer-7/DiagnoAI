@@ -138,12 +138,12 @@ const RegisterPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-200 via-blue-50 to-purple-200 flex justify-center pt-8">
       <div className="w-full max-w-md m-4 overflow-auto">
-        <Card className="border-0 bg-white/80 backdrop-blur-sm animate-fade-in-down delay-200 opacity-0">
+        <Card className="border-0 space-y-5 bg-white/80 backdrop-blur-sm animate-fade-in-down delay-200 opacity-0">
           <CardHeader className="text-center pb-2">
             <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mb-4 shadow-lg">
               <UserIcon className="w-8 h-8 text-white" />
             </div>
-            <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <CardTitle className="text-3xl font-bold text-purple-900">
               {t("register.title")}
             </CardTitle>
             <CardDescription className="text-gray-600">{t("register.description")}</CardDescription>

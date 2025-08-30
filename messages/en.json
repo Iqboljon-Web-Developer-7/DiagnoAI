@@ -692,7 +692,7 @@
       "bookAppointment": "Appointment booked with {hospitalName}!",
       "clearFilters": "Filters cleared.",
       "error": "An error occurred. Please try again.",
-      "authRequired": "Please login to book an appointment."
+      "authRequired": "Please login to see hospitals and book appointments."
     },
     "count": "{count} hospitals",
     "loadMoreButton": "Load More"

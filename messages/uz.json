@@ -181,7 +181,8 @@
       "call": "{hospitalName}ga qo'ng'iroq qilinmoqda...",
       "bookAppointment": "{hospitalName} bilan qabul belgilandi!",
       "clearFilters": "Filtrlar tozalandi.",
-      "error": "Xatolik yuz berdi. Iltimos, qayta urinib ko'ring."
+      "error": "Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
+      "authRequired": "Shifoxonalarni ko'rish va qabulga yozilish uchun tizimga kirishingiz kerak."
     },
     "count": "{count} shifoxona",
     "loadMoreButton": "Ko'proq ko'rish"

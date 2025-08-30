@@ -13,7 +13,7 @@ import { Loader2, Mail, Lock, Eye, EyeOff, Shield } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { Link } from "@/i18n/navigation"
 import { useLoginMutation } from "./api"
-import { LoginFormData, ErrorResponse, User } from "./types"
+import { LoginFormData, ErrorResponse } from "./types"
 import { toast } from "sonner"
 
 // Main login page component
@@ -61,11 +61,7 @@ const LoginPage: React.FC = () => {
       onError: (error: Error) => {
         try {
           const parsedError = JSON.parse(error.message)
-          if (parsedError.status === 400) {
-            handleErrorResponse(parsedError.data as ErrorResponse)
-          } else {
-            setError(t("errors.loginFailed"))
-          }
+          handleErrorResponse(parsedError.data as ErrorResponse)
         } catch {
           setError(t("errors.general"))
         }
@@ -75,6 +71,8 @@ const LoginPage: React.FC = () => {
 
   // Handle API error responses
   const handleErrorResponse = (data: ErrorResponse): void => {
+    console.log(data);
+
     if (data.detail) {
       setError(data.detail)
     } else if (typeof data === "object") {
@@ -126,7 +124,7 @@ const LoginPage: React.FC = () => {
               <Shield className="w-8 h-8 text-white" />
             </div>
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold text-indigo-900">
                 {t("login.title")}
               </h1>
               <p className="text-gray-600 text-sm leading-relaxed">{t("login.description")}</p>
@@ -193,13 +191,13 @@ const LoginPage: React.FC = () => {
 
           {/* Footer */}
           <div className="text-center pt-4 border-t border-gray-100">
-              <p className="text-sm text-gray-600">
-                <span>{t("login.noAccount")}</span>{' '}
-                <Link href="/auth/register" className="text-blue-600 hover:underline">
-                  {t("login.registerLink")}
-                </Link>
-              </p>
-            </div>
+            <p className="text-sm text-gray-600">
+              <span>{t("login.noAccount")}</span>{' '}
+              <Link href="/auth/register" className="text-blue-600 hover:underline">
+                {t("login.registerLink")}
+              </Link>
+            </p>
+          </div>
         </div>
 
       </div>

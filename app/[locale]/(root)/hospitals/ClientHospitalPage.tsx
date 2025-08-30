@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -12,122 +12,100 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { useBookAppointmentMutation, useGetHospitals } from "./api"
-import { Hospital, HospitalType  } from "./types"
+import { Hospital } from "./types"
 
-// Haversine formula to calculate distance
-function haversine(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const R = 6371 // Earth's radius in km
+// --- Utility ---
+const haversine = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+  const R = 6371
   const dLat = (lat2 - lat1) * (Math.PI / 180)
   const dLon = (lon2 - lon1) * (Math.PI / 180)
   const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2)
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-  return R * c
-}
-
-interface ClientHospitalsPageProps {
-  hospitals: Hospital[]
-  error: string | null
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+    Math.sin(dLon / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 }
 
 export default function ClientHospitalsPage() {
-
-
   const t = useTranslations("hospitals")
   const { latitude, longitude, setLocation, addAppointment, user } = useAppStore()
-
   const router = useRouter()
 
-  const { data: initialHospitals = [], error } = useGetHospitals(user?.token)
+  const { data: hospitals = [], error, isLoading, isPending, isFetching } = useGetHospitals(user?.token)
+  const bookAppointmentMutation = useBookAppointmentMutation(user?.token)
 
-  // Client-side state
-  const [hospitals, setHospitals] = useState<Hospital[]>(initialHospitals)
+  // Filter states
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCity, setSelectedCity] = useState("")
   const [selectedType, setSelectedType] = useState("")
   const [selectedRating, setSelectedRating] = useState("")
   const [sortBy, setSortBy] = useState("rating")
-  const [showSuccessToast, setShowSuccessToast] = useState(false)
-  const [toastMessage, setToastMessage] = useState("")
 
-  // Book appointment mutation
-  const bookAppointmentMutation = useBookAppointmentMutation(user?.token)
-
-  // Get user location on client-side
+  // Fetch location
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation(position.coords.latitude, position.coords.longitude)
-        },
-        (err) => {
-          console.error("Geolocation failed:", err)
-          toast.error(
-            t("toastMessages.geolocationError") || "Failed to get location",
-          )
-        }
+        ({ coords }) => setLocation(coords.latitude, coords.longitude),
+        () => toast.error(t("toastMessages.geolocationError") || "Failed to get location")
       )
     }
-  }, [setLocation, toast, t])
+  }, [setLocation, t])
 
-  // Update hospital distances when location changes
-  useEffect(() => {
-    if (latitude && longitude) {
-      setHospitals((prevHospitals) =>
-        prevHospitals.map((hospital) => ({
-          ...hospital,
-          distance: haversine(latitude, longitude, hospital.latitude, hospital.longitude),
-        }))
-      )
-    }
-  }, [latitude, longitude])
+  // Enrich hospitals with distance
+  const enrichedHospitals = useMemo(() => {
+    if (!latitude || !longitude) return hospitals
+    return hospitals.map((h:Hospital) => ({
+      ...h,
+      distance: haversine(latitude, longitude, h.latitude, h.longitude),
+      rating: h.rating || 0,
+      beds: h.beds || 0,
+    }))
+  }, [hospitals, latitude, longitude])
 
-  // Derive hospital types
-  const hospitalTypes: HospitalType[] = Array.from(new Set(hospitals.map((hospital) => hospital.type || "General"))).map(
-    (type) => ({
-      name: type,
-      count: hospitals.filter((h) => (h.type || "General") === type).length,
+  // Unique types
+  const hospitalTypes = useMemo(() => {
+    const types = Array.from(new Set(enrichedHospitals.map((h:Hospital) => h.type || "General")))
+    return types.map(type => ({
+      name: type as string,
+      count: enrichedHospitals.filter((h:Hospital) => (h.type || "General") === type).length,
       icon: "🏥",
-    })
-  )
+    }))
+  }, [enrichedHospitals])
 
-  // Derive cities
-  const citiesArray = Array.from(new Set(hospitals.map((hospital) => hospital.address?.split(",")[1]?.trim() || "Unknown"))).filter(
-    (city) => city !== "Unknown"
-  )
-  const cities = citiesArray.length > 0 ? citiesArray : ["Tashkent", "Samarkand", "Bukhara", "Namangan"]
+  // Unique cities
+  const cities = useMemo(() => {
+    const extracted = Array.from(
+      new Set(enrichedHospitals.map((h:Hospital) => h.address?.split(",")[1]?.trim() || "Unknown"))
+    ).filter(c => c !== "Unknown")
+    return extracted.length ? extracted : ["Tashkent", "Samarkand", "Bukhara", "Namangan"]
+  }, [enrichedHospitals])
 
-  // Filter and sort hospitals
-  const filteredHospitals = hospitals
-    .filter((hospital) => {
-      const matchesSearch =
-        hospital.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (hospital.type || "").toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesType = !selectedType || (hospital.type || "General").toLowerCase() === selectedType.toLowerCase()
-      const matchesRating = !selectedRating || (hospital.rating || 0) >= Number.parseFloat(selectedRating)
-      const matchesCity = !selectedCity || hospital.address?.toLowerCase().includes(selectedCity.toLowerCase())
-      return matchesSearch && matchesType && matchesRating && matchesCity
-    })
-    .sort((a, b) => {
-      if (sortBy === "rating") return (b.rating || 0) - (a.rating || 0)
-      if (sortBy === "distance") return (a.distance || 0) - (b.distance || 0)
-      if (sortBy === "beds") return (b.beds || 0) - (a.beds || 0)
-      return 0
-    })
+  // Final filtered + sorted hospitals
+  const filteredHospitals = useMemo(() => {
+    return enrichedHospitals
+      .filter((h:Hospital) => {
+        const matchesSearch =
+          h.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (h.type || "").toLowerCase().includes(searchTerm.toLowerCase())
+        const matchesType = !selectedType || (h.type || "General").toLowerCase() === selectedType.toLowerCase()
+        const matchesRating = !selectedRating || (h.rating || 0) >= parseFloat(selectedRating)
+        const matchesCity = !selectedCity || h.address?.toLowerCase().includes(selectedCity.toLowerCase())
+        return matchesSearch && matchesType && matchesRating && matchesCity
+      })
+      .sort((a:Hospital, b:Hospital) => {
+        if (sortBy === "rating") return (b.rating || 0) - (a.rating || 0)
+        if (sortBy === "distance") return (a.distance || 0) - (b.distance || 0)
+        if (sortBy === "beds") return (b.beds || 0) - (a.beds || 0)
+        return 0
+      })
+  }, [enrichedHospitals, searchTerm, selectedCity, selectedType, selectedRating, sortBy])
 
-  // Handle call button
-  const handleCall = (hospitalName: string) => {
-    setToastMessage(t("toastMessages.call", { hospitalName }))
-    setShowSuccessToast(true)
-  }
+  // Actions
+  const handleCall = (hospitalName: string) => toast.success(t("toastMessages.call", { hospitalName }))
 
-  // Handle book appointment
   const handleBookAppointment = async (hospital: Hospital) => {
     if (!user) {
-      toast.error(
-        t("toastMessages.authRequired") || "Please sign in to book an appointment",
-      )
+      toast.error(t("toastMessages.authRequired") || "Please sign in to book an appointment")
       router.push("/auth/login")
       return
     }
@@ -151,51 +129,31 @@ export default function ClientHospitalsPage() {
               type: t("hospitalCard.bookButton") || "Appointment",
               status: "Tasdiqlangan",
             })
-            toast(
-              t("toastMessages.bookAppointment", { hospitalName: hospital.name }) || `Appointment booked at ${hospital.name}`,
-            )
+            toast.success(t("toastMessages.bookAppointment", { hospitalName: hospital.name }))
           },
-          onError: () => {
-            toast.error(
-              t("toastMessages.error") || "Failed to book appointment",
-            )
-          },
+          onError: () => toast.error(t("toastMessages.error") || "Failed to book appointment"),
         }
       )
-    } catch (error) {
-      console.error("Error booking appointment:", error)
+    } catch (err) {
+      console.error("Error booking appointment:", err)
     }
   }
 
-  // Clear filters
   const clearFilters = () => {
     setSearchTerm("")
     setSelectedCity("")
     setSelectedType("")
     setSelectedRating("")
-    setToastMessage(t("toastMessages.clearFilters") || "Filters cleared")
-    setShowSuccessToast(true)
+    toast.info(t("toastMessages.clearFilters") || "Filters cleared")
   }
 
-  // Show toast
-  useEffect(() => {
-    if (showSuccessToast) {
-      toast(toastMessage)
-      setShowSuccessToast(false)
-    }
-  }, [showSuccessToast, toastMessage, toast])
-
+  // Handle errors
   if (error) {
     if ((error as any)?.response?.status === 401) {
-      router.push('/auth/login')
-      toast.error(
-        t("toastMessages.authRequired") || "Please sign in to view hospitals",
-      )
+      router.push("/auth/login")
+      toast.error(t("toastMessages.authRequired") || "Please sign in to view hospitals")
     }
-    return <div className="text-center py-8 text-red-600">
-      {error?.message}
-      <p>{(error as any)?.response?.data?.detail || error?.message}</p>
-    </div>
+    return <div className="text-center py-8 text-red-600">{error?.message}</div>
   }
 
   return (
@@ -210,7 +168,9 @@ export default function ClientHospitalsPage() {
           >
             <div className="text-2xl mb-2">{type.icon}</div>
             <h3 className="font-semibold text-gray-900">{type.name}</h3>
-            <p className="text-sm text-gray-600">{t("count", { count: type.count }) || `${type.count} hospitals`}</p>
+            <p className="text-sm text-gray-600">
+              {t("count", { count: type.count }) || `${type.count} hospitals`}
+            </p>
           </div>
         ))}
       </div>
@@ -228,7 +188,9 @@ export default function ClientHospitalsPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 block">{t("filters.searchLabel") || "Search"}</label>
+                <label className="text-sm font-medium text-gray-700 mb-2 block">
+                  {t("filters.searchLabel") || "Search"}
+                </label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                   <Input
@@ -241,15 +203,17 @@ export default function ClientHospitalsPage() {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 block">{t("filters.cityLabel") || "City"}</label>
+                <label className="text-sm font-medium text-gray-700 mb-2 block">
+                  {t("filters.cityLabel") || "City"}
+                </label>
                 <Select value={selectedCity} onValueChange={setSelectedCity}>
                   <SelectTrigger>
                     <SelectValue placeholder={t("filters.cityPlaceholder") || "Select a city"} />
                   </SelectTrigger>
                   <SelectContent>
-                    {cities.map((city) => (
-                      <SelectItem key={city} value={city.toLowerCase()}>
-                        {city}
+                    {cities.map((city, index) => (
+                      <SelectItem key={index} value={(city as string).toLowerCase()}>
+                        {city as React.ReactNode}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -257,7 +221,9 @@ export default function ClientHospitalsPage() {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 block">{t("filters.typeLabel") || "Type"}</label>
+                <label className="text-sm font-medium text-gray-700 mb-2 block">
+                  {t("filters.typeLabel") || "Type"}
+                </label>
                 <Select value={selectedType} onValueChange={setSelectedType}>
                   <SelectTrigger>
                     <SelectValue placeholder={t("filters.typePlaceholder") || "Select a type"} />
@@ -273,7 +239,9 @@ export default function ClientHospitalsPage() {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-700 mb-2 block">{t("filters.ratingLabel") || "Rating"}</label>
+                <label className="text-sm font-medium text-gray-700 mb-2 block">
+                  {t("filters.ratingLabel") || "Rating"}
+                </label>
                 <Select value={selectedRating} onValueChange={setSelectedRating}>
                   <SelectTrigger>
                     <SelectValue placeholder={t("filters.ratingPlaceholder") || "Select a rating"} />
@@ -297,7 +265,8 @@ export default function ClientHospitalsPage() {
         <div className="lg:col-span-3">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-900">
-              {t("hospitalsListTitle", { count: filteredHospitals?.length || 0 }) || `${filteredHospitals?.length || 0} Hospitals`}
+              {t("hospitalsListTitle", { count: filteredHospitals?.length || 0 }) ||
+                `${filteredHospitals?.length || 0} Hospitals`}
             </h2>
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger className="w-48">
@@ -312,7 +281,7 @@ export default function ClientHospitalsPage() {
           </div>
 
           <div className="space-y-6">
-            {filteredHospitals.map((hospital) => (
+            {filteredHospitals.map((hospital:Hospital) => (
               <Card
                 onClick={() => router.push(`/hospitals/${hospital.id}`)}
                 key={hospital.id}
@@ -324,7 +293,7 @@ export default function ClientHospitalsPage() {
                       <Image
                         width={200}
                         height={200}
-                        src={`https://api.diagnoai.uz${hospital.image}`}
+                        src={`${hospital.image}`}
                         alt={hospital.name}
                         className="w-20 h-20 rounded-full object-cover"
                       />
@@ -344,36 +313,55 @@ export default function ClientHospitalsPage() {
                               <Star className="w-4 h-4 text-yellow-400 fill-current" />
                               <span className="font-medium">{hospital.rating || "N/A"}</span>
                               <span className="text-gray-500 text-sm">
-                                {t("hospitalCard.reviews", { count: hospital.reviews || 0 }) || `${hospital.reviews || 0} reviews`}
+                                {t("hospitalCard.reviews", { count: hospital.reviews || 0 }) ||
+                                  `${hospital.reviews || 0} reviews`}
                               </span>
                             </div>
 
                             <div className="flex items-center space-x-1 text-gray-600">
                               <MapPin className="w-4 h-4" />
-                              <span className="text-sm">{hospital.distance ? `${hospital.distance.toFixed(2)} km` : "N/A"}</span>
+                              <span className="text-sm">
+                                {hospital.distance ? `${hospital.distance.toFixed(2)} km` : "N/A"}
+                              </span>
                             </div>
 
                             <div className="flex items-center space-x-1 text-gray-600">
                               <HospitalIcon className="w-4 h-4" />
-                              <span className="text-sm">{hospital.beds || "N/A"} {t("hospitalCard.beds") || "beds"}</span>
+                              <span className="text-sm">
+                                {hospital.beds || "N/A"} {t("hospitalCard.beds") || "beds"}
+                              </span>
                             </div>
                           </div>
 
                           <div className="flex items-center justify-between">
                             <div>
-                              <span className="text-lg font-bold text-gray-900">{hospital.services || "N/A"}</span>
-                              <span className="text-gray-500 text-sm ml-1">{t("hospitalCard.servicesSuffix") || "services"}</span>
+                              <span className="text-lg font-bold text-gray-900">
+                                {hospital.services || "N/A"}
+                              </span>
+                              <span className="text-gray-500 text-sm ml-1">
+                                {t("hospitalCard.servicesSuffix") || "services"}
+                              </span>
                             </div>
 
                             <div className="flex space-x-3">
-                              <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); handleCall(hospital.name); }}>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  window.location.href = `tel:${hospital.phone}`
+                                }}
+                              >
                                 <Phone className="w-4 h-4 mr-1" />
                                 {t("hospitalCard.callButton") || "Call"}
                               </Button>
                               <Button
                                 size="sm"
                                 className="bg-blue-600 hover:bg-blue-700"
-                                onClick={(e) => { e.stopPropagation(); handleBookAppointment(hospital); }}
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  handleBookAppointment(hospital)
+                                }}
                               >
                                 <Calendar className="w-4 h-4 mr-1" />
                                 {t("hospitalCard.bookButton") || "Book Appointment"}
@@ -389,11 +377,17 @@ export default function ClientHospitalsPage() {
             ))}
           </div>
 
-          <div className="text-center mt-8">
+          {(!user && !isLoading && !isPending) && (
+            <div>
+              <p className="text-red-500 text-center animate-pulse">Please sign in to view hospitals</p>
+            </div>
+          )}
+
+          {/* <div className="text-center mt-8">
             <Button variant="outline" size="lg">
               {t("loadMoreButton") || "Load More"}
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

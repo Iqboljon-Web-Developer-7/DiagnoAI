@@ -65,6 +65,7 @@ export const useGetHospitals = (token: string | undefined) => {
         services: hospital.services || "General Services",
         image: hospital.image || "/placeholder-hospital.jpg",
       }))
-    }
+    },
+    enabled: !!token
   })
 }
