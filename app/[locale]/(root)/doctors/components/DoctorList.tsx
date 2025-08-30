@@ -31,7 +31,7 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
                                 <Image
                                     width={80}
                                     height={80}
-                                    src={`https://api.diagnoai.uz${doctor?.image}`}
+                                    src={doctor.image?.startsWith('http') ? doctor.image : `https://api.diagnoai.uz${doctor.image}` }
                                     alt={doctor.name}
                                    
                                     className="w-10 h-10 sm:w-20 sm:h-20 rounded-full object-cover"

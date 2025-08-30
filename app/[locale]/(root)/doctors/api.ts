@@ -28,13 +28,32 @@ export async function fetchDoctors({
     });
     if (selectedSpecialty) params.append('field', selectedSpecialty);
 
-    const res = await fetch(`${API_BASE_URL}/my-doctors/?${params.toString()}`, {
+    const res = await fetch(`${API_BASE_URL}/en/doctors/?${params.toString()}`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
     if (!res.ok) throw new Error('Failed to fetch doctors');
-    return res.json();
+    const rawData = await res.json();
+    // Transform API response to match Doctor interface used in UI
+    const doctors: Doctor[] = (Array.isArray(rawData) ? rawData : rawData?.results || []).map((d: any) => ({
+        id: d.id,
+        name: d.name,
+        field: d.translations?.field || d.field || '',
+        hospital: d.hospital?.name || '',
+        description: d.translations?.description || d.description || '',
+        rating: d.rating ?? undefined,
+        reviews: d.reviews ?? undefined,
+        distance: d.distance ?? undefined,
+        availability: d.availability ?? undefined,
+        price: d.price ?? undefined,
+        prize: d.prize ?? undefined,
+        image: d.image ?? undefined,
+        experience: d.experience ?? undefined,
+        langitude: d.longitude ?? undefined,
+        latitude: d.latitude ?? undefined,
+    }));
+    return doctors;
 }
 
 export function useDoctorsQuery(latitude: number, longitude: number, selectedSpecialty: string) {

@@ -1,6 +1,9 @@
+"use client"
+
 import React from 'react';
 import { MapPin, Phone, DollarSign, Building2, Stethoscope, User, Clock, Star } from 'lucide-react';
 import Image from 'next/image';
+import { useAppStore } from '@/context/store';
 
 interface Doctor {
     id: number;
@@ -15,13 +18,47 @@ interface Doctor {
     phone_number: string;
 }
 
-async function DoctorPage({ params }: { params: Promise<{ id: string, locale: string }> }) {
-    const { id } = await params;
-    const res = await fetch(`https://api.diagnoai.uz/api/doctors/${id}/`);
-    const doctor: Doctor = res.status === 200 ? await res.json() : {};
+function DoctorPage({ params }: { params: Promise<{ id: string, locale: string }> }) {
+    const [doctor, setDoctor] = React.useState<Doctor>({} as Doctor);
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState<string | null>(null);
+    const {user} = useAppStore()
+
+    console.log(user?.token);
     
+
+    React.useEffect(() => {
+        const fetchDoctor = async () => {
+            try {
+                const { id } = await params;
+                const res = await fetch(`https://api.diagnoai.uz/api/en/doctors/${id}/`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${user?.token}`
+                        }
+                    }
+                );
+                if (res.status === 200) {
+                    const data = await res.json();
+                    setDoctor(data);
+                } else {
+                    setError('Failed to fetch doctor data');
+                }
+            } catch (err) {
+                setError('An error occurred while fetching data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDoctor();
+    }, [params,user]);
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
+
     return (
-        <DoctorPageClient doctor={doctor} doctorId={id} />
+        <DoctorPageClient doctor={doctor} doctorId={doctor.id.toString()} />
     );
 }
 
