@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { useBookAppointmentMutation, useGetHospitals } from "./api"
 import { Hospital } from "./types"
+import Link from "next/link"
 
 // --- Utility ---
 const haversine = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
@@ -31,7 +32,7 @@ export default function ClientHospitalsPage() {
   const { latitude, longitude, setLocation, addAppointment, user } = useAppStore()
   const router = useRouter()
 
-  const { data: hospitals = [], error, isLoading, isPending, isFetching } = useGetHospitals(user?.token)
+  const { data: hospitals = [], error, isLoading, isPending  } = useGetHospitals(user?.token)
   const bookAppointmentMutation = useBookAppointmentMutation(user?.token)
 
   // Filter states
@@ -54,6 +55,7 @@ export default function ClientHospitalsPage() {
   // Enrich hospitals with distance
   const enrichedHospitals = useMemo(() => {
     if (!latitude || !longitude) return hospitals
+    
     return hospitals.map((h:Hospital) => ({
       ...h,
       distance: haversine(latitude, longitude, h.latitude, h.longitude),
@@ -344,17 +346,11 @@ export default function ClientHospitalsPage() {
                             </div>
 
                             <div className="flex space-x-3">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  window.location.href = `tel:${hospital.phone}`
-                                }}
+                              <Link href={"tel:"+hospital.phone_number}
                               >
                                 <Phone className="w-4 h-4 mr-1" />
                                 {t("hospitalCard.callButton") || "Call"}
-                              </Button>
+                              </Link>
                               <Button
                                 size="sm"
                                 className="bg-blue-600 hover:bg-blue-700"

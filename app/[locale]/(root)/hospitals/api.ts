@@ -51,20 +51,7 @@ export const useGetHospitals = (token: string | undefined) => {
         headers: { Authorization: `Bearer ${token}` },
       })
 
-      return response.data.map((hospital: any) => ({
-        id: hospital.id,
-        name: hospital.name,
-        latitude: hospital.latitude,
-        longitude: hospital.longitude,
-        type: hospital.type || "General",
-        address: hospital.address || "N/A",
-        description: hospital.description || "No description available",
-        rating: hospital.rating || 4.0,
-        reviews: hospital.reviews || 0,
-        beds: hospital.beds || 100,
-        services: hospital.services || "General Services",
-        image: hospital.image || "/placeholder-hospital.jpg",
-      }))
+      return response.data 
     },
     enabled: !!token
   })
