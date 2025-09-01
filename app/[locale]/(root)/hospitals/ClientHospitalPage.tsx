@@ -349,9 +349,6 @@ export default function ClientHospitalsPage() {
                                 {hospital.beds || "N/A"} {t("hospitalCard.beds") || "beds"}
                               </span>
                             </div>
-                          </div>
-
-                          <div className="flex items-center justify-between flex-wrap">
                             <div className="flex space-x-3">
                               <Link
                                 onClick={(e) => e.stopPropagation()}
@@ -361,6 +358,9 @@ export default function ClientHospitalsPage() {
                                 <Phone className="w-4 h-4 mr-1" />
                               </Link> 
                             </div>
+                          </div>
+
+                          <div className="flex items-center justify-between flex-wrap">
                           </div>
                         </div>
                       </div>
