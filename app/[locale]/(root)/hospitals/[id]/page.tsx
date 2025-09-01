@@ -6,6 +6,7 @@ import { MapPin, Phone, Building2, Users, Clock, Star, Award, Stethoscope, Heart
 import { Link } from '@/i18n/navigation';
 import { useAppStore } from '@/context/store';
 import Image from 'next/image';
+import { Circles } from "react-loader-spinner";
 
 interface Hospital {
   id: number;
@@ -21,7 +22,17 @@ function Page({ params }: { params: { id: string; locale: string } }) {
   const { data: hospital = {} as Hospital, error, isLoading } = useGetHospital(id, user?.token);
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center p-10">
+        <Circles
+          height="80"
+          width="80"
+          color="#2563eb"
+          ariaLabel="circles-loading"
+          visible={true}
+        />
+      </div>
+    );
   }
   if (error) {
     return <div className="text-center py-8 text-red-600">{(error as Error).message}</div>;

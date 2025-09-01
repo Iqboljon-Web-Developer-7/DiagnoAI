@@ -359,18 +359,7 @@ export default function ClientHospitalsPage() {
                                 href={"tel:" + hospital.phone_number}
                               >
                                 <Phone className="w-4 h-4 mr-1" />
-                              </Link>
-                              <Button
-                                size="sm"
-                                className="bg-blue-600 hover:bg-blue-700"
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  handleBookAppointment(hospital)
-                                }}
-                              >
-                                <Calendar className="w-4 h-4 mr-1" />
-                                {t("hospitalCard.bookButton") || "Book Appointment"}
-                              </Button>
+                              </Link> 
                             </div>
                           </div>
                         </div>

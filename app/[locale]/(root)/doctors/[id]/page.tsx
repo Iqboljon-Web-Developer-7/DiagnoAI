@@ -19,6 +19,7 @@ import Image from "next/image";
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { use } from 'react';
+import { Circles } from 'react-loader-spinner';
 
 interface DoctorType {
   children: React.ReactNode;
@@ -70,8 +71,18 @@ function DoctorPage({ params }: DoctorType) {
     );
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
+if (loading) {
+    return (
+      <div className="flex items-center justify-center p-10">
+        <Circles
+          height="80"
+          width="80"
+          color="#2563eb"
+          ariaLabel="circles-loading"
+          visible={true}
+        />
+      </div>
+    );
   }
 
   if (!doctor) {
