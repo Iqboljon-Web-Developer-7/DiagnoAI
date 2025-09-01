@@ -1,23 +1,22 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAppStore } from '@/context/store';
 import { useDoctorsQuery, useBookAppointmentMutation } from './api';
-import { Specialties } from './components/Specialties';
+// import { Specialties } from './components/Specialties';
 import { Filters } from './components/Filters';
 import { DoctorList } from './components/DoctorList';
-import { Specialty } from './types';
+import { Doctor, Specialty } from './types';
+import { haversine } from '@/lib/utils';
 
 export default function Page() {
   const translations = useTranslations('doctors');
-  const { user, latitude, longitude, setLocation } = useAppStore();
+  const { user, latitude, longitude, setLocation, isLoggedIn } = useAppStore();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedSpecialty, setSelectedSpecialty] = useState('');
+  // const [selectedSpecialty, setSelectedSpecialty] = useState('');
   const [selectedRating, setSelectedRating] = useState('');
 
-  const { data: doctors = [], isLoading, error } = useDoctorsQuery(latitude, longitude, selectedSpecialty);
-
-
+  const { data: doctors = [], isLoading, error } = useDoctorsQuery(latitude, longitude, '');
 
   // Book appointment mutation
   const bookMutation = useBookAppointmentMutation();
@@ -43,24 +42,34 @@ export default function Page() {
     }
   }, [setLocation, bookMutation, latitude, longitude]);
 
+  // const enrichedDoctors = useMemo(() => {
+  //   if (!latitude || !longitude) return doctors
+
+  //   return doctors.map((h: Doctor) => ({
+  //     ...h,
+  //     distance: haversine(latitude, longitude, h.latitude, h.longitude),
+  //     rating: h.rating || 0,
+  //   }))
+  // }, [ latitude, longitude])
+
+
   // Filter doctors (client-side)
   const filteredDoctors = doctors.filter((doctor) => {
     const matchesSearch =
       doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       doctor.field.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRating = !selectedRating || (doctor.rating && doctor.rating >= Number.parseFloat(selectedRating));
-    return matchesSearch && matchesRating;
+    
+    // const matchesSpecialty = !selectedSpecialty || doctor.field === selectedSpecialty;
+    return matchesSearch && matchesRating
   });
 
-  // Derive specialties
-  const specialties: Specialty[] = Array.from(new Set(doctors.map((doctor) => doctor.field))).map((name) => {
-    const filtered = doctors.filter((d) => d.field === name);
-    return {
-      name,
-      count: filtered ? filtered.length : 0,
-      icon: '🩺',
-    };
-  });
+  const specialties: Specialty[] = Array.from(new Set(doctors.map((doctor) => doctor.field))).map((name) => ({
+    name,
+    count: doctors.filter((d) => d.field === name).length,
+    icon: '🩺',
+  }));
+
 
   if (error) {
     return (
@@ -81,16 +90,6 @@ export default function Page() {
     </div>
   );
 
-  const SpecialtiesPlaceholder = () => (
-    <div className="animate-pulse flex space-x-4 overflow-x-auto py-4">
-      {[1, 2, 3, 4].map((i) => (
-        <div key={i} className="flex-shrink-0">
-          <div className="h-20 w-32 bg-gray-200 rounded"></div>
-        </div>
-      ))}
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-2 py-4 sm:py-6 sm:px-6 lg:px-8 lg:py-8">
@@ -104,26 +103,19 @@ export default function Page() {
           </p>
         </div>
 
-        {/* Specialties */}
-        {isLoading ? (
-          <SpecialtiesPlaceholder />
-        ) : (
-          <Specialties specialties={specialties} onSpecialtySelect={setSelectedSpecialty} />
-        )}
-
         <div className="grid lg:grid-cols-4 gap-8">
           <div className="lg:col-span-1">
             <Filters
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
-              selectedSpecialty={selectedSpecialty}
-              setSelectedSpecialty={setSelectedSpecialty}
+              // selectedSpecialty={selectedSpecialty}
+              // setSelectedSpecialty={setSelectedSpecialty}
               selectedRating={selectedRating}
               setSelectedRating={setSelectedRating}
               specialties={specialties}
               onClearFilters={() => {
                 setSearchTerm('');
-                setSelectedSpecialty('');
+                // setSelectedSpecialty('');
                 setSelectedRating('');
                 bookMutation.mutate(
                   { userId: '', latitude, longitude, doctorName: '' },
@@ -138,12 +130,18 @@ export default function Page() {
           </div>
 
           <div className="lg:col-span-3">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
-                {translations('doctorsListTitle', { count: filteredDoctors ? filteredDoctors.length : 0 }) ||
-                  `${filteredDoctors ? filteredDoctors.length : 0} Doctors`}
-              </h2>
-            </div>
+            {/* <div className="flex justify-between items-center mb-6"> */}
+              {/* <h2 className="text-2xl font-bold text-gray-900">
+                {translations('doctorsListTitle', { count: filteredDoctors.length }) ||
+                  `${filteredDoctors.length} Doctors`}
+              </h2> */}
+            {/* </div> */}
+
+            {!isLoggedIn && 
+              <p className='text-center text-red-400 animate-fade-in-down delay-1000 opacity-0'>
+                "You're not logged in"  
+              </p>
+            }
 
             {isLoading ? (
               <LoadingPlaceholder />

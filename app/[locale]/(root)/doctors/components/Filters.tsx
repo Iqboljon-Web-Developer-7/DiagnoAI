@@ -11,8 +11,8 @@ import { Specialty } from '../types';
 interface FiltersProps {
     searchTerm: string;
     setSearchTerm: (value: string) => void;
-    selectedSpecialty: string;
-    setSelectedSpecialty: (value: string) => void;
+    selectedSpecialty?: string;
+    setSelectedSpecialty?: (value: string) => void;
     selectedRating: string;
     setSelectedRating: (value: string) => void;
     specialties: Specialty[];
@@ -55,7 +55,7 @@ export function Filters({
                     </div>
                 </div>
 
-                <div>
+                {/* <div>
                     <label className="text-sm font-medium text-gray-700 mb-2 block">
                         {translations('filters.specialtyLabel') || 'Specialty'}
                     </label>
@@ -64,14 +64,14 @@ export function Filters({
                             <SelectValue placeholder={translations('filters.specialtyPlaceholder') || 'Select a specialty'} />
                         </SelectTrigger>
                         <SelectContent>
-                            {specialties.map((specialty) => (
-                                <SelectItem key={specialty.name} value={specialty.name.toLowerCase()}>
-                                    {specialty.name}
+                            {specialties?.map((specialty) => (
+                                <SelectItem key={specialty?.name} value={specialty?.name?.toLowerCase()}>
+                                    {specialty?.name}
                                 </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
-                </div>
+                </div> */}
 
                 <div>
                     <label className="text-sm font-medium text-gray-700 mb-2 block">

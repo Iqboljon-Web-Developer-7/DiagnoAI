@@ -9,12 +9,13 @@ export interface Doctor {
     reviews?: number;
     distance?: string;
     availability?: string;
-    price?: string;
-    prize?:string;
+    price?: number;
+    prize?:number;
     image?: string;
     experience?: string;
-    langitude?: number;
+    longitude?: number;
     latitude?: number;
+    phone_number?: string;
 
 }
 

@@ -79,7 +79,6 @@ export function UserMenu({ className }: { className?: string }) {
   return (
     <div className={className}>
       <div className="flex items-center space-x-0 sm:space-x-2 lg:space-x-4">
-        <div className="hidden sm:block">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -92,7 +91,7 @@ export function UserMenu({ className }: { className?: string }) {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-        </div>
+        <div className="hidden sm:block">
 
         <TooltipProvider>
           <Tooltip>
@@ -106,6 +105,7 @@ export function UserMenu({ className }: { className?: string }) {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+        </div>
       </div>
 
     </div>

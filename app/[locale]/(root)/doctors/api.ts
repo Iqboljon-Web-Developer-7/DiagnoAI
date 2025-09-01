@@ -35,28 +35,30 @@ export async function fetchDoctors({
     });
     if (!res.ok) throw new Error('Failed to fetch doctors');
     const rawData = await res.json();
+
     // Transform API response to match Doctor interface used in UI
-    const doctors: Doctor[] = (Array.isArray(rawData) ? rawData : rawData?.results || []).map((d: any) => ({
+    const transformed: Doctor[] = (Array.isArray(rawData) ? rawData : rawData?.results ?? []).map((d: any) => ({
         id: d.id,
         name: d.name,
-        field: d.translations?.field || d.field || '',
-        hospital: d.hospital?.name || '',
-        description: d.translations?.description || d.description || '',
+        field: d.translations?.field ?? d.tags?.[0] ?? '',
+        hospital: d.hospital?.name ?? '',
+        description: d.translations?.description ?? '',
         rating: d.rating ?? undefined,
         reviews: d.reviews ?? undefined,
         distance: d.distance ?? undefined,
         availability: d.availability ?? undefined,
         price: d.price ?? undefined,
         prize: d.prize ?? undefined,
-        image: d.image ?? undefined,
+        image: d.image ? (d.image.startsWith('http') ? d.image : `https://api.diagnoai.uz${d.image}`) : undefined,
         experience: d.experience ?? undefined,
-        langitude: d.longitude ?? undefined,
-        latitude: d.latitude ?? undefined,
+        longitude: d.hospital?.longitude ?? undefined,
+        latitude: d.hospital?.latitude ?? undefined,
     }));
-    return doctors;
+
+    return transformed
 }
 
-export function useDoctorsQuery(latitude: number, longitude: number, selectedSpecialty: string) {
+export function useDoctorsQuery(latitude: number, longitude: number, selectedSpecialty?: string) {
     const { user } = useAppStore();
     
     return useQuery<Doctor[]>({
@@ -64,10 +66,10 @@ export function useDoctorsQuery(latitude: number, longitude: number, selectedSpe
         queryFn: () => fetchDoctors({ 
             latitude, 
             longitude, 
-            selectedSpecialty,
+            selectedSpecialty: selectedSpecialty ?? '',
             token: user?.token 
         }),
-        enabled: !!latitude && !!longitude && !!user?.token,
+        enabled: !!user?.token,
     });
 }
 
@@ -130,5 +132,42 @@ export function useBookAppointmentMutation() {
                 variant: 'destructive',
             });
         },
+    });
+}
+
+export function useDoctorQuery(id: string, token: string | undefined) {
+    return useQuery<Doctor | null>({
+        queryKey: ['doctor', id],
+        queryFn: async () => {
+            try {
+                const res = await fetch(`${API_BASE_URL}/en/doctors/${id}/`, {
+                    headers: token ? { Authorization: `Bearer ${token}` } : {},
+                });
+                if (!res.ok) return null;
+                const data = await res.json();
+                
+                // Transform API response to match Doctor interface
+                return {
+                    id: data.id,
+                    name: data.name,
+                    field: data.translations?.field ?? data.tags?.[0] ?? '',
+                    hospital: data.hospital?.name ?? '',
+                    description: data.translations?.description ?? '',
+                    rating: data.rating ?? undefined,
+                    reviews: data.reviews ?? undefined,
+                    distance: data.distance ?? undefined,
+                    availability: data.availability ?? undefined,
+                    price: data.price ?? undefined,
+                    prize: data.prize ?? undefined,
+                    image: data.image ? (data.image.startsWith('http') ? data.image : `https://api.diagnoai.uz${data.image}`) : undefined,
+                    experience: data.experience ?? undefined,
+                    longitude: data.hospital?.longitude ?? undefined,
+                    latitude: data.hospital?.latitude ?? undefined,
+                };
+            } catch {
+                return null;
+            }
+        },
+        enabled: !!id && !!token,
     });
 }
