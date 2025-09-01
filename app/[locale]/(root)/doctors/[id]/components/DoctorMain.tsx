@@ -19,28 +19,10 @@ import { Doctor } from "../../types";
 interface Props {
   doctor: Doctor;
   doctorId: string;
+  freeTimes: number[];
 }
 
-export default function DoctorMain({ doctor, doctorId }: Props) {
-  const [freeTimes, setFreeTimes] = React.useState<number[]>([]);
-
-  React.useEffect(() => {
-    const fetchFreeTimes = async () => {
-      try {
-        const res = await fetch(
-          `https://api.diagnoai.uz/api/bookings/doctors/${doctorId}/free-times?date=2025-08-28`
-        );
-        if (res.ok) {
-          const data = await res.json();
-          setFreeTimes(data);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchFreeTimes();
-  }, [doctorId]);
-
+export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
   const formatPrice = (price: number) =>
     new Intl.NumberFormat("en-US").format(price);
 

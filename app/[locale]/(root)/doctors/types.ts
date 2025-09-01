@@ -1,26 +1,29 @@
-// app/doctors/types.ts
 export interface Doctor {
-    id: number;
-    name: string;
-    field: string;
-    hospital: string;
-    description: string;
-    rating?: number;
-    reviews?: number;
-    distance?: string;
-    availability?: string;
-    price?: number;
-    prize?:number;
-    image?: string;
-    experience?: string;
-    longitude?: number;
-    latitude?: number;
-    phone_number?: string;
-
+  id: string;
+  name: string;
+  field: string;
+  hospital: string;
+  description: string;
+  rating?: number;
+  reviews?: number;
+  distance?: number;
+  availability?: any;
+  price?: number;
+  prize?: number;
+  image?: string;
+  experience?: number;
+  longitude?: number;
+  latitude?: number;
+  phone_number?: string;
 }
 
-export interface Specialty {
-    name: string;
-    count: number;
-    icon: string;
+export interface Booking {
+  id: number;
+  user: number;
+  doctor: number;
+  appointment_date: string;
+  status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+  // Add other fields if needed, e.g., books: string;
 }
+
+export type BookingStatus = Booking['status'];
