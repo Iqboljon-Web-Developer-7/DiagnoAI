@@ -89,7 +89,7 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
                                         <p className="text-blue-600 font-medium mb-2">{doctor.field}</p>
                                         <p className="text-gray-600 text-sm mb-3">Hospital: {doctor.hospital}</p>
 
-                                        <p className="text-gray-700 mb-3" onClick={() => router.push(`/doctors/${doctor.id}`)}>{doctor.description}</p>
+                                        <p className="text-gray-700 mb-3 line-clamp-4" onClick={() => router.push(`/doctors/${doctor.id}`)}>{doctor.description}</p>
 
                                         <div className="flex items-center space-x-4 mb-3">
                                             {/* <div className="flex items-center space-x-1">
@@ -139,7 +139,7 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
                                                         <div className="bg-white rounded-xl shadow-lg p-6">
                                                             <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                                                                 <Clock className="h-6 w-6 text-blue-600" />
-                                                                <span>Available Time Slots ({selectedDate.toLocaleDateString()})</span>
+                                                                <span className='text-lg md:text-3xl'>Available Time Slots ({selectedDate.toLocaleDateString()})</span>
                                                             </h2>
                                                             <div className="mb-4 flex items-center space-x-2">
                                                                 <Calendar className="h-5 w-5 text-gray-500" />
@@ -153,7 +153,7 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
                                                             {freeTimesLoading ? (
                                                                 <p>Loading times...</p>
                                                             ) : sortedTimes.length > 0 ? (
-                                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-72 overflow-auto">
                                                                     {sortedTimes.map((time: number) => (
                                                                         <button
                                                                             key={time}
@@ -171,15 +171,6 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
                                                     </DialogHeader>
                                                 </DialogContent>
                                             </Dialog>
-                                            {/* <Button
-                                                size="sm"
-                                                className="bg-blue-600 hover:bg-blue-700"
-                                                onClick={() => onBookAppointment(doctor)}
-                                                disabled={!user || isBookingPending}
-                                            >
-                                                <Calendar className="w-4 h-4 mr-1" />
-                                                {translations('doctorCard.bookButton') || 'Book Appointment'}
-                                            </Button> */}
                                         </div>
                                     </div>
                                 </div>

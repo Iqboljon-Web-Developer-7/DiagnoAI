@@ -18,7 +18,7 @@ interface Hospital {
 
 function Page({ params }: { params: { id: string; locale: string } }) {
   const { id } = params;
-  const {user} = useAppStore()
+  const { user, isLoggedIn } = useAppStore()
   const { data: hospital = {} as Hospital, error, isLoading } = useGetHospital(id, user?.token);
 
   if (isLoading) {
@@ -37,11 +37,13 @@ function Page({ params }: { params: { id: string; locale: string } }) {
   if (error) {
     return <div className="text-center py-8 text-red-600">{(error as Error).message}</div>;
   }
+  {
+    !isLoggedIn &&
+    <p className='text-center text-red-400 animate-fade-in-down delay-1000 opacity-0'>
+      "You're not logged in"
+    </p>
+  }
 
-  
-  
-  console.log(hospital);
-  
 
   const departments = [
     { name: 'Emergency Medicine', icon: Heart, color: 'text-red-600' },
