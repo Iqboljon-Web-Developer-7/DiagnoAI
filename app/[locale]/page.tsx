@@ -3,6 +3,7 @@ import { HowItWorksSection } from "@/app/[locale]/components/how-it-works-sectio
 import { FeaturesSection } from "@/app/[locale]/components/features-section";
 import { TestimonialsSection } from "@/app/[locale]/components/testimonials-section";
 import { CTASection } from "@/app/[locale]/components/cta-section";
+import { Partners } from "./components/partners";
 
 export default async function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default async function HomePage() {
       <HowItWorksSection />
       {/* @ts-expect-error Async Server Component */}
       <FeaturesSection />
+      <Partners />
       {/* @ts-expect-error Async Server Component */}
       <TestimonialsSection />
       {/* @ts-expect-error Async Server Component */}

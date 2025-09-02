@@ -1,34 +1,35 @@
 'use client'
 
-import React  from 'react'
+import React from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { useAutoplay } from './EmblaCarouselAutoPlay'
 
 import "./css/styles.css"
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import {   PlayCircle, Quote, StopCircle } from 'lucide-react'
+import { PlayCircle, Quote, StopCircle } from 'lucide-react'
+import Image from 'next/image'
 
 type EmblaOptionsType = {
-    container?: string | HTMLElement | null | undefined;
-    slides?: string | HTMLElement[] | NodeListOf<HTMLElement> | null | undefined;
-    dragFree?: boolean | undefined;
-    breakpoints?: {
-        [key: string]: EmblaOptionsType;
-    } | undefined;
+  container?: string | HTMLElement | null | undefined;
+  slides?: string | HTMLElement[] | NodeListOf<HTMLElement> | null | undefined;
+  dragFree?: boolean | undefined;
+  breakpoints?: {
+    [key: string]: EmblaOptionsType;
+  } | undefined;
 }
 
-type SlideType = {
-  id: number
-  imageSrc: string
-  fallback: string
-  content: string
-  name: string
-  role: string
-}
+// type SlideType = {
+//   id: number
+//   imageSrc: string
+//   fallback: string
+//   content: string
+//   name: string
+//   role: string
+// }
 
 type PropType = {
-  slides: SlideType[]
+  slides: any[]
   options?: EmblaOptionsType
   type: string
 }
@@ -38,7 +39,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
     Autoplay({ playOnInit: false, delay: 3000 })
   ])
- 
+
 
   const { autoplayIsPlaying, toggleAutoplay } =
     useAutoplay(emblaApi)
@@ -60,7 +61,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
               <div className="flex items-center">
                 <Avatar className="h-10 w-10 sm:h-12 sm:w-12">
                   <AvatarImage
-                  className='object-cover'
+                    className='object-cover'
                     src={slide.imageSrc}
                     alt={slide.name}
                   />
@@ -77,11 +78,18 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
               </div>
             </div>
           ))}
+          {type == 'partners' && slides.map((slide) => (
+            <div key={slide.id} className="border mx-2 mb-4 shrink-0 max-w-80 bg-gray-50 rounded-xl p-6 sm:p-8 pb-4 sm:pb-3 relative">
+              <div className="flex items-center justify-center h-full">
+                <Image src={slide.imageSrc} alt='slide-image' width={400} height={400} />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-      <button 
-        className="embla__play !p-0 !justify-end" 
-        onClick={toggleAutoplay} 
+      <button
+        className="embla__play !p-0 !justify-end"
+        onClick={toggleAutoplay}
         type="button"
         aria-label={autoplayIsPlaying ? "Stop auto-play slideshow" : "Start auto-play slideshow"}
       >

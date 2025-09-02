@@ -143,7 +143,7 @@ function Page({ params }: { params: { id: string; locale: string } }) {
                   <span>Medical Departments</span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {hospital.departments.map((dept, index) => (
+                  {hospital.departments.map((dept:{name:string}, index:number) => (
                     <div key={index} className="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200 border border-gray-100">
                       <Stethoscope className="h-8 w-8 text-blue-600" />
                       <div>
