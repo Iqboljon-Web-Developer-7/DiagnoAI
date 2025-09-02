@@ -704,5 +704,75 @@
       "contactButton": "Bog'lanish",
       "careersButton": "Vakansiyalar"
     }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Maxfiylik siyosati",
+      "intro": "DiagnoAI'da sizning maxfiyligingiz muhim. Ushbu maxfiylik siyosati xizmatlarimizdan foydalanganingizda shaxsiy ma'lumotlaringizni qanday to'plash, foydalanish va himoya qilishimizni tushuntiradi.",
+      "collect": {
+        "title": "Biz to'playdigan ma'lumotlar",
+        "body": "Aniq AI tashxisi va shifokor tavsiyalarini taqdim etish uchun ismingiz, elektron pochtangiz, sog'liq ma'lumotlaringiz, yuklangan fayllar va joylashuv ma'lumotlari kabi shaxsiy ma'lumotlarni to'plashimiz mumkin."
+      },
+        "use": {
+        "title": "Biz sizning ma'lumotlaringizdan qanday foydalanamiz",
+        "item1": "AI asosidagi diagnostika natijalarini taqdim etish uchun.",
+        "item2": "Sizni tegishli tibbiyot mutaxassislari bilan bog'lash uchun.",
+        "item3": "Platformamiz va AI modellarini takomillashtirish uchun."
+      },
+      "security": {
+        "title": "Ma'lumotlar xavfsizligi",
+        "body": "Ma'lumotlaringizni himoya qilish uchun sanoat standartlaridagi xavfsizlik choralarini qo'llaymiz. Ammo, uzatishning hech qanday usuli 100% xavfsiz emas va biz mutlaq himoyani kafolatlay olmaymiz."
+      },
+      "rights": {
+        "title": "Sizning huquqlaringiz",
+        "body": "Siz istalgan vaqtda biz bilan bog'lanib, ma'lumotlaringizga kirish, tuzatish yoki o'chirish so'rovini yuborishingiz mumkin."
+      }
+    },
+    "terms": {
+      "title": "Foydalanish shartlari",
+      "accept": {
+        "title": "Shartlarni qabul qilish",
+        "body": "DiagnoAI'dan foydalanib, siz ushbu Foydalanish shartlariga rozilik bildirasiz. Agar rozi bo'lmasangiz, xizmatlarimizdan foydalanishni to'xtatishingiz kerak."
+      },
+      "disclaimer": {
+        "title": "Tibbiy ma'lumotnoma",
+        "body": "Bizning AI faqat ma'lumot berish yordamini ko'rsatadi va professional tibbiy maslahatning o'rnini bosa olmaydi. Tibbiy muammolar bo'yicha doimo litsenziyalangan shifokor bilan maslahatlashing."
+      },
+      "responsibility": {
+        "title": "Foydalanuvchi majburiyatlari",
+        "item1": "Aniq va haqiqiy ma'lumotlarni taqdim etish.",
+        "item2": "Platformamizdan noto'g'ri foydalanmaslik yoki zarar yetkazishga urinmaslik.",
+        "item3": "Xizmatlarimizdan foydalanganda mahalliy qonun va qoidalarga rioya qilish."
+      },
+      "liability": {
+        "title": "Javobgarlikni cheklash",
+        "body": "DiagnoAI AI yoki platformamizga ishonch natijasida yuzaga kelgan har qanday zarar, noto'g'ri tashxis yoki oqibatlar uchun javobgar emas."
+      }
+    },
+    "faq": {
+      "title": "Ko'p so'raladigan savollar",
+      "questions": {
+        "q1": {
+          "question": "DiagnoAI shifokormi?",
+          "answer": "Yo'q. DiagnoAI tibbiy tushunchalarni qo'llab-quvvatlovchi AI-yordamchi. U professional tibbiy maslahatning o'rnini bosa olmaydi."
+        },
+        "q2": {
+          "question": "Natijalar qanchalik aniq?",
+          "answer": "Bizning AI keng qamrovli tibbiy ma'lumotlar asosida o'qitilgan, lekin aniqlik kiritilgan ma'lumotlar sifatiga bog'liq. Doimo shifokor bilan tasdiqlang."
+        },
+        "q3": {
+          "question": "Mening ma'lumotlarim xavfsizmi?",
+          "answer": "Ha. Ma'lumotlaringizni xavfsiz saqlash uchun shifrlash va sanoat standartlaridagi amaliyotlardan foydalanamiz."
+        },
+        "q4": {
+          "question": "Pulni qaytarib olish mumkinmi?",
+          "answer": "Pulni qaytarish faqat ma'lum shartlar asosida mavjud. Batafsil ma'lumot uchun qo'llab-quvvatlash xizmatimiz bilan bog'laning."
+        },
+        "q5": {
+          "question": "DiagnoAI'dan foydalanish uchun hisob kerakmi?",
+          "answer": "Ha, AI bilan o'zaro aloqalar, yuklangan fayllar va shifokor tavsiyalarini kuzatib borish uchun hisob talab qilinadi."
+        }
+      }
+    }
   }
 }

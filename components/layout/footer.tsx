@@ -62,7 +62,7 @@ export function Footer() {
             </button>
             <ul className={`text-sm sm:text-base space-y-2 mt-2 text-gray-300 overflow-hidden transition-all duration-300 ${openSection === 'company' ? 'max-h-[500px]' : 'md:max-h-[500px] max-h-0'}`}>
               <li>
-                <Link href="/about" className="hover:text-white">
+                <Link href="/about-us" className="hover:text-white">
                   {t('company.about')}
                 </Link>
               </li>

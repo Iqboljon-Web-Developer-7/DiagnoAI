@@ -55,13 +55,13 @@
   <xhtml:link rel="alternate" hreflang="uz" href="https://diagnoai.uz/uz/recommended-providers"/>
 </url>
 <url>
-  <loc>https://diagnoai.uz/en/about</loc>
+  <loc>https://diagnoai.uz/en/about-us</loc>
   <lastmod>2025-08-29T12:27:00+05:00</lastmod>
   <priority>0.80</priority>
   <changefreq>monthly</changefreq>
-  <xhtml:link rel="alternate" hreflang="en" href="https://diagnoai.uz/en/about"/>
-  <xhtml:link rel="alternate" hreflang="ru" href="https://diagnoai.uz/ru/about"/>
-  <xhtml:link rel="alternate" hreflang="uz" href="https://diagnoai.uz/uz/about"/>
+  <xhtml:link rel="alternate" hreflang="en" href="https://diagnoai.uz/en/about-us"/>
+  <xhtml:link rel="alternate" hreflang="ru" href="https://diagnoai.uz/ru/about-us"/>
+  <xhtml:link rel="alternate" hreflang="uz" href="https://diagnoai.uz/uz/about-us"/>
 </url>
 
 <!-- Russian URLs -->

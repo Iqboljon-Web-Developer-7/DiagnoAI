@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About Diagno AI',
     description: 'Discover the story, mission, and team behind Diagno AI, the platform for AI-powered medical diagnosis and emergency help.',
-    url: 'https://diagnoai.uz/about',
+    url: 'https://diagnoai.uz/about-us',
     siteName: 'Diagno AI',
     images: [
       {

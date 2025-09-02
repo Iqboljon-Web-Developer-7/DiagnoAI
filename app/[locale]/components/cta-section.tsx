@@ -24,7 +24,7 @@ export async function CTASection() {
                 {t('cta.primaryButton')}
               </Button>
             </Link>
-            <Link href="/about" className="w-full sm:w-auto">
+            <Link href="/about-us" className="w-full sm:w-auto">
               <Button
                 size="lg"
                 variant="outline"

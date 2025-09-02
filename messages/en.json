@@ -766,5 +766,75 @@
     },
     "count": "{count} institutions",
     "loadMoreButton": "Load More"
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": "At DiagnoAI, we value your privacy. This Privacy Policy explains how we collect, use, and protect your personal data when you use our services.",
+      "collect": {
+        "title": "Information We Collect",
+        "body": "We may collect personal information such as your name, email, health inputs, uploaded files, and location data to provide accurate AI diagnosis and doctor recommendations."
+      },
+        "use": {
+        "title": "How We Use Your Data",
+        "item1": "To provide AI-based diagnostic results.",
+        "item2": "To connect you with relevant medical specialists.",
+        "item3": "To improve our platform and AI models."
+      },
+      "security": {
+        "title": "Data Security",
+        "body": "We implement industry-standard security measures to protect your information. However, no method of transmission is 100% secure, and we cannot guarantee absolute protection."
+      },
+      "rights": {
+        "title": "Your Rights",
+        "body": "You may request access, correction, or deletion of your data at any time by contacting us."
+      }
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "accept": {
+        "title": "Acceptance of Terms",
+        "body": "By using DiagnoAI, you agree to these Terms of Service. If you do not agree, you must stop using our services."
+      },
+      "disclaimer": {
+        "title": "Medical Disclaimer",
+        "body": "Our AI provides informational support only and is not a substitute for professional medical advice. Always consult a licensed doctor for medical concerns."
+      },
+      "responsibility": {
+        "title": "User Responsibilities",
+        "item1": "Provide accurate and truthful information.",
+        "item2": "Do not misuse or attempt to harm our platform.",
+        "item3": "Respect local laws and regulations when using our services."
+      },
+      "liability": {
+        "title": "Limitation of Liability",
+        "body": "DiagnoAI is not liable for any damages, misdiagnoses, or consequences arising from reliance on our AI or platform."
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "questions": {
+        "q1": {
+          "question": "Is DiagnoAI a doctor?",
+          "answer": "No. DiagnoAI is an AI-powered assistant that supports medical insights. It does not replace professional medical advice."
+        },
+        "q2": {
+          "question": "How accurate are the results?",
+          "answer": "Our AI is trained on a wide range of medical data, but accuracy depends on the quality of input. Always confirm with a doctor."
+        },
+        "q3": {
+          "question": "Is my data safe?",
+          "answer": "Yes. We use encryption and industry-standard practices to keep your information secure."
+        },
+        "q4": {
+          "question": "Can I get a refund?",
+          "answer": "Refunds are available only under certain conditions. Please contact our support team for details."
+        },
+        "q5": {
+          "question": "Do I need an account to use DiagnoAI?",
+          "answer": "Yes, an account is required to track your AI interactions, uploaded files, and doctor recommendations."
+        }
+      }
+    }
   }
 }
