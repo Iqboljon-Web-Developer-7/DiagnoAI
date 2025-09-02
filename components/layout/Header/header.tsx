@@ -16,7 +16,7 @@ export async function Header() {
     // { path: '/emergency-help', label: t('emergencyHelp') },
     // { path: '/recommended-providers', label: t('recommendedProviders') },
     { path: '/education', label: t('education') },
-    { path: '/about', label: t('about') },
+    { path: '/about-us', label: t('about') },
   ];
 
   return (

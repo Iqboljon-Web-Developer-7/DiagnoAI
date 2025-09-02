@@ -149,7 +149,12 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
       {hiddenTabs?.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button size={"icon"} variant={"link"} className="ml-0 p-2 text-gray-600 hover:text-blue-500 focus:outline-none bg-transparent animate-fade-in-down opacity-0 delay-700">
+            <Button 
+              size={"icon"} 
+              variant={"link"} 
+              className="ml-0 p-2 text-gray-600 hover:text-blue-500 focus:outline-none bg-transparent animate-fade-in-down opacity-0 delay-700"
+              aria-label="Show more navigation options"
+            >
               <Menu className="h-5 w-5" />
             </Button>
           </DropdownMenuTrigger>

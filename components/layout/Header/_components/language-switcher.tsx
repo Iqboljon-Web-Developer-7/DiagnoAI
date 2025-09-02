@@ -31,8 +31,13 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-9 w-9 sm:h-10 sm:w-fit px-3">
-          <Globe className="h-4 w-4 " />
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="h-9 w-9 sm:h-10 sm:w-fit px-3"
+          aria-label="Select language"
+        >
+          <Globe className="h-4 w-4" aria-hidden="true" />
           <span className="hidden sm:inline-block">{locale.toUpperCase()}</span>
         </Button>
       </DropdownMenuTrigger>
