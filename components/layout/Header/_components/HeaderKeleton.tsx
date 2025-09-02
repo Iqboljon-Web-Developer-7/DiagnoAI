@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 export function HeaderSkeleton() {
   return (
     <header className="sticky top-0 z-50 w-full">
-      <div className="absolute inset-0 bg-white/80 backdrop-blur-md border-b border-white/20" />
+      <div className="absolute inset-0 bg-worm-grey backdrop-blur-md border-b border-white/20" />
       
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">

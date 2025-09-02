@@ -28,7 +28,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body>
+      <body className='bg-worm-grey'>
         <NextIntlClientProvider locale={locale} messages={messages}>
             {/* @ts-expect-error Async Server Component */}
             <Header />

@@ -125,7 +125,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Our Mission */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-worm-grey">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -201,7 +201,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Our Team */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-worm-grey">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{translations("team.title")}</h2>
@@ -246,7 +246,7 @@ export default async function AboutPage() {
           <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-dashed border-[#2b6a73]"></div>
           <div className="relative flex flex-col">
             <span className="top-[35%] sticky left-1/2 transform -translate-x-1/2 bg-[#2b6a73] w-4 h-4 inline-block rounded-full z-20"></span>
-            <span className="top-[37%] sticky left-1/2 transform -translate-x-1/2 bg-white w-4 h-4 z-10 flex justify-center">
+            <span className="top-[37%] sticky left-1/2 transform -translate-x-1/2 bg-worm-grey w-4 h-4 z-10 flex justify-center">
               <div className="w-[26rem] sm:w-[30rem] h-[712px] shrink-0 bg-neutral-50 z-10"></div>
             </span>
             {timelineItems.map((item, index) => (

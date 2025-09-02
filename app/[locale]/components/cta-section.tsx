@@ -19,7 +19,7 @@ export async function CTASection() {
             <Link href="/ai-diagnosis" className="w-full sm:w-auto">
               <Button
                 size="lg"
-                className="w-full bg-white text-blue-600 hover:bg-blue-50 text-sm sm:text-base px-8"
+                className="w-full bg-worm-grey text-blue-600 hover:bg-blue-50 text-sm sm:text-base px-8"
               >
                 {t('cta.primaryButton')}
               </Button>

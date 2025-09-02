@@ -131,12 +131,7 @@ export default function Page() {
                   `${filteredDoctors.length} Doctors`}
               </h2> */}
             {/* </div> */}
-
-            {!isLoggedIn && 
-              <p className='text-center text-red-400 animate-fade-in-down delay-1000 opacity-0'>
-                "You're not logged in"  
-              </p>
-            }
+ 
             {error && (
               <div className="text-center py-8 text-red-600">
                 {translations('toastMessages.error') || 'Failed to load doctors'}

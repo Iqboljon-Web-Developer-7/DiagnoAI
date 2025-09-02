@@ -93,7 +93,12 @@
       "description": "Get quick diagnosis with AI and connect with professional doctors",
       "primaryButton": "Get Free Diagnosis",
       "secondaryButton": "Learn More"
-    }
+    },
+    "partners": {
+  "title": "Our Trusted Partners",
+  "description": "DiagnoAI collaborates with leading clinics and medical experts who share our mission to bring advanced healthcare solutions to patients. Together, we build a stronger, smarter, and healthier future."
+}
+
   },
   "common": {
     "appName": "Diagno AI",

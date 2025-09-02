@@ -50,8 +50,6 @@ export async function fetchDoctors({
 }
 
 export function useDoctorsQuery(latitude: number, longitude: number, selectedSpecialty?: string) {
-  const { user } = useAppStore();
-
   return useQuery<Doctor[]>({
     queryKey: ['doctors', latitude, longitude, selectedSpecialty],
     queryFn: () => fetchDoctors({

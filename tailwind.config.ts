@@ -99,7 +99,8 @@ const config: Config = {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
-  			}
+  			},
+            'worm-grey': '#f8f9fa'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
