@@ -96,6 +96,10 @@
       "description": "AI yordamida tez tashxis oling va professional shifokorlar bilan bog'laning",
       "primaryButton": "Bepul tashxis olish",
       "secondaryButton": "Batafsil ma'lumot"
+    },
+    "partners": {
+      "title": "Ishonchli hamkorlarimiz",
+      "description": "DiagnoAI ilg'or tibbiy yechimlarni bemorlarga yetkazish maqsadida yetakchi klinikalar va tibbiyot mutaxassislari bilan hamkorlik qiladi. Birgalikda kuchliroq, aqlliroq va sog'lomroq kelajak qurmoqdamiz."
     }
   },
   "common": {
