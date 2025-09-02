@@ -10,7 +10,6 @@ import { useAppStore } from "@/Store/store"
 import { useTranslations } from "next-intl"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
 import { useBookAppointmentMutation, useGetHospitals } from "./api"
 import { Hospital } from "./types"
 import Link from "next/link"
@@ -309,10 +308,9 @@ export default function ClientHospitalsPage() {
                 <CardContent className="p-0">
                   <div className="flex items-start flex-col sm:flex-row gap-3">
                     <div
-                      className="relative min-w-64 hidden sm:block h-[-webkit-fill-available] bg-contain bg-no-repeat"
+                      className="relative min-w-64 hidden sm:block h-[-webkit-fill-available] bg-contain bg-no-repeat mx-2"
                       style={{
                         backgroundImage: `url(${hospital.image})`,
-                        backgroundSize: "cover",
                         backgroundPosition: "center",
                       }}
                     />
@@ -326,7 +324,7 @@ export default function ClientHospitalsPage() {
                               height={66}
                               src={hospital.image}
                               alt={hospital.name}
-                              className="w-16 h-16 rounded-full sm:hidden"
+                              className="w-16 h-16 rounded-full sm:hidden object-contain"
                             />
                             <h3 className="text-xl font-bold text-gray-900 mb-1">{hospital.name}</h3>
                           </div>
