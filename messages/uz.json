@@ -182,7 +182,8 @@
       "bookAppointment": "{hospitalName} bilan qabul belgilandi!",
       "clearFilters": "Filtrlar tozalandi.",
       "error": "Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
-      "authRequired": "Shifoxonalarni ko'rish va qabulga yozilish uchun tizimga kirishingiz kerak."
+      "authRequired": "Shifoxonalarni ko'rish va qabulga yozilish uchun tizimga kirishingiz kerak.",
+      "geolocationError": "Geolocation xatolik. Iltimos, lokatsiya xizmatlarini yoqishingiz kerak."
     },
     "count": "{count} shifoxona",
     "loadMoreButton": "Ko'proq ko'rish"

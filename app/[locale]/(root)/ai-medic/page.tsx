@@ -38,7 +38,7 @@ export default function App() {
   const chatContainerRef = useRef<HTMLDivElement>(null); // Ref for scroll tracking
 
   const mockUser: User = { id: "user123" };
-  const API_BASE_URL = "https://api.diagnoai.uz/api";
+  const API_BASE_URL = process.env.BASE_URL;
 
   // Fetch all chats for the user
   useEffect(() => {

@@ -1,13 +1,8 @@
-// api.ts
-// Handles API interactions for user registration using TanStack Query
-
 import { useMutation } from "@tanstack/react-query"
 import { RegisterFormData, RegisterResponse } from "./types"
 
-// Base API URL
-const API_BASE_URL = "https://api.diagnoai.uz/api/users/register/"
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/users/register/`
 
-// Mutation function to register a user
 export const useRegisterMutation = () => {
   return useMutation<RegisterResponse, Error, RegisterFormData>({
     mutationFn: async (data: RegisterFormData) => {

@@ -9,8 +9,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
         <div className='absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white p-8 text-center'>
           <h1 className='text-4xl font-bold mb-4'>{t("title")}</h1>
           <p className='text-xl text-center'>
-            Join our community of healthcare professionals and experience the future of medical diagnostics.
-            Get started by creating your account or signing in.
+            {t("description")}
           </p>
         </div>
       </div>

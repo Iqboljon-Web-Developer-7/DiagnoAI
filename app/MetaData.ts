@@ -60,10 +60,10 @@ export const MetaData: Metadata = {
             "max-video-preview": -1
         }
     },
-    // icons: {
-    //     icon: '/favicon.ico',
-    //     shortcut: '/favicon.ico',
-    //     apple: '/favicon.ico'
-    // },
+    icons: {
+        icon: '/favicon.ico',
+        shortcut: '/favicon.ico',
+        apple: '/favicon.ico'
+    },
     category: "sog'liqni saqlash",
 }

@@ -8,12 +8,12 @@ import { BookAppointmentData } from "./types"
 import axios from "axios"
 
 // Base API URL
-const API_BASE_URL = "https://api.diagnoai.uz/api"
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`
 
 // Mutation function to book an appointment
 export const useBookAppointmentMutation = (token: string | undefined) => {
   return useMutation<unknown, Error, BookAppointmentData>({
-    mutationFn: async ({ userId, latitude, longitude, hospitalName, type }) => {
+    mutationFn: async ({ userId, latitude, longitude, hospitalName  }) => {
       if (!token) {
         throw new Error("Authentication required")
       }
@@ -45,9 +45,7 @@ export const useGetHospitals = (token: string | undefined) => {
   return useQuery({
     queryKey: ['hospitals'],
     queryFn: async () => {
-      const API_BASE_URL = "https://api.diagnoai.uz/api"
-
-      const response = await axios.get(`${API_BASE_URL}/hospitals/`, {
+      const response = await axios.get(`${API_BASE_URL}/api/hospitals/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
@@ -63,12 +61,11 @@ export const useGetHospital = (id: string | undefined, token?: string) => {
     queryKey: ["hospital", id],
     queryFn: async () => {
       if (!id) throw new Error("Invalid hospital id")
-      const response = await axios.get(`${API_BASE_URL}/hospitals/${id}/`, {
+      const response = await axios.get(`${API_BASE_URL}/api/hospitals/${id}/`, {
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
       })
       return response.data
     },
     enabled: !!id,
-    staleTime: 1000 * 60 * 5, // 5 minutes
   })
 }

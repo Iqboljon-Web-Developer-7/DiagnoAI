@@ -6,8 +6,10 @@ import { useDoctorsQuery, useBookAppointmentMutation } from './api';
 // import { Specialties } from './components/Specialties';
 import { Filters } from './components/Filters';
 import { DoctorList } from './components/DoctorList';
-import { Doctor, Specialty } from './types';
+import { Doctor  } from './types';
 import { haversine } from '@/lib/utils';
+
+interface Specialities{ name: string; count: number; icon: string }[]
 
 export default function Page() {
   const translations = useTranslations('doctors');
@@ -29,16 +31,18 @@ export default function Page() {
           setLocation(position.coords.latitude, position.coords.longitude);
         },
         () => {
-          bookMutation.mutate(
-            { userId: '', latitude, longitude, doctorName: '' },
-            {
-              onError: () => {
-                // Error toast handled in useBookAppointmentMutation
-              },
-            }
-          );
+          // bookMutation.mutate(
+          //   { userId: '', latitude, longitude, doctorName: '' },
+          //   {
+          //     onError: () => {
+          //       // Error toast handled in useBookAppointmentMutation
+          //     },
+          //   }
+          // );
         }
       );
+    }else{
+      setLocation(0, 0)
     }
   }, [setLocation, bookMutation, latitude, longitude]);
 
@@ -64,7 +68,7 @@ export default function Page() {
     return matchesSearch && matchesRating
   });
 
-  const specialties: Specialty[] = Array.from(new Set(doctors.map((doctor) => doctor.field))).map((name) => ({
+  const specialties: Specialities[] = Array.from(new Set(doctors.map((doctor) => doctor.field))).map((name) => ({
     name,
     count: doctors.filter((d) => d.field === name).length,
     icon: '🩺',
@@ -157,7 +161,7 @@ export default function Page() {
                   })
                 }
                 isBookingPending={bookMutation.isPending}
-                user={user}
+                user={user!}
               />
             )}
           </div>

@@ -14,12 +14,13 @@ import { format } from 'date-fns';
 import { useCreateBookingMutation, useFreeTimes } from '../api';
 import { useAppStore } from '@/Store/store';
 import { toast } from 'sonner';
+import { User } from '../../hospitals/types';
 
 interface DoctorListProps {
     doctors: Doctor[];
     onBookAppointment: (doctor: Doctor) => void;
     isBookingPending: boolean;
-    user: {token:string}; // Replace with proper user type from your Zustand store
+    user: User; // Replace with proper user type from your Zustand store
 }
 
 export function DoctorList({ doctors, onBookAppointment, isBookingPending, user }: DoctorListProps) {
@@ -37,32 +38,32 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
 
     const { data: freeTimes, isLoading: freeTimesLoading, refetch: refetchFreeTimes } = useFreeTimes(selectedDoctor!, token, formattedDate);
 
-    
-  const allTimes: number[] = Array.from({ length: 13 }, (_, i) => i + 8);
-  const sortedTimes = allTimes.sort((a, b) => a - b);
+
+    const allTimes: number[] = Array.from({ length: 13 }, (_, i) => i + 8);
+    const sortedTimes = allTimes.sort((a, b) => a - b);
 
 
     const bookedTimes = freeTimes?.booked_times?.map(time => {
-    return parseInt(time.split(':')[0]);
-  }) ?? [];
+        return parseInt(time.split(':')[0]);
+    }) ?? [];
 
-  const createBooking = useCreateBookingMutation();
+    const createBooking = useCreateBookingMutation();
 
 
     const handleBookAppointment = (time: number) => {
-    const hour = time.toString().padStart(2, '0');
-    const appointmentDate = `${formattedDate}T${hour}:00:00Z`;
-    createBooking.mutate(
-      { doctor: selectedDoctor!, appointment_date: appointmentDate },
-      {
-        onSuccess: () => {
-          toast.success('Booking created successfully!');
-          refetchFreeTimes();
-        },
-        onError: () => toast.error('Failed to create booking'),
-      }
-    );
-  };
+        const hour = time.toString().padStart(2, '0');
+        const appointmentDate = `${formattedDate}T${hour}:00:00Z`;
+        createBooking.mutate(
+            { doctor: selectedDoctor!, appointment_date: appointmentDate },
+            {
+                onSuccess: () => {
+                    toast.success('Booking created successfully!');
+                    refetchFreeTimes();
+                },
+                onError: () => toast.error('Failed to create booking'),
+            }
+        );
+    };
 
     return (
         <div className="space-y-6 cursor-pointer">
@@ -126,28 +127,29 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
 
                                             <Dialog onOpenChange={(open) => {
                                                 if (open) {
-                                                    setSelectedDoctor(doctor.id);
+                                                    setSelectedDoctor(+doctor.id);
                                                 } else {
                                                     setSelectedDoctor(null);
                                                 }
                                             }}>
-                                                <DialogTrigger className='bg-blue-500 py-1 px-4 flex items-center justify-center gap-2 text-white border-none rounded-lg' onClick={(e) => e.stopPropagation()}> <Calendar className="w-4 h-4 mr-1" />
+                                                <DialogTrigger className='bg-blue-500 py-1 px-4 flex items-center justify-center gap-2 text-white border-none rounded-lg'> <Calendar className="w-4 h-4 mr-1" />
                                                     {translations('doctorCard.bookButton') || 'Book Appointment'}</DialogTrigger>
                                                 <DialogContent onClick={(e) => e.stopPropagation()}>
                                                     <DialogHeader onClick={(e) => e.stopPropagation()}>
-                                                        <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                                        <div className="bg-white rounded-xl shadow-lg p-6">
-                                                            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
-                                                                <Clock className="h-6 w-6 text-blue-600" />
-                                                                <span className='text-lg md:text-3xl'>Available Time Slots ({selectedDate.toLocaleDateString()})</span>
+                                                        <div className="bg-white rounded-xl ">
+                                                            <h2 className="text-2xl text-center font-bold text-gray-900 mb-2">
+                                                                <span className='text-lg md:text-3xl text-center'>Available Time Slots</span>
                                                             </h2>
-                                                            <div className="mb-4 flex items-center space-x-2">
-                                                                <Calendar className="h-5 w-5 text-gray-500" />
+                                                            <div className="mb-4 flex items-center justify-center gap-3">
+                                                                <h2 className="text-2xl font-bold text-gray-900  flex items-center space-x-2">
+                                                                    {selectedDate.toLocaleDateString()}
+                                                                </h2>
+
                                                                 <input
+                                                                    width={36}
                                                                     type="date"
-                                                                    value={formattedDate}
                                                                     onChange={handleDateChange}
-                                                                    className="border rounded p-2"
+                                                                    className="w-9 border rounded p-2"
                                                                 />
                                                             </div>
                                                             {freeTimesLoading ? (

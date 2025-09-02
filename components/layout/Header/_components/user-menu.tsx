@@ -37,7 +37,6 @@ export function UserMenu({ className }: { className?: string }) {
 
   const openRegisterModal = () => {
     router.push("/auth/register")
-
   }
 
   if (isLoggedIn && user) {
@@ -45,9 +44,9 @@ export function UserMenu({ className }: { className?: string }) {
       <>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="relative" variant={"link"} size={"icon"}>
+            <Button className="relative" variant={"link"} size={"icon"} aria-label={'userMenu'}>
               <div className="flex items-center justify-center h-8 w-8 rounded-full">
-                <User color="black" className="h-4 w-4 text-blue-600" />
+                <User color="black" className="h-4 w-4 text-blue-600" aria-hidden="true" />
               </div>
             </Button>
           </DropdownMenuTrigger>
@@ -61,13 +60,13 @@ export function UserMenu({ className }: { className?: string }) {
             <DropdownMenuSeparator />
             <Link href="/dashboard">
               <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
+                <User className="mr-2 h-4 w-4" aria-hidden="true" />
                 <span>{t('dashboard')}</span>
               </DropdownMenuItem>
             </Link>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
+              <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
               <span>{t('logout')}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -82,8 +81,14 @@ export function UserMenu({ className }: { className?: string }) {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="link" className='hover:bg-slate-100 duration-200' size="sm" onClick={openLoginModal}>
-                  <LogIn className="h-4 w-4" />
+                <Button 
+                  variant="link" 
+                  className='hover:bg-slate-100 duration-200' 
+                  size="sm" 
+                  onClick={openLoginModal}
+                  aria-label={t('login')}
+                >
+                  <LogIn className="h-4 w-4" aria-hidden="true" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -92,12 +97,17 @@ export function UserMenu({ className }: { className?: string }) {
             </Tooltip>
           </TooltipProvider>
         <div className="hidden sm:block">
-
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button size="sm" variant={"link"} className="hover:bg-blue-700 hover:text-slate-100 duration-200" onClick={openRegisterModal}>
-                <UserPlus size={3} />
+              <Button 
+                size="sm" 
+                variant={"link"} 
+                className="hover:bg-blue-700 hover:text-slate-100 duration-200" 
+                onClick={openRegisterModal}
+                aria-label={t('register')}
+              >
+                <UserPlus size={3} aria-hidden="true" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
@@ -107,7 +117,6 @@ export function UserMenu({ className }: { className?: string }) {
         </TooltipProvider>
         </div>
       </div>
-
     </div>
   )
 }

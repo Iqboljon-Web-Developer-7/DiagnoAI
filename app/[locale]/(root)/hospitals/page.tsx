@@ -13,12 +13,12 @@ export default async function HospitalsPage() {
         </div>
 
         <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
+          {/* <CardHeader> */}
+            {/* <CardTitle className="flex items-center space-x-2">
               <span>{t("typesTitle") || "Hospital Types"}</span>
-            </CardTitle>
-            <CardDescription>{t("typesDescription") || "Explore hospitals by type"}</CardDescription>
-          </CardHeader>
+            </CardTitle> */}
+            {/* <CardDescription>{t("typesDescription") || "Explore hospitals by type"}</CardDescription> */}
+          {/* </CardHeader> */}
           <CardContent className="p-4">
             <ClientHospitalsPage />
           </CardContent>

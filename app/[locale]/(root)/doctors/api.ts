@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { Doctor, Booking } from './types';
 import { toast } from 'sonner';
 
-const API_BASE_URL = 'https://api.diagnoai.uz/';
+const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/`;
 
 export async function fetchDoctors({
   latitude,
@@ -50,7 +50,7 @@ export async function fetchDoctors({
     availability: d.availability ?? undefined,
     price: d.price ?? undefined,
     prize: d.prize ?? undefined,
-    image: d.image ? (d.image.startsWith('http') ? d.image : `https://api.diagnoai.uz${d.image}`) : undefined,
+    image: d.image ? (d.image.startsWith('http') ? d.image : `${API_BASE_URL}${d.image}`) : undefined,
     experience: d.experience ?? undefined,
     longitude: d.hospital?.longitude ?? undefined,
     latitude: d.hospital?.latitude ?? undefined,
@@ -170,7 +170,7 @@ export function useDoctorQuery(id: string, token: string | undefined) {
   });
 }
 
-export function useFreeTimes(doctorId: string, token: string | undefined, date: string) {
+export function useFreeTimes(doctorId: number, token: string | undefined, date: string) {
   return useQuery<{booked_times: string[]}>({
     queryKey: ['freeTimes', doctorId, date],
     queryFn: async () => {

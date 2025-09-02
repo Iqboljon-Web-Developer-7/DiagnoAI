@@ -1,8 +1,5 @@
 "use client"
 
-// page.tsx
-// User login page component with form and UI
-
 import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"

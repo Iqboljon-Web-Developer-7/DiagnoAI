@@ -173,7 +173,7 @@ export default function ClientHospitalsPage() {
   return (
     <>
       {/* Hospital Types Grid */}
-      <div className="grid md:grid-cols-5 gap-4">
+      {/* <div className="grid md:grid-cols-5 gap-4">
         {hospitalTypes.map((type, index) => (
           <div
             key={index}
@@ -187,10 +187,10 @@ export default function ClientHospitalsPage() {
             </p>
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Filters and Hospitals List */}
-      <div className="grid lg:grid-cols-4 gap-8 mt-8">
+      <div className="grid lg:grid-cols-4 gap-8">
         {/* Filters */}
         <div className="lg:col-span-1">
           <Card>
@@ -304,7 +304,7 @@ export default function ClientHospitalsPage() {
               <Card
                 onClick={() => router.push(`/hospitals/${hospital.id}`)}
                 key={hospital.id}
-                className="hover:shadow-lg transition-shadow"
+                className="hover:shadow-lg transition-shadow overflow-hidden"
               >
                 <CardContent className="p-0">
                   <div className="flex items-start flex-col sm:flex-row gap-3">
