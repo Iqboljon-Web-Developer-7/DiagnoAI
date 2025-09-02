@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useAppStore } from '@/context/store';
+import { useAppStore } from '@/Store/store';
 import { useDoctorsQuery, useBookAppointmentMutation } from './api';
 // import { Specialties } from './components/Specialties';
 import { Filters } from './components/Filters';

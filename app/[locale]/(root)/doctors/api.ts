@@ -1,10 +1,10 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useAppStore } from '@/context/store';
+import { useAppStore } from '@/Store/store';
 import { useTranslations } from 'next-intl';
-import { useToast } from '@/hooks/use-toast';
 import { Doctor, Booking } from './types';
+import { toast } from 'sonner';
 
 const API_BASE_URL = 'https://api.diagnoai.uz/';
 
@@ -23,9 +23,9 @@ export async function fetchDoctors({
     throw new Error('Authentication required');
   }
 
-  const params = new URLSearchParams({ 
-    latitude: latitude.toString(), 
-    longitude: longitude.toString() 
+  const params = new URLSearchParams({
+    latitude: latitude.toString(),
+    longitude: longitude.toString()
   });
   if (selectedSpecialty) params.append('field', selectedSpecialty);
 
@@ -61,14 +61,14 @@ export async function fetchDoctors({
 
 export function useDoctorsQuery(latitude: number, longitude: number, selectedSpecialty?: string) {
   const { user } = useAppStore();
-  
+
   return useQuery<Doctor[]>({
     queryKey: ['doctors', latitude, longitude, selectedSpecialty],
-    queryFn: () => fetchDoctors({ 
-      latitude, 
-      longitude, 
+    queryFn: () => fetchDoctors({
+      latitude,
+      longitude,
       selectedSpecialty: selectedSpecialty ?? '',
-      token: user?.token 
+      token: user?.token
     }),
     enabled: !!user?.token,
   });
@@ -77,7 +77,6 @@ export function useDoctorsQuery(latitude: number, longitude: number, selectedSpe
 export function useBookAppointmentMutation() {
   const { addAppointment, user } = useAppStore();
   const translations = useTranslations('doctors');
-  const { toast } = useToast();
 
   return useMutation({
     mutationFn: async ({
@@ -121,17 +120,15 @@ export function useBookAppointmentMutation() {
         type: translations('doctorCard.bookButton') || 'Appointment',
         status: 'Tasdiqlangan',
       });
-      toast({
-        title:
-          translations('toastMessages.bookAppointment', { doctorName: variables.doctorName }) ||
-          `Appointment booked with ${variables.doctorName}`,
-      });
+      toast(
+        translations('toastMessages.bookAppointment', { doctorName: variables.doctorName }) ||
+        `Appointment booked with ${variables.doctorName}`,
+      );
     },
     onError: () => {
-      toast({
-        title: translations('toastMessages.error') || 'Failed to book appointment',
-        variant: 'destructive',
-      });
+      toast.error(
+        translations('toastMessages.error') || 'Failed to book appointment'
+      );
     },
   });
 }
@@ -146,7 +143,7 @@ export function useDoctorQuery(id: string, token: string | undefined) {
         });
         if (!res.ok) return null;
         const data = await res.json();
-        
+
         // Transform API response to match Doctor interface
         return {
           id: data.id,
@@ -174,7 +171,7 @@ export function useDoctorQuery(id: string, token: string | undefined) {
 }
 
 export function useFreeTimes(doctorId: string, token: string | undefined, date: string) {
-  return useQuery<number[]>({
+  return useQuery<{booked_times: string[]}>({
     queryKey: ['freeTimes', doctorId, date],
     queryFn: async () => {
       if (!token) {

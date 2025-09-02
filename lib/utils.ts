@@ -5,7 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-// --- Utility ---
 export const haversine = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
   const R = 6371
   const dLat = (lat2 - lat1) * (Math.PI / 180)
@@ -17,9 +16,9 @@ export const haversine = (lat1: number, lon1: number, lat2: number, lon2: number
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 }
 
-   export function formatNumber(number: number) {
-        if (typeof number !== 'number' || number < 1 || !Number.isFinite(number)) {
-            return "Please provide a valid number greater than or equal to 1";
-        }
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
+export function formatNumber(number: number) {
+  if (typeof number !== 'number' || number < 1 || !Number.isFinite(number)) {
+    return "Please provide a valid number greater than or equal to 1";
+  }
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}

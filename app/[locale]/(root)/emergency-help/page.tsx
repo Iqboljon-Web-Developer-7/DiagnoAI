@@ -7,8 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { AlertTriangle, Phone, MapPin, Mic, Upload, Navigation, Loader2 } from "lucide-react"
 import { useTranslations, useMessages } from "next-intl"
-import { useToast } from "@/hooks/use-toast"
 import Image from "next/image"
+import { toast } from "sonner"
 
 export default function EmergencyHelpPage() {
   const translations = useTranslations("emergency")
@@ -21,9 +21,6 @@ export default function EmergencyHelpPage() {
   const [selectedEmergency, setSelectedEmergency] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
-
-  console.log(selectedImage);
-  const { toast } = useToast()
 
   const messages = useMessages()
   const immediateActions = Object.keys(messages.emergency?.immediateActions || {})
@@ -89,9 +86,9 @@ export default function EmergencyHelpPage() {
 
   useEffect(() => {
     if (showSuccessToast) {
-      toast({
-        title: toastMessage,
-      });
+      toast( 
+          toastMessage,
+       );
     }
   }, [showSuccessToast, toast, toastMessage]);
 

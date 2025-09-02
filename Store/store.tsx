@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
- 
+
 type User = {
   id: string;
   name: string;
@@ -27,7 +27,7 @@ type Appointment = {
   status: string;
 };
 
-type AppState = {
+interface AppState {
   user: User | null;
   isLoggedIn: boolean;
   latitude: number;
@@ -35,14 +35,13 @@ type AppState = {
   diagnoses: Diagnosis[];
   appointments: Appointment[];
   setLocation: (latitude: number, longitude: number) => void;
-  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   addDiagnosis: (diagnosis: Omit<Diagnosis, "id" | "date">) => void;
   addAppointment: (appointment: Omit<Appointment, "id">) => void;
-  setUser: (user: User) => void;  
-};
+  setUser: (user: User) => void;
+}
 
-export const useAppStore = create<any>()(
+export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
       user: null,
@@ -95,52 +94,33 @@ export const useAppStore = create<any>()(
           status: "Kutilmoqda",
         },
       ],
-      // login: async (email: string, password: string) => {
-      //   await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      //   const mockUser = {
-      //     id: "user-1",
-      //     name: "Anvar Karimov",
-      //     email,
-      //     avatar: "/placeholder.svg?height=32&width=32",
-      //   };
-
-      //   set({ user: mockUser, isLoggedIn: true });
-      //   return true;
-      // },
-      logout: () => {
-        set({ user: null, isLoggedIn: false });
-      },
-      addDiagnosis: (diagnosis: Omit<Diagnosis, "id" | "date">) => {
+      logout: () => set({ user: null, isLoggedIn: false }),
+      addDiagnosis: (diagnosis) => {
         const newDiagnosis = {
           ...diagnosis,
           id: `diagnosis-${Date.now()}`,
           date: new Date().toISOString().split("T")[0],
         };
-        set((state:AppState) => ({
+        set((state) => ({
           diagnoses: [newDiagnosis, ...state.diagnoses],
         }));
       },
-      addAppointment: (appointment: Omit<Appointment, "id">) => {
+      addAppointment: (appointment) => {
         const newAppointment = {
           ...appointment,
           id: `appointment-${Date.now()}`,
         };
-        set((state: AppState) => ({
+        set((state) => ({
           appointments: [newAppointment, ...state.appointments],
         }));
       },
-      setLocation: (latitude: number, longitude: number) => {
-        set({ latitude, longitude });
-      },
-      setUser: (user: User) => {
-        set({ user, isLoggedIn: true });
-      },
+      setLocation: (latitude, longitude) => set({ latitude, longitude }),
+      setUser: (user) => set({ user, isLoggedIn: true }),
     }),
     {
-      name: "app-storage",  
-      storage: createJSONStorage(() => localStorage), 
-      partialize: (state) => ({ user: state.user, isLoggedIn: state.isLoggedIn }), 
+      name: "app-storage",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({ user: state.user, isLoggedIn: state.isLoggedIn }),
     }
   )
 );

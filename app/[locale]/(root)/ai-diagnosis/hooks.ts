@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback, useDeferredValue } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { toast } from "sonner"
-import { useAppStore } from "@/context/store";
+import { useAppStore } from "@/Store/store";
 import axios from "axios";
 import { Chat, ChatMessage, Doctor, ChatApiResponse } from "./types";
 import { usePathname } from "@/i18n/navigation";

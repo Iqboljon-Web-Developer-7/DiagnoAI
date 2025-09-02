@@ -2,7 +2,7 @@
 
 import { Booking } from '../types';
 import { useDoctorQuery, useFreeTimes, useCreateBookingMutation, useGetClinicBookings, useUpdateBookingMutation, useDeleteBookingMutation } from "../api";
-import { useAppStore } from '@/context/store';
+import { useAppStore } from '@/Store/store';
 import React, { useState } from "react";
 import {
   MapPin,
@@ -16,14 +16,14 @@ import {
   Calendar,
 } from "lucide-react";
 import Image from "next/image";
-import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { use } from 'react';
 import { Circles } from 'react-loader-spinner';
+import { toast } from 'sonner';
 
 interface DoctorType {
   children: React.ReactNode;
-  params: Promise<{id: string; locale: string }>;
+  params: Promise<{ id: string; locale: string }>;
 }
 
 function DoctorPage({ params }: DoctorType) {
@@ -33,7 +33,7 @@ function DoctorPage({ params }: DoctorType) {
   const token = user?.token;
   const role = user?.role;
 
-  const { data: doctor, isLoading: loading } = useDoctorQuery(id, token);
+  const { data: doctor, isLoading: loading, isPending } = useDoctorQuery(id, token);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const formattedDate = format(selectedDate, 'yyyy-MM-dd');
   const { data: freeTimes, isLoading: freeTimesLoading, refetch: refetchFreeTimes } = useFreeTimes(id, token, formattedDate);
@@ -42,8 +42,6 @@ function DoctorPage({ params }: DoctorType) {
   const { data: clinicBookings, isLoading: clinicBookingsLoading } = useGetClinicBookings(token, role === 'clinic');
   const updateBooking = useUpdateBookingMutation(locale);
   const deleteBooking = useDeleteBookingMutation(locale);
-  const { toast } = useToast();
-
 
   const filteredClinicBookings = clinicBookings?.filter((b: Booking) => b.doctor === parseInt(id)) || [];
 
@@ -52,9 +50,9 @@ function DoctorPage({ params }: DoctorType) {
       { booking_id: bookingId, status: newStatus },
       {
         onSuccess: () => {
-          toast({ title: `Booking updated to ${newStatus}` });
+          toast.success(`Booking updated to ${newStatus}`);
         },
-        onError: () => toast({ title: 'Failed to update booking', variant: 'destructive' }),
+        onError: () => toast.error('Failed to update booking'),
       }
     );
   };
@@ -64,14 +62,14 @@ function DoctorPage({ params }: DoctorType) {
       { booking_id: bookingId },
       {
         onSuccess: () => {
-          toast({ title: 'Booking deleted' });
+          toast.success('Booking deleted');
         },
-        onError: () => toast({ title: 'Failed to delete booking', variant: 'destructive' }),
+        onError: () => toast.error('Failed to delete booking'),   
       }
     );
   };
 
-if (loading) {
+  if (loading || isPending) {
     return (
       <div className="flex items-center justify-center p-10">
         <Circles
@@ -83,10 +81,6 @@ if (loading) {
         />
       </div>
     );
-  }
-
-  if (!doctor) {
-    return null;
   }
 
   const bookedTimes = freeTimes?.booked_times?.map(time => {
@@ -108,10 +102,10 @@ if (loading) {
       { doctor: parseInt(id), appointment_date: appointmentDate },
       {
         onSuccess: () => {
-          toast({ title: 'Booking created successfully!' });
+          toast.success('Booking created successfully!');
           refetchFreeTimes();
         },
-        onError: () => toast({ title: 'Failed to create booking', variant: 'destructive' }),
+        onError: () => toast.error('Failed to create booking'),
       }
     );
   };
@@ -138,8 +132,8 @@ if (loading) {
                   <Image
                     width={400}
                     height={400}
-                    src={`${doctor.image}`}
-                    alt={doctor.name}
+                    src={`${doctor!.image}`}
+                    alt={doctor!.name}
                     className="w-full h-full rounded-full object-cover"
                   />
                 </div>
@@ -151,17 +145,17 @@ if (loading) {
               {/* Doctor Info */}
               <div className="flex-1 text-center lg:text-left">
                 <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">
-                  Dr. {doctor.name}
+                  Dr. {doctor!.name}
                 </h1>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
                   <Stethoscope className="h-5 w-5 text-blue-200" />
                   <span className="text-xl text-blue-200">
-                    {doctor.field} Specialist
+                    {doctor!.field} Specialist
                   </span>
                 </div>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
                   <Building2 className="h-5 w-5 text-blue-200" />
-                  <span className="text-blue-200">{doctor.hospital}</span>
+                  <span className="text-blue-200">{doctor!.hospital}</span>
                 </div>
 
                 {/* Rating */}
@@ -178,7 +172,7 @@ if (loading) {
                     <Clock className="h-5 w-5" />
                     <span>Book Appointment</span>
                   </button>
-                  {doctor.phone_number && (
+                  {doctor!.phone_number && (
                     <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
                       <Phone className="h-5 w-5" />
                       <span>Call Now</span>
@@ -198,10 +192,10 @@ if (loading) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <User className="h-6 w-6 text-blue-600" />
-                <span>About Dr. {doctor.name}</span>
+                <span>About Dr. {doctor!.name}</span>
               </h2>
               <p className="text-gray-700 leading-relaxed text-lg">
-                {doctor.description}
+                {doctor!.description}
               </p>
             </div>
 
@@ -212,7 +206,7 @@ if (loading) {
                 <span>Specialization</span>
               </h2>
               <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
-                <h3 className="font-semibold text-blue-900 text-lg">{doctor.field}</h3>
+                <h3 className="font-semibold text-blue-900 text-lg">{doctor!.field}</h3>
                 <p className="text-blue-800 mt-1">
                   Expert in treating bone, joint, and muscle conditions with advanced
                   medical techniques.
@@ -226,7 +220,7 @@ if (loading) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
                   "Fracture Treatment",
-                  "Arthritis Management", 
+                  "Arthritis Management",
                   "Sports Injury Recovery",
                   "Joint Replacement",
                   "Physical Therapy",
@@ -279,15 +273,15 @@ if (loading) {
             )}
 
             {role === 'clinic' && (
-                <div className="bg-white rounded-xl shadow-lg p-6">
+              <div className="bg-white rounded-xl shadow-lg p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                   <Clock className="h-6 w-6 text-blue-600" />
-                  <span>Bookings for Dr. {doctor.name}</span>
+                  <span>Bookings for Dr. {doctor!.name}</span>
                 </h2>
                 {clinicBookingsLoading ? (
-                    <p>Loading bookings...</p>
+                  <p>Loading bookings...</p>
                 ) : filteredClinicBookings.length > 0 ? (
-                    <div className="space-y-4">
+                  <div className="space-y-4">
                     {filteredClinicBookings.map((booking: Booking) => (
                       <div key={booking.id} className="border p-4 rounded-lg">
                         <p><strong>ID:</strong> {booking.id}</p>
@@ -322,7 +316,7 @@ if (loading) {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-600">No bookings for this doctor.</p>
+                  <p className="text-gray-600">No bookings for this doctor!.</p>
                 )}
               </div>
             )}
@@ -338,7 +332,7 @@ if (loading) {
               </h3>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">
-                  {formatPrice(doctor.prize!)} UZS
+                  {formatPrice(doctor!.prize!)} UZS
                 </div>
                 <p className="text-gray-600">Per consultation</p>
               </div>
@@ -352,16 +346,16 @@ if (loading) {
                   <Building2 className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900">Hospital</p>
-                    <p className="text-gray-600">{doctor.hospital}</p>
+                    <p className="text-gray-600">{doctor!.hospital}</p>
                   </div>
                 </div>
 
-                {doctor.phone_number && (
+                {doctor!.phone_number && (
                   <div className="flex items-start space-x-3">
                     <Phone className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                     <div>
                       <p className="font-medium text-gray-900">Phone</p>
-                      <p className="text-gray-600">{doctor.phone_number}</p>
+                      <p className="text-gray-600">{doctor!.phone_number}</p>
                     </div>
                   </div>
                 )}
@@ -371,7 +365,7 @@ if (loading) {
                   <div>
                     <p className="font-medium text-gray-900">Location</p>
                     <p className="text-gray-600">
-                      {doctor.latitude}, {doctor.longitude}
+                      {doctor!.latitude}, {doctor!.longitude}
                     </p>
                     <p className="text-sm text-gray-500 mt-1">Tashkent, Uzbekistan</p>
                   </div>

@@ -11,8 +11,8 @@ interface LocaleLayout {
 
 type ValidLocale = "uz" | "en" | "ru";
 
-export default async function LocaleLayout({ 
-  children, 
+export default async function LocaleLayout({
+  children,
   params
 }: LocaleLayout) {
   const { locale } = await params;
@@ -30,12 +30,12 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {/* @ts-expect-error Async Server Component */}
-          <Header />
+            {/* @ts-expect-error Async Server Component */}
+            <Header />
 
-          {children}
+            {children}
 
-          <Footer />
+            <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

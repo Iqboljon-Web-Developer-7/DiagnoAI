@@ -1,9 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import { Link } from '@/i18n/navigation';
+import { Link} from '@/i18n/navigation';
 import Image from 'next/image';
-import CollapsibleTabs from './CollapsibleTabs';
-import { LanguageSwitcher } from './language-switcher';
-import { UserMenu } from './user-menu';
+import CollapsibleTabs from './_components/CollapsibleTabs';
+import { LanguageSwitcher } from './_components/language-switcher';
+import { UserMenu } from './_components/user-menu';
+// import ThemeToggle from "@/components/ThemeToggle";
 
 export async function Header() {
   const t = await getTranslations('navigation');
@@ -32,6 +33,7 @@ export async function Header() {
         <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4 animate-fade-in-down opacity-0 delay-1000">
           <LanguageSwitcher />
           <UserMenu />
+          {/* <ThemeToggle /> */}
         </div>
       </div>
     </header>

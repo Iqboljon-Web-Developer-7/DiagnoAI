@@ -12,7 +12,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { useCreateBookingMutation, useFreeTimes } from '../api';
-import { useAppStore } from '@/context/store';
+import { useAppStore } from '@/Store/store';
 import { toast } from 'sonner';
 
 interface DoctorListProps {

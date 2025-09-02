@@ -7,10 +7,10 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Star, MapPin, Clock, Phone, Calendar, Filter } from "lucide-react"
-import { useAppStore } from "@/context/store"
+import { useAppStore } from "@/Store/store"
 import { useTranslations } from 'next-intl'
-import { useToast } from "@/hooks/use-toast"
 import Image from "next/image"
+import { toast } from "sonner"
 
 export default function RecommendedProvidersPage() {
   const { addAppointment } = useAppStore()
@@ -123,13 +123,11 @@ export default function RecommendedProvidersPage() {
     return matchesSearch && matchesSpecialty && matchesRating
   })
 
-  const { toast } = useToast()
-
   useEffect(() => {
     if (showSuccessToast) {
-      toast({
-        title: toastMessage,
-      });
+      toast( 
+         toastMessage 
+      );
     }
   }, [showSuccessToast, toast, toastMessage])
 

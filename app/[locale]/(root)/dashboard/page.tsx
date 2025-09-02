@@ -22,9 +22,9 @@ import {
   Loader2,
 } from "lucide-react"
 import Link from "next/link"
-import { useAppStore } from "@/context/store"
+import { useAppStore } from "@/Store/store"
 import { useRouter } from "next/navigation"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 
 export default function DashboardPage() {
   const { user, diagnoses, appointments, addAppointment } = useAppStore()
@@ -34,11 +34,9 @@ export default function DashboardPage() {
   const [toastMessage, setToastMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
-  const { toast } = useToast()
-
   useEffect(() => {
     console.log(user);
-    
+
     if (!user) {
       router.push("/")
     }
@@ -405,9 +403,9 @@ export default function DashboardPage() {
 
       {showSuccessToast && (
         <>
-          {toast({
-            title: toastMessage,
-          })}
+          {toast(
+            toastMessage
+          )}
         </>
       )}
     </div>

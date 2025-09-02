@@ -4,7 +4,7 @@ import React from 'react';
 import { useGetHospital } from "../api";
 import { MapPin, Phone, Building2, Users, Clock, Star, Award, Stethoscope, Heart, Shield, Calendar, Navigation } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-import { useAppStore } from '@/context/store';
+import { useAppStore } from '@/Store/store';
 import Image from 'next/image';
 import { Circles } from "react-loader-spinner";
 
