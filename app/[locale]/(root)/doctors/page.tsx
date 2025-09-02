@@ -73,16 +73,7 @@ export default function Page() {
     count: doctors.filter((d) => d.field === name).length,
     icon: '🩺',
   }));
-
-
-  if (error) {
-    return (
-      <div className="text-center py-8 text-red-600">
-        {translations('toastMessages.error') || 'Failed to load doctors'}
-      </div>
-    );
-  }
-
+ 
   const LoadingPlaceholder = () => (
     <div className="animate-pulse">
       <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
@@ -146,6 +137,11 @@ export default function Page() {
                 "You're not logged in"  
               </p>
             }
+            {error && (
+              <div className="text-center py-8 text-red-600">
+                {translations('toastMessages.error') || 'Failed to load doctors'}
+              </div>
+            )}
 
             {isLoading ? (
               <LoadingPlaceholder />

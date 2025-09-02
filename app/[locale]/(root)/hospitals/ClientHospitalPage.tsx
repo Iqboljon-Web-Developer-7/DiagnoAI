@@ -23,7 +23,7 @@ export default function ClientHospitalsPage() {
   const { latitude, longitude, setLocation, addAppointment, user } = useAppStore()
   const router = useRouter()
 
-  const { data: hospitals = [], error, isLoading, isPending } = useGetHospitals(user?.token)
+  const { data: hospitals = [], error, isLoading, isPending } = useGetHospitals()
   const bookAppointmentMutation = useBookAppointmentMutation(user?.token)
 
   // Filter states
@@ -309,7 +309,7 @@ export default function ClientHospitalsPage() {
                 <CardContent className="p-0">
                   <div className="flex items-start flex-col sm:flex-row gap-3">
                     <div
-                      className="relative min-w-64 hidden sm:block h-[-webkit-fill-available]"
+                      className="relative min-w-64 hidden sm:block h-[-webkit-fill-available] bg-contain bg-no-repeat"
                       style={{
                         backgroundImage: `url(${hospital.image})`,
                         backgroundSize: "cover",
@@ -370,12 +370,6 @@ export default function ClientHospitalsPage() {
               </Card>
             ))}
           </div>
-
-          {(!user && !isLoading && !isPending) && (
-            <div>
-              <p className="text-red-500 text-center animate-pulse">Please sign in to view hospitals</p>
-            </div>
-          )}
         </div>
       </div>
     </>

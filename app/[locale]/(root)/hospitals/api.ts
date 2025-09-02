@@ -41,17 +41,14 @@ export const useBookAppointmentMutation = (token: string | undefined) => {
   })
 }
 
-export const useGetHospitals = (token: string | undefined) => {
+export const useGetHospitals = ( ) => {
   return useQuery({
     queryKey: ['hospitals'],
     queryFn: async () => {
-      const response = await axios.get(`${API_BASE_URL}/api/hospitals/`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      const response = await axios.get(`${API_BASE_URL}/api/hospitals/` )
 
       return response.data 
-    },
-    enabled: !!token
+    }
   })
 }
 

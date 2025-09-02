@@ -14,6 +14,11 @@ interface Hospital {
   latitude: number;
   longitude: number;
   image: string;
+  description: string;
+  beds: number;
+  doctors: number;
+  departments: any[];
+  phone_number: string;
 }
 
 function Page({ params }: { params: { id: string; locale: string } }) {
@@ -44,37 +49,15 @@ function Page({ params }: { params: { id: string; locale: string } }) {
     </p>
   }
 
-
-  const departments = [
-    { name: 'Emergency Medicine', icon: Heart, color: 'text-red-600' },
-    { name: 'Cardiology', icon: Heart, color: 'text-pink-600' },
-    { name: 'Orthopedics', icon: Shield, color: 'text-blue-600' },
-    { name: 'Neurology', icon: Stethoscope, color: 'text-purple-600' },
-    { name: 'Pediatrics', icon: Users, color: 'text-green-600' },
-    { name: 'Surgery', icon: Award, color: 'text-orange-600' }
-  ];
-
-  const services = [
-    'Emergency Care 24/7',
-    'Diagnostic Imaging',
-    'Laboratory Services',
-    'Surgical Procedures',
-    'Outpatient Clinics',
-    'Inpatient Care',
-    'Rehabilitation Services',
-    'Pharmacy Services'
-  ];
-
   const stats = [
-    { label: 'Beds', value: '500+', icon: Building2 },
-    { label: 'Doctors', value: '150+', icon: Users },
-    { label: 'Years of Service', value: '25+', icon: Award },
-    { label: 'Patients/Year', value: '50K+', icon: Heart }
+    { label: 'Beds', value: hospital.beds || 0, icon: Building2 },
+    { label: 'Doctors', value: hospital.doctors || 0, icon: Users },
+    { label: 'Years of Service', value: '10+', icon: Award },
+    { label: 'Patients/Year', value: '10K+', icon: Heart }
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
@@ -84,7 +67,7 @@ function Page({ params }: { params: { id: string; locale: string } }) {
               <Image
                 width={1200}
                 height={400}
-                src={`${hospital?.image}`}
+                src={hospital?.image || ''}
                 alt={hospital.name}
                 className="w-full h-full object-cover"
                 priority
@@ -100,12 +83,6 @@ function Page({ params }: { params: { id: string; locale: string } }) {
                     <div className="flex items-center space-x-2 mb-2 sm:mb-4">
                       <MapPin className="h-4 sm:h-5 w-4 sm:w-5 text-blue-200" />
                       <span className="text-blue-200 text-sm sm:text-base">Tashkent, Uzbekistan</span>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-1 mb-2 sm:mb-4">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 sm:h-5 w-4 sm:w-5 text-yellow-400 fill-current" />
-                      ))}
-                      <span className="text-blue-200 ml-2 text-sm sm:text-base">4.8 (2,341 reviews)</span>
                     </div>
                   </div>
 
@@ -154,48 +131,30 @@ function Page({ params }: { params: { id: string; locale: string } }) {
                 <span>About {hospital.name}</span>
               </h2>
               <p className="text-gray-700 leading-relaxed text-lg mb-4">
-                {hospital.name} is a leading healthcare institution in Tashkent, providing comprehensive medical services
-                with state-of-the-art facilities and experienced medical professionals. Our commitment to excellence in
-                patient care has made us a trusted name in healthcare for over two decades.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                We offer a wide range of medical specialties and are equipped with the latest medical technology to
-                ensure the best possible outcomes for our patients. Our team of dedicated healthcare professionals
-                works around the clock to provide compassionate and quality care.
+                {hospital?.description}
               </p>
             </div>
 
             {/* Departments */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center space-x-2">
-                <Stethoscope className="h-6 w-6 text-blue-600" />
-                <span>Medical Departments</span>
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {departments.map((dept, index) => (
-                  <div key={index} className="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200 border border-gray-100">
-                    <dept.icon className={`h-8 w-8 ${dept.color}`} />
-                    <div>
-                      <h3 className="font-semibold text-gray-900">{dept.name}</h3>
-                      <p className="text-sm text-gray-600">Expert care and treatment</p>
+            {hospital.departments && hospital.departments.length > 0 && (
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center space-x-2">
+                  <Stethoscope className="h-6 w-6 text-blue-600" />
+                  <span>Medical Departments</span>
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {hospital.departments.map((dept, index) => (
+                    <div key={index} className="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200 border border-gray-100">
+                      <Stethoscope className="h-8 w-8 text-blue-600" />
+                      <div>
+                        <h3 className="font-semibold text-gray-900">{dept.name}</h3>
+                        <p className="text-sm text-gray-600">Expert care and treatment</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-
-            {/* Services */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Services & Facilities</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {services.map((service, index) => (
-                  <div key={index} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
-                    <span className="text-gray-700">{service}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -208,7 +167,7 @@ function Page({ params }: { params: { id: string; locale: string } }) {
                   <MapPin className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900">Address</p>
-                    <p className="text-gray-600">Central District, Tashkent</p>
+                    <p className="text-gray-600">Tashkent, Uzbekistan</p>
                     <p className="text-sm text-gray-500 mt-1">
                       Coordinates: {hospital.latitude}, {hospital.longitude}
                     </p>
@@ -219,8 +178,7 @@ function Page({ params }: { params: { id: string; locale: string } }) {
                   <Phone className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900">Phone</p>
-                    <p className="text-gray-600">+998 71 123 4567</p>
-                    <p className="text-sm text-gray-500">Emergency: +998 71 911</p>
+                    <p className="text-gray-600">{hospital.phone_number}</p>
                   </div>
                 </div>
 
@@ -234,64 +192,16 @@ function Page({ params }: { params: { id: string; locale: string } }) {
               </div>
             </div>
 
-            {/* Working Hours */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
-                <Clock className="h-6 w-6 text-blue-600" />
-                <span>Visiting Hours</span>
-              </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">General Wards</span>
-                  <span className="font-medium">8:00 AM - 8:00 PM</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">ICU</span>
-                  <span className="font-medium">2:00 PM - 4:00 PM</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Emergency</span>
-                  <span className="font-medium text-green-600">24/7</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Outpatient</span>
-                  <span className="font-medium">8:00 AM - 6:00 PM</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Accreditation */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
-                <Award className="h-6 w-6 text-blue-600" />
-                <span>Accreditation</span>
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
-                  <Shield className="h-5 w-5 text-green-600" />
-                  <div>
-                    <p className="font-medium text-green-900">ISO 9001:2015</p>
-                    <p className="text-sm text-green-700">Quality Management</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
-                  <Award className="h-5 w-5 text-blue-600" />
-                  <div>
-                    <p className="font-medium text-blue-900">JCI Accredited</p>
-                    <p className="text-sm text-blue-700">International Standards</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* Quick Actions */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-lg p-6 text-white">
               <h3 className="text-xl font-bold mb-4">Need Immediate Care?</h3>
               <p className="text-blue-100 mb-4">Our emergency department is available 24/7</p>
-              <button className="w-full bg-white text-blue-600 px-4 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2">
-                <Phone className="h-5 w-5" />
-                <span>Call Emergency</span>
-              </button>
+              <a href={`tel:${hospital.phone_number}`}>
+                <button className="w-full bg-white text-blue-600 px-4 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2">
+                  <Phone className="h-5 w-5" />
+                  <span>Call Emergency</span>
+                </button>
+              </a>
             </div>
           </div>
         </div>

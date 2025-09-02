@@ -22,7 +22,7 @@ export async function TestimonialsSection() {
             {t('testimonials.description')}
           </p>
         </div>
-      <EmblaCarousel slides={testimonialData} />
+      <EmblaCarousel slides={testimonialData} type='testimonials' />
       </div>
     </section>
   )

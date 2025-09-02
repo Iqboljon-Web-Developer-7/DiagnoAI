@@ -30,10 +30,11 @@ type SlideType = {
 type PropType = {
   slides: SlideType[]
   options?: EmblaOptionsType
+  type: string
 }
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { slides, options } = props
+  const { slides, options, type } = props
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
     Autoplay({ playOnInit: false, delay: 3000 })
   ])
@@ -46,7 +47,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container gap-0">
-          {slides.map((slide) => (
+          {type == 'testimonials' && slides.map((slide) => (
             <div key={slide.id} className="border mx-2 my-4 shrink-0 max-w-80 bg-gray-50 rounded-xl p-6 sm:p-8 pb-4 sm:pb-3 relative">
               <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
                 <Quote className="w-8 h-8 sm:w-10 sm:h-10 text-blue-200" />

@@ -12,28 +12,18 @@ export async function fetchDoctors({
   latitude,
   longitude,
   selectedSpecialty,
-  token,
 }: {
   latitude: number;
   longitude: number;
   selectedSpecialty: string;
-  token: string | undefined;
 }) {
-  if (!token) {
-    throw new Error('Authentication required');
-  }
-
   const params = new URLSearchParams({
     latitude: latitude.toString(),
     longitude: longitude.toString()
   });
   if (selectedSpecialty) params.append('field', selectedSpecialty);
 
-  const res = await fetch(`${API_BASE_URL}api/en/doctors/?${params.toString()}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(`${API_BASE_URL}api/en/doctors/?${params.toString()}` );
   if (!res.ok) throw new Error('Failed to fetch doctors');
   const rawData = await res.json();
 
@@ -68,9 +58,7 @@ export function useDoctorsQuery(latitude: number, longitude: number, selectedSpe
       latitude,
       longitude,
       selectedSpecialty: selectedSpecialty ?? '',
-      token: user?.token
     }),
-    enabled: !!user?.token,
   });
 }
 
