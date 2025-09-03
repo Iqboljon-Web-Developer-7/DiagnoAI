@@ -113,14 +113,7 @@ function DoctorPage({ params }: DoctorType) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center space-x-2">
-            <Stethoscope className="h-6 w-6 text-blue-600" />
-            <span className="text-xl font-semibold text-gray-900">MedConnect</span>
-          </div>
-        </div>
-      </div>
+      
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
@@ -150,7 +143,7 @@ function DoctorPage({ params }: DoctorType) {
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
                   <Stethoscope className="h-5 w-5 text-blue-200" />
                   <span className="text-xl text-blue-200">
-                    {doctor!.field} Specialist
+                    {doctor!.field}  
                   </span>
                 </div>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">

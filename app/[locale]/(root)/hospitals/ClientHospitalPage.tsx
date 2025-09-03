@@ -191,8 +191,8 @@ export default function ClientHospitalsPage() {
       {/* Filters and Hospitals List */}
       <div className="grid lg:grid-cols-4 gap-8">
         {/* Filters */}
-        <div className="lg:col-span-1">
-          <Card>
+        <div className="lg:col-span-1 relative">
+          <Card className="sticky top-20">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Filter className="w-5 h-5" />
@@ -308,7 +308,7 @@ export default function ClientHospitalsPage() {
                 <CardContent className="p-0">
                   <div className="flex items-start flex-col sm:flex-row gap-3">
                     <div
-                      className="relative min-w-64 hidden sm:block h-[-webkit-fill-available] bg-contain bg-no-repeat mx-2"
+                      className="relative min-w-64 hidden sm:block h-[-webkit-fill-available] bg-contain bg-no-repeat"
                       style={{
                         backgroundImage: `url(${hospital.image})`,
                         backgroundPosition: "center",
@@ -333,7 +333,7 @@ export default function ClientHospitalsPage() {
 
                           <p className="text-gray-700 mb-3 line-clamp-4">{hospital.description}</p>
 
-                          <div className="flex items-center space-x-4 mb-3 flex-wrap">
+                          <div className="flex items-center gap-4 mb-3 flex-wrap">
                             <div className="flex items-center space-x-1 text-gray-600">
                               <MapPin className="w-4 h-4" />
                               <span className="text-sm">
@@ -350,7 +350,7 @@ export default function ClientHospitalsPage() {
                             <div className="flex space-x-3">
                               <Link
                                 onClick={(e) => e.stopPropagation()}
-                                className="shrink-0 text-sm min-w-11 flex items-center justify-center bg-blue-600 hover:bg-blue-700 p-2 rounded-lg text-white"
+                                className="shrink-0 text-sm min-w-11 grow flex items-center justify-center bg-blue-600 hover:bg-blue-700 p-2 rounded-lg text-white"
                                 href={"tel:" + hospital.phone_number}
                               >
                                 <Phone className="w-4 h-4 mr-1" />

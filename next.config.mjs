@@ -33,6 +33,9 @@ const nextConfig = {
             },
         ],
     },
+    //  experimental: {
+    // ppr: 'incremental',
+//   },
 };
 
 export default withNextIntl(nextConfig);

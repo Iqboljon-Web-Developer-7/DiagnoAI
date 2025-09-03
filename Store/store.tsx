@@ -3,10 +3,11 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 type User = {
   id: string;
-  name: string;
+  name?: string;
   email: string;
   avatar?: string;
-  token?:string
+  token?:string;
+  role?:string;
 };
 
 type Diagnosis = {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,12 +12,14 @@ import { Link } from "@/i18n/navigation"
 import { useLoginMutation } from "./api"
 import { LoginFormData, ErrorResponse } from "./types"
 import { toast } from "sonner"
+import axios from "axios"
 
 // Main login page component
 const LoginPage: React.FC = () => {
   const { setUser } = useAppStore()
   const router = useRouter()
   const t = useTranslations("Auth")
+
 
   // Form state
   const [formData, setFormData] = useState<LoginFormData>({
@@ -30,7 +32,7 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState<string>("")
 
   // TanStack Query mutation for login
-  const loginMutation = useLoginMutation()
+  const { mutate, error: loginError, isPending } = useLoginMutation()
 
   // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -43,7 +45,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault()
     setError("")
 
-    loginMutation.mutate(formData, {
+    mutate(formData, {
       onSuccess: (data) => {
         setUser({
           id: `user-${Date.now()}`,
@@ -52,6 +54,13 @@ const LoginPage: React.FC = () => {
           role: data.role,
           token: data.token,
         })
+
+        const res = axios.post("/api/set-token", {
+          token: data.token,
+        }).then((res) => {
+          console.log(res.data);
+        })
+
         toast.success("Login successful!")
         router.push("/")
       },
@@ -160,7 +169,7 @@ const LoginPage: React.FC = () => {
               </div>
 
               {/* Error Message */}
-              {(error || loginMutation.error) && (
+              {(error || loginError) && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-3">
                   <p className="text-sm text-red-600 text-center">{error || t("errors.general")}</p>
                 </div>
@@ -170,10 +179,10 @@ const LoginPage: React.FC = () => {
             {/* Submit Button */}
             <Button
               type="submit"
-              disabled={loginMutation.isPending}
+              disabled={isPending}
               className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loginMutation.isPending ? (
+              {isPending ? (
                 <div className="flex items-center justify-center space-x-2">
                   <Loader2 className="w-5 h-5 animate-spin" />
                   <span>{t("login.loading")}</span>

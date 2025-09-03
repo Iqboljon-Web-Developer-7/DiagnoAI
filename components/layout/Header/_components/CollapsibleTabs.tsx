@@ -138,7 +138,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
             >
               <Link
                 href={tab.path}
-                className={`transition-all p-2 text-sm whitespace-nowrap text-gray-600 hover:text-blue-500 ${tab.path === pathname ? 'font-semibold underline' : ''}`}
+                className={`transition-all p-2 text-xs sm:text-sm whitespace-nowrap text-gray-600 hover:text-blue-500 ${tab.path === pathname ? 'font-semibold underline' : ''}`}
               >
                 {tab.label}
               </Link>

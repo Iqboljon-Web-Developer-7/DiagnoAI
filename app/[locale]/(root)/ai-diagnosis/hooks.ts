@@ -7,7 +7,6 @@ import { useAppStore } from "@/Store/store";
 import axios from "axios";
 import { Chat, ChatMessage, Doctor, ChatApiResponse } from "./types";
 import { usePathname } from "@/i18n/navigation";
-
 /**
  * Custom hook for managing chat functionality in the AI Diagnosis feature.
  * 

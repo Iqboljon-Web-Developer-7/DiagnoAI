@@ -1,12 +1,20 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useGetHospital } from "../api";
 import { MapPin, Phone, Building2, Users, Clock, Star, Award, Stethoscope, Heart, Shield, Calendar, Navigation } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { useAppStore } from '@/Store/store';
 import Image from 'next/image';
 import { Circles } from "react-loader-spinner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface Hospital {
   id: number;
@@ -23,8 +31,13 @@ interface Hospital {
 
 function Page({ params }: { params: { id: string; locale: string } }) {
   const { id } = params;
-  const { user, isLoggedIn } = useAppStore()
+  const { user, isLoggedIn } = useAppStore();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { data: hospital = {} as Hospital, error, isLoading } = useGetHospital(id, user?.token);
+
+  const handleCall = () => {
+    window.location.href = `tel:${hospital.phone_number}`;
+  };
 
   if (isLoading) {
     return (
@@ -58,6 +71,31 @@ function Page({ params }: { params: { id: string; locale: string } }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Confirm Call</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to call {hospital.name} at {hospital.phone_number}?
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end space-x-4 mt-4">
+            <button
+              onClick={() => setIsDialogOpen(false)}
+              className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleCall}
+              className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+            >
+              Call Now
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
@@ -87,10 +125,14 @@ function Page({ params }: { params: { id: string; locale: string } }) {
                   </div>
 
                   <div className="flex flex-col xs:flex-row gap-2 sm:gap-3 w-full lg:w-auto">
-                    <button className="w-full xs:w-auto bg-white text-blue-600 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base">
-                      <Calendar className="h-4 sm:h-5 w-4 sm:w-5" />
-                      <span>Book Appointment</span>
+                    <button 
+                      onClick={() => setIsDialogOpen(true)}
+                      className="w-full xs:w-auto bg-white text-blue-600 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
+                    >
+                      <Phone className="h-4 sm:h-5 w-4 sm:w-5" />
+                      <span>Call Hospital</span>
                     </button>
+                    
                     <Link
                       href={`https://yandex.com/maps/?ll=${hospital?.longitude},${hospital?.latitude}&z=15&pt=${hospital?.longitude},${hospital?.latitude}`}
                       target="_blank"
@@ -196,12 +238,13 @@ function Page({ params }: { params: { id: string; locale: string } }) {
             <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-lg p-6 text-white">
               <h3 className="text-xl font-bold mb-4">Need Immediate Care?</h3>
               <p className="text-blue-100 mb-4">Our emergency department is available 24/7</p>
-              <a href={`tel:${hospital.phone_number}`}>
-                <button className="w-full bg-white text-blue-600 px-4 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2">
-                  <Phone className="h-5 w-5" />
-                  <span>Call Emergency</span>
-                </button>
-              </a>
+              <button 
+                onClick={() => setIsDialogOpen(true)}
+                className="w-full bg-white text-blue-600 px-4 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2"
+              >
+                <Phone className="h-5 w-5" />
+                <span>Call Emergency</span>
+              </button>
             </div>
           </div>
         </div>

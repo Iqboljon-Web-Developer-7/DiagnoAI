@@ -89,7 +89,7 @@ export default function Page() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-2 py-4 sm:py-6 sm:px-6 lg:px-8 lg:py-8">
         {/* Hero Section */}
-        <div className="mb-12">
+        <div className=" sm:mb-12">
           <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
             {translations('pageTitle') || 'Find a Doctor'}
           </h1>
@@ -99,7 +99,7 @@ export default function Page() {
         </div>
 
         <div className="grid lg:grid-cols-4 gap-8">
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 relative">
             <Filters
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
@@ -107,7 +107,7 @@ export default function Page() {
               // setSelectedSpecialty={setSelectedSpecialty}
               selectedRating={selectedRating}
               setSelectedRating={setSelectedRating}
-              specialties={specialties}
+              // specialties={specialties}
               onClearFilters={() => {
                 setSearchTerm('');
                 // setSelectedSpecialty('');
