@@ -772,5 +772,15 @@
         }
       }
     }
+  },
+  "doctorPanel": {
+    "toastMessages": {
+      "failedToLoadBookings": "Не удалось загрузить записи.",
+      "bookingStatusUpdated": "Статус записи обновлен.",
+      "failedToUpdateBooking": "Не удалось обновить запись.",
+      "bookingDeleted": "Запись удалена.",
+      "failedToDeleteBooking": "Не удалось удалить запись."
+    },
+    "confirmDeleteBooking": "Вы уверены, что хотите удалить эту запись?"
   }
 }

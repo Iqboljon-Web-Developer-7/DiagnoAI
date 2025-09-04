@@ -5,9 +5,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Menu } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
 
 interface DebouncedFunction<T extends unknown[]> {
-  (...args: T) : void;
+  (...args: T): void;
 }
 
 interface Tab {
@@ -16,7 +17,6 @@ interface Tab {
 }
 
 interface CollapsibleTabsProps {
-  tabs: Tab[];
   className?: string
 }
 
@@ -28,12 +28,28 @@ const debounce = <T extends unknown[]>(func: DebouncedFunction<T>, wait: number)
   };
 };
 
-const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) => {
+
+
+const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
   const [visibleTabs, setVisibleTabs] = useState<Tab[]>([]);
-  const [hiddenTabs, setHiddenTabs] = useState<Tab[]>(tabs);
   const containerRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<(HTMLDivElement | null)[]>([]);
   const lastContainerWidth = useRef<number>(0);
+
+  const t = useTranslations('navigation');
+
+  const tabs = [
+    { path: '/ai-diagnosis', label: t('aiDiagnosis') },
+    { path: '/doctors', label: t('doctors') },
+    { path: '/hospitals', label: t('hospitals') },
+    // { path: '/emergency-help', label: t('emergencyHelp') },
+    // { path: '/recommended-providers', label: t('recommendedProviders') },
+    { path: '/education', label: t('education') },
+    { path: '/about-us', label: t('about') },
+  ];
+
+  const [hiddenTabs, setHiddenTabs] = useState<Tab[]>(tabs);
+
 
   const pathname = usePathname();
 
@@ -149,9 +165,9 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ tabs, className }) =>
       {hiddenTabs?.length > 0 && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button 
-              size={"icon"} 
-              variant={"link"} 
+            <Button
+              size={"icon"}
+              variant={"link"}
               className="ml-0 p-2 text-gray-600 hover:text-blue-500 focus:outline-none bg-transparent animate-fade-in-down opacity-0 delay-700"
               aria-label="Show more navigation options"
             >

@@ -778,5 +778,15 @@
         }
       }
     }
+  },
+  "doctorPanel": {
+    "toastMessages": {
+      "failedToLoadBookings": "Buyurtmalarni yuklab bo‘lmadi.",
+      "bookingStatusUpdated": "Buyurtma holati yangilandi.",
+      "failedToUpdateBooking": "Buyurtmani yangilab bo‘lmadi.",
+      "bookingDeleted": "Buyurtma o‘chirildi.",
+      "failedToDeleteBooking": "Buyurtmani o‘chirib bo‘lmadi."
+    },
+    "confirmDeleteBooking": "Ushbu buyurtmani o‘chirib tashlashga ishonchingiz komilmi?"
   }
 }

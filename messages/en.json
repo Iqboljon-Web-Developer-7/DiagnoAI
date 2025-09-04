@@ -841,5 +841,15 @@
         }
       }
     }
+  },
+  "doctorPanel": {
+    "toastMessages": {
+      "failedToLoadBookings": "Failed to load bookings.",
+      "bookingStatusUpdated": "Booking status updated.",
+      "failedToUpdateBooking": "Failed to update booking.",
+      "bookingDeleted": "Booking deleted.",
+      "failedToDeleteBooking": "Failed to delete booking."
+    },
+    "confirmDeleteBooking": "Are you sure you want to delete this booking?"
   }
 }

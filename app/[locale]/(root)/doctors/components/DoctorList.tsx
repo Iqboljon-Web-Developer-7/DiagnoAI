@@ -15,6 +15,8 @@ import { useCreateBookingMutation, useFreeTimes } from '../api';
 import { useAppStore } from '@/Store/store';
 import { toast } from 'sonner';
 import { User } from '../../hospitals/types';
+import { Circles } from "react-loader-spinner";
+
 
 interface DoctorListProps {
     doctors: Doctor[];
@@ -153,7 +155,9 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
                                                                 />
                                                             </div>
                                                             {freeTimesLoading ? (
-                                                                <p>Loading times...</p>
+                                                                <div className="animate-fade-in-down flex flex-col justify-center items-center min-h-8">
+                                                                    <Circles color="#00BFFF" height={30} width={30} />
+                                                                </div>
                                                             ) : sortedTimes.length > 0 ? (
                                                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-72 overflow-auto">
                                                                     {sortedTimes.map((time: number) => (

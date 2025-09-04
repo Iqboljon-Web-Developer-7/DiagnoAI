@@ -17,7 +17,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { useAppStore } from "@/Store/store"
-import { User, LogOut, LogIn, UserPlus } from "lucide-react"
+import { User, LogOut, LogIn, UserPlus, Hospital } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -42,6 +42,7 @@ export function UserMenu({ className }: { className?: string }) {
   if (isLoggedIn && user) {
     return (
       <>
+        <Link href={"/doctor-panel"}><Hospital size={20} /></Link>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="relative bg-transparent hover:bg-blue-100" size={"icon"} aria-label={'userMenu'}>

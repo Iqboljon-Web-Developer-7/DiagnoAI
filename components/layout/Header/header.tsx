@@ -1,24 +1,11 @@
-import { getTranslations } from "next-intl/server";
+ 
 import { Link} from '@/i18n/navigation';
 import Image from 'next/image';
 import CollapsibleTabs from './_components/CollapsibleTabs';
 import { LanguageSwitcher } from './_components/language-switcher';
-import { UserMenu } from './_components/user-menu';
-// import ThemeToggle from "@/components/ThemeToggle";
+import { UserMenu } from './_components/user-menu'; 
 
-export async function Header() {
-  const t = await getTranslations('navigation');
-
-  const navigation = [
-    { path: '/ai-diagnosis', label: t('aiDiagnosis') },
-    { path: '/doctors', label: t('doctors') },
-    { path: '/hospitals', label: t('hospitals') },
-    // { path: '/emergency-help', label: t('emergencyHelp') },
-    // { path: '/recommended-providers', label: t('recommendedProviders') },
-    { path: '/education', label: t('education') },
-    { path: '/about-us', label: t('about') },
-  ];
-
+export async function Header() { 
   return (
     <header className={`min-h-16 w-full items-center justify-center bg-transparent sticky top-0 z-30 px-3 flex`}  >
       <div className="sticky top-0 bg-white/70 w-full rounded-2xl backdrop-blur-sm max-w-7xl mx-auto px-[1%] flex justify-between items-center z-30">
@@ -28,7 +15,7 @@ export async function Header() {
           </Link>
         </div>
 
-        <CollapsibleTabs tabs={navigation} />
+        <CollapsibleTabs  />
 
         <div className="flex items-center  sm:space-x-2 lg:space-x-4 animate-fade-in-down opacity-0 delay-1000">
           <LanguageSwitcher />

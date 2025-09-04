@@ -95,7 +95,6 @@ export default function AIDiagnosisPage() {
   const [chats, setChats] = useState<Chat[]>([])
   const [files, setFiles] = useState<File[]>([])
   const [symptoms, setSymptoms] = useState("")
-  const [progress, setProgress] = useState(0)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [analyzing, setAnalyzing] = useState(false)
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
@@ -105,15 +104,14 @@ export default function AIDiagnosisPage() {
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() =>{
-    if(doctors?.length){
+  useEffect(() => {
+    if (doctors?.length) {
       setIsSidebarOpen(true)
 
-    }else{
+    } else {
       setIsSidebarOpen(false)
-
     }
-  },[doctors])
+  }, [doctors])
 
   // Fetch all chats on mount
   useEffect(() => {
@@ -250,7 +248,6 @@ export default function AIDiagnosisPage() {
     }
 
     setAnalyzing(true)
-    setProgress(0)
     const form = new FormData()
     form.append("id", user_id!)
     const { latitude, longitude } = await getGeolocation()
@@ -267,7 +264,7 @@ export default function AIDiagnosisPage() {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user?.token}`
           },
-          onUploadProgress: (e) => setProgress(Math.round((e.loaded * 100) / (e.total || 1))),
+          // onUploadProgress: (e) => setProgress(Math.round((e.loaded * 100) / (e.total || 1))),
         })
         setSelectedChat(resp.data)
       } else {
@@ -280,7 +277,7 @@ export default function AIDiagnosisPage() {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user?.token}`
           },
-          onUploadProgress: (e) => setProgress(Math.round((e.loaded * 100) / (e.total || 1))),
+          // onUploadProgress: (e) => setProgress(Math.round((e.loaded * 100) / (e.total || 1))),
         })
       }
 
@@ -311,7 +308,7 @@ export default function AIDiagnosisPage() {
       toastUI({ title: t("failedToSendMessage") })
     } finally {
       setAnalyzing(false)
-      setProgress(100)
+      // setProgress(100)
     }
   }
 
@@ -392,11 +389,11 @@ export default function AIDiagnosisPage() {
         </Sidebar>
 
         <SidebarInset>
-          <main className="flex-1 p-4 max-h-screen bg-[#f8f7ff]">
-            <SidebarTrigger className="absolute bg-neutral-200 z-10" />
+          <SidebarTrigger className="absolute top-4 left-4 bg-neutral-200 z-10" />
+          <main className="flex-1 p-2 md:p-4 max-h-[100svh] bg-[#f8f7ff]">
             <div className="gap-8 max-w-7xl mx-auto h-full">
-              <div className="flex flex-col relative h-full max-h-[96vh] overflow-auto">
-                <Card className={`min-h-[40vh] max-h-[96vh] overflow-auto flex-grow shadow-none border-0 bg-transparent backdrop-blur-sm ${!chatMessages.length && 'flex items-center justify-center'}`}>
+              <div className="flex flex-col relative h-full max-h-[96svh] overflow-auto">
+                <Card className={`min-h-[40svh] max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent backdrop-blur-sm ${!chatMessages.length && 'flex items-center justify-center'}`}>
                   <CardContent className="p-0">
                     <div className={`overflow-y-auto p-6 space-y-4 ${chatMessages.length === 0 ? "flex items-center justify-center" : ""}`} ref={chatContainerRef}>
                       {chatMessages.length > 0 ? (
@@ -428,7 +425,7 @@ export default function AIDiagnosisPage() {
                           </div>
                         ))
                       ) : !analyzing ? (
-                        <div className="flex flex-col items-center justify-center text-center">
+                        <div className="flex flex-col items-center justify-center text-center animate-fade-in-down duration-200 opacity-0 delay-300">
                           <div className="p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full mb-4">
                             <Stethoscope className="h-12 w-12 text-blue-600" />
                           </div>
@@ -462,7 +459,7 @@ export default function AIDiagnosisPage() {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-transparent border-none shadow-none">
+                <Card className="bg-transparent border-none shadow-none animate-fade-in-down duration-200 opacity-0 delay-500">
                   <CardContent className="p-2">
                     <form onSubmit={handleSendMessage} className="space-y-4">
                       <div className="relative">
@@ -470,7 +467,7 @@ export default function AIDiagnosisPage() {
                           placeholder="Describe your symptoms in detail..."
                           value={symptoms}
                           onChange={(e) => setSymptoms(e.target.value)}
-                          className="min-h-10 max-h-40 w-full pr-12 border-2 border-gray-200 focus:border-blue-400 rounded-xl focus-visible:ring-0"
+                          className="min-h-8 text-sm md:text-lg max-h-40 w-full pr-12 border-2 border-gray-200 focus:border-blue-400 rounded-2xl border-none focus-visible:ring-0"
                           rows={1}
                           style={{
                             height: 'auto',
@@ -482,7 +479,7 @@ export default function AIDiagnosisPage() {
                             target.style.height = `${target.scrollHeight}px`;
                           }}
                         />
-                        <div className="rounded-xl text-center transition-colors absolute bottom-3 right-11">
+                        <div className="rounded-xl text-center transition-colors absolute bottom-2 lg:bottom-3 right-11">
                           <input
                             type="file"
                             multiple
@@ -495,7 +492,7 @@ export default function AIDiagnosisPage() {
                             <Paperclip className="h-4 w-4" />
                           </label>
                         </div>
-                        <div className="rounded-xl text-center transition-colors absolute bottom-0 right-1">
+                        <div className="rounded-xl text-center transition-colors absolute -bottom-1 lg:bottom-0 right-1">
                           <Button
                             size={"icon"}
                             type="submit"
@@ -568,7 +565,7 @@ export default function AIDiagnosisPage() {
         <Sidebar side="right" variant="sidebar">
           <SidebarInset className="relative">
             <div className="space-y-6">
-              <Card className="h-screen shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+              <Card className="h-[100svh] shadow-xl border-0 bg-white/80 backdrop-blur-sm">
                 <CardHeader className="p-4 relative">
                   <div className="flex items-center gap-3">
                     <div>

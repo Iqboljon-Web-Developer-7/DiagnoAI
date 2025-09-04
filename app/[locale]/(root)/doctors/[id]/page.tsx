@@ -4,6 +4,8 @@ import { Booking } from '../types';
 import { useDoctorQuery, useFreeTimes, useCreateBookingMutation, useGetClinicBookings, useUpdateBookingMutation, useDeleteBookingMutation } from "../api";
 import { useAppStore } from '@/Store/store';
 import React, { useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+
 import {
   MapPin,
   Phone,
@@ -20,6 +22,7 @@ import { format } from 'date-fns';
 import { use } from 'react';
 import { Circles } from 'react-loader-spinner';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 interface DoctorType {
   children: React.ReactNode;
@@ -33,10 +36,12 @@ function DoctorPage({ params }: DoctorType) {
   const token = user?.token;
   const role = user?.role;
 
+  const translations = useTranslations('doctors');
+
   const { data: doctor, isLoading: loading, isPending } = useDoctorQuery(id, token);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const formattedDate = format(selectedDate, 'yyyy-MM-dd');
-  const { data: freeTimes, isLoading: freeTimesLoading, refetch: refetchFreeTimes } = useFreeTimes(id, token, formattedDate);
+  const { data: freeTimes, isLoading: freeTimesLoading, refetch: refetchFreeTimes } = useFreeTimes(+id, token, formattedDate);
 
   const createBooking = useCreateBookingMutation();
   const { data: clinicBookings, isLoading: clinicBookingsLoading } = useGetClinicBookings(token, role === 'clinic');
@@ -64,7 +69,7 @@ function DoctorPage({ params }: DoctorType) {
         onSuccess: () => {
           toast.success('Booking deleted');
         },
-        onError: () => toast.error('Failed to delete booking'),   
+        onError: () => toast.error('Failed to delete booking'),
       }
     );
   };
@@ -113,7 +118,7 @@ function DoctorPage({ params }: DoctorType) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
@@ -143,7 +148,7 @@ function DoctorPage({ params }: DoctorType) {
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
                   <Stethoscope className="h-5 w-5 text-blue-200" />
                   <span className="text-xl text-blue-200">
-                    {doctor!.field}  
+                    {doctor!.field}
                   </span>
                 </div>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
@@ -161,10 +166,50 @@ function DoctorPage({ params }: DoctorType) {
 
                 {/* Quick Actions */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-                  <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2">
-                    <Clock className="h-5 w-5" />
-                    <span>Book Appointment</span>
-                  </button>
+                  <Dialog  >
+                    <DialogTrigger className='bg-blue-500 py-1 px-4 flex items-center justify-center gap-2 text-white border-none rounded-lg'> <Calendar className="w-4 h-4 mr-1" />
+                      {translations('doctorCard.bookButton') || 'Book Appointment'}</DialogTrigger>
+                    <DialogContent onClick={(e) => e.stopPropagation()}>
+                      <DialogHeader onClick={(e) => e.stopPropagation()}>
+                        <div className="bg-white rounded-xl ">
+                          <h2 className="text-2xl text-center font-bold text-gray-900 mb-2">
+                            <span className='text-lg md:text-3xl text-center'>Available Time Slots</span>
+                          </h2>
+                          <div className="mb-4 flex items-center justify-center gap-3">
+                            <h2 className="text-2xl font-bold text-gray-900  flex items-center space-x-2">
+                              {selectedDate.toLocaleDateString()}
+                            </h2>
+
+                            <input
+                              width={36}
+                              type="date"
+                              onChange={handleDateChange}
+                              className="w-9 border rounded p-2"
+                            />
+                          </div>
+                          {freeTimesLoading ? (
+                            <div className="animate-fade-in-down flex flex-col justify-center items-center min-h-8">
+                              <Circles color="#00BFFF" height={30} width={30} />
+                            </div>
+                          ) : sortedTimes.length > 0 ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-72 overflow-auto">
+                              {sortedTimes.map((time: number) => (
+                                <button
+                                  key={time}
+                                  className={`px-4 py-2 rounded-lg transition-colors ${bookedTimes.includes(time) ? 'bg-gray-300 cursor-not-allowed text-gray-600' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+                                  onClick={() => !bookedTimes.includes(time) && handleBookAppointment(time)}
+                                >
+                                  {time.toString().padStart(2, '0')}:00 {bookedTimes.includes(time) ? '- Booked' : '- Book'}
+                                </button>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-gray-600">No available slots on this date.</p>
+                          )}
+                        </div>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
                   {doctor!.phone_number && (
                     <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
                       <Phone className="h-5 w-5" />

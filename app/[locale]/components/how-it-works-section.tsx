@@ -1,12 +1,14 @@
 import { getTranslations } from 'next-intl/server';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Upload, Brain, UserCheck, MessageSquare } from "lucide-react"
+import BgLines from "@/assets/images/useful/bg-lines-2.jpg"
+
 
 export async function HowItWorksSection() {
   const t = await getTranslations('Index');
 
   return (
-    <section className="py-8 sm:py-12 md:py-16 bg-[#F4F4F4] animate-fade-in-down opacity-0" style={{animationDelay: '1.2s'}}>
+    <section className="py-8 sm:py-12 md:py-16 animate-fade-in-down opacity-0 bg-cover bg-no-repeat bg-center" style={{animationDelay: '1.2s', backgroundImage: `url(${BgLines.src})`}}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 sm:mb-12 md:mb-16 text-center sm:text-left">
           <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
@@ -18,7 +20,7 @@ export async function HowItWorksSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          <Card className="text-center border-2 hover:border-blue-200 transition-colors duration-300">
+          <Card className="text-center border-2 border-transparent hover:border-blue-200 transition-colors duration-300">
             <CardHeader className="space-y-3 sm:space-y-4">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
                 <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
@@ -30,7 +32,7 @@ export async function HowItWorksSection() {
             </CardContent>
           </Card>
 
-          <Card className="text-center border-2 hover:border-green-200 transition-colors duration-300">
+          <Card className="text-center border-2 border-transparent hover:border-green-200 transition-colors duration-300">
             <CardHeader className="space-y-3 sm:space-y-4">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
                 <Brain className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
@@ -42,7 +44,7 @@ export async function HowItWorksSection() {
             </CardContent>
           </Card>
 
-          <Card className="text-center border-2 hover:border-purple-200 transition-colors duration-300">
+          <Card className="text-center border-2 border-transparent hover:border-purple-200 transition-colors duration-300">
             <CardHeader className="space-y-3 sm:space-y-4">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto">
                 <UserCheck className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
@@ -54,7 +56,7 @@ export async function HowItWorksSection() {
             </CardContent>
           </Card>
 
-          <Card className="text-center border-2 hover:border-orange-200 transition-colors duration-300">
+          <Card className="text-center border-2 border-transparent hover:border-orange-200 transition-colors duration-300">
             <CardHeader className="space-y-3 sm:space-y-4">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto">
                 <MessageSquare className="w-6 h-6 sm:w-8 sm:h-8 text-orange-600" />
