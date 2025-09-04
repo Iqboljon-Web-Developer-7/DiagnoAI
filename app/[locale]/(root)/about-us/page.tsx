@@ -115,10 +115,10 @@ export default async function AboutPage() {
       {/* Hero Section */}
       <section
         style={{ backgroundImage: `url(${aboutImg.src})` }}
-        className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[8%] bg-black bg-no-repeat min-h-96"
+        className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[8%] bg-black bg-no-repeat min-h-[27rem] flex items-center w-full"
       >
         <span className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2]"></span>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative animate-fade-in-down opacity-0 delay-200">
+        <div className="container max-w-7xl   px-4 sm:px-6 lg:px-8 relative animate-fade-in-down opacity-0 delay-200">
           <h1 className="text-4xl lg:text-6xl font-bold mb-6">{translations("hero.title")}</h1>
           <p className="md:text-2xl mb-8 text-blue-50 max-w-3xl">{translations("hero.description")}</p>
         </div>

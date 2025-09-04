@@ -8,7 +8,7 @@ export async function HowItWorksSection() {
   const t = await getTranslations('Index');
 
   return (
-    <section className="py-8 sm:py-12 md:py-16 animate-fade-in-down opacity-0 bg-cover bg-no-repeat bg-center" style={{animationDelay: '1.2s', backgroundImage: `url(${BgLines.src})`}}>
+    <section className="py-8 sm:py-12 md:py-20 animate-fade-in-down opacity-0 bg-cover bg-no-repeat bg-center" style={{animationDelay: '1.2s', backgroundImage: `url(${BgLines.src})`}}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 sm:mb-12 md:mb-16 text-center sm:text-left">
           <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">

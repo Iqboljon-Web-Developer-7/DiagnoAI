@@ -1,11 +1,12 @@
 import { getTranslations } from 'next-intl/server';
 import { Brain, UserCheck, Clock } from "lucide-react"
+import dotWallpaper from "@/assets/images/useful/dots.svg"
 
 export async function FeaturesSection() {
   const t = await getTranslations('Index');
 
   return (
-    <section className="py-8 xs:py-10 sm:py-16 md:py-20 lg:py-24 bg-gray-50">
+    <section className="py-8 xs:py-10 sm:py-16 md:py-20 lg:py-24 bg-cover bg-top bg-[#edf2f4]" style={{backgroundImage: `url(${dotWallpaper.src})`}}>
       <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
         <div className="mb-8 xs:mb-10 sm:mb-12 md:mb-16 lg:mb-20">
           <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 xs:mb-4">

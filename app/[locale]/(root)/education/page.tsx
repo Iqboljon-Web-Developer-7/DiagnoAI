@@ -163,7 +163,7 @@ const Education = () => {
             backgroundBlendMode: 'overlay'
           }}
         />
-        <div className="relative container mx-auto px-4 py-24 ">
+        <div className="relative container mx-auto px-4 py-28 ">
           <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-in-down delay-100 opacity-0">
             <div className="flex items-center justify-center gap-2 mb-4">
               <GraduationCap className="h-8 w-8 text-primary" />
@@ -189,8 +189,8 @@ const Education = () => {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-8">
-        <div className="max-w-md mx-auto mb-8">
+      <section className="container mx-auto px-4 py-8 flex items-center justify-between gap- flex-wrap">
+        <div className="max-w-md   mb-6 flex">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
@@ -203,7 +203,7 @@ const Education = () => {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
           {categories.map((category) => (
             <Button
               key={category}

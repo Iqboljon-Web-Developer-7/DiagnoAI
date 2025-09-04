@@ -42,7 +42,10 @@ export function UserMenu({ className }: { className?: string }) {
   if (isLoggedIn && user) {
     return (
       <>
+      {user?.role == "clinic" && (
+
         <Link href={"/doctor-panel"}><Hospital size={20} /></Link>
+      )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="relative bg-transparent hover:bg-blue-100" size={"icon"} aria-label={'userMenu'}>

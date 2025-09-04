@@ -166,6 +166,8 @@ function DoctorPage({ params }: DoctorType) {
 
                 {/* Quick Actions */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                 {user?.role !== 'clinic' && (
+
                   <Dialog  >
                     <DialogTrigger className='bg-blue-500 py-1 px-4 flex items-center justify-center gap-2 text-white border-none rounded-lg'> <Calendar className="w-4 h-4 mr-1" />
                       {translations('doctorCard.bookButton') || 'Book Appointment'}</DialogTrigger>
@@ -210,6 +212,7 @@ function DoctorPage({ params }: DoctorType) {
                       </DialogHeader>
                     </DialogContent>
                   </Dialog>
+                 )}
                   {doctor!.phone_number && (
                     <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
                       <Phone className="h-5 w-5" />

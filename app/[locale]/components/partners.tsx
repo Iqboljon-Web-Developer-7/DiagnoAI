@@ -19,7 +19,7 @@ export async function Partners() {
   const t = await getTranslations('Index');
 
   return (
-    <section className="py-8 sm:py-10 sm:pt-14  bg-white">
+    <section className="py-8 sm:py-10 sm:pt-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 ">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 ">

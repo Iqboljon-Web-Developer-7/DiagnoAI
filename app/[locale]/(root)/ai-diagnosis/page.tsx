@@ -3,6 +3,7 @@
 import type React from "react"
 import { useState, useCallback, useEffect, useRef, type FormEvent } from "react"
 import axios, { type AxiosResponse } from "axios"
+import bgWallpaper from "@/assets/images/useful/bg-wallpaper-line.jpg"
 import {
   X,
   Trash,
@@ -259,7 +260,7 @@ export default function AIDiagnosisPage() {
     try {
       let resp: AxiosResponse<ChatApiResponse>
       if (!selectedChat) {
-        resp = await axios.post(`${API_BASE_URL}/chats/`, form, {
+        resp = await axios.post(`${API_BASE_URL}chats/`, form, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user?.token}`
@@ -328,8 +329,8 @@ export default function AIDiagnosisPage() {
     <div className="z-50">
       <ToastContainer position="top-right" autoClose={3000} />
 
-      <SidebarProvider defaultOpen={false}>
-        <Sidebar side="left" hidden={true} className="border-r-0 shadow-lg bg-white/80 backdrop-blur-sm z-50">
+      <SidebarProvider className=" bg-cover  bg-no-repeat bg-center" defaultOpen={false} style={{backgroundImage: `url(${bgWallpaper.src})`}}>
+        <Sidebar side="left" hidden={true} className="border-r-0 shadow-lg   backdrop-blur-sm z-50">
           <SidebarHeader className="relative border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
             <Link href={'/'} className="flex items-center gap-3">
               <div className="p-2 bg-white/20 rounded-lg">
@@ -388,12 +389,12 @@ export default function AIDiagnosisPage() {
           </SidebarContent>
         </Sidebar>
 
-        <SidebarInset>
-          <SidebarTrigger className="absolute top-4 left-4 bg-neutral-200 z-10" />
-          <main className="flex-1 p-2 md:p-4 max-h-[100svh] bg-[#f8f7ff]">
+        <SidebarInset className="bg-transparent backdrop-blur-md "  >  
+          <SidebarTrigger className="absolute top-4 left-4   z-10" />
+          <main className="flex-1 p-2 md:p-4 max-h-[100svh]  ">
             <div className="gap-8 max-w-7xl mx-auto h-full">
               <div className="flex flex-col relative h-full max-h-[96svh] overflow-auto">
-                <Card className={`min-h-[40svh] max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent backdrop-blur-sm ${!chatMessages.length && 'flex items-center justify-center'}`}>
+                <Card className={`min-h-[40svh] max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${!chatMessages.length && 'flex items-center justify-center'}`}>
                   <CardContent className="p-0">
                     <div className={`overflow-y-auto p-6 space-y-4 ${chatMessages.length === 0 ? "flex items-center justify-center" : ""}`} ref={chatContainerRef}>
                       {chatMessages.length > 0 ? (
@@ -554,7 +555,7 @@ export default function AIDiagnosisPage() {
           </main>
         </SidebarInset>
       </SidebarProvider>
-      <SidebarProvider className="min-h-0" defaultOpen={false} open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+      <SidebarProvider className="min-h-0 bg-transparent" defaultOpen={false} open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
         <div className={`absolute top-5 right-5 ${doctors?.length && 'animate-pulse'}`}>
           <SidebarTrigger iconType="doctors" className="bg-purple-100 hover:bg-purple-200 hover:text-blue-600 duration-200 z-10 text-blue-500 scale-125" />
           {doctors?.length ?
@@ -562,10 +563,10 @@ export default function AIDiagnosisPage() {
             : ''
           }
         </div>
-        <Sidebar side="right" variant="sidebar">
-          <SidebarInset className="relative">
+        <Sidebar side="right"  className="!bg-transparent" style={{backgroundColor:'transparent'}}>
+          <SidebarInset className="relative bg-transparent" style={{backgroundColor:'transparent'}}>
             <div className="space-y-6">
-              <Card className="h-[100svh] shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+              <Card className="h-[100svh] shadow-xl border-0 backdrop-blur-sm bg-transparent">
                 <CardHeader className="p-4 relative">
                   <div className="flex items-center gap-3">
                     <div>

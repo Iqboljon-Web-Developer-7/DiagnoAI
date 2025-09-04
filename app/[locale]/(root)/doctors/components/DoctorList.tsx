@@ -127,7 +127,8 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
                                                 </span>
                                             </div>
 
-                                            <Dialog onOpenChange={(open) => {
+                                          {user?.role !== 'clinic' && (
+                                              <Dialog onOpenChange={(open) => {
                                                 if (open) {
                                                     setSelectedDoctor(+doctor.id);
                                                 } else {
@@ -177,6 +178,7 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
                                                     </DialogHeader>
                                                 </DialogContent>
                                             </Dialog>
+                                          )}
                                         </div>
                                     </div>
                                 </div>
