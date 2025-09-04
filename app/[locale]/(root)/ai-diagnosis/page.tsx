@@ -20,11 +20,9 @@ import {
 } from "lucide-react"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import Link from "next/link"
 import ReactMarkdown from "react-markdown"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -43,7 +41,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useTranslations } from "next-intl"
 import { useToast } from "@/hooks/use-toast"
-import { useRouter } from "@/i18n/navigation"
+import { Link, useRouter } from "@/i18n/navigation"
 import { useAppStore } from "@/Store/store"
 
 interface Chat {
@@ -62,9 +60,18 @@ interface Doctor {
   id: number
   name: string
   specialty: string
-  hospital: string
+  hospital: {
+    id: number
+    name: string
+  }
   field: string
   description: string
+  translations?: {
+    field: string
+    description: string
+    hospital: string
+  }
+  image?: string
 }
 
 interface ChatApiResponse {
@@ -89,6 +96,7 @@ export default function AIDiagnosisPage() {
   const [files, setFiles] = useState<File[]>([])
   const [symptoms, setSymptoms] = useState("")
   const [progress, setProgress] = useState(0)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [analyzing, setAnalyzing] = useState(false)
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null)
@@ -96,6 +104,16 @@ export default function AIDiagnosisPage() {
   const [isUserScrolling, setIsUserScrolling] = useState(false)
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() =>{
+    if(doctors?.length){
+      setIsSidebarOpen(true)
+
+    }else{
+      setIsSidebarOpen(false)
+
+    }
+  },[doctors])
 
   // Fetch all chats on mount
   useEffect(() => {
@@ -245,7 +263,7 @@ export default function AIDiagnosisPage() {
       let resp: AxiosResponse<ChatApiResponse>
       if (!selectedChat) {
         resp = await axios.post(`${API_BASE_URL}/chats/`, form, {
-          headers: { 
+          headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user?.token}`
           },
@@ -258,7 +276,7 @@ export default function AIDiagnosisPage() {
           chatId = chats[chats.length - 1].id
         }
         resp = await axios.patch(`${API_BASE_URL}chats/${chatId}/`, form, {
-          headers: { 
+          headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user?.token}`
           },
@@ -274,7 +292,7 @@ export default function AIDiagnosisPage() {
 
       if (resp.data.doctors?.length) {
         const docs = await Promise.all(
-          resp.data.doctors.map((id) => axios.get<Doctor>(`${API_BASE_URL}doctors/${id}`)),
+          resp.data.doctors.map((id) => axios.get<Doctor>(`${API_BASE_URL}api/en/doctors/${id}`)),
         )
         setDoctors(docs.map((d) => d.data))
       }
@@ -310,11 +328,11 @@ export default function AIDiagnosisPage() {
   }, [])
 
   return (
-    <div className="min-h-screen z-50">
+    <div className="z-50">
       <ToastContainer position="top-right" autoClose={3000} />
 
       <SidebarProvider defaultOpen={false}>
-        <Sidebar hidden={true} className="border-r-0 shadow-lg bg-white/80 backdrop-blur-sm z-50">
+        <Sidebar side="left" hidden={true} className="border-r-0 shadow-lg bg-white/80 backdrop-blur-sm z-50">
           <SidebarHeader className="relative border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
             <Link href={'/'} className="flex items-center gap-3">
               <div className="p-2 bg-white/20 rounded-lg">
@@ -330,9 +348,6 @@ export default function AIDiagnosisPage() {
 
           <SidebarContent className="p-4">
             <SidebarGroup>
-              {/* <SidebarGroupLabel className="font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                Conversations
-              </SidebarGroupLabel> */}
               <SidebarGroupContent>
                 <Button
                   onClick={handleNewChat}
@@ -377,13 +392,13 @@ export default function AIDiagnosisPage() {
         </Sidebar>
 
         <SidebarInset>
-          <main className="flex-1 p-6 bg-[#f8f7ff]">
+          <main className="flex-1 p-4 max-h-screen bg-[#f8f7ff]">
             <SidebarTrigger className="absolute bg-neutral-200 z-10" />
-            <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              <div className="lg:col-span-2 space-y-6 relative">
-                <Card className="shadow-xl border-0 bg-[#edf8f4] backdrop-blur-sm">
+            <div className="gap-8 max-w-7xl mx-auto h-full">
+              <div className="flex flex-col relative h-full max-h-[96vh] overflow-auto">
+                <Card className={`min-h-[40vh] max-h-[96vh] overflow-auto flex-grow shadow-none border-0 bg-transparent backdrop-blur-sm ${!chatMessages.length && 'flex items-center justify-center'}`}>
                   <CardContent className="p-0">
-                    <div className={`h-[500px] overflow-y-auto p-6 space-y-4 ${chatMessages.length === 0 ? "flex items-center justify-center" : ""}`} ref={chatContainerRef}>
+                    <div className={`overflow-y-auto p-6 space-y-4 ${chatMessages.length === 0 ? "flex items-center justify-center" : ""}`} ref={chatContainerRef}>
                       {chatMessages.length > 0 ? (
                         chatMessages.map((msg, idx) => (
                           <div key={idx} className="space-y-4">
@@ -447,18 +462,27 @@ export default function AIDiagnosisPage() {
                   </CardContent>
                 </Card>
 
-                {/* Input Area */}
-                <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
-                  <CardContent className="p-6">
+                <Card className="bg-transparent border-none shadow-none">
+                  <CardContent className="p-2">
                     <form onSubmit={handleSendMessage} className="space-y-4">
                       <div className="relative">
                         <Textarea
                           placeholder="Describe your symptoms in detail..."
                           value={symptoms}
                           onChange={(e) => setSymptoms(e.target.value)}
-                          className="min-h-[120px] pr-12 border-2 border-gray-200 focus:border-blue-400 rounded-xl resize-none"
+                          className="min-h-10 max-h-40 w-full pr-12 border-2 border-gray-200 focus:border-blue-400 rounded-xl focus-visible:ring-0"
+                          rows={1}
+                          style={{
+                            height: 'auto',
+                            overflow: 'auto'
+                          }}
+                          onInput={(e) => {
+                            const target = e.target as HTMLTextAreaElement;
+                            target.style.height = 'auto';
+                            target.style.height = `${target.scrollHeight}px`;
+                          }}
                         />
-                        <div className="rounded-xl text-center transition-colors absolute bottom-3 right-3">
+                        <div className="rounded-xl text-center transition-colors absolute bottom-3 right-11">
                           <input
                             type="file"
                             multiple
@@ -470,6 +494,26 @@ export default function AIDiagnosisPage() {
                           <label htmlFor="file-upload" className="cursor-pointer">
                             <Paperclip className="h-4 w-4" />
                           </label>
+                        </div>
+                        <div className="rounded-xl text-center transition-colors absolute bottom-0 right-1">
+                          <Button
+                            size={"icon"}
+                            type="submit"
+                            title={analyzing ? "Analyzing..." : (!symptoms.trim() && !files.length) ? "Type something please..." : "Send"}
+                            disabled={analyzing || (!symptoms.trim() && !files.length)}
+                            className="text-blackshadow-lg rounded-full bg-transparent hover:bg-transparent hover:text-blue-500 hover:scale-105 duration-200"
+                          >
+                            {analyzing ? (
+                              <>
+                                <Loader2 className="animate-spin  h-4 w-4" />
+                              </>
+                            ) : (
+                              <>
+                                <Send size={1} />
+                              </>
+                            )}
+                          </Button>
+
                         </div>
                       </div>
 
@@ -505,106 +549,92 @@ export default function AIDiagnosisPage() {
                           ))}
                         </div>
                       )}
-
-                      <Button
-                        type="submit"
-                        disabled={analyzing || (!symptoms.trim() && !files.length)}
-                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg h-12"
-                      >
-                        {analyzing ? (
-                          <>
-                            <Loader2 className="animate-spin mr-2 h-4 w-4" />
-                            Analyzing...
-                          </>
-                        ) : (
-                          <>
-                            <Send className="mr-2 h-4 w-4" />
-                            Get AI Diagnosis
-                          </>
-                        )}
-                      </Button>
-
-                      {analyzing && (
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-sm text-gray-600">
-                            <span>Analysis Progress</span>
-                            <span>{progress}%</span>
-                          </div>
-                          <Progress value={progress} className="h-2" />
-                        </div>
-                      )}
                     </form>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Doctors Sidebar */}
-              <div className="space-y-6">
-                <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg">
-                        <Stethoscope className="h-5 w-5 text-white" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-lg">Recommended Specialists</CardTitle>
-                        <CardDescription>Based on your symptoms</CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    {doctors.length > 0 ? (
-                      <div className="space-y-4">
-                        {doctors.map((doc) => (
-                          <div
-                            onClick={() => router.push(`api/en/doctors/${doc.id}`)}
-                            key={doc.id}
-                            className="cursor-pointer p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-gradient-to-br from-white to-gray-50"
-                          >
-                            <div className="flex items-start gap-3">
-                              <Avatar className="h-12 w-12 border-2 border-green-200">
-                                <AvatarFallback className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
-                                  {doc.name
-                                    .split(" ")
-                                    .map((n) => n[0])
-                                    .join("")}
-                                </AvatarFallback>
-                              </Avatar>
-                              <div className="flex-1 min-w-0">
-                                <h4 className="font-semibold text-gray-900">{doc.name}</h4>
-                                <Badge variant="secondary" className="mb-2 bg-green-100 text-green-800">
-                                  {doc.field}
-                                </Badge>
-                                <p className="text-sm text-gray-600 line-clamp-2 mb-2">{doc.description}</p>
-                                <div className="flex items-center gap-1 text-xs text-gray-500">
-                                  <MapPin className="h-3 w-3" />
-                                  <span>{doc.hospital}</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-center py-8">
-                        <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                          <User className="h-8 w-8 text-gray-400" />
-                        </div>
-                        <p className="text-gray-500 text-sm">Complete your diagnosis to see recommended specialists</p>
-                      </div>
-                    )}
-
-                    <Link href="/recommended-providers" passHref>
-                      <Button className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white">
-                        View All Specialists
-                      </Button>
-                    </Link>
                   </CardContent>
                 </Card>
               </div>
             </div>
           </main>
         </SidebarInset>
+      </SidebarProvider>
+      <SidebarProvider className="min-h-0" defaultOpen={false} open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+        <div className={`absolute top-5 right-5 ${doctors?.length && 'animate-pulse'}`}>
+          <SidebarTrigger iconType="doctors" className="bg-purple-100 hover:bg-purple-200 hover:text-blue-600 duration-200 z-10 text-blue-500 scale-125" />
+          {doctors?.length ?
+            <span className="inline-block w-2 h-2 bg-red-500 rounded-full absolute -top-1 -right-1"></span>
+            : ''
+          }
+        </div>
+        <Sidebar side="right" variant="sidebar">
+          <SidebarInset className="relative">
+            <div className="space-y-6">
+              <Card className="h-screen shadow-xl border-0 bg-white/80 backdrop-blur-sm">
+                <CardHeader className="p-4 relative">
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <CardTitle className="leading-7">Recommended Specialists</CardTitle>
+                    </div>
+                  </div>
+                  <SidebarTrigger className="absolute top-16 -translate-y-full -translate-x-full bg-neutral-200 z-10 left-4 text-black" />
+
+                </CardHeader>
+                <CardContent className="h-full">
+                  {doctors?.length > 0 ? (
+                    <div className="space-y-4">
+                      {doctors?.map((doc) => (
+                        <div
+                          onClick={() => router.push(`/doctors/${doc?.id}`)}
+                          key={doc?.id}
+                          className="cursor-pointer p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-gradient-to-br from-white to-gray-50"
+                        >
+                          <div className="flex items-start gap-3">
+                            <Avatar className="h-12 w-12 border-2 border-green-200">
+                              {doc?.image ? (
+                                <img src={doc.image} alt={doc.name} className="object-cover" />
+                              ) : (
+                                <AvatarFallback className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
+                                  {doc?.name
+                                    .split(" ")
+                                    .map((n) => n[0])
+                                    .join("")}
+                                </AvatarFallback>
+                              )}
+                            </Avatar>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-semibold text-gray-900">{doc?.name}</h4>
+                              <Badge variant="secondary" className="mb-2 bg-green-100 text-green-800">
+                                {doc?.translations?.field}
+                              </Badge>
+                              <p className="text-sm text-gray-600 line-clamp-2 mb-2">{doc?.translations?.description}</p>
+                              <div className="flex items-center gap-1 text-xs text-gray-500">
+                                <MapPin className="h-3 w-3" />
+                                <span>{doc?.hospital?.name}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <User className="h-8 w-8 text-gray-400" />
+                      </div>
+                      <p className="text-gray-500 text-sm">Complete your diagnosis to see recommended specialists</p>
+                    </div>
+                  )}
+
+                  <Link href="/doctors" passHref>
+                    <Button className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white">
+                      View All Specialists
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+
+          </SidebarInset>
+        </Sidebar>
       </SidebarProvider>
     </div>
   )
