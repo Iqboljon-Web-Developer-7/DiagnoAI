@@ -110,6 +110,8 @@ export function useBookAppointmentMutation() {
         translations('toastMessages.bookAppointment', { doctorName: variables.doctorName }) ||
         `Appointment booked with ${variables.doctorName}`,
       );
+      const queryClient = useQueryClient();
+      queryClient.invalidateQueries({ queryKey: ['bookings'] });
     },
     onError: () => {
       toast.error(

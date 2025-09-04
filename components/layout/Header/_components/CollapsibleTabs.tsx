@@ -143,7 +143,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
   return (
     <div className={`relative flex w-full items-center z-30 ${className}`}>
       <div className="flex flex-1 overflow-hidden relative items-center" ref={containerRef}>
-        <div className={`w-full flex items-center justify-center ${visibleTabs?.length && 'animate-fade-in-down'}`}>
+        <div className={`w-full hidden sm:flex items-center justify-center ${visibleTabs?.length && 'animate-fade-in-down'}`}>
           {visibleTabs.map((tab, index) => (
             <div
               key={tab.path}
@@ -175,16 +175,30 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center" className="min-w-[150px]">
-            {hiddenTabs.map((tab) => (
-              <DropdownMenuItem key={tab.path} asChild>
-                <Link
-                  href={tab.path}
-                  className={`w-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline' : ''}`}
-                >
-                  {tab.label}
-                </Link>
-              </DropdownMenuItem>
-            ))}
+            <div className='hidden sm:block'>
+              {hiddenTabs.map((tab) => (
+                <DropdownMenuItem key={tab.path} asChild>
+                  <Link
+                    href={tab.path}
+                    className={`w-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline' : ''}`}
+                  >
+                    {tab.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </div>
+            <div className='block sm:hidden'>
+              {tabs.map((tab) => (
+                <DropdownMenuItem key={tab.path} asChild>
+                  <Link
+                    href={tab.path}
+                    className={`w-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline' : ''}`}
+                  >
+                    {tab.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </div>
           </DropdownMenuContent>
         </DropdownMenu>
       )}

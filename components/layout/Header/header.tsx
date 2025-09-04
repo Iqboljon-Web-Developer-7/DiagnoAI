@@ -1,9 +1,11 @@
- 
+"use client"
+
 import { Link} from '@/i18n/navigation';
 import Image from 'next/image';
 import CollapsibleTabs from './_components/CollapsibleTabs';
 import { LanguageSwitcher } from './_components/language-switcher';
 import { UserMenu } from './_components/user-menu'; 
+import { Bookings } from './_components/Bookings';
 
 export async function Header() { 
   return (
@@ -20,6 +22,7 @@ export async function Header() {
         <div className="flex items-center  sm:space-x-2 lg:space-x-4 animate-fade-in-down opacity-0 delay-1000">
           <LanguageSwitcher />
           <UserMenu />
+          <Bookings />
           {/* <ThemeToggle /> */}
         </div>
       </div>
