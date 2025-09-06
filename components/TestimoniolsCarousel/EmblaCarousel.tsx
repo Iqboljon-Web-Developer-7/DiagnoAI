@@ -1,9 +1,10 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import { useAutoplay } from './EmblaCarouselAutoPlay'
+import { useInView } from 'react-intersection-observer'
 
 import "./css/styles.css"
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
@@ -18,16 +19,7 @@ type EmblaOptionsType = {
     [key: string]: EmblaOptionsType;
   } | undefined;
 }
-
-// type SlideType = {
-//   id: number
-//   imageSrc: string
-//   fallback: string
-//   content: string
-//   name: string
-//   role: string
-// }
-
+ 
 type PropType = {
   slides: any[]
   options?: EmblaOptionsType
@@ -40,12 +32,20 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     Autoplay({ playOnInit: false, delay: 3000 })
   ])
 
+  const { ref: inViewRef, inView } = useInView({
+    threshold: 0.5,
+  })
 
-  const { autoplayIsPlaying, toggleAutoplay } =
-    useAutoplay(emblaApi)
+  const { autoplayIsPlaying, toggleAutoplay } = useAutoplay(emblaApi)
+
+  useEffect(() => {
+    if (inView && emblaApi && !autoplayIsPlaying) {
+      toggleAutoplay()
+    }
+  }, [inView, emblaApi, autoplayIsPlaying, toggleAutoplay])
 
   return (
-    <div className="embla">
+    <div className="embla" ref={inViewRef}>
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container gap-0">
           {type == 'testimonials' && slides.map((slide) => (
@@ -79,7 +79,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
             </div>
           ))}
           {type == 'partners' && slides.map((slide) => (
-            <div key={slide.id} className="border mx-2 mb-4 shrink-0 max-w-80 bg-gray-50 rounded-xl p-6 sm:p-8 pb-4 sm:pb-3 relative">
+            <div key={slide.id} className="border mx-2 mb-4 shrink-0 max-w-80 bg-[#edf2f4] rounded-xl p-6 sm:p-8 pb-4 sm:pb-3 relative">
               <div className="flex items-center justify-center h-full">
                 <Image src={slide.imageSrc} alt='slide-image' width={400} height={400} />
               </div>

@@ -43,8 +43,7 @@ export function UserMenu({ className }: { className?: string }) {
     return (
       <>
       {user?.role == "clinic" && (
-
-        <Link href={"/doctor-panel"}><Hospital size={20} /></Link>
+        <Link className='px-2' href={"/doctor-panel"}><Hospital size={20} /></Link>
       )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -81,7 +80,7 @@ export function UserMenu({ className }: { className?: string }) {
 
   return (
     <div className={className}>
-      <div className="flex items-center space-x-0 sm:space-x-2 lg:space-x-4">
+      <div className="flex items-center ">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>

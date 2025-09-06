@@ -1,11 +1,12 @@
 import { getTranslations } from 'next-intl/server';
-import EmblaCarousel from '@/components/TestimoniolsCarousel/EmblaCarousel';
 import Img1 from "@/assets/images/partners/1.png"
 import Img2 from "@/assets/images/partners/2.png"
 import Img3 from "@/assets/images/partners/3.png"
 import Img4 from "@/assets/images/partners/4.png"
 import Img5 from "@/assets/images/partners/5.png"
 import Img6 from "@/assets/images/partners/6.png"
+
+import EmblaCarousel from '@/components/TestimoniolsCarousel/EmblaCarousel';
 
 const testimonialData = [
   { id: 1, imageSrc: Img1, name: "Abdullayev Aziz" },
@@ -29,7 +30,7 @@ export async function Partners() {
             {t('partners.description')}
           </p>
         </div>
-      <EmblaCarousel slides={testimonialData} type='partners' />
+        <EmblaCarousel slides={testimonialData} type='partners' />
       </div>
     </section>
   )

@@ -7,8 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Play, Clock, BookOpen, GraduationCap, Search } from "lucide-react";
 import { VideoModal } from "../../components/VideoModal";
-import heroImage from "@/assets/images/education/education-hero.jpg";
 import Image from "next/image";
+import heroImage from "@/assets/images/education/education-hero.jpg";
 
 interface Video {
   id: string;

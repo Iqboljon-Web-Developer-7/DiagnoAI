@@ -3,24 +3,6 @@
 import type React from "react"
 import { useState, useCallback, useEffect, useRef, type FormEvent } from "react"
 import axios, { type AxiosResponse } from "axios"
-import bgWallpaper from "@/assets/images/useful/bg-wallpaper-line.jpg"
-import {
-  X,
-  Trash,
-  Brain,
-  FileText,
-  ImageIcon,
-  Loader2,
-  Plus,
-  MessageSquare,
-  Stethoscope,
-  MapPin,
-  User,
-  Send,
-  Paperclip,
-} from "lucide-react"
-import { toast, ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
 import ReactMarkdown from "react-markdown"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -41,9 +23,29 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { useTranslations } from "next-intl"
-import { useToast } from "@/hooks/use-toast"
 import { Link, useRouter } from "@/i18n/navigation"
 import { useAppStore } from "@/Store/store"
+import { toast } from "sonner"
+
+import {
+  X,
+  Trash,
+  Brain,
+  FileText,
+  ImageIcon,
+  Loader2,
+  Plus,
+  MessageSquare,
+  Stethoscope,
+  MapPin,
+  User,
+  Send,
+  Paperclip,
+} from "lucide-react"
+
+import bgWallpaper from "@/assets/images/useful/bg-wallpaper-line.webp"
+
+
 
 interface Chat {
   id: string
@@ -85,12 +87,11 @@ interface ChatApiResponse {
 }
 
 export default function AIDiagnosisPage() {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   const t = useTranslations("aiDiagnosis")
   const { isLoggedIn, user } = useAppStore()
   const router = useRouter()
-  const { toast: toastUI } = useToast()
   const user_id = user?.id
-  const API_BASE_URL = "https://api.diagnoai.uz/"
 
   // State management
   const [chats, setChats] = useState<Chat[]>([])
@@ -127,12 +128,12 @@ export default function AIDiagnosisPage() {
         })
         setChats(resp.data)
       } catch (err) {
-        toastUI({ title: t("failedToLoadChats") })
+        toast(t("failedToLoadChats"))
         console.log(err);
       }
     }
     fetchChats()
-  }, [isLoggedIn, user_id, user?.token, t, toastUI])
+  }, [isLoggedIn, user_id, user?.token, t, toast])
 
   // Fetch specific chat
   const fetchChatById = async (id: string) => {
@@ -153,13 +154,13 @@ export default function AIDiagnosisPage() {
       })
 
       if (resp.data.doctors?.length) {
-        const docResp = await axios.post<Doctor[]>(`${API_BASE_URL}api/en/doctors`, {
+        const docResp = await axios.post<Doctor[]>(`${API_BASE_URL}/api/en/doctors`, {
           ids: resp.data.doctors,
         })
         setDoctors(docResp.data)
       }
     } catch {
-      toastUI({ title: t("failedToLoadChat") })
+      toast(t("failedToLoadChat"))
     } finally {
       setAnalyzing(false)
     }
@@ -225,13 +226,13 @@ export default function AIDiagnosisPage() {
       const valid = Array.from(e.target.files).filter((file) => {
         const okType = ["image/jpeg", "image/png", "application/pdf"].includes(file.type)
         const okSize = file.size <= 5 * 1024 * 1024
-        if (!okType) toastUI({ title: t("invalidFileType") })
-        if (!okSize) toastUI({ title: t("fileTooLarge") })
+        if (!okType) toast(t("invalidFileType"))
+        if (!okSize) toast(t("fileTooLarge"))
         return okType && okSize
       })
       setFiles((prev) => [...prev, ...valid])
     },
-    [t, toastUI],
+    [t, toast],
   )
 
   const removeFile = (idx: number) => setFiles((f) => f.filter((_, i) => i !== idx))
@@ -239,12 +240,12 @@ export default function AIDiagnosisPage() {
   const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault()
     if (!isLoggedIn) {
-      toastUI({ title: t("notLoggedIn") })
-      router.push("/login")
+      toast(t("notLoggedIn"))
+      router.push("/auth/login")
       return
     }
     if (!symptoms.trim() && !files.length) {
-      toastUI({ title: t("noInputProvided") })
+      toast(t("noInputProvided"))
       return
     }
 
@@ -260,7 +261,7 @@ export default function AIDiagnosisPage() {
     try {
       let resp: AxiosResponse<ChatApiResponse>
       if (!selectedChat) {
-        resp = await axios.post(`${API_BASE_URL}chats/`, form, {
+        resp = await axios.post(`${API_BASE_URL}/chats/`, form, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user?.token}`
@@ -273,7 +274,7 @@ export default function AIDiagnosisPage() {
         if (!chatId) {
           chatId = chats[chats.length - 1].id
         }
-        resp = await axios.patch(`${API_BASE_URL}chats/${chatId}/`, form, {
+        resp = await axios.patch(`${API_BASE_URL}/chats/${chatId}/`, form, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user?.token}`
@@ -290,7 +291,7 @@ export default function AIDiagnosisPage() {
 
       if (resp.data.doctors?.length) {
         const docs = await Promise.all(
-          resp.data.doctors.map((id) => axios.get<Doctor>(`${API_BASE_URL}api/en/doctors/${id}`)),
+          resp.data.doctors.map((id) => axios.get<Doctor>(`${API_BASE_URL}/api/en/doctors/${id}`)),
         )
         setDoctors(docs.map((d) => d.data))
       }
@@ -306,7 +307,7 @@ export default function AIDiagnosisPage() {
       })
       setChats(updated.data)
     } catch {
-      toastUI({ title: t("failedToSendMessage") })
+      toast(t("failedToSendMessage"))
     } finally {
       setAnalyzing(false)
       // setProgress(100)
@@ -327,9 +328,7 @@ export default function AIDiagnosisPage() {
 
   return (
     <div className="z-50">
-      <ToastContainer position="top-right" autoClose={3000} />
-
-      <SidebarProvider className=" bg-cover  bg-no-repeat bg-center" defaultOpen={false} style={{backgroundImage: `url(${bgWallpaper.src})`}}>
+      <SidebarProvider className=" bg-cover  bg-no-repeat bg-center" defaultOpen={false} style={{ backgroundImage: `url(${bgWallpaper.src})` }}>
         <Sidebar side="left" hidden={true} className="border-r-0 shadow-lg   backdrop-blur-sm z-50">
           <SidebarHeader className="relative border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
             <Link href={'/'} className="flex items-center gap-3">
@@ -360,10 +359,10 @@ export default function AIDiagnosisPage() {
                     <SidebarMenuItem key={chat.id}>
                       <SidebarMenuButton
                         onClick={() => fetchChatById(chat.id)}
-                        className="group relative p-0 rounded-lg hover:bg-blue-50 transition-all duration-200"
+                        className="group relative p-0 rounded-lg hover:bg-blue-50 py-2 transition-all duration-200"
                       >
                         <div className="flex items-center gap-3 w-full">
-                          <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                          <div className="p-2 my-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
                             <MessageSquare className="h-4 w-4 text-blue-600" />
                           </div>
                           <div className="flex-1 min-w-0">
@@ -375,7 +374,7 @@ export default function AIDiagnosisPage() {
                               e.stopPropagation()
                               handleDeleteChat(chat.id)
                             }}
-                            className="opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700 hover:bg-red-50"
+                            className="md:opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700 hover:bg-red-50"
                           >
                             <Trash className="h-4 w-4" />
                           </span>
@@ -389,7 +388,7 @@ export default function AIDiagnosisPage() {
           </SidebarContent>
         </Sidebar>
 
-        <SidebarInset className="bg-transparent backdrop-blur-md "  >  
+        <SidebarInset className="bg-transparent backdrop-blur-md "  >
           <SidebarTrigger className="absolute top-4 left-4   z-10" />
           <main className="flex-1 p-2 md:p-4 max-h-[100svh]  ">
             <div className="gap-8 max-w-7xl mx-auto h-full">
@@ -563,10 +562,10 @@ export default function AIDiagnosisPage() {
             : ''
           }
         </div>
-        <Sidebar side="right"  className="!bg-transparent" style={{backgroundColor:'transparent'}}>
-          <SidebarInset className="relative bg-transparent" style={{backgroundColor:'transparent'}}>
+        <Sidebar side="right" className="!bg-transparent" style={{ backgroundColor: 'transparent' }}>
+          <SidebarInset className="relative bg-transparent" style={{ backgroundColor: 'transparent' }}>
             <div className="space-y-6">
-              <Card className="h-[100svh] shadow-xl border-0 backdrop-blur-sm bg-transparent">
+              <Card className="h-[100svh] shadow-xl border-0  bg-transparent">
                 <CardHeader className="p-4 relative">
                   <div className="flex items-center gap-3">
                     <div>

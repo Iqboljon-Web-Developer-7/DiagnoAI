@@ -45,7 +45,7 @@ const teamMembersData: TeamMembersData = {
         member3: {
           name: "Iqboljon Ummataliyev Kamoliddin o'g'li",
           role: "Frontend Developer",
-          description: "Graduated from Najot Ta'lim, IT Park & SAMMI. Experience: 2022-2024."
+          description: "Graduated from Najot Ta'lim, IT Park & SAMMI. Experience: 2022-2025."
         },
         member4: {
           name: "Firdavs Safarmakhmadov",

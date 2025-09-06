@@ -780,13 +780,37 @@
     }
   },
   "doctorPanel": {
-    "toastMessages": {
-      "failedToLoadBookings": "Buyurtmalarni yuklab bo‘lmadi.",
-      "bookingStatusUpdated": "Buyurtma holati yangilandi.",
-      "failedToUpdateBooking": "Buyurtmani yangilab bo‘lmadi.",
-      "bookingDeleted": "Buyurtma o‘chirildi.",
-      "failedToDeleteBooking": "Buyurtmani o‘chirib bo‘lmadi."
-    },
-    "confirmDeleteBooking": "Ushbu buyurtmani o‘chirib tashlashga ishonchingiz komilmi?"
+    "failedToLoadBookings": "Bronlarni yuklash muvaffaqiyatsiz tugadi",
+    "bookingStatusUpdated": "Bron statusi yangilandi",
+    "failedToUpdateBooking": "Bronni yangilash muvaffaqiyatsiz tugadi",
+    "bookingDeleted": "Bron o'chirildi",
+    "failedToDeleteBooking": "Bronni o'chirish muvaffaqiyatsiz tugadi",
+    "authenticationRequired": "Autentifikatsiya talab etiladi",
+    "pleaseLogIn": "Doktor boshqaruv paneliga kirish uchun iltimos kiring.",
+    "doctorDashboard": "Doktor boshqaruv paneli",
+    "manageAppointments": "Uchrashuvlar va bronlaringizni boshqaring",
+    "welcomeBack": "Qaytib kelganingiz bilan tabriklaymiz",
+    "doctor": "Doktor",
+    "totalBookings": "Jami bronlar",
+    "pending": "Kutilmoqda",
+    "confirmed": "Tasdiqlangan",
+    "completed": "Yakunlangan",
+    "canceled": "Bekor qilingan",
+    "allStatus": "Barcha statuslar",
+    "todaysBookings": "Bugungi bronlar",
+    "searchBookings": "Bronlarni qidirish...",
+    "appointments": "Uchrashuvlar",
+    "noAppointmentsFound": "Uchrashuvlar topilmadi",
+    "noBookingsMatchFilters": "Hozirgi filtrlaringizga mos bronlar yo'q.",
+    "loading": "Yuklanmoqda...",
+    "totalBooks": "Jami bronlar",
+    "todaysAppointments": "Bugungi uchrashuvlar",
+    "approved": "Tasdiqlangan",
+    "rejected": "Rad etilgan",
+    "updateStatus": "Statusni yangilash",
+    "markAs": "Belgilash",
+    "deleteBooking": "Bronni o'chirish",
+    "actionsForBooking": "Bron uchun harakatlar",
+    "confirmDeleteBooking": "Ushbu bronni o'chirishga ishonchingiz komilmi?"
   }
 }

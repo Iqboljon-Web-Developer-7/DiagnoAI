@@ -10,7 +10,22 @@ export async function HeroSection() {
     <section
       className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-sky-800 bg-no-repeat h-[100svh] flex items-center "
     >
-      <video src="/hero-video.webm" autoPlay loop muted className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover"></video>
+      <video 
+        src="/hero-desktop.webm" 
+        autoPlay 
+        loop 
+        muted 
+        playsInline
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover hidden md:block"
+      />
+      <video 
+        src="/hero-mobile.webm" 
+        autoPlay 
+        loop 
+        muted
+        playsInline 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover block md:hidden"
+      />
       <span
         className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2] z-10"
       ></span>
@@ -20,7 +35,7 @@ export async function HeroSection() {
         <div className="items-center">
           <div className="text-center lg:text-left">
             <h1
-              className="text-2xl max-w-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 animate-fade-in-down delay-300 opacity-0 duration-700"
+              className="text-3xl max-w-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 animate-fade-in-down delay-300 opacity-0 duration-700"
             >
               {t('hero.title')}
               <span className="text-blue-200 block sm:inline"> {t('hero.titleHighlight')}</span>

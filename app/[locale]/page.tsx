@@ -5,18 +5,22 @@ import { TestimonialsSection } from "@/app/[locale]/components/testimonials-sect
 import { CTASection } from "@/app/[locale]/components/cta-section";
 import { Partners } from "./components/partners";
 
-import bgSquares from "@/assets/images/useful/bg-square.jpg"
+import bgSquares from "@/assets/images/useful/bg-square.webp"
+import bgClean from "@/assets/images/useful/bg-clean.webp"
+
 
 export default async function HomePage() {
   return (
     <>
       {/* @ts-expect-error Async Server Component */}
       <HeroSection />
-      {/* @ts-expect-error Async Server Component */}
-      <HowItWorksSection />
-      {/* @ts-expect-error Async Server Component */}
-      <FeaturesSection />
-      <div style={{backgroundImage: `url(${bgSquares.src})`}} className="bg-cover">
+      <div style={{ backgroundImage: `url(${bgClean.src})` }} className="bg-cover">
+        {/* @ts-expect-error Async Server Component */}
+        <HowItWorksSection />
+        {/* @ts-expect-error Async Server Component */}
+        <FeaturesSection />
+      </div>
+      <div style={{ backgroundImage: `url(${bgSquares.src})` }} className="bg-cover">
         <Partners />
         {/* @ts-expect-error Async Server Component */}
         <TestimonialsSection />

@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
@@ -91,7 +93,7 @@ export const Bookings = () => {
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline"><Calendar /></Button>
+                <Button variant="link" size={"sm"} className='hover:bg-sky-50'><Calendar /></Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[625px]">
                 <DialogHeader>

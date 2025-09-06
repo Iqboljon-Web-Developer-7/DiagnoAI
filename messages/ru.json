@@ -774,13 +774,37 @@
     }
   },
   "doctorPanel": {
-    "toastMessages": {
-      "failedToLoadBookings": "Не удалось загрузить записи.",
-      "bookingStatusUpdated": "Статус записи обновлен.",
-      "failedToUpdateBooking": "Не удалось обновить запись.",
-      "bookingDeleted": "Запись удалена.",
-      "failedToDeleteBooking": "Не удалось удалить запись."
-    },
-    "confirmDeleteBooking": "Вы уверены, что хотите удалить эту запись?"
+    "failedToLoadBookings": "Не удалось загрузить бронирования",
+    "bookingStatusUpdated": "Статус бронирования обновлен",
+    "failedToUpdateBooking": "Не удалось обновить бронирование",
+    "bookingDeleted": "Бронирование удалено",
+    "failedToDeleteBooking": "Не удалось удалить бронирование",
+    "authenticationRequired": "Требуется аутентификация",
+    "pleaseLogIn": "Пожалуйста, войдите в систему для доступа к панели врача.",
+    "doctorDashboard": "Панель врача",
+    "manageAppointments": "Управляйте своими встречами и бронированиями",
+    "welcomeBack": "С возвращением",
+    "doctor": "Врач",
+    "totalBookings": "Всего бронирований",
+    "pending": "Ожидает",
+    "confirmed": "Подтверждено",
+    "completed": "Завершено",
+    "canceled": "Отменено",
+    "allStatus": "Все статусы",
+    "todaysBookings": "Сегодняшние бронирования",
+    "searchBookings": "Поиск бронирований...",
+    "appointments": "Встречи",
+    "noAppointmentsFound": "Встречи не найдены",
+    "noBookingsMatchFilters": "Нет бронирований, соответствующих вашим текущим фильтрам.",
+    "loading": "Загрузка...",
+    "totalBooks": "Всего книг",
+    "todaysAppointments": "Сегодняшние встречи",
+    "approved": "Одобрено",
+    "rejected": "Отклонено",
+    "updateStatus": "Обновить статус",
+    "markAs": "Отметить как",
+    "deleteBooking": "Удалить бронирование",
+    "actionsForBooking": "Действия для бронирования",
+    "confirmDeleteBooking": "Вы уверены, что хотите удалить это бронирование?"
   }
 }
