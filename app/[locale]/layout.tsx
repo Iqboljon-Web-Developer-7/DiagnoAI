@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/layout/Header/header';
 import { Footer } from '@/components/layout/footer';
+import NextTopLoader from 'nextjs-toploader'
 
 interface LocaleLayout {
   children: React.ReactNode;
@@ -29,6 +30,12 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body className='bg-worm-grey'>
+        <NextTopLoader
+          color="#2299DD" // Customize color
+          height={3} // Bar thickness
+          showSpinner={false} // No spinner for clean UX
+          zIndex={1600} // Ensure it’s above other elements
+        />
         <NextIntlClientProvider locale={locale} messages={messages}>
             {/* @ts-expect-error Async Server Component */}
             <Header />

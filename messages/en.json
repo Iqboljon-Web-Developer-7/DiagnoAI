@@ -875,5 +875,20 @@
     "deleteBooking": "Delete Booking",
     "actionsForBooking": "Actions for booking",
     "confirmDeleteBooking": "Are you sure you want to delete this booking?"
+  },
+  "clinicPanel": {
+    "doctorAddedSuccessfully": "Doctor added successfully",
+    "failedToAddDoctor": "Failed to add doctor",
+    "addNewDoctor": "Add New Doctor",
+    "fillDoctorDetails": "Fill in the details for the new doctor.",
+    "name": "Name",
+    "prize": "Prize",
+    "tags": "Tags",
+    "commaSeparated": "comma separated",
+    "field": "Field",
+    "description": "Description",
+    "image": "Image",
+    "saving": "Saving...",
+    "saveDoctor": "Save Doctor"
   }
 }

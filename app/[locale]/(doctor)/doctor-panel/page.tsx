@@ -11,6 +11,7 @@ import StatCard from "./components/StatCard";
 import LoadingState from "./components/LoadingState";
 import EmptyState from "./components/EmptyState";
 import BookingItem from "./components/BookingItem";
+import AddDoctorDialog from './components/AddDoctor';
 
 interface Booking {
   id: number;
@@ -213,11 +214,12 @@ function DoctorDashboard() {
               <h1 className="text-2xl font-bold text-gray-900">{t('doctorDashboard')}</h1>
               <p className="text-gray-600 mt-1">{t('manageAppointments')}</p>
             </div>
-            {/* <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4">
               <div className="bg-blue-50 px-4 py-2 rounded-lg">
-                <p className="text-sm text-blue-600 font-medium">{t('welcomeBack')}, Dr. {user?.name || t('doctor')}</p>
+                <AddDoctorDialog />
+                {/* <p className="text-sm text-blue-600 font-medium">{t('welcomeBack')}, Dr. {user?.name || t('doctor')}</p> */}
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

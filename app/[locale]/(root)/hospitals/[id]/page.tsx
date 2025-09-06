@@ -41,7 +41,7 @@ function Page({ params }: { params: { id: string; locale: string } }) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-10">
+      <div className="flex items-center justify-center p-10 mt-10">
         <Circles
           height="80"
           width="80"
@@ -70,7 +70,7 @@ function Page({ params }: { params: { id: string; locale: string } }) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-11">
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>

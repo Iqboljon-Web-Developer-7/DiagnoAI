@@ -23,15 +23,19 @@ import { use } from 'react';
 import { Circles } from 'react-loader-spinner';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
-
 interface DoctorType {
-  children: React.ReactNode;
-  params: Promise<{ id: string; locale: string }>;
+  params: { id: string; locale: string };
+}
+type PageProps = {
+  params: {
+    locale: string;
+    id: string;
+  };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-function DoctorPage({ params }: DoctorType) {
-  const resolvedParams = use(params)
-  const { id, locale } = resolvedParams
+export default function DoctorPage({ params }: PageProps) {
+  const { id, locale } = params;
   const { user } = useAppStore();
   const token = user?.token;
   const role = user?.role;
@@ -76,7 +80,7 @@ function DoctorPage({ params }: DoctorType) {
 
   if (loading || isPending) {
     return (
-      <div className="flex items-center justify-center p-10">
+      <div className="flex items-center justify-center p-10 mt-10">
         <Circles
           height="80"
           width="80"
@@ -117,7 +121,7 @@ function DoctorPage({ params }: DoctorType) {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-11">
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
@@ -441,5 +445,3 @@ function DoctorPage({ params }: DoctorType) {
     </div>
   );
 }
-
-export default DoctorPage;

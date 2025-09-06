@@ -18,7 +18,7 @@ export async function HowItWorksSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 ">
           <Card className="text-center border-2 border-transparent hover:border-blue-200 transition-colors duration-300">
             <CardHeader className="space-y-3 sm:space-y-4">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">

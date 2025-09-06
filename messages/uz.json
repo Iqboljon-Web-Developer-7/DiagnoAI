@@ -812,5 +812,20 @@
     "deleteBooking": "Bronni o'chirish",
     "actionsForBooking": "Bron uchun harakatlar",
     "confirmDeleteBooking": "Ushbu bronni o'chirishga ishonchingiz komilmi?"
+  },
+  "clinicPanel": {
+    "doctorAddedSuccessfully": "Doktor muvaffaqiyatli qo'shildi",
+    "failedToAddDoctor": "Doktor qo'shish muvaffaqiyatsiz tugadi",
+    "addNewDoctor": "Yangi doktor qo'shish",
+    "fillDoctorDetails": "Yangi doktor uchun tafsilotlarni to'ldiring.",
+    "name": "Ism",
+    "prize": "Mukofot",
+    "tags": "Teglar",
+    "commaSeparated": "vergul bilan ajratilgan",
+    "field": "Maydon",
+    "description": "Tavsif",
+    "image": "Rasm",
+    "saving": "Saqlanmoqda...",
+    "saveDoctor": "Doktor saqlash"
   }
 }

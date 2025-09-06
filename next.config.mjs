@@ -4,12 +4,12 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    eslint: {
-        ignoreDuringBuilds: true,
-    },
-    typescript: {
-        ignoreBuildErrors: true,
-    },
+    // eslint: {
+    //     ignoreDuringBuilds: true,
+    // },
+    // typescript: {
+    //     ignoreBuildErrors: true,
+    // },
     images: {
         dangerouslyAllowSVG: true,
         remotePatterns: [
@@ -23,13 +23,13 @@ const nextConfig = {
                 protocol: 'http',
                 hostname: "api.diagnoai.uz",
                 port: "",
-                pathname: "/media/**", // Updated pathname to specifically allow media directory
+                pathname: "/media/**",  
             },
             {
                 protocol: 'https',
                 hostname: "api.diagnoai.uz",
                 port: "",
-                pathname: "/media/**", // Updated pathname to specifically allow media directory
+                pathname: "/media/**", 
             },
         ],
     },

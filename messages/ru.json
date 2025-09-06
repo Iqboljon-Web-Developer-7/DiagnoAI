@@ -806,5 +806,20 @@
     "deleteBooking": "Удалить бронирование",
     "actionsForBooking": "Действия для бронирования",
     "confirmDeleteBooking": "Вы уверены, что хотите удалить это бронирование?"
+  },
+  "clinicPanel": {
+    "doctorAddedSuccessfully": "Врач успешно добавлен",
+    "failedToAddDoctor": "Не удалось добавить врача",
+    "addNewDoctor": "Добавить нового врача",
+    "fillDoctorDetails": "Заполните детали для нового врача.",
+    "name": "Имя",
+    "prize": "Приз",
+    "tags": "Теги",
+    "commaSeparated": "через запятую",
+    "field": "Поле",
+    "description": "Описание",
+    "image": "Изображение",
+    "saving": "Сохранение...",
+    "saveDoctor": "Сохранить врача"
   }
 }

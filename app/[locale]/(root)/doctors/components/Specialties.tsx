@@ -2,10 +2,13 @@
 'use client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslations } from 'next-intl';
-import { Specialty } from '../types';
 
 interface SpecialtiesProps {
-    specialties: Specialty[];
+    specialties: {
+        name: string;
+        icon: string;
+        count: number;
+    }[];
     onSpecialtySelect: (specialty: string) => void;
 }
 
