@@ -88,7 +88,7 @@ interface ChatApiResponse {
 
 export default function AIDiagnosisPage() {
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
-  const t = useTranslations("aiDiagnosis")
+  const t = useTranslations("diagnosis")
   const { isLoggedIn, user } = useAppStore()
   const router = useRouter()
   const user_id = user?.id
@@ -337,7 +337,6 @@ export default function AIDiagnosisPage() {
               </div>
               <div>
                 <h2 className="font-bold text-lg">DiagnoAI</h2>
-                <p className="text-blue-100 text-sm">Medical Assistant</p>
               </div>
             </Link>
             <SidebarTrigger className="absolute bottom-0 -translate-y-full -translate-x-full bg-neutral-200 z-10 -right-10 text-black" />
@@ -351,7 +350,7 @@ export default function AIDiagnosisPage() {
                   className="w-full mb-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  New Consultation
+                  {t('newConsultation')}
                 </Button>
 
                 <SidebarMenu className="gap-3">
@@ -429,10 +428,9 @@ export default function AIDiagnosisPage() {
                           <div className="p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full mb-4">
                             <Stethoscope className="h-12 w-12 text-blue-600" />
                           </div>
-                          <h3 className="text-lg font-semibold text-gray-900 mb-2">Welcome to DiagnoAI</h3>
+                          <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("title")}</h3>
                           <p className="text-gray-600 max-w-md">
-                            Describe your symptoms or upload medical documents to get started with your AI-powered
-                            medical consultation.
+                           {t("description")}
                           </p>
                         </div>
                       ) : null}
@@ -464,7 +462,7 @@ export default function AIDiagnosisPage() {
                     <form onSubmit={handleSendMessage} className="space-y-4">
                       <div className="relative">
                         <Textarea
-                          placeholder="Describe your symptoms in detail..."
+                          placeholder={t('symptomPlaceholder')}
                           value={symptoms}
                           onChange={(e) => setSymptoms(e.target.value)}
                           className="min-h-8 text-sm md:text-lg max-h-40 w-full pr-12 border-2 border-gray-200 focus:border-blue-400 rounded-2xl border-none focus-visible:ring-0"

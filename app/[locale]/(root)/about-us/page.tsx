@@ -61,46 +61,46 @@ const teamMembersData: TeamMembersData = {
     }
   }
 }
+
+const timelineItems = [
+  {
+    year: "2025 Fevral",
+    title: "Boshlanish",
+    description:
+      "AI va tibbiyotga qiziqqan eng yaxshi mutaxassislarni bir jamoaga to‘pladik. Maqsad — eng dolzarb tibbiy muammoni topish va hal qilish.",
+    position: "left",
+  },
+  {
+    year: "2025 Mart",
+    title: "Muammo aniqlash",
+    description:
+      "Keng tahlillar va shifokorlar bilan uchrashuvlar orqali eng katta muammo sifatida erta diagnostika kechikishini tanladik.",
+    position: "right",
+  },
+  {
+    year: "2025 Aprel",
+    title: "Ilk prototip",
+    description:
+      "Minimal ishlaydigan AI modelini yaratdik va kichik klinikalarda testdan o‘tkaza boshladik.",
+    position: "left",
+  },
+  {
+    year: "2025 May",
+    title: "Dastlabki natijalar",
+    description:
+      "Testlar ijobiy bo‘ldi — model ayrim kasalliklarni ancha tez aniqlashga muvaffaq bo‘ldi.",
+    position: "right",
+  },
+  {
+    year: "2025 Avgust",
+    title: "Kengaytirish rejalari",
+    description:
+      "Investitsiya jalb qilish va ko‘proq klinikalar bilan hamkorlik qilish bo‘yicha muzokaralar boshlandi.",
+    position: "left",
+  },
+];
+
 export default async function AboutPage() {
-  const timelineItems = [
-    {
-      year: "2025 Fevral",
-      title: "Boshlanish",
-      description:
-        "AI va tibbiyotga qiziqqan eng yaxshi mutaxassislarni bir jamoaga to‘pladik. Maqsad — eng dolzarb tibbiy muammoni topish va hal qilish.",
-      position: "left",
-    },
-    {
-      year: "2025 Mart",
-      title: "Muammo aniqlash",
-      description:
-        "Keng tahlillar va shifokorlar bilan uchrashuvlar orqali eng katta muammo sifatida erta diagnostika kechikishini tanladik.",
-      position: "right",
-    },
-    {
-      year: "2025 Aprel",
-      title: "Ilk prototip",
-      description:
-        "Minimal ishlaydigan AI modelini yaratdik va kichik klinikalarda testdan o‘tkaza boshladik.",
-      position: "left",
-    },
-    {
-      year: "2025 May",
-      title: "Dastlabki natijalar",
-      description:
-        "Testlar ijobiy bo‘ldi — model ayrim kasalliklarni ancha tez aniqlashga muvaffaq bo‘ldi.",
-      position: "right",
-    },
-    {
-      year: "2025 Avgust",
-      title: "Kengaytirish rejalari",
-      description:
-        "Investitsiya jalb qilish va ko‘proq klinikalar bilan hamkorlik qilish bo‘yicha muzokaralar boshlandi.",
-      position: "left",
-    },
-  ];
-
-
   const translations = await getTranslations("about")
 
   const teamMembers = Object.keys(teamMembersData.about?.team?.members || {}).map((key, index) => ({

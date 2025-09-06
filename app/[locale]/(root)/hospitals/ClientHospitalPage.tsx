@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { MapPin, Phone , Filter, Search, HospitalIcon } from "lucide-react"
+import { MapPin, Phone, Filter, Search, HospitalIcon } from "lucide-react"
 import { useAppStore } from "@/Store/store"
 import { useTranslations } from "next-intl"
 import { toast } from "sonner"
@@ -14,6 +14,8 @@ import { useBookAppointmentMutation, useGetHospitals } from "./api"
 import { Hospital } from "./types"
 import Link from "next/link"
 import { haversine } from "@/lib/utils"
+import useIsMobile from "@/components/useIsMobile"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 
 
@@ -42,7 +44,6 @@ export default function ClientHospitalsPage() {
     }
   }, [setLocation, t])
 
-  // Enrich hospitals with distance
   const enrichedHospitals = useMemo(() => {
     if (!latitude || !longitude) return hospitals
 
@@ -169,6 +170,9 @@ export default function ClientHospitalsPage() {
     return <div className="text-center py-8 text-red-600">{error?.message}</div>
   }
 
+  const isMobile = useIsMobile()
+
+
   return (
     <>
       {/* Hospital Types Grid */}
@@ -191,7 +195,94 @@ export default function ClientHospitalsPage() {
       {/* Filters and Hospitals List */}
       <div className="grid lg:grid-cols-4 gap-8">
         {/* Filters */}
-        <div className="lg:col-span-1 relative">
+        {isMobile && (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="fixed bottom-4 right-4 z-50">
+                <Filter className="w-4 h-4 mr-2" />
+                {t('filters.title') || 'Filters'}
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t('filters.title') || 'Filters'}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    {t("filters.searchLabel") || "Search"}
+                  </label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      placeholder={t("filters.searchPlaceholder") || "Search hospitals or types"}
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    {t("filters.cityLabel") || "City"}
+                  </label>
+                  <Select value={selectedCity} onValueChange={setSelectedCity}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={t("filters.cityPlaceholder") || "Select a city"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {cities.map((city, index) => (
+                        <SelectItem key={index} value={(city as string).toLowerCase()}>
+                          {city as React.ReactNode}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    {t("filters.typeLabel") || "Type"}
+                  </label>
+                  <Select value={selectedType} onValueChange={setSelectedType}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={t("filters.typePlaceholder") || "Select a type"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {hospitalTypes.map((type) => (
+                        <SelectItem key={type.name} value={type.name.toLowerCase()}>
+                          {type.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    {t("filters.ratingLabel") || "Rating"}
+                  </label>
+                  <Select value={selectedRating} onValueChange={setSelectedRating}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={t("filters.ratingPlaceholder") || "Select a rating"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="4.5">4.5</SelectItem>
+                      <SelectItem value="4.0">4.0</SelectItem>
+                      <SelectItem value="3.5">3.5</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <Button variant="outline" className="w-full" onClick={clearFilters}>
+                  {t("filters.clearFiltersButton") || "Clear Filters"}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
+        <div className="lg:col-span-1 relative hidden md:block">
           <Card className="sticky top-20">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
@@ -354,7 +445,7 @@ export default function ClientHospitalsPage() {
                                 href={"tel:" + hospital.phone_number}
                               >
                                 <Phone className="w-4 h-4 mr-1" />
-                              </Link> 
+                              </Link>
                             </div>
                           </div>
 

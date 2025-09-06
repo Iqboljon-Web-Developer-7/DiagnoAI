@@ -6,8 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Filter, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { useState, useEffect } from 'react';
-// import { Specialty } from '../types';
+import useIsMobile from '@/components/useIsMobile';
 
 interface FiltersProps {
     searchTerm: string;
@@ -16,7 +15,6 @@ interface FiltersProps {
     setSelectedSpecialty?: (value: string) => void;
     selectedRating: string;
     setSelectedRating: (value: string) => void;
-    // specialties: Specialty[];
     onClearFilters: () => void;
 }
 
@@ -68,18 +66,8 @@ const FilterContent = ({
 
 export function Filters(props: FiltersProps) {
     const translations = useTranslations('doctors');
-    const [isMobile, setIsMobile] = useState(false);
+    const isMobile = useIsMobile()
 
-    useEffect(() => {
-        const checkIfMobile = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-        
-        checkIfMobile();
-        window.addEventListener('resize', checkIfMobile);
-        
-        return () => window.removeEventListener('resize', checkIfMobile);
-    }, []);
 
     if (isMobile) {
         return (

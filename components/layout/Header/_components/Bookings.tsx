@@ -105,7 +105,7 @@ export const Bookings = () => {
                 {isLoading ? (
                     <div className="flex justify-center p-4">Loading...</div>
                 ) : (
-                    <div className="grid gap-4 mt-4">
+                    <div className="grid gap-4 mt-4 max-h-96 overflow-y-auto">
                         {bookings.map((booking) => (
                             <div key={booking.id} className="p-4 border rounded-lg space-y-2">
                                 <div className="flex justify-between items-center">

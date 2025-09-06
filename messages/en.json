@@ -95,10 +95,9 @@
       "secondaryButton": "Learn More"
     },
     "partners": {
-  "title": "Our Trusted Partners",
-  "description": "DiagnoAI collaborates with leading clinics and medical experts who share our mission to bring advanced healthcare solutions to patients. Together, we build a stronger, smarter, and healthier future."
-}
-
+      "title": "Our Trusted Partners",
+      "description": "DiagnoAI collaborates with leading clinics and medical experts who share our mission to bring advanced healthcare solutions to patients. Together, we build a stronger, smarter, and healthier future."
+    }
   },
   "common": {
     "appName": "Diagno AI",
@@ -780,7 +779,7 @@
         "title": "Information We Collect",
         "body": "We may collect personal information such as your name, email, health inputs, uploaded files, and location data to provide accurate AI diagnosis and doctor recommendations."
       },
-        "use": {
+      "use": {
         "title": "How We Use Your Data",
         "item1": "To provide AI-based diagnostic results.",
         "item2": "To connect you with relevant medical specialists.",
@@ -890,5 +889,67 @@
     "image": "Image",
     "saving": "Saving...",
     "saveDoctor": "Save Doctor"
+  },
+  "Education": {
+    "hero": {
+      "title": "Learn & Grow",
+      "description": "Master new skills with our comprehensive video library. From fundamentals to advanced concepts, we have everything you need to advance your career.",
+      "videoCount": "{count, plural, one {# Video Lesson} other {# Video Lessons}}",
+      "expertContent": "Expert-Led Content"
+    },
+    "search": {
+      "placeholder": "Search videos..."
+    },
+    "watchNow": "Watch Now"
+  },
+  "Categories": {
+    "all": "All",
+    "advertisement": "Advertisement",
+    "podcast": "Podcast",
+    "education": "Education",
+    "explainer": "Explainer",
+    "using_diagno_ai": "Using Diagno AI"
+  },
+  "Videos": {
+    "1": {
+      "title": "ProfMedService Multidisciplinary Clinic",
+      "description": "Looking for a clinic that treats every patient with care and respect? Where do professionals and surgeons work to help in the most challenging cases? 🤕 ProfMedService’s specialists are waiting for you! Book an appointment and stay healthy! 🤗 ☎️ Contact our call center: 1210 🕑 ENT appointments available 24/7 📍 Yunusabad District, Amir Temur St., 119"
+    },
+    "2": {
+      "title": "Our ENT Specialist Dr. Umarov Ravshan Ziyavidinovich",
+      "description": "Guest on Mirkamol Nasirjanov’s new program 👨‍⚕️ Interested in sinusitis and its treatment methods? Want to learn more about ENT diseases and their treatments? Watch the full video via the link! ✅"
+    },
+    "3": {
+      "title": "ProfMedService in Andijan 👨‍⚕️",
+      "description": "A clinic with cutting-edge technology and professional doctors, known for their coordinated work. All diseases are diagnosed and treated with high accuracy by our specialists. Comfortable conditions promote faster patient recovery. 🤗 Contact: 📞 +99874-228-38-83, +99874-228-39-93"
+    },
+    "4": {
+      "title": "Signs of Heart Disease!",
+      "description": "If you or your loved ones have heart-related issues, contact us. Our cardiologist, Dr. Akbar Madaliyev, with 5 years of experience, will assist you. ☎️ +998 (71) 200-23-03 📍 Address: Chilanzar 20\\kv"
+    },
+    "5": {
+      "title": "Causes of Stomach Ulcers | Treatment Methods",
+      "description": "Learn about the causes of stomach ulcers! ☎️ +998 (71) 200-23-03 📍 Address: Chilanzar 20\\kv 'Honesty comes before profit' 🌐 Follow us on social media: Instagram: /hilolmed, Telegram: https://t.me/HILOLMEDCLINIC, TikTok: /hilol_med"
+    },
+    "6": {
+      "title": "Signs of Diabetes!",
+      "description": "Learn about the signs of diabetes! Like the video and share your thoughts. Which topics interest you? Follow us on social media: Instagram: https://instagram.com/drdilshod, Telegram: https://t.me/DrDilshodtursunov, Facebook: /drdilshodtur. Contact: +998 94 651 30 00"
+    },
+    "7": {
+      "title": "What is Diagno AI? - Overview Presentation",
+      "description": "This video provides an overview of Diagno AI – an intelligent healthcare assistant platform that leverages AI to support patient diagnostics and analysis. Learn more at @DiagnoAI."
+    },
+    "8": {
+      "title": "About the Diagno AI Application",
+      "description": "The basics of applying artificial intelligence in healthcare. #diagnoai #Uzbekistan’s first medical AI"
+    }
+  },
+  "diagnosis": {
+    "title": "Welcome to DiagnoAI",
+    "description": "Describe your symptoms or upload medical documents to start an AI-assisted medical consultation.",
+    "stethoscopeLabel": "Stethoscope icon",
+    "symptomPlaceholder": "Enter your symptoms...",
+    "startConsultation": "Start Consultation",
+"newConsultation": "New Consultation"
   }
 }

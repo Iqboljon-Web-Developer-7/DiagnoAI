@@ -827,5 +827,67 @@
     "image": "Rasm",
     "saving": "Saqlanmoqda...",
     "saveDoctor": "Doktor saqlash"
+  },
+  "Education": {
+    "hero": {
+      "title": "O'rganing va rivojlaning",
+      "description": "Bizning keng qamrovli video kutubxonamiz bilan yangi ko'nikmalarni o'zlashtiring. Asoslardan tortib ilg'or tushunchalargacha, karyerangizni rivojlantirish uchun kerak bo'lgan hamma narsa bizda mavjud.",
+      "videoCount": "{count, plural, one {# Video Dars} other {# Video Darslar}}",
+      "expertContent": "Mutaxassislar tomonidan boshqariladigan kontent"
+    },
+    "search": {
+      "placeholder": "Videolarni qidiring..."
+    },
+    "watchNow": "Hozir tomosha qiling"
+  },
+  "Categories": {
+    "all": "Hammasi",
+    "advertisement": "Reklama",
+    "podcast": "Podkast",
+    "education": "Ta'lim",
+    "explainer": "Tushuntirish",
+    "using_diagno_ai": "Diagno AI dan foydalanish"
+  },
+  "Videos": {
+    "1": {
+      "title": "ProfMedService ko'p tarmoqli klinikasi",
+      "description": "Har bir bemorga e'tibor va hurmat bilan munosabatda bo'ladigan klinikani qidiryapsizmi? Eng qiyin holatlarda yordam bera oladigan professional shifokorlar va jarrohlar qayerda ishlaydi? 🤕 ProfMedService mutaxassislari sizni kutmoqda! To'g'ri shifokor bilan uchrashing va sog'lom bo'ling! 🤗 ☎️ Call-markaz: 1210 🕑 LOR qabuli 24/7 ochiq 📍 Yunusobod tumani, Amir Temur ko'chasi, 119"
+    },
+    "2": {
+      "title": "Mutaxassisimiz LOR shifokor Umarov Ravshan Ziyavidinovich",
+      "description": "Mirkamol Nasirjanovning yangi dasturi mehmoni 👨‍⚕️ Gaymorit va uni davolash usullari haqida qiziqasizmi? LOR kasalliklari va ularni davolash haqida ko'proq bilmoqchimisiz? Videoni to'liq tomosha qiling! ✅"
+    },
+    "3": {
+      "title": "Andijondagi ProfMedService 👨‍⚕️",
+      "description": "Zamonaviy texnologiyalar va professional shifokorlarni o'z ichiga olgan klinika, mutaxassislarning uyg'un ishi bilan ajralib turadi. Barcha kasalliklar yuqori aniqlik bilan tashxislanadi va davolanadi. Klinikada yaratilgan qulay sharoitlar bemorlarning tezroq tuzalishiga yordam beradi. 🤗 Aloqa: 📞 +99874-228-38-83, +99874-228-39-93"
+    },
+    "4": {
+      "title": "Yurak kasalligi belgilari!",
+      "description": "Agar sizda yoki yaqinlaringizda yurak bilan bog'liq muammolar bo'lsa, bizga murojaat qiling. 5 yillik tajribaga ega kardiolog shifokor Akbar Madaliyev yordam beradi. ☎️ +998 (71) 200-23-03 📍 Manzil: Chilonzor 20\\kv"
+    },
+    "5": {
+      "title": "Oshqozon yarasi sabablari | Davolash usullari",
+      "description": "Oshqozon yarasi sabablari haqida bilib oling! ☎️ +998 (71) 200-23-03 📍 Manzil: Chilonzor 20\\kv 'Bizda halollik foydadan ustun' 🌐 Ijtimoiy tarmoqlarda: Instagram: /hilolmed, Telegram: https://t.me/HILOLMEDCLINIC, TikTok: /hilol_med"
+    },
+    "6": {
+      "title": "Qandli diabet belgilari!",
+      "description": "Qandli diabet belgilari haqida bilib oling! Videoga like bosing va fikringizni yozing. Qaysi mavzular sizni qiziqtiradi? Ijtimoiy tarmoqlarda kuzating: Instagram: https://instagram.com/drdilshod, Telegram: https://t.me/DrDilshodtursunov, Facebook: /drdilshodtur. Aloqa: +998 94 651 30 00"
+    },
+    "7": {
+      "title": "Diagno AI nima? - Umumiy taqdimot",
+      "description": "Ushbu video Diagno AI – bemor tashxislari va tahlillarini qo'llab-quvvatlash uchun sun'iy intellektdan foydalanadigan aqlli tibbiy yordam platformasi haqida umumiy ma'lumot beradi. Ko'proq ma'lumot: @DiagnoAI."
+    },
+    "8": {
+      "title": "Diagno AI ilovasi haqida",
+      "description": "Tibbiyotda sun'iy intellektni qo'llash asoslari. #diagnoai #O'zbekistondagi birinchi tibbiy sun'iy intellekt"
+    }
+  },
+    "diagnosis": {
+    "title": "DiagnoAI ga xush kelibsiz",
+    "description": "AI yordamida tibbiy maslahat olish uchun simptomlaringizni tasvirlang yoki tibbiy hujjatlarni yuklang.",
+    "stethoscopeLabel": "Stetoskop ikonkasi",
+    "symptomPlaceholder": "Simptomlaringizni kiriting...", 
+    "startConsultation": "Maslahatni boshlash",
+    "newConsultation": "Yangi maslahatlashuv"
   }
 }
