@@ -407,7 +407,7 @@ export default function ClientHospitalsPage() {
               <Card
                 onClick={() => router.push(`/hospitals/${hospital.id}`)}
                 key={hospital.id}
-                className="hover:shadow-lg transition-shadow overflow-hidden"
+                className="hover:shadow-lg transition-shadow overflow-hidden border hover:border-blue-500 hover:cursor-pointer"
               >
                 <CardContent className="p-0">
                   <div className="flex items-start flex-col sm:flex-row gap-3">

@@ -75,7 +75,7 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
             {doctors.map((doctor) => (
                 <Card
                     key={doctor.id} className="hover:shadow-lg transition-shadow">
-                    <CardContent className="p-4 sm:p-6">
+                    <CardContent className="p-4 sm:p-6 border hover:border-blue-500 rounded-lg">
                         <div className="flex items-start gap-2 sm:gap-4 flex-col sm:flex-row">
                             <div className="relative shrink-0">
                                 <Image

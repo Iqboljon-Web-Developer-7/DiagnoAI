@@ -59,9 +59,9 @@ export default function DoctorPage({ params }: PageProps) {
       { booking_id: bookingId, status: newStatus },
       {
         onSuccess: () => {
-          toast.success(`Booking updated to ${newStatus}`);
+          toast.success(`${translations('bookingUpdatedTo')} ${newStatus}`);
         },
-        onError: () => toast.error('Failed to update booking'),
+        onError: () => toast.error(translations('failedToUpdateBooking')),
       }
     );
   };
@@ -71,9 +71,9 @@ export default function DoctorPage({ params }: PageProps) {
       { booking_id: bookingId },
       {
         onSuccess: () => {
-          toast.success('Booking deleted');
+          toast.success(translations('bookingDeleted'));
         },
-        onError: () => toast.error('Failed to delete booking'),
+        onError: () => toast.error(translations('failedToDeleteBooking')),
       }
     );
   };
@@ -111,10 +111,10 @@ export default function DoctorPage({ params }: PageProps) {
       { doctor: parseInt(id), appointment_date: appointmentDate },
       {
         onSuccess: () => {
-          toast.success('Booking created successfully!');
+          toast.success(translations('bookingCreatedSuccessfully'));
           refetchFreeTimes();
         },
-        onError: () => toast.error('Failed to create booking'),
+        onError: () => toast.error(translations('failedToCreateBooking')),
       }
     );
   };
@@ -165,7 +165,7 @@ export default function DoctorPage({ params }: PageProps) {
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                   ))}
-                  <span className="text-blue-200 ml-2">4.9 (127 reviews)</span>
+                  <span className="text-blue-200 ml-2">4.9 (127 {translations('reviews')})</span>
                 </div>
 
                 {/* Quick Actions */}
@@ -174,12 +174,12 @@ export default function DoctorPage({ params }: PageProps) {
 
                   <Dialog  >
                     <DialogTrigger className='bg-blue-500 py-1 px-4 flex items-center justify-center gap-2 text-white border-none rounded-lg'> <Calendar className="w-4 h-4 mr-1" />
-                      {translations('doctorCard.bookButton') || 'Book Appointment'}</DialogTrigger>
+                      {translations('doctorCard.bookButton')}</DialogTrigger>
                     <DialogContent onClick={(e) => e.stopPropagation()}>
                       <DialogHeader onClick={(e) => e.stopPropagation()}>
                         <div className="bg-white rounded-xl ">
                           <h2 className="text-2xl text-center font-bold text-gray-900 mb-2">
-                            <span className='text-lg md:text-3xl text-center'>Available Time Slots</span>
+                            <span className='text-lg md:text-3xl text-center'>{translations('availableTimeSlots')}</span>
                           </h2>
                           <div className="mb-4 flex items-center justify-center gap-3">
                             <h2 className="text-2xl font-bold text-gray-900  flex items-center space-x-2">
@@ -205,12 +205,12 @@ export default function DoctorPage({ params }: PageProps) {
                                   className={`px-4 py-2 rounded-lg transition-colors ${bookedTimes.includes(time) ? 'bg-gray-300 cursor-not-allowed text-gray-600' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
                                   onClick={() => !bookedTimes.includes(time) && handleBookAppointment(time)}
                                 >
-                                  {time.toString().padStart(2, '0')}:00 {bookedTimes.includes(time) ? '- Booked' : '- Book'}
+                                  {time.toString().padStart(2, '0')}:00 {bookedTimes.includes(time) ? '- ' + translations('booked') : '- ' + translations('book')}
                                 </button>
                               ))}
                             </div>
                           ) : (
-                            <p className="text-gray-600">No available slots on this date.</p>
+                            <p className="text-gray-600">{translations('noAvailableSlots')}</p>
                           )}
                         </div>
                       </DialogHeader>
@@ -220,7 +220,7 @@ export default function DoctorPage({ params }: PageProps) {
                   {doctor!.phone_number && (
                     <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
                       <Phone className="h-5 w-5" />
-                      <span>Call Now</span>
+                      <span>{translations('callNow')}</span>
                     </button>
                   )}
                 </div>
@@ -237,7 +237,7 @@ export default function DoctorPage({ params }: PageProps) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <User className="h-6 w-6 text-blue-600" />
-                <span>About Dr. {doctor!.name}</span>
+                <span>{translations('aboutDoctor')} {doctor!.name}</span>
               </h2>
               <p className="text-gray-700 leading-relaxed text-lg">
                 {doctor!.description}
@@ -248,28 +248,27 @@ export default function DoctorPage({ params }: PageProps) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <Stethoscope className="h-6 w-6 text-blue-600" />
-                <span>Specialization</span>
+                <span>{translations('specialization')}</span>
               </h2>
               <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
                 <h3 className="font-semibold text-blue-900 text-lg">{doctor!.field}</h3>
                 <p className="text-blue-800 mt-1">
-                  Expert in treating bone, joint, and muscle conditions with advanced
-                  medical techniques.
+                  {translations('specializationDescription')}
                 </p>
               </div>
             </div>
 
             {/* Services */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Services Offered</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">{translations('servicesOffered')}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
-                  "Fracture Treatment",
-                  "Arthritis Management",
-                  "Sports Injury Recovery",
-                  "Joint Replacement",
-                  "Physical Therapy",
-                  "Consultation",
+                  translations('services.fractureTreatment'),
+                  translations('services.arthritisManagement'),
+                  translations('services.sportsInjuryRecovery'),
+                  translations('services.jointReplacement'),
+                  translations('services.physicalTherapy'),
+                  translations('services.consultation'),
                 ].map((service) => (
                   <div
                     key={service}
@@ -286,7 +285,7 @@ export default function DoctorPage({ params }: PageProps) {
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                   <Clock className="h-6 w-6 text-blue-600" />
-                  <span>Available Time Slots ({selectedDate.toLocaleDateString()})</span>
+                  <span>{translations('availableTimeSlotsWithDate')} ({selectedDate.toLocaleDateString()})</span>
                 </h2>
                 <div className="mb-4 flex items-center space-x-2">
                   <Calendar className="h-5 w-5 text-gray-500" />
@@ -307,12 +306,12 @@ export default function DoctorPage({ params }: PageProps) {
                         className={`px-4 py-2 rounded-lg transition-colors ${bookedTimes.includes(time) ? 'bg-gray-300 cursor-not-allowed text-gray-600' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
                         onClick={() => !bookedTimes.includes(time) && handleBookAppointment(time)}
                       >
-                        {time.toString().padStart(2, '0')}:00 {bookedTimes.includes(time) ? '- Booked' : '- Book'}
+                        {time.toString().padStart(2, '0')}:00 {bookedTimes.includes(time) ? '- ' + translations('booked') : '- ' + translations('book')}
                       </button>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-600">No available slots on this date.</p>
+                  <p className="text-gray-600">{translations('noAvailableSlots')}</p>
                 )}
               </div>
             )}
@@ -321,18 +320,18 @@ export default function DoctorPage({ params }: PageProps) {
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                   <Clock className="h-6 w-6 text-blue-600" />
-                  <span>Bookings for Dr. {doctor!.name}</span>
+                  <span>{translations('bookingsForDoctor')} {doctor!.name}</span>
                 </h2>
                 {clinicBookingsLoading ? (
-                  <p>Loading bookings...</p>
+                  <p>{translations('loadingBookings')}</p>
                 ) : filteredClinicBookings.length > 0 ? (
                   <div className="space-y-4">
                     {filteredClinicBookings.map((booking: Booking) => (
                       <div key={booking.id} className="border p-4 rounded-lg">
-                        <p><strong>ID:</strong> {booking.id}</p>
-                        <p><strong>User:</strong> {booking.user}</p>
-                        <p><strong>Date:</strong> {new Date(booking.appointment_date).toLocaleString()}</p>
-                        <p><strong>Status:</strong> {booking.status}</p>
+                        <p><strong>{translations('id')}</strong> {booking.id}</p>
+                        <p><strong>{translations('user')}</strong> {booking.user}</p>
+                        <p><strong>{translations('date')}</strong> {new Date(booking.appointment_date).toLocaleString()}</p>
+                        <p><strong>{translations('status')}</strong> {booking.status}</p>
                         <div className="flex space-x-2 mt-2">
                           {booking.status === 'pending' && (
                             <>
@@ -340,13 +339,13 @@ export default function DoctorPage({ params }: PageProps) {
                                 className="bg-green-500 text-white px-3 py-1 rounded"
                                 onClick={() => handleUpdateStatus(booking.id, 'confirmed')}
                               >
-                                Confirm
+                                {translations('confirm')}
                               </button>
                               <button
                                 className="bg-yellow-500 text-white px-3 py-1 rounded"
                                 onClick={() => handleUpdateStatus(booking.id, 'cancelled')}
                               >
-                                Cancel
+                                {translations('cancel')}
                               </button>
                             </>
                           )}
@@ -354,14 +353,14 @@ export default function DoctorPage({ params }: PageProps) {
                             className="bg-red-500 text-white px-3 py-1 rounded"
                             onClick={() => handleDelete(booking.id)}
                           >
-                            Delete
+                            {translations('delete')}
                           </button>
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-600">No bookings for this doctor!.</p>
+                  <p className="text-gray-600">{translations('noBookings')}</p>
                 )}
               </div>
             )}
@@ -373,24 +372,24 @@ export default function DoctorPage({ params }: PageProps) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <DollarSign className="h-6 w-6 text-green-600" />
-                <span>Consultation Fee</span>
+                <span>{translations('consultationFee')}</span>
               </h3>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">
                   {formatPrice(doctor!.prize!)} UZS
                 </div>
-                <p className="text-gray-600">Per consultation</p>
+                <p className="text-gray-600">{translations('perConsultation')}</p>
               </div>
             </div>
 
             {/* Contact Information */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Contact Information</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{translations('contactInformation')}</h3>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <Building2 className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-gray-900">Hospital</p>
+                    <p className="font-medium text-gray-900">{translations('hospital')}</p>
                     <p className="text-gray-600">{doctor!.hospital}</p>
                   </div>
                 </div>
@@ -399,7 +398,7 @@ export default function DoctorPage({ params }: PageProps) {
                   <div className="flex items-start space-x-3">
                     <Phone className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                     <div>
-                      <p className="font-medium text-gray-900">Phone</p>
+                      <p className="font-medium text-gray-900">{translations('phone')}</p>
                       <p className="text-gray-600">{doctor!.phone_number}</p>
                     </div>
                   </div>
@@ -408,7 +407,7 @@ export default function DoctorPage({ params }: PageProps) {
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-gray-900">Location</p>
+                    <p className="font-medium text-gray-900">{translations('location')}</p>
                     <p className="text-gray-600">
                       {doctor!.latitude}, {doctor!.longitude}
                     </p>
@@ -422,20 +421,20 @@ export default function DoctorPage({ params }: PageProps) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <Clock className="h-6 w-6 text-blue-600" />
-                <span>Working Hours</span>
+                <span>{translations('workingHours')}</span>
               </h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Monday - Friday</span>
+                  <span className="text-gray-600">{translations('mondayFriday')}</span>
                   <span className="font-medium">9:00 AM - 6:00 PM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Saturday</span>
+                  <span className="text-gray-600">{translations('saturday')}</span>
                   <span className="font-medium">9:00 AM - 2:00 PM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Sunday</span>
-                  <span className="font-medium text-red-600">Closed</span>
+                  <span className="text-gray-600">{translations('sunday')}</span>
+                  <span className="font-medium text-red-600">{translations('closed')}</span>
                 </div>
               </div>
             </div>

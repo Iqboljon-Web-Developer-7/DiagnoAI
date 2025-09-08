@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useCallback, useEffect, useRef, type FormEvent } from "react"
+import { useState, useCallback, useEffect, useRef, type FormEvent, use } from "react"
 import axios, { type AxiosResponse } from "axios"
 import ReactMarkdown from "react-markdown"
 import { Button } from "@/components/ui/button"
@@ -86,7 +86,17 @@ interface ChatApiResponse {
   doctors?: number[]
 }
 
-export default function AIDiagnosisPage() {
+type PageProps = {
+  params: {
+    locale: string;
+    id: string;
+  };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+ 
+export default function AIDiagnosisPage(params:PageProps) {
+    
+  
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   const t = useTranslations("diagnosis")
   const { isLoggedIn, user } = useAppStore()
@@ -271,8 +281,9 @@ export default function AIDiagnosisPage() {
         setSelectedChat(resp.data)
       } else {
         let chatId = selectedChat.id
+        
         if (!chatId) {
-          chatId = chats[chats.length - 1].id
+          chatId = chats[chats.length - 1]?.id
         }
         resp = await axios.patch(`${API_BASE_URL}/chats/${chatId}/`, form, {
           headers: {
@@ -306,7 +317,9 @@ export default function AIDiagnosisPage() {
         params: { user_id },
       })
       setChats(updated.data)
-    } catch {
+    } catch(err) {
+      console.log(err);
+      
       toast(t("failedToSendMessage"))
     } finally {
       setAnalyzing(false)
@@ -388,7 +401,17 @@ export default function AIDiagnosisPage() {
         </Sidebar>
 
         <SidebarInset className="bg-transparent backdrop-blur-md "  >
-          <p>DiagnoAI</p>
+         {/* <div className="border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4"> */}
+            {/* <Link href={'/'} className="flex items-center gap-3">
+              <div className="p-2 bg-white/20 rounded-lg">
+                <Brain className="h-6 w-6" />
+              </div>
+              <div>
+                <h2 className="font-bold text-lg">DiagnoAI</h2>
+              </div>
+            </Link> */}
+            {/* <SidebarTrigger className="bottom-0 -translate-y-full -translate-x-full bg-neutral-200 z-10 -right-10 text-black" /> */}
+          {/* </div> */}
           <SidebarTrigger iconType="ai-diagnosis" className=" absolute top-4 left-4 z-10   duration-200 scale-125" />
           <main className="flex-1 p-2 md:p-4 max-h-[100svh]  ">
             <div className="gap-8 max-w-7xl mx-auto h-full">

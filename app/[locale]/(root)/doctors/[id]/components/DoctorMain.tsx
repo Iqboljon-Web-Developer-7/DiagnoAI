@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Doctor } from "../../types";
+import { useTranslations } from 'next-intl';
 
  
 
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
+  const translations = useTranslations('doctors');
   const formatPrice = (price: number) =>
     new Intl.NumberFormat("en-US").format(price);
 
@@ -71,7 +73,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
                   <Stethoscope className="h-5 w-5 text-blue-200" />
                   <span className="text-xl text-blue-200">
-                    {doctor.field} Specialist
+                    {doctor.field} {translations('specialist')}
                   </span>
                 </div>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
@@ -84,19 +86,19 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                   ))}
-                  <span className="text-blue-200 ml-2">4.9 (127 reviews)</span>
+                  <span className="text-blue-200 ml-2">4.9 (127 {translations('reviews')})</span>
                 </div>
 
                 {/* Quick Actions */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                   <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2">
                     <Clock className="h-5 w-5" />
-                    <span>Book Appointment</span>
+                    <span>{translations('doctorCard.bookButton')}</span>
                   </button>
                   {doctor.phone_number && (
                     <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
                       <Phone className="h-5 w-5" />
-                      <span>Call Now</span>
+                      <span>{translations('callNow')}</span>
                     </button>
                   )}
                 </div>
@@ -113,7 +115,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <User className="h-6 w-6 text-blue-600" />
-                <span>About Dr. {doctor.name}</span>
+                <span>{translations('aboutDoctor')} {doctor.name}</span>
               </h2>
               <p className="text-gray-700 leading-relaxed text-lg">
                 {doctor.description}
@@ -124,28 +126,27 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <Stethoscope className="h-6 w-6 text-blue-600" />
-                <span>Specialization</span>
+                <span>{translations('specialization')}</span>
               </h2>
               <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
                 <h3 className="font-semibold text-blue-900 text-lg">{doctor.field}</h3>
                 <p className="text-blue-800 mt-1">
-                  Expert in treating bone, joint, and muscle conditions with advanced
-                  medical techniques.
+                  {translations('specializationDescription')}
                 </p>
               </div>
             </div>
 
             {/* Services */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Services Offered</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">{translations('servicesOffered')}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
-                  "Fracture Treatment",
-                  "Arthritis Management",
-                  "Sports Injury Recovery",
-                  "Joint Replacement",
-                  "Physical Therapy",
-                  "Consultation",
+                  translations('services.fractureTreatment'),
+                  translations('services.arthritisManagement'),
+                  translations('services.sportsInjuryRecovery'),
+                  translations('services.jointReplacement'),
+                  translations('services.physicalTherapy'),
+                  translations('services.consultation'),
                 ].map((service) => (
                   <div
                     key={service}
@@ -162,7 +163,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <Clock className="h-6 w-6 text-blue-600" />
-                <span>Available Time Slots (Aug 28, 2025)</span>
+                <span>{translations('availableTimeSlotsWithDate')} (Aug 28, 2025)</span>
               </h2>
               {freeTimes && freeTimes.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -172,12 +173,12 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
                       className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
                       onClick={() => handleBookAppointment(time)}
                     >
-                      {time} - Book
+                      {time} - {translations('book')}
                     </button>
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-600">No available slots today.</p>
+                <p className="text-gray-600">{translations('noAvailableSlotsToday')}</p>
               )}
             </div>
           </div>
@@ -188,24 +189,24 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <DollarSign className="h-6 w-6 text-green-600" />
-                <span>Consultation Fee</span>
+                <span>{translations('consultationFee')}</span>
               </h3>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">
                   {formatPrice(doctor.prize!)} UZS
                 </div>
-                <p className="text-gray-600">Per consultation</p>
+                <p className="text-gray-600">{translations('perConsultation')}</p>
               </div>
             </div>
 
             {/* Contact Information */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Contact Information</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{translations('contactInformation')}</h3>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <Building2 className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-gray-900">Hospital</p>
+                    <p className="font-medium text-gray-900">{translations('hospital')}</p>
                     <p className="text-gray-600">{doctor.hospital}</p>
                   </div>
                 </div>
@@ -214,7 +215,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
                   <div className="flex items-start space-x-3">
                     <Phone className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                     <div>
-                      <p className="font-medium text-gray-900">Phone</p>
+                      <p className="font-medium text-gray-900">{translations('phone')}</p>
                       <p className="text-gray-600">{doctor.phone_number}</p>
                     </div>
                   </div>
@@ -223,7 +224,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-gray-900">Location</p>
+                    <p className="font-medium text-gray-900">{translations('location')}</p>
                     <p className="text-gray-600">
                       {doctor.latitude}, {doctor.longitude}
                     </p>
@@ -237,20 +238,20 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <Clock className="h-6 w-6 text-blue-600" />
-                <span>Working Hours</span>
+                <span>{translations('workingHours')}</span>
               </h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Monday - Friday</span>
+                  <span className="text-gray-600">{translations('mondayFriday')}</span>
                   <span className="font-medium">9:00 AM - 6:00 PM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Saturday</span>
+                  <span className="text-gray-600">{translations('saturday')}</span>
                   <span className="font-medium">9:00 AM - 2:00 PM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Sunday</span>
-                  <span className="font-medium text-red-600">Closed</span>
+                  <span className="text-gray-600">{translations('sunday')}</span>
+                  <span className="font-medium text-red-600">{translations('closed')}</span>
                 </div>
               </div>
             </div>
