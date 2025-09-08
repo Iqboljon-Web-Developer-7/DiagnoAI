@@ -13,8 +13,10 @@ interface DoctorItemProps {
 }
 
 // Memoized Doctor Item Component
-const DoctorItem = memo(({ doctor, router }: DoctorItemProps) => (
-  <div
+const DoctorItem = memo(({ doctor, router }: DoctorItemProps) => {
+  console.log(doctor);
+  
+  return <div
     onClick={() => router.push(`/doctors/${doctor.id}`)}
     className="cursor-pointer p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-gradient-to-br from-white to-gray-50"
   >
@@ -37,7 +39,7 @@ const DoctorItem = memo(({ doctor, router }: DoctorItemProps) => (
       </div>
     </div>
   </div>
-));
+});
 
 DoctorItem.displayName = "DoctorItem";
 

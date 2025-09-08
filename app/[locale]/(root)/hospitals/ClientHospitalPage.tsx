@@ -16,6 +16,7 @@ import Link from "next/link"
 import { haversine } from "@/lib/utils"
 import useIsMobile from "@/components/useIsMobile"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import Image from "next/image"
 
 
 
@@ -25,6 +26,9 @@ export default function ClientHospitalsPage() {
   const router = useRouter()
 
   const { data: hospitals = [], error, isLoading, isPending } = useGetHospitals()
+
+  console.log(hospitals);
+  
   const bookAppointmentMutation = useBookAppointmentMutation(user?.token)
 
   // Filter states
@@ -54,6 +58,9 @@ export default function ClientHospitalsPage() {
       beds: h.beds || 0,
     }))
   }, [hospitals, latitude, longitude])
+
+  console.log(enrichedHospitals);
+  
 
   // Unique types
   const hospitalTypes = useMemo(() => {
@@ -89,9 +96,12 @@ export default function ClientHospitalsPage() {
         const hasDoctors = true// Allow null or non-negative doctors
         const hasDepartments = true // Temporarily allow empty departments for testing
         const hasValidDescription = h.description && h.description.trim() !== "" // Ensure non-empty description
-        const hasValidImage = h.image && h.image.startsWith("http") // Ensure valid image URL
+        const hasValidImage = true // Ensure valid image URL
         const hasValidCoordinates = h.latitude != null && h.longitude != null && // Ensure valid coordinates
           h.latitude >= -90 && h.latitude <= 90 && h.longitude >= -180 && h.longitude <= 180
+
+        console.log(matchesSearch, matchesType, matchesRating, matchesCity, hasDoctors, hasDepartments, hasValidDescription, hasValidImage, hasValidCoordinates);
+        
 
         // Combine all filters
         return (
@@ -113,6 +123,9 @@ export default function ClientHospitalsPage() {
         return 0
       })
   }, [enrichedHospitals, searchTerm, selectedCity, selectedType, selectedRating, sortBy])
+
+  console.log(filteredHospitals);
+  
 
   // Actions
   const handleCall = (hospitalName: string) => toast.success(t("toastMessages.call", { hospitalName }))
@@ -401,7 +414,7 @@ export default function ClientHospitalsPage() {
                     <div
                       className="relative min-w-64 hidden sm:block h-[-webkit-fill-available] bg-contain bg-no-repeat"
                       style={{
-                        backgroundImage: `url(${hospital.image})`,
+                        backgroundImage: `url(https://api.diagnoai.uz${hospital.image})`,
                         backgroundPosition: "center",
                       }}
                     />
@@ -410,10 +423,10 @@ export default function ClientHospitalsPage() {
                       <div className="flex items-start justify-between">
                         <div className="w-full">
                           <div className="flex items-center gap-3">
-                            <img
+                            <Image
                               width={66}
                               height={66}
-                              src={hospital.image}
+                              src={`https://api.diagnoai.uz${hospital.image}`}
                               alt={hospital.name}
                               className="w-16 h-16 rounded-full sm:hidden object-contain"
                             />

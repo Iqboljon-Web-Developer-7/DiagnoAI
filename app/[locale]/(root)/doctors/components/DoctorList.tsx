@@ -67,6 +67,9 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
         );
     };
 
+    console.log(doctors);
+    
+
     return (
         <div className="space-y-6 cursor-pointer">
             {doctors.map((doctor) => (
@@ -78,7 +81,7 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
                                 <Image
                                     width={80}
                                     height={80}
-                                    src={doctor.image?.startsWith('http') ? doctor.image : `https://api.diagnoai.uz${doctor.image}`}
+                                    src={`${doctor.image}`}
                                     alt={doctor.name}
                                     onClick={() => router.push(`/doctors/${doctor.id}`)}
                                     className="w-10 h-10 sm:w-20 sm:h-20 rounded-full object-cover"

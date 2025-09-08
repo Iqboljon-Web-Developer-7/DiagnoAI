@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { Doctor, Booking } from './types';
 import { toast } from 'sonner';
 
-const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/`;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
 export async function fetchDoctors({
   latitude,
@@ -23,7 +23,7 @@ export async function fetchDoctors({
   });
   if (selectedSpecialty) params.append('field', selectedSpecialty);
 
-  const res = await fetch(`${API_BASE_URL}api/en/doctors/?${params.toString()}` );
+  const res = await fetch(`${API_BASE_URL}/api/en/doctors/?${params.toString()}` );
   if (!res.ok) throw new Error('Failed to fetch doctors');
   const rawData = await res.json();
 
@@ -86,7 +86,7 @@ export function useBookAppointmentMutation() {
       formData.append('longitude', longitude.toString());
       formData.append('message', `Book appointment with ${doctorName}`);
 
-      const res = await fetch(`${API_BASE_URL}chats/`, {
+      const res = await fetch(`${API_BASE_URL}/chats/`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -126,7 +126,7 @@ export function useDoctorQuery(id: string, token: string | undefined) {
     queryKey: ['doctor', id],
     queryFn: async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}api/en/doctors/${id}/`, {
+        const res = await fetch(`${API_BASE_URL}/api/en/doctors/${id}/`, {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
         if (!res.ok) return null;
@@ -167,7 +167,7 @@ export function useFreeTimes(doctorId: number, token: string | undefined, date: 
       }
 
       const res = await fetch(
-        `${API_BASE_URL}bookings/doctors/${doctorId}/free-times/?date=${date}`,
+        `${API_BASE_URL}/bookings/doctors/${doctorId}/free-times/?date=${date}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -194,7 +194,7 @@ export function useCreateBookingMutation() {
   return useMutation({
     mutationFn: async ({ doctor, appointment_date }: { doctor: number; appointment_date: string }) => {
       if (!user?.token) throw new Error('Authentication required');
-      const res = await fetch(`${API_BASE_URL}bookings/bookings/create/`, {
+      const res = await fetch(`${API_BASE_URL}/bookings/bookings/create/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -216,7 +216,7 @@ export function useGetClinicBookings(token: string | undefined, enabled: boolean
     queryKey: ['clinicBookings'],
     queryFn: async () => {
       if (!token) throw new Error('Authentication required');
-      const res = await fetch(`${API_BASE_URL}bookings/doctor/bookings/`, {
+      const res = await fetch(`${API_BASE_URL}/bookings/doctor/bookings/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error('Failed to fetch clinic bookings');
@@ -233,7 +233,7 @@ export function useUpdateBookingMutation(lang_code: string) {
   return useMutation({
     mutationFn: async ({ booking_id, status }: { booking_id: number; status: Booking['status'] }) => {
       if (!user?.token) throw new Error('Authentication required');
-      const res = await fetch(`${API_BASE_URL}bookings/bookings/${lang_code}/${booking_id}/update/`, {
+      const res = await fetch(`${API_BASE_URL}/bookings/bookings/${lang_code}/${booking_id}/update/`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -257,7 +257,7 @@ export function useDeleteBookingMutation(lang_code: string) {
   return useMutation({
     mutationFn: async ({ booking_id }: { booking_id: number }) => {
       if (!user?.token) throw new Error('Authentication required');
-      const res = await fetch(`${API_BASE_URL}bookings/bookings/${lang_code}/${booking_id}/update/`, {
+      const res = await fetch(`${API_BASE_URL}/bookings/bookings/${lang_code}/${booking_id}/update/`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${user.token}`,

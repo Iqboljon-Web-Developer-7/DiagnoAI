@@ -328,8 +328,8 @@ export default function AIDiagnosisPage() {
 
   return (
     <div className="z-50">
-      <SidebarProvider className=" bg-cover  bg-no-repeat bg-center" defaultOpen={false} style={{ backgroundImage: `url(${bgWallpaper.src})` }}>
-        <Sidebar side="left" hidden={true} className="border-r-0 shadow-lg   backdrop-blur-sm z-50">
+      <SidebarProvider className=" bg-cover  bg-no-repeat bg-center" defaultOpen={true} style={{ backgroundImage: `url(${bgWallpaper.src})` }}>
+        <Sidebar side="left" className="border-r-0 shadow-lg backdrop-blur-sm z-50">
           <SidebarHeader className="relative border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
             <Link href={'/'} className="flex items-center gap-3">
               <div className="p-2 bg-white/20 rounded-lg">

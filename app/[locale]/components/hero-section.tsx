@@ -33,7 +33,7 @@ export async function HeroSection() {
         className="container relative max-w-6xl mx-auto px-1 sm:px-6 lg:px-8 z-10"
       >
         <div className="items-center">
-          <div className="text-center lg:text-left">
+          <div className="text-center items-center justify-center flex flex-col">
             <h1
               className="text-3xl max-w-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 animate-fade-in-down delay-300 opacity-0 duration-700"
             >
@@ -53,14 +53,14 @@ export async function HeroSection() {
                 <Link href="/ai-diagnosis">
                   <Button
                     variant="outline"
-                    className=" w-full sm:w-auto bg-transparent hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base   transition-all hover:border-transparent duration-300"
+                    className="px-20 w-full sm:w-auto bg-transparent hover:bg-[#2B6A73] hover:text-white text-sm sm:text-base   transition-all hover:border-transparent duration-300"
                   >
                     <Upload className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                     {t('hero.getDiagnosis')}
                   </Button>
                 </Link>
               </div>
-              <div>
+              {/* <div>
                 <Link href="/emergency-help">
                   <Button
                     variant="outline"
@@ -70,7 +70,7 @@ export async function HeroSection() {
                     {t('hero.emergencyHelp')}
                   </Button>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

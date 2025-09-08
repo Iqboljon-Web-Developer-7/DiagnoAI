@@ -34,9 +34,12 @@ interface Filter {
 }
 
 export const Bookings = () => {
+    const { isLoggedIn, user } = useAppStore();
+    if(user?.role != 'client') return;
+    
     const [filter, setFilter] = useState<Filter>({});
     const [isOpen, setIsOpen] = useState(false);
-    const { isLoggedIn, user } = useAppStore();
+
     const queryClient = useQueryClient();
     const API_BASE_URL = "https://api.diagnoai.uz";
 
