@@ -98,7 +98,7 @@ export default function DoctorPage({ params }: PageProps) {
 
   const allTimes: number[] = Array.from({ length: 13 }, (_, i) => i + 8);
   const sortedTimes = allTimes.sort((a, b) => a - b);
-  const formatPrice = (price: number) => new Intl.NumberFormat('en-US').format(price);
+  // const formatPrice = (price: number) => new Intl.NumberFormat('en-US').format(price);
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedDate(new Date(e.target.value));
@@ -376,7 +376,7 @@ export default function DoctorPage({ params }: PageProps) {
               </h3>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">
-                  {formatPrice(doctor!.prize!)} UZS
+                  {doctor!.prize!} UZS
                 </div>
                 <p className="text-gray-600">{translations('perConsultation')}</p>
               </div>
