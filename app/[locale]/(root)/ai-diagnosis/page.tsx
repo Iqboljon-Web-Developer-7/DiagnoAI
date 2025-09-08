@@ -94,9 +94,10 @@ type PageProps = {
   searchParams?: { [key: string]: string | string[] | undefined };
 }
  
-export default function AIDiagnosisPage(params:PageProps) {
-    
-  
+export default function Page({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = use(params) // ✅ unwrap Promise
+
+
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   const t = useTranslations("diagnosis")
   const { isLoggedIn, user } = useAppStore()
@@ -164,7 +165,7 @@ export default function AIDiagnosisPage(params:PageProps) {
       })
 
       if (resp.data.doctors?.length) {
-        const docResp = await axios.post<Doctor[]>(`${API_BASE_URL}/api/en/doctors`, {
+        const docResp = await axios.post<Doctor[]>(`${API_BASE_URL}/api/${locale}/doctors`, {
           ids: resp.data.doctors,
         })
         setDoctors(docResp.data)
@@ -302,7 +303,7 @@ export default function AIDiagnosisPage(params:PageProps) {
 
       if (resp.data.doctors?.length) {
         const docs = await Promise.all(
-          resp.data.doctors.map((id) => axios.get<Doctor>(`${API_BASE_URL}/api/en/doctors/${id}`)),
+          resp.data.doctors.map((id) => axios.get<Doctor>(`${API_BASE_URL}/api/${locale}/doctors/${id}`)),
         )
         setDoctors(docs.map((d) => d.data))
       }
