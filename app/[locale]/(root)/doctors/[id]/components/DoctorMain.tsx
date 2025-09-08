@@ -193,7 +193,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
               </h3>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">
-                  {formatPrice(doctor.prize!)} UZS
+                  {doctor.prize!} UZS
                 </div>
                 <p className="text-gray-600">{translations('perConsultation')}</p>
               </div>

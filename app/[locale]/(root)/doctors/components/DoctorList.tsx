@@ -123,7 +123,7 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
                                                 <span className="text-lg font-bold text-gray-900">
                                                     {/* <SeparatorInput separator='apostrophe' /> */}
                                                     {/* <NumericFormat inputMode='none' value={doctor.prize} disabled={true} width={'auto'} thousandSeparator="," /> */}
-                                                    {doctor.prize!}{" UZS"}
+                                                    {`${doctor.prize!} UZS`}
                                                 </span>
                                                 <span className="text-gray-500 text-sm ml-1">
                                                     {translations('doctorCard.consultationPriceSuffix') || 'per consultation'}

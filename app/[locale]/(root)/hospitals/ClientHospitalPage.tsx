@@ -92,28 +92,14 @@ export default function ClientHospitalsPage() {
         const matchesRating = !selectedRating || (h.rating || 0) >= parseFloat(selectedRating)
         const matchesCity = !selectedCity || (h.address?.toLowerCase().includes(selectedCity.toLowerCase()) || !h.address)
 
-        // Adjusted "real content" filters (more lenient)
-        const hasDoctors = true// Allow null or non-negative doctors
-        const hasDepartments = true // Temporarily allow empty departments for testing
-        const hasValidDescription = h.description && h.description.trim() !== "" // Ensure non-empty description
-        const hasValidImage = true // Ensure valid image URL
-        const hasValidCoordinates = h.latitude != null && h.longitude != null && // Ensure valid coordinates
-          h.latitude >= -90 && h.latitude <= 90 && h.longitude >= -180 && h.longitude <= 180
-
-        console.log(matchesSearch, matchesType, matchesRating, matchesCity, hasDoctors, hasDepartments, hasValidDescription, hasValidImage, hasValidCoordinates);
-        
+       
 
         // Combine all filters
         return (
           matchesSearch &&
           matchesType &&
           matchesRating &&
-          matchesCity &&
-          hasDoctors &&
-          hasDepartments &&
-          hasValidDescription &&
-          hasValidImage &&
-          hasValidCoordinates
+          matchesCity 
         )
       })
       .sort((a: Hospital, b: Hospital) => {

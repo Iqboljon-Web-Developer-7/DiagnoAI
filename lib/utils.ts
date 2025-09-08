@@ -22,3 +22,14 @@ export function formatNumber(number: number) {
   }
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
+
+function isAllNumbers(str: string): boolean {
+  return /^\d+$/.test(str); 
+}
+
+export function formatPrice(price: number | string) {
+  if (!isAllNumbers(price.toString())) {
+    return price + " UZS";
+  }
+  return formatNumber(Number(price));
+}
