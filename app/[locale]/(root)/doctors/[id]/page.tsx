@@ -23,6 +23,7 @@ import { use } from 'react';
 import { Circles } from 'react-loader-spinner';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
+import { formatPrice } from '@/lib/utils';
 interface DoctorType {
   params: { id: string; locale: string };
 }
@@ -376,7 +377,7 @@ export default function DoctorPage({ params }: PageProps) {
               </h3>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">
-                  {doctor!.prize!} UZS
+                  {formatPrice(doctor!.prize!)}
                 </div>
                 <p className="text-gray-600">{translations('perConsultation')}</p>
               </div>

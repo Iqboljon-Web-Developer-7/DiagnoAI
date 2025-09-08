@@ -68,6 +68,8 @@ export default function Page() {
     return matchesSearch && matchesRating
   });
 
+
+  
   const specialties: Specialities[] = Array.from(new Set(doctors.map((doctor) => doctor.field))).map((name) => ({
     name,
     count: doctors.filter((d) => d.field === name).length,

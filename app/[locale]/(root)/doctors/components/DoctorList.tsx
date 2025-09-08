@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Doctor } from '../types';
 import { useRouter } from 'next/navigation';
-import { formatNumber } from '@/lib/utils';
+import { formatNumber, formatPrice } from '@/lib/utils';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useState } from 'react';
 import { format } from 'date-fns';
@@ -123,7 +123,7 @@ export function DoctorList({ doctors, onBookAppointment, isBookingPending, user 
                                                 <span className="text-lg font-bold text-gray-900">
                                                     {/* <SeparatorInput separator='apostrophe' /> */}
                                                     {/* <NumericFormat inputMode='none' value={doctor.prize} disabled={true} width={'auto'} thousandSeparator="," /> */}
-                                                    {`${doctor.prize!} UZS`}
+                                                    {`${formatPrice(doctor.prize!)}`}
                                                 </span>
                                                 <span className="text-gray-500 text-sm ml-1">
                                                     {translations('doctorCard.consultationPriceSuffix') || 'per consultation'}

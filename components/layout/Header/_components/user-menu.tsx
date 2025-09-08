@@ -61,13 +61,13 @@ export function UserMenu({ className }: { className?: string }) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <Link href="/dashboard">
+            {/* <Link href="/dashboard">
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" aria-hidden="true" />
                 <span>{t('dashboard')}</span>
               </DropdownMenuItem>
-            </Link>
-            <DropdownMenuSeparator />
+            </Link> */}
+            {/* <DropdownMenuSeparator /> */}
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
               <span>{t('logout')}</span>

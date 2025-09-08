@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { useGetHospital } from "../api";
 import { MapPin, Phone, Building2, Users, Clock, Star, Award, Stethoscope, Heart, Shield, Calendar, Navigation } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
@@ -29,8 +29,8 @@ interface Hospital {
   phone_number: string;
 }
 
-function Page({ params }: { params: { id: string; locale: string } }) {
-  const { id } = params;
+function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
+  const { id } = use(params);
   const { user, isLoggedIn } = useAppStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { data: hospital = {} as Hospital, error, isLoading } = useGetHospital(id, user?.token);

@@ -110,8 +110,6 @@ export default function ClientHospitalsPage() {
       })
   }, [enrichedHospitals, searchTerm, selectedCity, selectedType, selectedRating, sortBy])
 
-  console.log(filteredHospitals);
-  
 
   // Actions
   const handleCall = (hospitalName: string) => toast.success(t("toastMessages.call", { hospitalName }))

@@ -28,8 +28,8 @@ function isAllNumbers(str: string): boolean {
 }
 
 export function formatPrice(price: number | string) {
-  if (!isAllNumbers(price.toString())) {
-    return price + " UZS";
+  if (isAllNumbers(price.toString())) {
+    return formatNumber(Number(price)) + " UZS";
   }
-  return formatNumber(Number(price));
+  return price;
 }
