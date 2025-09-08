@@ -37,7 +37,7 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
-  iconType?: "doctors" | "patients"
+  iconType?: "doctors" | "patients" | "ai-diagnosis"
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

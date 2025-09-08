@@ -69,6 +69,9 @@ function Page({ params }: { params: { id: string; locale: string } }) {
     { label: 'Patients/Year', value: '10K+', icon: Heart }
   ];
 
+  console.log(hospital?.image);
+  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-11">
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -105,7 +108,7 @@ function Page({ params }: { params: { id: string; locale: string } }) {
               <Image
                 width={1200}
                 height={400}
-                src={hospital?.image || ''}
+                src={`https://api.diagnoai.uz${hospital?.image || ''}`}
                 alt={hospital.name}
                 className="w-full h-full object-cover"
                 priority

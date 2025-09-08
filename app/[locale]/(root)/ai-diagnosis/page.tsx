@@ -328,8 +328,8 @@ export default function AIDiagnosisPage() {
 
   return (
     <div className="z-50">
-      <SidebarProvider className=" bg-cover  bg-no-repeat bg-center" defaultOpen={true} style={{ backgroundImage: `url(${bgWallpaper.src})` }}>
-        <Sidebar side="left" className="border-r-0 shadow-lg backdrop-blur-sm z-50">
+      <SidebarProvider className=" bg-cover  bg-no-repeat bg-center" defaultOpen={false} style={{ backgroundImage: `url(${bgWallpaper.src})` }}>
+        <Sidebar side="left" hidden={true} className="border-r-0 shadow-lg   backdrop-blur-sm z-50">
           <SidebarHeader className="relative border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
             <Link href={'/'} className="flex items-center gap-3">
               <div className="p-2 bg-white/20 rounded-lg">
@@ -339,7 +339,7 @@ export default function AIDiagnosisPage() {
                 <h2 className="font-bold text-lg">DiagnoAI</h2>
               </div>
             </Link>
-            <SidebarTrigger className="absolute bottom-0 -translate-y-full -translate-x-full bg-neutral-200 z-10 -right-10 text-black" />
+            <SidebarTrigger  className="absolute bottom-0 -translate-y-full -translate-x-full bg-neutral-200 z-10 -right-10 text-black" />
           </SidebarHeader>
 
           <SidebarContent className="p-4">
@@ -388,7 +388,8 @@ export default function AIDiagnosisPage() {
         </Sidebar>
 
         <SidebarInset className="bg-transparent backdrop-blur-md "  >
-          <SidebarTrigger className="absolute top-4 left-4   z-10" />
+          <p>DiagnoAI</p>
+          <SidebarTrigger iconType="ai-diagnosis" className=" absolute top-4 left-4 z-10   duration-200 scale-125" />
           <main className="flex-1 p-2 md:p-4 max-h-[100svh]  ">
             <div className="gap-8 max-w-7xl mx-auto h-full">
               <div className="flex flex-col relative h-full max-h-[96svh] overflow-auto">
@@ -560,7 +561,7 @@ export default function AIDiagnosisPage() {
             : ''
           }
         </div>
-        <Sidebar side="right" className="!bg-transparent" style={{ backgroundColor: 'transparent' }}>
+        <Sidebar side="right" className="!bg-transparent backdrop-blur-lg" style={{ backgroundColor: 'transparent' }}>
           <SidebarInset className="relative bg-transparent" style={{ backgroundColor: 'transparent' }}>
             <div className="space-y-6">
               <Card className="h-[100svh] shadow-xl border-0  bg-transparent">
@@ -585,7 +586,7 @@ export default function AIDiagnosisPage() {
                           <div className="flex items-start gap-3">
                             <Avatar className="h-12 w-12 border-2 border-green-200">
                               {doc?.image ? (
-                                <img src={doc.image} alt={doc.name} className="object-cover" />
+                                <img src={`${process.env.NEXT_PUBLIC_API_URL}${doc.image}`} alt={doc.name} className="object-cover" />
                               ) : (
                                 <AvatarFallback className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
                                   {doc?.name

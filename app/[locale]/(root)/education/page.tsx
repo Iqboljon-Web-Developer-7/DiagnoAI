@@ -183,18 +183,7 @@ export default function Education() {
 
       {/* Filter and Search Section */}
       <section className="container mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 flex-wrap">
-        <div className="max-w-md w-full sm:w-auto mb-6 sm:mb-0">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              type="text"
-              placeholder={t('search.placeholder')}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-        </div>
+       
 
         <div className="flex flex-wrap items-center justify-center gap-2">
           {categories.map((category) => (
@@ -208,6 +197,18 @@ export default function Education() {
               {tCategories(category.split('.').pop() as string)}
             </Button>
           ))}
+        </div>
+         <div className="max-w-md w-full sm:w-auto mb-6 sm:mb-0">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              type="text"
+              placeholder={t('search.placeholder')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10"
+            />
+          </div>
         </div>
       </section>
 
@@ -271,7 +272,6 @@ export default function Education() {
           description: tVideos(selectedVideo.descriptionKey), 
           category: tCategories(selectedVideo.categoryKey)
         } : null}
-        title={selectedVideo ? tVideos(selectedVideo.titleKey) : ''}
       />
     </div>
   );
