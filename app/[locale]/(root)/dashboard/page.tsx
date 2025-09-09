@@ -22,9 +22,9 @@ import {
   Loader2,
 } from "lucide-react"
 import Link from "next/link"
-import { useAppStore } from "@/store/store"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { useAppStore } from "@/store/store"
 
 export default function DashboardPage() {
   const { user, diagnoses, appointments, addAppointment } = useAppStore()

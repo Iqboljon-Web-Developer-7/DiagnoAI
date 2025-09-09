@@ -2,7 +2,6 @@
 
 import { Booking } from '../types';
 import { useDoctorQuery, useFreeTimes, useCreateBookingMutation, useGetClinicBookings, useUpdateBookingMutation, useDeleteBookingMutation } from "../api";
-import { useAppStore } from '@/store/store';
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { MapPin, Phone, DollarSign, Building2, Stethoscope, User, Clock, Star, Calendar, Home, Hospital } from "lucide-react";
@@ -13,6 +12,7 @@ import { Circles } from 'react-loader-spinner';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
+import { useAppStore } from '@/store/store';
 
 interface DoctorType {
   params: { id: string; locale: string };

@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Calendar, Clock, User, Filter, MoreHorizontal, Check, X, AlertCircle, Trash2, Search } from 'lucide-react';
 import axios from 'axios';
-import { useAppStore } from '@/store/store';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { debounce } from 'lodash'; // Assume lodash is installed for debounce
@@ -12,6 +11,7 @@ import LoadingState from "./components/LoadingState";
 import EmptyState from "./components/EmptyState";
 import BookingItem from "./components/BookingItem";
 import AddDoctorDialog from './components/AddDoctor';
+import { useAppStore } from '@/store/store';
 
 interface Booking {
   id: number;
