@@ -5,6 +5,8 @@ import Link from "next/link"
 import { getTranslations } from "next-intl/server"
 import Image from "next/image"
 
+import aboutBg from "@/assets/images/useful/about-bg.jpg"
+
 import aboutImg from "@/assets/images/about/about-bg.jpg"
 import Javohir from "@/assets/images/about/Javohir.jpg"
 import Sunnatillo from "@/assets/images/about/Sunnatillo.webp"
@@ -111,21 +113,21 @@ export default async function AboutPage() {
   }))
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundImage: `url(${aboutBg.src})` }}>
       {/* Hero Section */}
       <section
         style={{ backgroundImage: `url(${aboutImg.src})` }}
         className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[8%] bg-black bg-no-repeat min-h-[27rem] flex items-center w-full"
       >
         <span className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2]"></span>
-        <div className="container max-w-7xl   px-4 sm:px-6 lg:px-8 relative animate-fade-in-down opacity-0 delay-200">
+        <div className="container max-w-7xl   px-4 sm:px-6 lg:px-8 relative animate-fade-in-down opacity-0 delay-300">
           <h1 className="text-4xl lg:text-6xl font-bold mb-6">{translations("hero.title")}</h1>
           <p className="md:text-2xl mb-8 text-blue-50 max-w-3xl">{translations("hero.description")}</p>
         </div>
       </section>
 
       {/* Our Mission */}
-      <section className="py-20 bg-worm-grey">
+      <section className="py-20  relative animate-fade-in-down opacity-0 delay-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -177,7 +179,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-gray-50">
+      <section className="py-20  ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{translations("values.title")}</h2>
@@ -201,7 +203,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Our Team */}
-      <section className="py-20 bg-worm-grey">
+      <section className="py-20  ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{translations("team.title")}</h2>
@@ -232,53 +234,55 @@ export default async function AboutPage() {
       </section>
 
       {/* Timeline Section */}
-      <section className="w-full container mx-auto py-16 px-4">
-        <div className="mb-12">
-          <h1 className="font-medium text-3xl text-[#1e1e1e]">
-            Bizning tarixmiz
-          </h1>
-          <p className="font-normal text-xl text-[#00000080] [font-family:'Rubik',Helvetica]">
-            Diagno AI platformasining rivojlanish yo&#39;li
-          </p>
-        </div>
+      <section className="w-full py-16 px-4 bg-[#eff7f6]">
+        <div className="container">
+          <div className="mb-12">
+            <h1 className="font-medium text-3xl text-[#1e1e1e]">
+              Bizning tarixmiz
+            </h1>
+            <p className="font-normal text-xl text-[#00000080] [font-family:'Rubik',Helvetica]">
+              Diagno AI platformasining rivojlanish yo&#39;li
+            </p>
+          </div>
 
-        <div className="relative">
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-dashed border-[#2b6a73]"></div>
-          <div className="relative flex flex-col">
-            <span className="top-[35%] sticky left-1/2 transform -translate-x-1/2 bg-[#2b6a73] w-4 h-4 inline-block rounded-full z-20"></span>
-            <span className="top-[37%] sticky left-1/2 transform -translate-x-1/2 bg-worm-grey w-4 h-4 z-10 flex justify-center">
-              <div className="w-[26rem] sm:w-[30rem] h-[712px] shrink-0 bg-neutral-50 z-10"></div>
-            </span>
-            {timelineItems.map((item, index) => (
-              <div key={item.year || index} className="relative">
-                <div
-                  className={`flex relative ${item.position === "left" ? "justify-start" : "justify-end"} w-full`}
-                >
-                  <span className={`absolute left-1/2 transform -translate-x-1/2 flex items-center ${item.position === "left" ? "justify-end" : "justify-start"} bg-[#2b6a73] w-4 h-4 rounded-full`}>
-                    <div className="h-[1px] w-40 sm:w-52 transform -translate-y-1/2 top-1/2 bg-[#2b6a73] shrink-0"></div>
-                  </span>
-                  <Card
-                    className={`bg-transparent w-full max-w-[700px] border-none shadow-none ${item.position === "right" ? "ml-auto" : "mr-auto"}`}
+          <div className="relative">
+            <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-dashed border-[#2b6a73]"></div>
+            <div className="relative flex flex-col">
+              <span className="top-[50%] sticky left-1/2 transform -translate-x-1/2 bg-[#2b6a73] w-4 h-4 inline-block rounded-full z-20"></span>
+              <span className="top-[52%] sticky left-1/2 transform -translate-x-1/2 bg-[#eff7f6] w-4 h-4 z-10 flex justify-center">
+                <div className="w-[26rem] sm:w-[30rem] h-[712px] shrink-0 bg-[#eff7f6] z-10"></div>
+              </span>
+              {timelineItems.map((item, index) => (
+                <div key={item.year || index} className="relative">
+                  <div
+                    className={`flex relative ${item.position === "left" ? "justify-start" : "justify-end"} w-full`}
                   >
-                    <CardContent className="p-0">
-                      <div
-                        className={`flex flex-col ${item.position === "right" ? "items-end text-right" : "items-start text-left"}`}
-                      >
-                        <h2 className="font-medium text-[#1e1e1e] text-xl mb-2 z-20">
-                          {item.title}
-                        </h2>
-                        <span className="font-normal text-[#2b6a73] text-lg z-20">
-                          {item.year}
-                        </span>
-                        <p className="font-normal text-[#00000080] z-20">
-                          {item.description}
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
+                    <span className={`absolute left-1/2 transform -translate-x-1/2 flex items-center ${item.position === "left" ? "justify-end" : "justify-start"} bg-[#2b6a73] w-4 h-4 rounded-full`}>
+                      <div className="h-[1px] w-40 sm:w-52 transform -translate-y-1/2 top-1/2 bg-[#2b6a73] shrink-0"></div>
+                    </span>
+                    <Card
+                      className={`bg-transparent w-full max-w-[700px] border-none shadow-none ${item.position === "right" ? "ml-auto" : "mr-auto"}`}
+                    >
+                      <CardContent className="p-0">
+                        <div
+                          className={`flex flex-col ${item.position === "right" ? "items-end text-right" : "items-start text-left"}`}
+                        >
+                          <h2 className="font-medium text-[#1e1e1e] text-xl mb-2 z-20">
+                            {item.title}
+                          </h2>
+                          <span className="font-normal text-[#2b6a73] text-lg z-20">
+                            {item.year}
+                          </span>
+                          <p className="font-normal text-[#00000080] z-20">
+                            {item.description}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect,  useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAppStore } from '@/store/store';
 import { useDoctorsQuery, useBookAppointmentMutation } from './api';
@@ -10,7 +10,7 @@ import { Doctor } from './types';
 
 export default function Page() {
   const translations = useTranslations('doctors');
-  const { user, latitude, longitude, setLocation, isLoggedIn } = useAppStore();
+  const { user, latitude, longitude, setLocation } = useAppStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRating, setSelectedRating] = useState('');
 

@@ -5,32 +5,19 @@ import { useDoctorQuery, useFreeTimes, useCreateBookingMutation, useGetClinicBoo
 import { useAppStore } from '@/store/store';
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-
-import {
-  MapPin,
-  Phone,
-  DollarSign,
-  Building2,
-  Stethoscope,
-  User,
-  Clock,
-  Star,
-  Calendar,
-  Home,
-  Hospital,
-} from "lucide-react";
+import { MapPin, Phone, DollarSign, Building2, Stethoscope, User, Clock, Star, Calendar, Home, Hospital } from "lucide-react";
 import Image from "next/image";
 import { format } from 'date-fns';
 import { use } from 'react';
 import { Circles } from 'react-loader-spinner';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
-import { formatPrice } from '@/lib/utils';
-import { useEffect } from 'react';
 import { Link } from '@/i18n/navigation';
+
 interface DoctorType {
   params: { id: string; locale: string };
 }
+
 type PageProps = {
   params: Promise<{
     locale: string;
@@ -51,12 +38,11 @@ export default function DoctorPage({ params }: PageProps) {
 
   const { data: doctor, isLoading: loading, isPending, error } = useDoctorQuery(id, token);
 
-  
   const [selectedDate, setSelectedDate] = useState(new Date());
   const formattedDate = format(selectedDate, 'yyyy-MM-dd');
   const { data: freeTimes, isLoading: freeTimesLoading, refetch: refetchFreeTimes } = useFreeTimes(+id, token, formattedDate);
 
-  const createBooking = useCreateBookingMutation();
+  const createBooking = useCreateBookingMutation(token);
   const { data: clinicBookings, isLoading: clinicBookingsLoading } = useGetClinicBookings(token, role === 'clinic');
   const updateBooking = useUpdateBookingMutation(locale);
   const deleteBooking = useDeleteBookingMutation(locale);
@@ -86,7 +72,6 @@ export default function DoctorPage({ params }: PageProps) {
       }
     );
   };
- 
 
   const bookedTimes = freeTimes?.booked_times?.map(time => {
     return parseInt(time.split(':')[0]);
@@ -94,7 +79,6 @@ export default function DoctorPage({ params }: PageProps) {
 
   const allTimes: number[] = Array.from({ length: 13 }, (_, i) => i + 8);
   const sortedTimes = allTimes.sort((a, b) => a - b);
-  // const formatPrice = (price: number) => new Intl.NumberFormat('en-US').format(price);
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedDate(new Date(e.target.value));
@@ -115,17 +99,11 @@ export default function DoctorPage({ params }: PageProps) {
     );
   };
 
-    if (loading || isPending) {
+  if (loading || isPending) {
     return (
       <div className='min-h-screen flex items-center justify-center bg-slate-200'>
         <div className="flex items-center justify-center p-10 mt-10">
-          <Circles
-            height="80"
-            width="80"
-            color="#2563eb"
-            ariaLabel="circles-loading"
-            visible={true}
-          />
+          <Circles height="80" width="80" color="#2563eb" ariaLabel="circles-loading" visible={true} />
         </div>
       </div>
     );
@@ -139,33 +117,27 @@ export default function DoctorPage({ params }: PageProps) {
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
             {translations('doctorNotFound')}
           </h2>
-          
-          <Link 
-            href="/doctors"
-            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-          >
+          <Link href="/doctors" className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
             <Hospital />
           </Link>
         </div>
-      </div> 
+      </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-11">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Section */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
           <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-12">
             <div className="flex flex-col lg:flex-row items-center lg:items-start space-y-6 lg:space-y-0 lg:space-x-8">
-              {/* Doctor Image */}
               <div className="relative">
                 <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-white p-1 shadow-2xl">
                   <Image
                     width={400}
                     height={400}
-                    src={`${doctor!?.image}`}
-                    alt={doctor!?.name}
+                    src={`${process.env.NEXT_PUBLIC_API_URL}${doctor.image}`}
+                    alt={doctor.name}
                     className="w-full h-full rounded-full object-cover"
                   />
                 </div>
@@ -174,23 +146,21 @@ export default function DoctorPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Doctor Info */}
               <div className="flex-1 text-center lg:text-left">
                 <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">
-                  Dr. {doctor!.name}
+                  {doctor.name}
                 </h1>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
                   <Stethoscope className="h-5 w-5 text-blue-200" />
                   <span className="text-xl text-blue-200">
-                    {doctor!.field}
+                    {doctor.translations.field}
                   </span>
                 </div>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
                   <Building2 className="h-5 w-5 text-blue-200" />
-                  <span className="text-blue-200">{doctor!.hospital}</span>
+                  <span className="text-blue-200">{doctor.hospital.name}</span>
                 </div>
 
-                {/* Rating */}
                 <div className="flex items-center justify-center lg:justify-start space-x-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
@@ -198,24 +168,23 @@ export default function DoctorPage({ params }: PageProps) {
                   <span className="text-blue-200 ml-2">4.9 (127 {translations('reviews')})</span>
                 </div>
 
-                {/* Quick Actions */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                   {user?.role !== 'clinic' && (
-
-                    <Dialog  >
-                      <DialogTrigger className='bg-blue-500 py-1 px-4 flex items-center justify-center gap-2 text-white border-none rounded-lg'> <Calendar className="w-4 h-4 mr-1" />
-                        {translations('doctorCard.bookButton')}</DialogTrigger>
+                    <Dialog>
+                      <DialogTrigger className='bg-blue-500 py-1 px-4 flex items-center justify-center gap-2 text-white border-none rounded-lg'>
+                        <Calendar className="w-4 h-4 mr-1" />
+                        {translations('doctorCard.bookButton')}
+                      </DialogTrigger>
                       <DialogContent onClick={(e) => e.stopPropagation()}>
                         <DialogHeader onClick={(e) => e.stopPropagation()}>
-                          <div className="bg-white rounded-xl ">
+                          <div className="bg-white rounded-xl">
                             <h2 className="text-2xl text-center font-bold text-gray-900 mb-2">
                               <span className='text-lg md:text-3xl text-center'>{translations('availableTimeSlots')}</span>
                             </h2>
                             <div className="mb-4 flex items-center justify-center gap-3">
-                              <h2 className="text-2xl font-bold text-gray-900  flex items-center space-x-2">
+                              <h2 className="text-2xl font-bold text-gray-900 flex items-center space-x-2">
                                 {selectedDate.toLocaleDateString()}
                               </h2>
-
                               <input
                                 width={36}
                                 type="date"
@@ -247,11 +216,14 @@ export default function DoctorPage({ params }: PageProps) {
                       </DialogContent>
                     </Dialog>
                   )}
-                  {doctor!.phone_number && (
-                    <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
+                  {doctor.hospital.phone_number && (
+                    <Link 
+                      href={`tel:${doctor.hospital.phone_number}`}
+                      className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2"
+                    >
                       <Phone className="h-5 w-5" />
                       <span>{translations('callNow')}</span>
-                    </button>
+                    </Link>
                   )}
                 </div>
               </div>
@@ -259,47 +231,35 @@ export default function DoctorPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* About Section */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <User className="h-6 w-6 text-blue-600" />
-                <span>{translations('aboutDoctor')} {doctor!.name}</span>
+                <span>{translations('aboutDoctor')} {doctor.name}</span>
               </h2>
               <p className="text-gray-700 leading-relaxed text-lg">
-                {doctor!.description}
+                {doctor.translations.description}
               </p>
             </div>
 
-            {/* Specialization */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <Stethoscope className="h-6 w-6 text-blue-600" />
                 <span>{translations('specialization')}</span>
               </h2>
               <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
-                <h3 className="font-semibold text-blue-900 text-lg">{doctor!.field}</h3>
+                <h3 className="font-semibold text-blue-900 text-lg">{doctor.translations.field}</h3>
                 <p className="text-blue-800 mt-1">
                   {translations('specializationDescription')}
                 </p>
               </div>
             </div>
 
-            {/* Services */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">{translations('servicesOffered')}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  translations('services.fractureTreatment'),
-                  translations('services.arthritisManagement'),
-                  translations('services.sportsInjuryRecovery'),
-                  translations('services.jointReplacement'),
-                  translations('services.physicalTherapy'),
-                  translations('services.consultation'),
-                ].map((service) => (
+                {doctor.hospital.departments.map((service) => (
                   <div
                     key={service}
                     className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
@@ -350,7 +310,7 @@ export default function DoctorPage({ params }: PageProps) {
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                   <Clock className="h-6 w-6 text-blue-600" />
-                  <span>{translations('bookingsForDoctor')} {doctor!.name}</span>
+                  <span>{translations('bookingsForDoctor')} {doctor.name}</span>
                 </h2>
                 {clinicBookingsLoading ? (
                   <p>{translations('loadingBookings')}</p>
@@ -396,9 +356,7 @@ export default function DoctorPage({ params }: PageProps) {
             )}
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Consultation Fee */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <DollarSign className="h-6 w-6 text-green-600" />
@@ -406,13 +364,12 @@ export default function DoctorPage({ params }: PageProps) {
               </h3>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">
-                  {formatPrice(doctor!.prize!)}
+                  {doctor.prize}
                 </div>
                 <p className="text-gray-600">{translations('perConsultation')}</p>
               </div>
             </div>
 
-            {/* Contact Information */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-900 mb-4">{translations('contactInformation')}</h3>
               <div className="space-y-4">
@@ -420,16 +377,16 @@ export default function DoctorPage({ params }: PageProps) {
                   <Building2 className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900">{translations('hospital')}</p>
-                    <p className="text-gray-600">{doctor!.hospital}</p>
+                    <p className="text-gray-600">{doctor.hospital.name}</p>
                   </div>
                 </div>
 
-                {doctor!.phone_number && (
+                {doctor.hospital.phone_number && (
                   <div className="flex items-start space-x-3">
                     <Phone className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                     <div>
                       <p className="font-medium text-gray-900">{translations('phone')}</p>
-                      <p className="text-gray-600">{doctor!.phone_number}</p>
+                      <p className="text-gray-600">{doctor.hospital.phone_number}</p>
                     </div>
                   </div>
                 )}
@@ -439,7 +396,7 @@ export default function DoctorPage({ params }: PageProps) {
                   <div>
                     <p className="font-medium text-gray-900">{translations('location')}</p>
                     <p className="text-gray-600">
-                      {doctor!.latitude}, {doctor!.longitude}
+                      {doctor.hospital.latitude}, {doctor.hospital.longitude}
                     </p>
                     <p className="text-sm text-gray-500 mt-1">Tashkent, Uzbekistan</p>
                   </div>
@@ -447,7 +404,6 @@ export default function DoctorPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Working Hours */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <Clock className="h-6 w-6 text-blue-600" />
@@ -462,7 +418,7 @@ export default function DoctorPage({ params }: PageProps) {
                   <span className="text-gray-600">{translations('saturday')}</span>
                   <span className="font-medium">9:00 AM - 2:00 PM</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between" >
                   <span className="text-gray-600">{translations('sunday')}</span>
                   <span className="font-medium text-red-600">{translations('closed')}</span>
                 </div>

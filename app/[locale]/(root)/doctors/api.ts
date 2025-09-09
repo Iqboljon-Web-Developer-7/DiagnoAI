@@ -114,23 +114,7 @@ export function useDoctorQuery(id: string, token: string | undefined) {
         const data = await res.json();
 
         // Transform API response to match Doctor interface
-        return {
-          id: data.id,
-          name: data.name,
-          field: data.translations?.field ?? data.tags?.[0] ?? '',
-          hospital: data.hospital?.name ?? '',
-          description: data.translations?.description ?? '',
-          rating: data.rating ?? undefined,
-          reviews: data.reviews ?? undefined,
-          distance: data.distance ?? undefined,
-          availability: data.availability ?? undefined,
-          price: data.price ?? undefined,
-          prize: data.prize ?? undefined,
-          image: data.image ? (data.image.startsWith('http') ? data.image : `https://api.diagnoai.uz${data.image}`) : undefined,
-          experience: data.experience ?? undefined,
-          longitude: data.hospital?.longitude ?? undefined,
-          latitude: data.hospital?.latitude ?? undefined,
-        };
+        return data;
       } catch {
         return null;
       }
@@ -165,8 +149,6 @@ export function useFreeTimes(doctorId: number, token: string | undefined, date: 
     enabled: !!doctorId && !!token && !!date,
   });
 }
-
-// New Hooks for Booking System
 
 export function useCreateBookingMutation(token: string | undefined) {
   const queryClient = useQueryClient();
