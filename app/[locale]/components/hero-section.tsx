@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Button } from "@/components/ui/button"
-import { Upload , Clock } from "lucide-react"
 import { Link } from "@/i18n/navigation"
+import { Upload   } from "lucide-react"
 
 export async function HeroSection() {
   const t = await getTranslations('Index');
@@ -30,7 +30,7 @@ export async function HeroSection() {
         className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2] z-10"
       ></span>
       <div
-        className="container relative max-w-6xl mx-auto px-1 sm:px-6 lg:px-8 z-10"
+        className="container relative max-w-6xl mx-auto z-10"
       >
         <div className="items-center">
           <div className="text-center items-center justify-center flex flex-col">

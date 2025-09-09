@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MapPin, Phone, Filter, Search, HospitalIcon } from "lucide-react"
-import { useAppStore } from "@/Store/store"
+import { useAppStore } from "@/store/store"
 import { useTranslations } from "next-intl"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
@@ -398,7 +398,7 @@ export default function ClientHospitalsPage() {
                     <div
                       className="relative min-w-64 hidden sm:block h-[-webkit-fill-available] bg-contain bg-no-repeat"
                       style={{
-                        backgroundImage: `url(https://api.diagnoai.uz${hospital.image})`,
+                        backgroundImage: `url(https://api.diagnoai.uz${hospital?.image})`,
                         backgroundPosition: "center",
                       }}
                     />
@@ -410,7 +410,7 @@ export default function ClientHospitalsPage() {
                             <Image
                               width={66}
                               height={66}
-                              src={`https://api.diagnoai.uz${hospital.image}`}
+                              src={`https://api.diagnoai.uz${hospital?.image}`}
                               alt={hospital.name}
                               className="w-16 h-16 rounded-full sm:hidden object-contain"
                             />

@@ -376,6 +376,8 @@
     "specialtiesTitle": "Specialties",
     "specialtiesDescription": "Available specialties for our doctors",
     "count": "{count} doctors",
+    "doctorNotFound": "Doctor not found",
+      "auth": "Login to access Diagno AI platform",
     "filters": {
       "title": "Filters",
       "searchLabel": "Search",
@@ -536,7 +538,7 @@
       "sunday": "Sunday",
       "closed": "Closed",
       "callNow": "Call Now"
-    }, 
+  }, 
 "availableTimeSlots": "Available Time Slots",
 "noAvailableSlots": "No available slots on this date.",
 "booked": "Booked",
@@ -1021,5 +1023,12 @@
     "symptomPlaceholder": "Enter your symptoms...",
     "startConsultation": "Start Consultation",
 "newConsultation": "New Consultation"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for seems to have wandered off into the digital void.",
+    "actions": {
+      "home": "Home"
+    }
   }
 }

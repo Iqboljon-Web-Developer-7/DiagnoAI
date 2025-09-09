@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useAppStore } from '@/Store/store';
+import { useAppStore } from '@/store/store';
 import { useTranslations } from 'next-intl';
 import { Doctor, Booking } from './types';
 import { toast } from 'sonner';
@@ -27,26 +27,7 @@ export async function fetchDoctors({
   if (!res.ok) throw new Error('Failed to fetch doctors');
   const rawData = await res.json();
 
-  // Transform API response to match Doctor interface used in UI
-  const transformed: Doctor[] = (Array.isArray(rawData) ? rawData : rawData?.results ?? []).map((d: any) => ({
-    id: d.id,
-    name: d.name,
-    field: d.translations?.field ?? d.tags?.[0] ?? '',
-    hospital: d.hospital?.name ?? '',
-    description: d.translations?.description ?? '',
-    rating: d.rating ?? undefined,
-    reviews: d.reviews ?? undefined,
-    distance: d.distance ?? undefined,
-    availability: d.availability ?? undefined,
-    price: d.price ?? undefined,
-    prize: d.prize ?? undefined,
-    image: d.image ? (d.image.startsWith('http') ? d.image : `${API_BASE_URL}${d.image}`) : undefined,
-    experience: d.experience ?? undefined,
-    longitude: d.hospital?.longitude ?? undefined,
-    latitude: d.hospital?.latitude ?? undefined,
-  }));
-
-  return transformed;
+  return rawData;
 }
 
 export function useDoctorsQuery(latitude: number, longitude: number, selectedSpecialty?: string) {
@@ -154,7 +135,7 @@ export function useDoctorQuery(id: string, token: string | undefined) {
         return null;
       }
     },
-    enabled: !!id && !!token,
+    enabled: !!id,
   });
 }
 
@@ -187,18 +168,16 @@ export function useFreeTimes(doctorId: number, token: string | undefined, date: 
 
 // New Hooks for Booking System
 
-export function useCreateBookingMutation() {
-  const { user } = useAppStore();
+export function useCreateBookingMutation(token: string | undefined) {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({ doctor, appointment_date }: { doctor: number; appointment_date: string }) => {
-      if (!user?.token) throw new Error('Authentication required');
       const res = await fetch(`${API_BASE_URL}/bookings/bookings/create/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ doctor, appointment_date }),
       });

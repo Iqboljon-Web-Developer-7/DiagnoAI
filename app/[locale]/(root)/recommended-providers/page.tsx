@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Star, MapPin, Clock, Phone, Calendar, Filter } from "lucide-react"
-import { useAppStore } from "@/Store/store"
+import { useAppStore } from "@/store/store"
 import { useTranslations } from 'next-intl'
 import Image from "next/image"
 import { toast } from "sonner"
@@ -250,7 +250,7 @@ export default function RecommendedProvidersPage() {
                         <Image
                           width={80}
                           height={80}
-                          src={doctor.image || "/placeholder-doctor.jpg"}
+                          src={doctor?.image || "/placeholder-doctor.jpg"}
                           alt={doctor.name}
                           className="w-12 h-12 sm:w-20 sm:h-20 rounded-full object-cover"
                         />

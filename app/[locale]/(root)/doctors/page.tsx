@@ -1,29 +1,23 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useAppStore } from '@/Store/store';
+import { useAppStore } from '@/store/store';
 import { useDoctorsQuery, useBookAppointmentMutation } from './api';
-// import { Specialties } from './components/Specialties';
 import { Filters } from './components/Filters';
 import { DoctorList } from './components/DoctorList';
-import { Doctor  } from './types';
-import { haversine } from '@/lib/utils';
-
-interface Specialities{ name: string; count: number; icon: string }[]
+import { Doctor } from './types';
+ 
 
 export default function Page() {
   const translations = useTranslations('doctors');
   const { user, latitude, longitude, setLocation, isLoggedIn } = useAppStore();
   const [searchTerm, setSearchTerm] = useState('');
-  // const [selectedSpecialty, setSelectedSpecialty] = useState('');
   const [selectedRating, setSelectedRating] = useState('');
 
   const { data: doctors = [], isLoading, error } = useDoctorsQuery(latitude, longitude, '');
 
-  // Book appointment mutation
   const bookMutation = useBookAppointmentMutation();
 
-  // Get user location
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -31,50 +25,20 @@ export default function Page() {
           setLocation(position.coords.latitude, position.coords.longitude);
         },
         () => {
-          // bookMutation.mutate(
-          //   { userId: '', latitude, longitude, doctorName: '' },
-          //   {
-          //     onError: () => {
-          //       // Error toast handled in useBookAppointmentMutation
-          //     },
-          //   }
-          // );
+          setLocation(0, 0);
         }
       );
-    }else{
-      setLocation(0, 0)
+    } else {
+      setLocation(0, 0);
     }
-  }, [setLocation, bookMutation, latitude, longitude]);
+  }, [setLocation]);
 
-  // const enrichedDoctors = useMemo(() => {
-  //   if (!latitude || !longitude) return doctors
-
-  //   return doctors.map((h: Doctor) => ({
-  //     ...h,
-  //     distance: haversine(latitude, longitude, h.latitude, h.longitude),
-  //     rating: h.rating || 0,
-  //   }))
-  // }, [ latitude, longitude])
-
-
-  // Filter doctors (client-side)
-  const filteredDoctors = doctors.filter((doctor) => {
+  const filteredDoctors = doctors.filter((doctor: Doctor) => {
     const matchesSearch =
       doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      doctor.field.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesRating = !selectedRating || (doctor.rating && doctor.rating >= Number.parseFloat(selectedRating));
-    
-    // const matchesSpecialty = !selectedSpecialty || doctor.field === selectedSpecialty;
-    return matchesSearch && matchesRating
+      doctor.translations.field.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch;
   });
-
-
-  
-  const specialties: Specialities[] = Array.from(new Set(doctors.map((doctor) => doctor.field))).map((name) => ({
-    name,
-    count: doctors.filter((d) => d.field === name).length,
-    icon: '🩺',
-  }));
  
   const LoadingPlaceholder = () => (
     <div className="animate-pulse">
@@ -90,8 +54,7 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-gray-50 pt-11">
       <div className="max-w-7xl mx-auto px-2 py-4 sm:py-6 sm:px-6 lg:px-8 lg:py-8">
-        {/* Hero Section */}
-        <div className=" sm:mb-12">
+        <div className="sm:mb-12">
           <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4">
             {translations('pageTitle') || 'Find a Doctor'}
           </h1>
@@ -105,35 +68,16 @@ export default function Page() {
             <Filters
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
-              // selectedSpecialty={selectedSpecialty}
-              // setSelectedSpecialty={setSelectedSpecialty}
               selectedRating={selectedRating}
               setSelectedRating={setSelectedRating}
-              // specialties={specialties}
               onClearFilters={() => {
                 setSearchTerm('');
-                // setSelectedSpecialty('');
                 setSelectedRating('');
-                bookMutation.mutate(
-                  { userId: '', latitude, longitude, doctorName: '' },
-                  {
-                    onSuccess: () => {
-                      // Success toast handled in useBookAppointmentMutation
-                    },
-                  }
-                );
               }}
             />
           </div>
 
           <div className="lg:col-span-3">
-            {/* <div className="flex justify-between items-center mb-6"> */}
-              {/* <h2 className="text-2xl font-bold text-gray-900">
-                {translations('doctorsListTitle', { count: filteredDoctors.length }) ||
-                  `${filteredDoctors.length} Doctors`}
-              </h2> */}
-            {/* </div> */}
- 
             {error && (
               <div className="text-center py-8 text-red-600">
                 {translations('toastMessages.error') || 'Failed to load doctors'}

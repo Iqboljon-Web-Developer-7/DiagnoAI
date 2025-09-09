@@ -360,7 +360,6 @@
     },
     "saveResultButton": "Natijani saqlash",
     "detailedReportButton": "Batafsil hisobot",
-
     "chatHistoryTitle": "Chat tarixi",
     "newChatButton": "Yangi chat",
     "deleteChatAria": "Chatni o'chirish",
@@ -369,7 +368,6 @@
     "chatDeletedSuccess": "Chat muvaffaqiyatli o'chirildi.",
     "chatDeleteFailed": "Chatni o'chirib bo'lmadi. Iltimos, qayta urinib ko'ring.",
     "startNewChat": "Yangi tashxis boshlash",
-
     "noDoctors": "Shifokorlar topilmadi",
     "noMessages": "Hozircha xabarlar yo'q",
     "failedToLoadChats": "Chat tarixini yuklab bo'lmadi. Iltimos, keyinroq urinib ko'ring.",
@@ -454,6 +452,8 @@
     "specialtiesTitle": "Mutaxassisliklar",
     "specialtiesDescription": "Mavjud shifokorlar bo'yicha mutaxassisliklar",
     "count": "{count} shifokor",
+    "doctorNotFound": "Shifokor topilmadi",
+    "auth": "Diagno AI platformasiga kirish uchun tizimga kiring",
     "filters": {
       "title": "Filterlar",
       "searchLabel": "Qidiruv",
@@ -582,7 +582,7 @@
         "reviews": 142,
         "distance": "3.5 km",
         "hospital": "Teri Kasalliklari Markazi",
-        "price": "180,000 so'm",  
+        "price": "180,000 so'm",
         "availability": "Ertaga mavjud",
         "description": "Teri kasalliklari va kosmetologiya bo'yicha mutaxassis. Zamonaviy lazer texnologiyalarini qo'llaydi."
       }
@@ -615,54 +615,54 @@
       "closed": "Yopiq",
       "callNow": "Hozir qo'ng'iroq qiling"
     },
-"availableTimeSlots": "Mavjud vaqt oralig'i",
-"noAvailableSlots": "Ushbu sanada mavjud vaqt oralig'i yo'q.",
-"booked": "Band qilingan",
-"book": "Band qilish",
-"callNow": "Hozir qo'ng'iroq qilish",
-"aboutDoctor": "Doktor haqida",
-"specialization": "Mutaxassislik",
-"specializationDescription": "Suyak, bo'g'in va mushak holatlarini ilg'or tibbiy texnikalar bilan davolash bo'yicha mutaxassis.",
-"servicesOffered": "Taklif etilayotgan xizmatlar",
-"services": {
-"fractureTreatment": "Siniqni davolash",
-"arthritisManagement": "Artritni boshqarish",
-"sportsInjuryRecovery": "Sport jarohatlaridan tiklanish",
-"jointReplacement": "Bo'g'inlarni almashtirish",
-"physicalTherapy": "Jismoniy terapiya",
-"consultation": "Maslahat"
-},
-"availableTimeSlotsWithDate": "Mavjud vaqt oralig'i",
-"noAvailableSlotsToday": "Bugun mavjud vaqt oralig'i yo'q.",
-"bookingsForDoctor": "Doktor uchun bandlar",
-"loadingBookings": "Bandlarni yuklanmoqda...",
-"noBookings": "Bu doktor uchun bandlar yo'q!",
-"id": "ID:",
-"user": "Foydalanuvchi:",
-"date": "Sana:",
-"status": "Holati:",
-"confirm": "Tasdiqlash",
-"cancel": "Bekor qilish",
-"delete": "O'chirish",
-"consultationFee": "Maslahat haqi",
-"perConsultation": "Maslahat uchun",
-"contactInformation": "Aloqa ma'lumotlari",
-"hospital": "Kasalxona",
-"phone": "Telefon",
-"location": "Joylashuvi",
-"workingHours": "Ish vaqtlari",
-"mondayFriday": "Dushanba - Juma",
-"saturday": "Shanba",
-"sunday": "Yakshanba",
-"closed": "Yopiq",
-"specialist": "Mutaxassis",
-"reviews": "sharhlar",
-"bookingUpdatedTo": "Band yangilandi",
-"failedToUpdateBooking": "Bandni yangilashda xato",
-"bookingDeleted": "Band o'chirildi",
-"failedToDeleteBooking": "Bandni o'chirishda xato",
-"bookingCreatedSuccessfully": "Band muvaffaqiyatli yaratildi!",
-"failedToCreateBooking": "Bandni yaratishda xato"
+    "availableTimeSlots": "Mavjud vaqt oralig'i",
+    "noAvailableSlots": "Ushbu sanada mavjud vaqt oralig'i yo'q.",
+    "booked": "Band qilingan",
+    "book": "Band qilish",
+    "callNow": "Hozir qo'ng'iroq qilish",
+    "aboutDoctor": "Doktor haqida",
+    "specialization": "Mutaxassislik",
+    "specializationDescription": "Suyak, bo'g'in va mushak holatlarini ilg'or tibbiy texnikalar bilan davolash bo'yicha mutaxassis.",
+    "servicesOffered": "Taklif etilayotgan xizmatlar",
+    "services": {
+      "fractureTreatment": "Siniqni davolash",
+      "arthritisManagement": "Artritni boshqarish",
+      "sportsInjuryRecovery": "Sport jarohatlaridan tiklanish",
+      "jointReplacement": "Bo'g'inlarni almashtirish",
+      "physicalTherapy": "Jismoniy terapiya",
+      "consultation": "Maslahat"
+    },
+    "availableTimeSlotsWithDate": "Mavjud vaqt oralig'i",
+    "noAvailableSlotsToday": "Bugun mavjud vaqt oralig'i yo'q.",
+    "bookingsForDoctor": "Doktor uchun bandlar",
+    "loadingBookings": "Bandlarni yuklanmoqda...",
+    "noBookings": "Bu doktor uchun bandlar yo'q!",
+    "id": "ID:",
+    "user": "Foydalanuvchi:",
+    "date": "Sana:",
+    "status": "Holati:",
+    "confirm": "Tasdiqlash",
+    "cancel": "Bekor qilish",
+    "delete": "O'chirish",
+    "consultationFee": "Maslahat haqi",
+    "perConsultation": "Maslahat uchun",
+    "contactInformation": "Aloqa ma'lumotlari",
+    "hospital": "Kasalxona",
+    "phone": "Telefon",
+    "location": "Joylashuvi",
+    "workingHours": "Ish vaqtlari",
+    "mondayFriday": "Dushanba - Juma",
+    "saturday": "Shanba",
+    "sunday": "Yakshanba",
+    "closed": "Yopiq",
+    "specialist": "Mutaxassis",
+    "reviews": "sharhlar",
+    "bookingUpdatedTo": "Band yangilandi",
+    "failedToUpdateBooking": "Bandni yangilashda xato",
+    "bookingDeleted": "Band o'chirildi",
+    "failedToDeleteBooking": "Bandni o'chirishda xato",
+    "bookingCreatedSuccessfully": "Band muvaffaqiyatli yaratildi!",
+    "failedToCreateBooking": "Bandni yaratishda xato"
   },
   "about": {
     "hero": {
@@ -786,7 +786,7 @@
         "title": "Biz to'playdigan ma'lumotlar",
         "body": "Aniq AI tashxisi va shifokor tavsiyalarini taqdim etish uchun ismingiz, elektron pochtangiz, sog'liq ma'lumotlaringiz, yuklangan fayllar va joylashuv ma'lumotlari kabi shaxsiy ma'lumotlarni to'plashimiz mumkin."
       },
-        "use": {
+      "use": {
         "title": "Biz sizning ma'lumotlaringizdan qanday foydalanamiz",
         "item1": "AI asosidagi diagnostika natijalarini taqdim etish uchun.",
         "item2": "Sizni tegishli tibbiyot mutaxassislari bilan bog'lash uchun.",
@@ -951,12 +951,19 @@
       "description": "Tibbiyotda sun'iy intellektni qo'llash asoslari. #diagnoai #O'zbekistondagi birinchi tibbiy sun'iy intellekt"
     }
   },
-    "diagnosis": {
+  "diagnosis": {
     "title": "DiagnoAI ga xush kelibsiz",
     "description": "AI yordamida tibbiy maslahat olish uchun simptomlaringizni tasvirlang yoki tibbiy hujjatlarni yuklang.",
     "stethoscopeLabel": "Stetoskop ikonkasi",
-    "symptomPlaceholder": "Simptomlaringizni kiriting...", 
+    "symptomPlaceholder": "Simptomlaringizni kiriting...",
     "startConsultation": "Maslahatni boshlash",
     "newConsultation": "Yangi maslahatlashuv"
+  },
+  "notFound": {
+    "title": "Sahifa topilmadi",
+    "description": "Siz qidirayotgan sahifa mavjud emas.",
+    "actions": {
+      "home": "Bosh sahifa"
+    }
   }
 }

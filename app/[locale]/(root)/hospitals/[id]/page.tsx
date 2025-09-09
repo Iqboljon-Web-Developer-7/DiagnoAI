@@ -4,7 +4,7 @@ import React, { use, useState } from 'react';
 import { useGetHospital } from "../api";
 import { MapPin, Phone, Building2, Users, Clock, Star, Award, Stethoscope, Heart, Shield, Calendar, Navigation } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-import { useAppStore } from '@/Store/store';
+import { useAppStore } from '@/store/store';
 import Image from 'next/image';
 import { Circles } from "react-loader-spinner";
 import {
@@ -33,25 +33,25 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
   const { id } = use(params);
   const { user, isLoggedIn } = useAppStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { data: hospital = {} as Hospital, error, isLoading } = useGetHospital(id, user?.token);
+  const { data: hospital = {} as Hospital, error, isLoading, isPending } = useGetHospital(id, user?.token);
 
   const handleCall = () => {
     window.location.href = `tel:${hospital.phone_number}`;
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center p-10 mt-10">
-        <Circles
-          height="80"
-          width="80"
-          color="#2563eb"
-          ariaLabel="circles-loading"
-          visible={true}
-        />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="flex items-center justify-center p-10 mt-10">
+  //       <Circles
+  //         height="80"
+  //         width="80"
+  //         color="#2563eb"
+  //         ariaLabel="circles-loading"
+  //         visible={true}
+  //       />
+  //     </div>
+  //   );
+  // }
   if (error) {
     return <div className="text-center py-8 text-red-600">{(error as Error).message}</div>;
   }
@@ -69,8 +69,21 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
     { label: 'Patients/Year', value: '10K+', icon: Heart }
   ];
 
-  console.log(hospital?.image);
-  
+    if (isLoading || isPending) {
+    return (
+      <div className='min-h-screen flex items-center justify-center bg-slate-200'>
+        <div className="flex items-center justify-center p-10 mt-10">
+          <Circles
+            height="80"
+            width="80"
+            color="#2563eb"
+            ariaLabel="circles-loading"
+            visible={true}
+          />
+        </div>
+      </div>
+    );
+  }  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-11">
@@ -108,7 +121,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
               <Image
                 width={1200}
                 height={400}
-                src={`https://api.diagnoai.uz${hospital?.image || ''}`}
+                src={`https://api.diagnoai.uz${hospital?.banner_image || ''}`}
                 alt={hospital.name}
                 className="w-full h-full object-cover"
                 priority

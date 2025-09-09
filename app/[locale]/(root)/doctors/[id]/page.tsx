@@ -2,7 +2,7 @@
 
 import { Booking } from '../types';
 import { useDoctorQuery, useFreeTimes, useCreateBookingMutation, useGetClinicBookings, useUpdateBookingMutation, useDeleteBookingMutation } from "../api";
-import { useAppStore } from '@/Store/store';
+import { useAppStore } from '@/store/store';
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
@@ -16,6 +16,8 @@ import {
   Clock,
   Star,
   Calendar,
+  Home,
+  Hospital,
 } from "lucide-react";
 import Image from "next/image";
 import { format } from 'date-fns';
@@ -24,26 +26,32 @@ import { Circles } from 'react-loader-spinner';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 import { formatPrice } from '@/lib/utils';
+import { useEffect } from 'react';
+import { Link } from '@/i18n/navigation';
 interface DoctorType {
   params: { id: string; locale: string };
 }
 type PageProps = {
-  params: {
+  params: Promise<{
     locale: string;
     id: string;
-  };
+  }>;
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export default function DoctorPage({ params }: PageProps) {
-  const { id, locale } = params;
+  const resolvedParams = use(params);
+  const { id, locale } = resolvedParams;
+
   const { user } = useAppStore();
   const token = user?.token;
   const role = user?.role;
 
   const translations = useTranslations('doctors');
 
-  const { data: doctor, isLoading: loading, isPending } = useDoctorQuery(id, token);
+  const { data: doctor, isLoading: loading, isPending, error } = useDoctorQuery(id, token);
+
+  
   const [selectedDate, setSelectedDate] = useState(new Date());
   const formattedDate = format(selectedDate, 'yyyy-MM-dd');
   const { data: freeTimes, isLoading: freeTimesLoading, refetch: refetchFreeTimes } = useFreeTimes(+id, token, formattedDate);
@@ -78,20 +86,7 @@ export default function DoctorPage({ params }: PageProps) {
       }
     );
   };
-
-  if (loading || isPending) {
-    return (
-      <div className="flex items-center justify-center p-10 mt-10">
-        <Circles
-          height="80"
-          width="80"
-          color="#2563eb"
-          ariaLabel="circles-loading"
-          visible={true}
-        />
-      </div>
-    );
-  }
+ 
 
   const bookedTimes = freeTimes?.booked_times?.map(time => {
     return parseInt(time.split(':')[0]);
@@ -120,10 +115,44 @@ export default function DoctorPage({ params }: PageProps) {
     );
   };
 
+    if (loading || isPending) {
+    return (
+      <div className='min-h-screen flex items-center justify-center bg-slate-200'>
+        <div className="flex items-center justify-center p-10 mt-10">
+          <Circles
+            height="80"
+            width="80"
+            color="#2563eb"
+            ariaLabel="circles-loading"
+            visible={true}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (doctor == null) {
+    toast.error(translations('doctorNotFound'));
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-100">
+        <div className="bg-white p-6 rounded-lg shadow-md text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            {translations('doctorNotFound')}
+          </h2>
+          
+          <Link 
+            href="/doctors"
+            className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            <Hospital />
+          </Link>
+        </div>
+      </div> 
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-11">
-
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
@@ -135,8 +164,8 @@ export default function DoctorPage({ params }: PageProps) {
                   <Image
                     width={400}
                     height={400}
-                    src={`${doctor!.image}`}
-                    alt={doctor!.name}
+                    src={`${doctor!?.image}`}
+                    alt={doctor!?.name}
                     className="w-full h-full rounded-full object-cover"
                   />
                 </div>
@@ -171,53 +200,53 @@ export default function DoctorPage({ params }: PageProps) {
 
                 {/* Quick Actions */}
                 <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-                 {user?.role !== 'clinic' && (
+                  {user?.role !== 'clinic' && (
 
-                  <Dialog  >
-                    <DialogTrigger className='bg-blue-500 py-1 px-4 flex items-center justify-center gap-2 text-white border-none rounded-lg'> <Calendar className="w-4 h-4 mr-1" />
-                      {translations('doctorCard.bookButton')}</DialogTrigger>
-                    <DialogContent onClick={(e) => e.stopPropagation()}>
-                      <DialogHeader onClick={(e) => e.stopPropagation()}>
-                        <div className="bg-white rounded-xl ">
-                          <h2 className="text-2xl text-center font-bold text-gray-900 mb-2">
-                            <span className='text-lg md:text-3xl text-center'>{translations('availableTimeSlots')}</span>
-                          </h2>
-                          <div className="mb-4 flex items-center justify-center gap-3">
-                            <h2 className="text-2xl font-bold text-gray-900  flex items-center space-x-2">
-                              {selectedDate.toLocaleDateString()}
+                    <Dialog  >
+                      <DialogTrigger className='bg-blue-500 py-1 px-4 flex items-center justify-center gap-2 text-white border-none rounded-lg'> <Calendar className="w-4 h-4 mr-1" />
+                        {translations('doctorCard.bookButton')}</DialogTrigger>
+                      <DialogContent onClick={(e) => e.stopPropagation()}>
+                        <DialogHeader onClick={(e) => e.stopPropagation()}>
+                          <div className="bg-white rounded-xl ">
+                            <h2 className="text-2xl text-center font-bold text-gray-900 mb-2">
+                              <span className='text-lg md:text-3xl text-center'>{translations('availableTimeSlots')}</span>
                             </h2>
+                            <div className="mb-4 flex items-center justify-center gap-3">
+                              <h2 className="text-2xl font-bold text-gray-900  flex items-center space-x-2">
+                                {selectedDate.toLocaleDateString()}
+                              </h2>
 
-                            <input
-                              width={36}
-                              type="date"
-                              onChange={handleDateChange}
-                              className="w-9 border rounded p-2"
-                            />
+                              <input
+                                width={36}
+                                type="date"
+                                onChange={handleDateChange}
+                                className="w-9 border rounded p-2"
+                              />
+                            </div>
+                            {freeTimesLoading ? (
+                              <div className="animate-fade-in-down flex flex-col justify-center items-center min-h-8">
+                                <Circles color="#00BFFF" height={30} width={30} />
+                              </div>
+                            ) : sortedTimes.length > 0 ? (
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-72 overflow-auto">
+                                {sortedTimes.map((time: number) => (
+                                  <button
+                                    key={time}
+                                    className={`px-4 py-2 rounded-lg transition-colors ${bookedTimes.includes(time) ? 'bg-gray-300 cursor-not-allowed text-gray-600' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+                                    onClick={() => !bookedTimes.includes(time) && handleBookAppointment(time)}
+                                  >
+                                    {time.toString().padStart(2, '0')}:00 {bookedTimes.includes(time) ? '- ' + translations('booked') : '- ' + translations('book')}
+                                  </button>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="text-gray-600">{translations('noAvailableSlots')}</p>
+                            )}
                           </div>
-                          {freeTimesLoading ? (
-                            <div className="animate-fade-in-down flex flex-col justify-center items-center min-h-8">
-                              <Circles color="#00BFFF" height={30} width={30} />
-                            </div>
-                          ) : sortedTimes.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-72 overflow-auto">
-                              {sortedTimes.map((time: number) => (
-                                <button
-                                  key={time}
-                                  className={`px-4 py-2 rounded-lg transition-colors ${bookedTimes.includes(time) ? 'bg-gray-300 cursor-not-allowed text-gray-600' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
-                                  onClick={() => !bookedTimes.includes(time) && handleBookAppointment(time)}
-                                >
-                                  {time.toString().padStart(2, '0')}:00 {bookedTimes.includes(time) ? '- ' + translations('booked') : '- ' + translations('book')}
-                                </button>
-                              ))}
-                            </div>
-                          ) : (
-                            <p className="text-gray-600">{translations('noAvailableSlots')}</p>
-                          )}
-                        </div>
-                      </DialogHeader>
-                    </DialogContent>
-                  </Dialog>
-                 )}
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
+                  )}
                   {doctor!.phone_number && (
                     <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
                       <Phone className="h-5 w-5" />

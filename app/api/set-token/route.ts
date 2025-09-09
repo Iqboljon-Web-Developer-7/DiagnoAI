@@ -10,26 +10,26 @@ export async function GET(req:NextRequest) {
 export async function POST(req:NextRequest) {
   try {
     const body = await req.json();
-    const { token } = body;
+    const { attribute, value } = body;
 
-    if (!token) {
-      return new Response(JSON.stringify({ message: 'Token is required' }), {
+    if (!attribute || !value) {
+      return new Response(JSON.stringify({ message: 'Attribute and value are required' }), {
         status: 400,
       });
     }
 
-    // Set HTTP-only cookie
-    const response = new Response(JSON.stringify({ message: 'Token stored' }), {
+    // Set HTTP-only cookie with dynamic attribute name
+    const response = new Response(JSON.stringify({ message: 'Value stored' }), {
       status: 200,
     });
 
     response.headers.set(
       'Set-Cookie',
-      `auth_token=${token}; HttpOnly; Secure=${
+      `${attribute}=${value}; HttpOnly; Secure=${
         process.env.NODE_ENV === 'production'
       }; SameSite=Strict; Path=/; Max-Age=${24 * 60 * 60}`
     );
-
+ 
     return response;
   } catch (error) {
     return new Response(JSON.stringify({ message: 'Invalid request body' }), {

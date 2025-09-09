@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/sidebar"
 import { useTranslations } from "next-intl"
 import { Link, useRouter } from "@/i18n/navigation"
-import { useAppStore } from "@/Store/store"
+import { useAppStore } from "@/store/store"
 import { toast } from "sonner"
 
 import {

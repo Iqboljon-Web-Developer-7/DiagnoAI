@@ -33,7 +33,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   ])
 
   const { ref: inViewRef, inView } = useInView({
-    threshold: 0.5,
+    threshold: 0.5, triggerOnce:true, delay: 1100
   })
 
   const { autoplayIsPlaying, toggleAutoplay } = useAutoplay(emblaApi)
@@ -42,7 +42,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     if (inView && emblaApi && !autoplayIsPlaying) {
       toggleAutoplay()
     }
-  }, [inView, emblaApi, autoplayIsPlaying, toggleAutoplay])
+  }, [inView])
 
   return (
     <div className="embla" ref={inViewRef}>
@@ -62,7 +62,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                 <Avatar className="h-10 w-10 sm:h-12 sm:w-12">
                   <AvatarImage
                     className='object-cover'
-                    src={slide.imageSrc}
+                    src={slide?.imageSrc}
                     alt={slide.name}
                   />
                   <AvatarFallback>{slide.fallback}</AvatarFallback>
@@ -81,7 +81,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
           {type == 'partners' && slides.map((slide) => (
             <div key={slide.id} className="border mx-2 mb-4 shrink-0 max-w-80 bg-[#edf2f4] rounded-xl p-6 sm:p-8 pb-4 sm:pb-3 relative">
               <div className="flex items-center justify-center h-full">
-                <Image src={slide.imageSrc} alt='slide-image' width={400} height={400} />
+                <Image src={slide?.imageSrc} alt='slide-image' width={400} height={400} />
               </div>
             </div>
           ))}

@@ -25,9 +25,6 @@ interface Props {
 
 export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
   const translations = useTranslations('doctors');
-  const formatPrice = (price: number) =>
-    new Intl.NumberFormat("en-US").format(price);
-
   const handleBookAppointment = (time: number) => {
     alert(`Booking ${time} for 2025-08-28`);
   };
@@ -55,8 +52,8 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
                   <Image
                     width={400}
                     height={400}
-                    src={`${doctor.image}`}
-                    alt={doctor.name}
+                    src={`${doctor?.image}`}
+                    alt={doctor?.name}
                     className="w-full h-full rounded-full object-cover"
                   />
                 </div>
@@ -68,17 +65,17 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
               {/* Doctor Info */}
               <div className="flex-1 text-center lg:text-left">
                 <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">
-                  Dr. {doctor.name}
+                  Dr. {doctor?.name}
                 </h1>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
                   <Stethoscope className="h-5 w-5 text-blue-200" />
                   <span className="text-xl text-blue-200">
-                    {doctor.field} {translations('specialist')}
+                    {doctor?.field} {translations('specialist')}
                   </span>
                 </div>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
                   <Building2 className="h-5 w-5 text-blue-200" />
-                  <span className="text-blue-200">{doctor.hospital}</span>
+                  <span className="text-blue-200">{doctor?.hospital}</span>
                 </div>
 
                 {/* Rating */}
@@ -95,7 +92,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
                     <Clock className="h-5 w-5" />
                     <span>{translations('doctorCard.bookButton')}</span>
                   </button>
-                  {doctor.phone_number && (
+                  {doctor?.phone_number && (
                     <button className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2">
                       <Phone className="h-5 w-5" />
                       <span>{translations('callNow')}</span>
@@ -115,10 +112,10 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <User className="h-6 w-6 text-blue-600" />
-                <span>{translations('aboutDoctor')} {doctor.name}</span>
+                <span>{translations('aboutDoctor')} {doctor?.name}</span>
               </h2>
               <p className="text-gray-700 leading-relaxed text-lg">
-                {doctor.description}
+                {doctor?.description}
               </p>
             </div>
 
@@ -129,7 +126,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
                 <span>{translations('specialization')}</span>
               </h2>
               <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
-                <h3 className="font-semibold text-blue-900 text-lg">{doctor.field}</h3>
+                <h3 className="font-semibold text-blue-900 text-lg">{doctor?.field}</h3>
                 <p className="text-blue-800 mt-1">
                   {translations('specializationDescription')}
                 </p>
@@ -193,7 +190,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
               </h3>
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-600 mb-2">
-                  {doctor.prize!} UZS
+                  {doctor?.prize!} UZS
                 </div>
                 <p className="text-gray-600">{translations('perConsultation')}</p>
               </div>
@@ -207,16 +204,16 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
                   <Building2 className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900">{translations('hospital')}</p>
-                    <p className="text-gray-600">{doctor.hospital}</p>
+                    <p className="text-gray-600">{doctor?.hospital}</p>
                   </div>
                 </div>
 
-                {doctor.phone_number && (
+                {doctor?.phone_number && (
                   <div className="flex items-start space-x-3">
                     <Phone className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                     <div>
                       <p className="font-medium text-gray-900">{translations('phone')}</p>
-                      <p className="text-gray-600">{doctor.phone_number}</p>
+                      <p className="text-gray-600">{doctor?.phone_number}</p>
                     </div>
                   </div>
                 )}
@@ -226,7 +223,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
                   <div>
                     <p className="font-medium text-gray-900">{translations('location')}</p>
                     <p className="text-gray-600">
-                      {doctor.latitude}, {doctor.longitude}
+                      {doctor?.latitude}, {doctor?.longitude}
                     </p>
                     <p className="text-sm text-gray-500 mt-1">Tashkent, Uzbekistan</p>
                   </div>

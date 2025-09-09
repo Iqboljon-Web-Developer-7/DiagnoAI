@@ -1,20 +1,27 @@
+
 export interface Doctor {
-  id: string;
+  id: number;
   name: string;
-  field: string;
-  hospital: string;
-  description: string;
-  rating?: number;
-  reviews?: number;
-  distance?: number;
-  availability?: any;
-  price?: number;
-  prize?: number;
-  image?: string;
-  experience?: number;
-  longitude?: number;
-  latitude?: number;
-  phone_number?: string;
+  hospital: {
+    id: number;
+    name: string;
+    image: string;
+    banner_image: string;
+    phone_number: string;
+    latitude: number;
+    longitude: number;
+    beds: number;
+    doctors: number;
+    description: string;
+    departments: string[];
+  };
+  prize: string;
+  image: string;
+  tags: string[];
+  translations: {
+    field: string;
+    description: string;
+  };
 }
 
 export interface Booking {

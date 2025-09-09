@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useAppStore } from '@/Store/store';
+import { useAppStore } from '@/store/store';
 import { Button } from "@/components/ui/button";
 import {
     Dialog,

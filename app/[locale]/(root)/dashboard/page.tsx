@@ -22,7 +22,7 @@ import {
   Loader2,
 } from "lucide-react"
 import Link from "next/link"
-import { useAppStore } from "@/Store/store"
+import { useAppStore } from "@/store/store"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 

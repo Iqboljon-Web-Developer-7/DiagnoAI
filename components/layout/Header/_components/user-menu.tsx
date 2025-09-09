@@ -16,7 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { useAppStore } from "@/Store/store"
+import { useAppStore } from "@/store/store"
 import { User, LogOut, LogIn, UserPlus, Hospital } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
