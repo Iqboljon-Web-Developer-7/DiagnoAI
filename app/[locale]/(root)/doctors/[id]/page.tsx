@@ -23,7 +23,7 @@ type PageProps = {
     locale: string;
     id: string;
   }>;
-  searchParams?: { [key: string]: string | string[] | undefined };
+  // searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export default function page({ params }: PageProps) {

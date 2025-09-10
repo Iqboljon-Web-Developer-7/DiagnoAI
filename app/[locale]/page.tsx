@@ -21,11 +21,12 @@ export default async function HomePage() {
         <FeaturesSection />
       </div>
       <div style={{ backgroundImage: `url(${bgSquares.src})` }} className="bg-cover">
+        {/* @ts-expect-error Async Server Component */}
         <Partners />
         {/* @ts-expect-error Async Server Component */}
         <TestimonialsSection />
-        {/* @ts-expect-error Async Server Component */}
       </div>
+      {/* @ts-expect-error Async Server Component */}
       <CTASection />
     </>
   );
