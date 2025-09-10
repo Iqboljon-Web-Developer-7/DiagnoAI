@@ -6,7 +6,6 @@ import Autoplay from 'embla-carousel-autoplay'
 import { useAutoplay } from './EmblaCarouselAutoPlay'
 import { useInView } from 'react-intersection-observer'
 
-import "./css/styles.css"
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { PlayCircle, Quote, StopCircle } from 'lucide-react'
 import Image from 'next/image'
@@ -19,7 +18,7 @@ type EmblaOptionsType = {
     [key: string]: EmblaOptionsType;
   } | undefined;
 }
- 
+
 type PropType = {
   slides: any[]
   options?: EmblaOptionsType
@@ -33,7 +32,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   ])
 
   const { ref: inViewRef, inView } = useInView({
-    threshold: 0.5, triggerOnce:true, delay: 1100
+    threshold: 0.5, triggerOnce: true, delay: 1100
   })
 
   const { autoplayIsPlaying, toggleAutoplay } = useAutoplay(emblaApi)
@@ -48,6 +47,13 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     <div className="embla" ref={inViewRef}>
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container gap-0">
+           {type == 'partners' && slides.map((slide) => (
+            <div key={slide.id} className="border mx-2 shrink-0 max-w-80 bg-[#edf2f4] rounded-xl p-6 sm:p-8 mb-5  relative">
+              <div className="flex items-center justify-center h-full">
+                <Image loading="lazy" src={slide?.imageSrc} alt='slide-image' width={250} height={250} />
+              </div>
+            </div>
+          ))}
           {type == 'testimonials' && slides.map((slide) => (
             <div key={slide.id} className="border mx-2 my-4 shrink-0 max-w-80 bg-gray-50 rounded-xl p-6 sm:p-8 pb-4 sm:pb-3 relative">
               <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
@@ -61,9 +67,12 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
               <div className="flex items-center">
                 <Avatar className="h-10 w-10 sm:h-12 sm:w-12">
                   <AvatarImage
+                    loading="lazy"
                     className='object-cover'
                     src={slide?.imageSrc}
                     alt={slide.name}
+                    width={50}
+                    height={50}
                   />
                   <AvatarFallback>{slide.fallback}</AvatarFallback>
                 </Avatar>
@@ -75,13 +84,6 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                     {slide.role}
                   </p>
                 </div>
-              </div>
-            </div>
-          ))}
-          {type == 'partners' && slides.map((slide) => (
-            <div key={slide.id} className="border mx-2 mb-4 shrink-0 max-w-80 bg-[#edf2f4] rounded-xl p-6 sm:p-8 pb-4 sm:pb-3 relative">
-              <div className="flex items-center justify-center h-full">
-                <Image src={slide?.imageSrc} alt='slide-image' width={400} height={400} />
               </div>
             </div>
           ))}

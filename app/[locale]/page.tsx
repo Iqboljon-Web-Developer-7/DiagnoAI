@@ -6,20 +6,16 @@ import { CTASection } from "@/app/[locale]/components/cta-section";
 import { Partners } from "./components/partners";
 
 import bgSquares from "@/assets/images/useful/bg-square.webp"
-import bgClean from "@/assets/images/useful/bg-clean.webp"
-
 
 export default async function HomePage() {
   return (
     <>
       {/* @ts-expect-error Async Server Component */}
       <HeroSection />
-      <div style={{ backgroundImage: `url(${bgClean.src})` }} className="bg-cover">
-        {/* @ts-expect-error Async Server Component */}
-        <HowItWorksSection />
-        {/* @ts-expect-error Async Server Component */}
-        <FeaturesSection />
-      </div>
+      {/* @ts-expect-error Async Server Component */}
+      <HowItWorksSection />
+      {/* @ts-expect-error Async Server Component */}
+      <FeaturesSection />
       <div style={{ backgroundImage: `url(${bgSquares.src})` }} className="bg-cover">
         {/* @ts-expect-error Async Server Component */}
         <Partners />
