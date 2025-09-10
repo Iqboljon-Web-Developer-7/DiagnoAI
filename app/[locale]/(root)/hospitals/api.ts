@@ -4,7 +4,7 @@
 "use client"
 
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { BookAppointmentData } from "./types"
+import { BookAppointmentData, Hospital } from "./types"
 import axios from "axios"
 
 // Base API URL
@@ -41,13 +41,12 @@ export const useBookAppointmentMutation = (token: string | undefined) => {
   })
 }
 
-export const useGetHospitals = ( ) => {
-  return useQuery({
+export const useGetHospitals = () => {
+  return useQuery<Hospital[]>({
     queryKey: ['hospitals'],
     queryFn: async () => {
-      const response = await axios.get(`${API_BASE_URL}/api/hospitals/` )
-
-      return response.data 
+      const response = await axios.get<Hospital[]>(`${API_BASE_URL}/api/hospitals/`)
+      return response.data
     }
   })
 }

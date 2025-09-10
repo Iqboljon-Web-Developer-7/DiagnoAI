@@ -154,7 +154,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
             >
               <Link
                 href={tab.path}
-                className={`transition-all p-2 text-xs sm:text-sm whitespace-nowrap text-gray-600 hover:text-blue-500 ${tab.path === pathname ? 'font-semibold underline' : ''}`}
+                className={`transition-all p-2 text-xs sm:text-sm whitespace-nowrap hover:text-blue-500 ${tab.path === pathname ? 'font-semibold underline text-blue-500' : 'text-gray-600'}`}
               >
                 {tab.label}
               </Link>
@@ -180,8 +180,8 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
                 <DropdownMenuItem key={tab.path} asChild>
                   <Link
                     href={tab.path}
-                    className={`w-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline' : ''}`}
-                  >
+                    className={`w-full px-4 py-2 text-sm  hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline text-blue-500' : 'text-gray-600'}`}
+                  > 
                     {tab.label}
                   </Link>
                 </DropdownMenuItem>
@@ -192,7 +192,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
                 <DropdownMenuItem key={tab.path} asChild>
                   <Link
                     href={tab.path}
-                    className={`w-full px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline' : ''}`}
+                    className={`w-full px-4 py-2 text-sm  hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline text-blue-500' : 'text-gray-600'}`}
                   >
                     {tab.label}
                   </Link>

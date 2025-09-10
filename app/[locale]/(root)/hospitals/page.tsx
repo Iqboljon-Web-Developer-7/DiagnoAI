@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import ClientHospitalsPage from "./ClientHospitalPage"
 import { getTranslations } from "next-intl/server"
 
@@ -13,12 +13,6 @@ export default async function HospitalsPage() {
         </div>
 
         <Card className="mb-8 bg-transparent border-none">
-          {/* <CardHeader> */}
-            {/* <CardTitle className="flex items-center space-x-2">
-              <span>{t("typesTitle") || "Hospital Types"}</span>
-            </CardTitle> */}
-            {/* <CardDescription>{t("typesDescription") || "Explore hospitals by type"}</CardDescription> */}
-          {/* </CardHeader> */}
           <CardContent className="p-4">
             <ClientHospitalsPage />
           </CardContent>

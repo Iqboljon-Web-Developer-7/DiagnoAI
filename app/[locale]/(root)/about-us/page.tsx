@@ -7,7 +7,8 @@ import Image from "next/image"
 
 import aboutBg from "@/assets/images/useful/about-bg.jpg"
 
-import aboutImg from "@/assets/images/about/about-bg.jpg"
+import aboutImg from "@/assets/images/about/about-bg-new.jpg"
+
 import Javohir from "@/assets/images/about/Javohir.jpg"
 import Sunnatillo from "@/assets/images/about/Sunnatillo.webp"
 import Iqboljon from "@/assets/images/about/Iqboljon.jpg"
@@ -117,12 +118,12 @@ export default async function AboutPage() {
       {/* Hero Section */}
       <section
         style={{ backgroundImage: `url(${aboutImg.src})` }}
-        className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[8%] bg-black bg-no-repeat min-h-[27rem] flex items-center w-full"
+        className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover bg-bottom md:py-20 px-[8%] bg-black bg-no-repeat min-h-[30rem] flex items-center w-full"
       >
         <span className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2]"></span>
         <div className="container max-w-7xl   px-4 sm:px-6 lg:px-8 relative animate-fade-in-down opacity-0 delay-300">
-          <h1 className="text-4xl lg:text-6xl font-bold mb-6">{translations("hero.title")}</h1>
-          <p className="md:text-2xl mb-8 text-blue-50 max-w-3xl">{translations("hero.description")}</p>
+          <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-blue-500">{translations("hero.title")}</h1>
+          <p className="md:text-2xl mb-8 text-blue-400 max-w-3xl">{translations("hero.description")}</p>
         </div>
       </section>
 

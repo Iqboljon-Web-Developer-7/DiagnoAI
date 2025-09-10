@@ -136,18 +136,28 @@
         "icon": "🏨"
       }
     },
-    "hospitals": {
-      "hospital1": {
-        "name": "Shahar shifoxonasi",
-        "type": "Davlat",
-        "address": "123 Asosiy ko'cha",
-        "description": "Yetakchi davlat shifoxonasi.",
-        "rating": 4.5,
-        "reviews": 120,
-        "distance": "2.5 km",
-        "beds": 200,
-        "services": "Shoshilinch, Jarrohlik"
-      }
+    "hospital": {
+      "beds": "Yotoqlar",
+      "doctors": "Shifokorlar",
+      "yearsOfService": "Xizmat yillari",
+      "patientsPerYear": "Bemorlar/Yil",
+      "callHospital": "Kasalxonaga qoʻngʻiroq qilish",
+      "getDirections": "Yoʻnalishlarni olish",
+      "about": "Shifohona haqida",
+      "medicalDepartments": "Tibbiy boʻlimlar",
+      "contactInformation": "Aloqa maʼlumotlari",
+      "address": "Manzil",
+      "phone": "Telefon",
+      "emergency": "Favqulodda holat",
+      "available247": "24/7 mavjud",
+      "needImmediateCare": "Darhol yordam kerakmi?",
+      "emergencyDepartmentAvailable": "Favqulodda yordam boʻlimi 24/7 mavjud",
+      "callEmergency": "Favqulodda chaqirish",
+      "confirmCall": "Qoʻngʻiroqni tasdiqlash",
+      "confirmCallMessage": "{{name}} ga {{phone_number}} raqamiga qoʻngʻiroq qilishga ishonchingiz komilmi?",
+      "cancel": "Bekor qilish",
+      "callNow": "Hozir qoʻngʻiroq qilish",
+      "location": "Toshkent, Oʻzbekiston"
     },
     "filters": {
       "title": "Shifoxonalarni filtrlash",

@@ -2,7 +2,7 @@
 
 import React, { use, useState } from 'react';
 import { useGetHospital } from "../api";
-import { MapPin, Phone, Building2, Users, Clock, Star, Award, Stethoscope, Heart, Shield, Calendar, Navigation } from 'lucide-react';
+import { MapPin, Phone, Building2, Users, Clock, Award, Stethoscope, Heart, Navigation } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { useAppStore } from '@/store/store';
 import Image from 'next/image';
@@ -14,35 +14,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
-interface Hospital {
-  id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-  image: string;
-  description: string;
-  beds: number;
-  doctors: number;
-  departments: any[];
-  phone_number: string;
-}
+import { useTranslations } from 'next-intl';
 
 function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
   const { id } = use(params);
   const { user } = useAppStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { data: hospital, error, isLoading, isPending } = useGetHospital(id, user?.token);
+  const t = useTranslations("hospitals.hospital");
 
   const handleCall = () => {
     window.location.href = `tel:${hospital?.phone_number}`;
   };
 
   const stats = [
-    { label: 'Beds', value: hospital?.beds || 0, icon: Building2 },
-    { label: 'Doctors', value: hospital?.doctors || 0, icon: Users },
-    { label: 'Years of Service', value: '10+', icon: Award },
-    { label: 'Patients/Year', value: '10K+', icon: Heart }
+    { label: t('beds'), value: hospital?.beds || 0, icon: Building2 },
+    { label: t('doctors'), value: hospital?.doctors || 0, icon: Users },
+    { label: t('yearsOfService'), value: '10+', icon: Award },
+    { label: t('patientsPerYear'), value: '10K+', icon: Heart }
   ];
 
   if (isLoading || isPending) {
@@ -70,9 +59,9 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Confirm Call</DialogTitle>
+            <DialogTitle>{t('confirmCall')}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to call {hospital?.name} at {hospital?.phone_number}?
+              {t('confirmCallMessage', { name: hospital?.name, phone_number: hospital?.phone_number })}
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-center space-x-4 mt-4">
@@ -80,13 +69,13 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
               onClick={() => setIsDialogOpen(false)}
               className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100"
             >
-              Cancel
+              {t('cancel')}
             </button>
             <button
               onClick={handleCall}
               className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
             >
-              Call Now
+              {t('callNow')}
             </button>
           </div>
         </DialogContent>
@@ -96,7 +85,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
         {/* Hero Section */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
           <div className="relative">
-            {/* Hospital? Image */}
+            {/* Hospital Image */}
             <div className="h-96 bg-gradient-to-r from-blue-600 to-blue-800 relative overflow-hidden">
               <Image
                 width={1200}
@@ -107,7 +96,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-blue-800/50"></div>
-              {/* Hospital? Info Overlay */}
+              {/* Hospital Info Overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
                 <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-4">
                   <div className="w-full lg:w-auto">
@@ -116,7 +105,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
                     </h1>
                     <div className="flex items-center space-x-2 mb-2 sm:mb-4">
                       <MapPin className="h-4 sm:h-5 w-4 sm:w-5 text-blue-200" />
-                      <span className="text-blue-200 text-sm sm:text-base">Tashkent, Uzbekistan</span>
+                      <span className="text-blue-200 text-sm sm:text-base">{t('location')}</span>
                     </div>
                   </div>
 
@@ -126,7 +115,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
                       className="w-full xs:w-auto bg-white text-blue-600 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
                     >
                       <Phone className="h-4 sm:h-5 w-4 sm:w-5" />
-                      <span>Call Hospital?</span>
+                      <span>{t('callHospital')}</span>
                     </button>
 
                     <Link
@@ -137,7 +126,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
                     >
                       <button className="w-full border-2 border-white text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base">
                         <Navigation className="h-4 sm:h-5 w-4 sm:w-5" />
-                        <span>Get Directions</span>
+                        <span>{t('getDirections')}</span>
                       </button>
                     </Link>
                   </div>
@@ -166,7 +155,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
                 <Building2 className="h-6 w-6 text-blue-600" />
-                <span>About {hospital?.name}</span>
+                <span>{t('about')} {hospital?.name}</span>
               </h2>
               <p className="text-gray-700 leading-relaxed text-lg mb-4">
                 {hospital?.description}
@@ -178,7 +167,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center space-x-2">
                   <Stethoscope className="h-6 w-6 text-blue-600" />
-                  <span>Medical Departments</span>
+                  <span>{t('medicalDepartments')}</span>
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {hospital?.departments.map((name: string, index: number) => (
@@ -198,13 +187,13 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
           <div className="space-y-6">
             {/* Contact Information */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Contact Information</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-4">{t('contactInformation')}</h3>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-gray-900">Address</p>
-                    <p className="text-gray-600">Tashkent, Uzbekistan</p>
+                    <p className="font-medium text-gray-900">{t('address')}</p>
+                    <p className="text-gray-600">{t('location')}</p>
                     <p className="text-sm text-gray-500 mt-1">
                       Coordinates: {hospital?.latitude}, {hospital?.longitude}
                     </p>
@@ -214,7 +203,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
                 <div className="flex items-start space-x-3">
                   <Phone className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-gray-900">Phone</p>
+                    <p className="font-medium text-gray-900">{t('phone')}</p>
                     <p className="text-gray-600">{hospital?.phone_number}</p>
                   </div>
                 </div>
@@ -222,8 +211,8 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
                 <div className="flex items-start space-x-3">
                   <Clock className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-gray-900">Emergency</p>
-                    <p className="text-green-600 font-medium">24/7 Available</p>
+                    <p className="font-medium text-gray-900">{t('emergency')}</p>
+                    <p className="text-green-600 font-medium">{t('available247')}</p>
                   </div>
                 </div>
               </div>
@@ -231,14 +220,14 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
 
             {/* Quick Actions */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-lg p-6 text-white">
-              <h3 className="text-xl font-bold mb-4">Need Immediate Care?</h3>
-              <p className="text-blue-100 mb-4">Our emergency department is available 24/7</p>
+              <h3 className="text-xl font-bold mb-4">{t('needImmediateCare')}</h3>
+              <p className="text-blue-100 mb-4">{t('emergencyDepartmentAvailable')}</p>
               <button
                 onClick={() => setIsDialogOpen(true)}
                 className="w-full bg-white text-blue-600 px-4 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors duration-200 flex items-center justify-center space-x-2"
               >
                 <Phone className="h-5 w-5" />
-                <span>Call Emergency</span>
+                <span>{t('callEmergency')}</span>
               </button>
             </div>
           </div>
