@@ -26,7 +26,7 @@ type PageProps = {
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default function DoctorPage({ params }: PageProps) {
+export default function page({ params }: PageProps) {
   const resolvedParams = use(params);
   const { id, locale } = resolvedParams;
 
