@@ -78,20 +78,20 @@ export default function ClientHospitalsPage() {
   // Filtered & Sorted Hospitals
   const filteredHospitals = useMemo(() => {
     const { search, city, type, rating, sortBy } = filters
-    
+
     return enrichedHospitals
       .filter(h => {
-        const matchSearch = !search || 
+        const matchSearch = !search ||
           h.name.toLowerCase().includes(search.toLowerCase()) ||
           (h.type || "").toLowerCase().includes(search.toLowerCase())
         const matchType = !type || (h.type || "General").toLowerCase() === type.toLowerCase()
         const matchRating = !rating || (h.rating || 0) >= parseFloat(rating)
         const matchCity = !city || h.address?.toLowerCase().includes(city.toLowerCase())
-        
+
         return matchSearch && matchType && matchRating && matchCity
       })
       .sort((a, b) => {
-        switch(sortBy) {
+        switch (sortBy) {
           case "rating": return (b.rating || 0) - (a.rating || 0)
           case "distance": return (a.distance || Infinity) - (b.distance || Infinity)
           case "beds": return (b.beds || 0) - (a.beds || 0)
@@ -131,7 +131,7 @@ export default function ClientHospitalsPage() {
         hospitalName: hospital.name,
         type: hospital.type || "General"
       })
-      
+
       addAppointment({
         doctor: hospital.name,
         specialty: hospital.type || "General",
@@ -140,7 +140,7 @@ export default function ClientHospitalsPage() {
         type: t("hospitalCard.bookButton") || "Appointment",
         status: "Tasdiqlangan"
       })
-      
+
       toast.success(t("toastMessages.bookAppointment", { hospitalName: hospital.name }))
     } catch (err) {
       toast.error(t("toastMessages.error"))
@@ -160,10 +160,13 @@ export default function ClientHospitalsPage() {
   // Loading state
   if (isLoading || isPending) {
     return (
-      <div className="animate-pulse space-y-4">
-        {[1, 2, 3].map(i => (
-          <div key={i} className="h-32 bg-gray-200 rounded" />
-        ))}
+      <div className="animate-pulse flex gap-4">
+        <div className="h-96 w-60 rounded-xl bg-gray-200 flex-shrink-0"></div>
+        <div className="flex-shrink-0 w-full grid gap-2">
+          {[1, 2, 3].map(i => (
+            <div key={i} className="h-32 bg-gray-200 rounded" />
+          ))}
+        </div>
       </div>
     )
   }
@@ -183,7 +186,7 @@ export default function ClientHospitalsPage() {
             <DialogHeader>
               <DialogTitle>{t('filters.title')}</DialogTitle>
             </DialogHeader>
-            <FilterControls 
+            <FilterControls
               filters={filters}
               onChange={handleFilterChange}
               onClear={clearFilters}
@@ -205,7 +208,7 @@ export default function ClientHospitalsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <FilterControls 
+            <FilterControls
               filters={filters}
               onChange={handleFilterChange}
               onClear={clearFilters}
@@ -240,7 +243,7 @@ export default function ClientHospitalsPage() {
             <p className="text-center text-gray-600">{t("noResults")}</p>
           ) : (
             filteredHospitals.map((hospital) => (
-              <HospitalCard 
+              <HospitalCard
                 key={hospital.id}
                 hospital={hospital}
                 onBook={handleBookAppointment}
@@ -256,13 +259,13 @@ export default function ClientHospitalsPage() {
 }
 
 // Helper Components
-const FilterControls = ({ 
+const FilterControls = ({
   filters,
   onChange,
   onClear,
   // cities,
   hospitalTypes,
-  t 
+  t
 }: {
   filters: {
     search: string;
@@ -358,11 +361,11 @@ const FilterControls = ({
   </div>
 )
 
-const HospitalCard = ({ 
+const HospitalCard = ({
   hospital,
   onBook,
   t,
-  onClick 
+  onClick
 }: {
   hospital: Hospital;
   onBook: (hospital: Hospital) => void;

@@ -31,80 +31,77 @@ interface TeamMembersData {
   };
 }
 
+
+
+export default async function AboutPage() {
+  const translations = await getTranslations("about")
+
 const teamMembersData: TeamMembersData = {
   about: {
     team: {
       members: {
         member1: {
-          name: "Sunnat Panjiyev Sherzod o'g'li",
-          role: "Co-Founder & Yurist",
-          description: "Graduated from Tashkent State Law University, Bachelor. Experience: 2022-2025."
+          name: "team.members.member1.name",
+          role: "team.members.member1.role",
+          description: "team.members.member1.description",
         },
         member2: {
-          name: "Javohir Jahonov Jasur o'g'li",
-          role: "Founder & Backend Developer",
-          description: "Graduated from PDP University, Bachelor. Experience: 2023-2027."
+          name: "team.members.member2.name",
+          role: "team.members.member2.role",
+          description: "team.members.member2.description",
         },
         member3: {
-          name: "Iqboljon Ummataliyev Kamoliddin o'g'li",
-          role: "Frontend Developer",
-          description: "Graduated from Najot Ta'lim, IT Park & SAMMI. Experience: 2022-2025."
+          name: "team.members.member3.name",
+          role: "team.members.member3.role",
+          description: "team.members.member3.description",
         },
         member4: {
-          name: "Firdavs Safarmakhmadov",
-          role: "Web-dizayner & Grafik dizayner",
-          description: "Graduated from ProWeb & Central Asian University, Bachelor. Experience: 2023-2027."
+          name: "team.members.member4.name",
+          role: "team.members.member4.role",
+          description: "team.members.member4.description",
         },
         member5: {
-          name: "Shahobiddin",
-          role: "AI Mutaxassis",
-          description: "Graduated from PDP University, Bachelor. Experience: 2023-2027."
-        }
-      }
-    }
-  }
-}
+          name: "team.members.member5.name",
+          role: "team.members.member5.role",
+          description: "team.members.member5.description",
+        },
+      },
+    },
+  },
+};
 
 const timelineItems = [
   {
-    year: "2025 Fevral",
-    title: "Boshlanish",
-    description:
-      "AI va tibbiyotga qiziqqan eng yaxshi mutaxassislarni bir jamoaga to‘pladik. Maqsad — eng dolzarb tibbiy muammoni topish va hal qilish.",
+    year: "timeline.items.item1.year",
+    title: "timeline.items.item1.title",
+    description: "timeline.items.item1.description",
     position: "left",
   },
   {
-    year: "2025 Mart",
-    title: "Muammo aniqlash",
-    description:
-      "Keng tahlillar va shifokorlar bilan uchrashuvlar orqali eng katta muammo sifatida erta diagnostika kechikishini tanladik.",
+    year: "timeline.items.item2.year",
+    title: "timeline.items.item2.title",
+    description: "timeline.items.item2.description",
     position: "right",
   },
   {
-    year: "2025 Aprel",
-    title: "Ilk prototip",
-    description:
-      "Minimal ishlaydigan AI modelini yaratdik va kichik klinikalarda testdan o‘tkaza boshladik.",
+    year: "timeline.items.item3.year",
+    title: "timeline.items.item3.title",
+    description: "timeline.items.item3.description",
     position: "left",
   },
   {
-    year: "2025 May",
-    title: "Dastlabki natijalar",
-    description:
-      "Testlar ijobiy bo‘ldi — model ayrim kasalliklarni ancha tez aniqlashga muvaffaq bo‘ldi.",
+    year: "timeline.items.item4.year",
+    title: "timeline.items.item4.title",
+    description: "timeline.items.item4.description",
     position: "right",
   },
   {
-    year: "2025 Avgust",
-    title: "Kengaytirish rejalari",
-    description:
-      "Investitsiya jalb qilish va ko‘proq klinikalar bilan hamkorlik qilish bo‘yicha muzokaralar boshlandi.",
+    year: "timeline.items.item5.year",
+    title: "timeline.items.item5.title",
+    description: "timeline.items.item5.description",
     position: "left",
   },
 ];
-
-export default async function AboutPage() {
-  const translations = await getTranslations("about")
 
   const teamMembers = Object.keys(teamMembersData.about?.team?.members || {}).map((key, index) => ({
     name: teamMembersData.about.team.members[key].name,
@@ -223,9 +220,9 @@ export default async function AboutPage() {
                     className="w-full h-96 object-cover object-top"
                   />
                   <div className="p-6">
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">{member.name}</h3>
-                    <p className="text-blue-600 font-medium mb-3">{member.role}</p>
-                    <p className="text-sm text-gray-600">{member.description}</p>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">{translations(member.name)}</h3>
+                    <p className="text-blue-600 font-medium mb-3">{translations(member.role)}</p>
+                    <p className="text-sm text-gray-600">{translations(member.description)}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -239,10 +236,10 @@ export default async function AboutPage() {
         <div className="container">
           <div className="mb-12">
             <h1 className="font-medium text-3xl text-[#1e1e1e]">
-              Bizning tarixmiz
+              {translations("timeline.title")}
             </h1>
             <p className="font-normal text-xl text-[#00000080] [font-family:'Rubik',Helvetica]">
-              Diagno AI platformasining rivojlanish yo&#39;li
+              {translations("timeline.description")}
             </p>
           </div>
 
@@ -269,13 +266,13 @@ export default async function AboutPage() {
                           className={`flex flex-col ${item.position === "right" ? "items-end text-right" : "items-start text-left"}`}
                         >
                           <h2 className="font-medium text-[#1e1e1e] text-xl mb-2 z-20">
-                            {item.title}
+                            {translations(item.title)}
                           </h2>
                           <span className="font-normal text-[#2b6a73] text-lg z-20">
-                            {item.year}
+                            {translations(item.year)}
                           </span>
                           <p className="font-normal text-[#00000080] z-20">
-                            {item.description}
+                            {translations(item.description)}
                           </p>
                         </div>
                       </CardContent>

@@ -38,8 +38,10 @@ export default function Page() {
       doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       doctor.translations.field.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSearch;
+  
   });
  
+  
   const LoadingPlaceholder = () => (
     <div className="animate-pulse">
       <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
@@ -50,6 +52,7 @@ export default function Page() {
       </div>
     </div>
   );
+
 
   return (
     <div className="min-h-screen bg-gray-50 pt-11">

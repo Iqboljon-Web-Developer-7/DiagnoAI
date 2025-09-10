@@ -724,60 +724,65 @@
         "description": "Foydalanuvchilarimizga istalgan vaqtda va istalgan joyda tez va qulay tibbiy yordam olish imkoniyatini taqdim etamiz. 24/7 xizmat ko'rsatish bizning asosiy tamoyilimiz."
       }
     },
-    "team": {
-      "title": "Bizning jamoa",
-      "description": "Diagno AI platformasi ortida turgan tajribali mutaxassislar",
+   "team": {
+      "title": "Bizning jamoamiz",
+      "description": "Sog'liqni saqlash sohasini o'zgartirish missiyasini olg'a siljitayotgan ishtiyoqli shaxslarni tanishtiramiz.",
       "members": {
         "member1": {
-          "name": "Dr. Alisher Karimov",
-          "role": "Bosh shifokor, Asoschisi",
-          "description": "20 yillik tajribaga ega kardiolog. Diagno AI platformasining g'oyasi va asosiy konsepsiyasini ishlab chiqqan."
+          "name": "Sunnat Panjiyev Sherzod o'g'li",
+          "role": "Asoschi sherigi va Yurist",
+          "description": "Toshkent davlat yuridik universitetini tamomlagan, bakalavr. Tajriba: 2022-2025."
         },
         "member2": {
-          "name": "Dilnoza Rahimova",
-          "role": "Bosh texnologiya direktori",
-          "description": "Sun'iy intellekt va tibbiy ma'lumotlar tahlili bo'yicha mutaxassis. MIT bitiruvchisi."
+          "name": "Javohir Jahonov Jasur o'g'li",
+          "role": "Asoschisi va Backend dasturchi",
+          "description": "PDP universitetini tamomlagan, bakalavr. Tajriba: 2023-2027."
         },
         "member3": {
-          "name": "Dr. Bobur Toshmatov",
-          "role": "Tibbiy maslahatchi",
-          "description": "Terapevt va jamoat salomatligi bo'yicha mutaxassis. Jahon sog'liqni saqlash tashkiloti bilan hamkorlik qilgan."
+          "name": "Iqboljon Ummataliyev Kamoliddin o'g'li",
+          "role": "Frontend dasturchi",
+          "description": "Najot Ta'lim, IT Park va SAMMI’ni tamomlagan. Tajriba: 2022-2025."
         },
         "member4": {
-          "name": "Malika Usmonova",
-          "role": "Mahsulot menejeri",
-          "description": "Tibbiy dasturiy ta'minot va foydalanuvchi tajribasi bo'yicha 8 yillik tajribaga ega mutaxassis."
+          "name": "Firdavs Safarmakhmadov",
+          "role": "Veb-dizayner va grafik dizayner",
+          "description": "ProWeb va Markaziy Osiyo universitetini tamomlagan, bakalavr. Tajriba: 2023-2027."
+        },
+        "member5": {
+          "name": "Shahobiddin",
+          "role": "Sun'iy intellekt mutaxassisi",
+          "description": "PDP universitetini tamomlagan, bakalavr. Tajriba: 2023-2027."
         }
       }
     },
-    "history": {
+    "timeline": {
       "title": "Bizning tarixmiz",
       "description": "Diagno AI platformasining rivojlanish yo'li",
-      "milestones": {
-        "milestone1": {
-          "year": "2020",
-          "title": "Loyiha boshlandi",
-          "description": "Diagno AI g'oyasi shakllandi va dastlabki tadqiqotlar boshlandi."
+      "items": {
+        "item1": {
+          "year": "2025 Fevral",
+          "title": "Boshlanish",
+          "description": "AI va tibbiyotga qiziqqan eng yaxshi mutaxassislarni bir jamoaga to‘pladik. Maqsad — eng dolzarb tibbiy muammoni topish va hal qilish."
         },
-        "milestone2": {
-          "year": "2021",
-          "title": "Birinchi prototip",
-          "description": "Dastlabki AI algoritmlari ishlab chiqildi va sinovdan o'tkazildi."
+        "item2": {
+          "year": "2025 Mart",
+          "title": "Muammo aniqlash",
+          "description": "Keng tahlillar va shifokorlar bilan uchrashuvlar orqali eng katta muammo sifatida erta diagnostika kechikishini tanladik."
         },
-        "milestone3": {
-          "year": "2022",
-          "title": "Beta versiya",
-          "description": "Platforma cheklangan foydalanuvchilar doirasida sinovdan o'tkazildi."
+        "item3": {
+          "year": "2025 Aprel",
+          "title": "Ilk prototip",
+          "description": "Minimal ishlaydigan AI modelini yaratdik va kichik klinikalarda testdan o‘tkaza boshladik."
         },
-        "milestone4": {
-          "year": "2023",
-          "title": "Rasmiy ishga tushirish",
-          "description": "Diagno AI platformasi rasman ishga tushirildi va keng jamoatchilikka taqdim etildi."
+        "item4": {
+          "year": "2025 May",
+          "title": "Dastlabki natijalar",
+          "description": "Testlar ijobiy bo‘ldi — model ayrim kasalliklarni ancha tez aniqlashga muvaffaq bo‘ldi."
         },
-        "milestone5": {
-          "year": "2024",
-          "title": "Kengaytirish",
-          "description": "Yangi funktsiyalar va xizmatlar qo'shildi, foydalanuvchilar soni 100,000 dan oshdi."
+        "item5": {
+          "year": "2025 Avgust",
+          "title": "Kengaytirish rejalari",
+          "description": "Investitsiya jalb qilish va ko‘proq klinikalar bilan hamkorlik qilish bo‘yicha muzokaralar boshlandi."
         }
       }
     },

@@ -640,58 +640,63 @@
     },
     "team": {
       "title": "Our Team",
-      "description": "The experienced professionals behind the Diagno AI platform",
+      "description": "Meet the passionate individuals driving Diagno AI’s mission to transform healthcare.",
       "members": {
         "member1": {
-          "name": "Dr. Alisher Karimov",
-          "role": "Chief Physician, Founder",
-          "description": "Cardiologist with 20 years of experience. Developed the idea and core concept of the Diagno AI platform."
+          "name": "Sunnat Panjiyev Sherzod o'g'li",
+          "role": "Co-Founder & Lawyer",
+          "description": "Graduated from Tashkent State Law University, Bachelor’s degree. Experience: 2022-2025."
         },
         "member2": {
-          "name": "Dilnoza Rahimova",
-          "role": "Chief Technology Officer",
-          "description": "Expert in artificial intelligence and medical data analysis. MIT graduate."
+          "name": "Javohir Jahonov Jasur o'g'li",
+          "role": "Founder & Backend Developer",
+          "description": "Graduated from PDP University, Bachelor’s degree. Experience: 2023-2027."
         },
         "member3": {
-          "name": "Dr. Bobur Toshmatov",
-          "role": "Medical Consultant",
-          "description": "Therapist and public health expert. Collaborated with the World Health Organization."
+          "name": "Iqboljon Ummataliyev Kamoliddin o'g'li",
+          "role": "Frontend Developer",
+          "description": "Graduated from Najot Ta'lim, IT Park & SAMMI. Experience: 2022-2025."
         },
         "member4": {
-          "name": "Malika Usmonova",
-          "role": "Product Manager",
-          "description": "Specialist with 8 years of experience in medical software and user experience."
+          "name": "Firdavs Safarmakhmadov",
+          "role": "Web Designer & Graphic Designer",
+          "description": "Graduated from ProWeb & Central Asian University, Bachelor’s degree. Experience: 2023-2027."
+        },
+        "member5": {
+          "name": "Shahobiddin",
+          "role": "AI Specialist",
+          "description": "Graduated from PDP University, Bachelor’s degree. Experience: 2023-2027."
         }
       }
     },
-    "history": {
+    "timeline": {
       "title": "Our History",
-      "description": "The development journey of the Diagno AI platform",
-      "milestones": {
-        "milestone1": {
-          "year": "2020",
-          "title": "Project Started",
-          "description": "The Diagno AI concept was formed, and initial research began."
+      "description": "The journey of the Diagno AI platform",
+      "items": {
+        "item1": {
+          "year": "February 2025",
+          "title": "The Beginning",
+          "description": "We assembled a team of top experts passionate about AI and healthcare. Our goal was to identify and solve the most pressing medical challenges."
         },
-        "milestone2": {
-          "year": "2021",
+        "item2": {
+          "year": "March 2025",
+          "title": "Problem Identification",
+          "description": "Through extensive analysis and meetings with doctors, we identified delayed early diagnostics as the biggest challenge."
+        },
+        "item3": {
+          "year": "April 2025",
           "title": "First Prototype",
-          "description": "Initial AI algorithms were developed and tested."
+          "description": "We created a minimal working AI model and began testing it in small clinics."
         },
-        "milestone3": {
-          "year": "2022",
-          "title": "Beta Version",
-          "description": "The platform was tested with a limited user base."
+        "item4": {
+          "year": "May 2025",
+          "title": "Initial Results",
+          "description": "Tests were positive — the model successfully detected certain diseases much faster."
         },
-        "milestone4": {
-          "year": "2023",
-          "title": "Official Launch",
-          "description": "The Diagno AI platform was officially launched and introduced to the public."
-        },
-        "milestone5": {
-          "year": "2024",
-          "title": "Expansion",
-          "description": "New features and services were added, with the user base exceeding 100,000."
+        "item5": {
+          "year": "August 2025",
+          "title": "Expansion Plans",
+          "description": "Negotiations began to attract investment and collaborate with more clinics."
         }
       }
     },
