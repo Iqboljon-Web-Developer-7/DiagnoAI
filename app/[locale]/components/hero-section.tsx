@@ -37,7 +37,7 @@ export async function HeroSection() {
             </p>
 
             <div
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start my-10 md:my-32 flex-wrap"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start my-12 flex-wrap"
             >
               <Link href="/ai-diagnosis">
                 <Button
