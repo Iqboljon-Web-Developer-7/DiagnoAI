@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Loader2, Plus, MessageSquare, Trash, Paperclip, Send, Stethoscope, ImageIcon, FileText, X, MapPin, User } from "lucide-react";
 import dynamic from "next/dynamic";
+import Doctors from "./componnets/Doctors";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -56,6 +57,9 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
   const [analyzing, setAnalyzing] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  console.log("doctors client",doctors);
+  
+
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -66,9 +70,9 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
   }, []);
 
   // keep doctors-driven sidebar open
-  useEffect(() => {
-    setIsSidebarOpen(!!doctors?.length);
-  }, [doctors]);
+  // useEffect(() => {
+  //   setIsSidebarOpen(!!doctors?.length);
+  // }, [doctors]);
 
   // scroll
   useEffect(() => {
@@ -76,36 +80,38 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
   }, [chatMessages]);
 
   // Client-side fetching when user clicks a chat - still SSR preloaded but this updates latest
-  const fetchChatById = useCallback(async (id: string) => {
-    setAnalyzing(true);
-    console.log(token);
+  // const fetchChatById = useCallback(async (id: string) => {
+  //   setAnalyzing(true);
     
-    try {
-      const resp = await axios.get<Chat>(`${API_BASE_URL}/chats/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = resp.data;
-      const msgs = data.messages || [];
-      setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })));
-      setSelectedChat({ id: data.id, created_at: data.created_at, updated_at: data.updated_at, messages: msgs });
+  //   try {
+  //     const resp = await axios.get<Chat>(`${API_BASE_URL}/chats/${id}`, {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`
+  //       }
+  //     });
+  //     const data = resp.data;
+  //     const msgs = data.messages || [];
+  //     setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })));
+  //     setSelectedChat({ id: data.id, created_at: data.created_at, updated_at: data.updated_at, messages: msgs });
 
-      if ((resp as any).data?.doctors?.length) {
-        const docIds = (resp as any).data.doctors as number[];
-        const docs = await Promise.all(docIds.map((d) => axios.get<Doctor>(`${API_BASE_URL}/api/en/doctors/${d}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })));
-        setDoctors(docs.map((d) => d.data));
-      }
-    } catch (err) {
-      toast.error("Failed to load chat");
-    } finally {
-      setAnalyzing(false);
-    }
-  }, []);
+      
+
+  //     if ((resp as any).data?.doctors?.length) {
+  //       doctorIds = res?.data?.doctors
+  //       const docIds = (resp as any).data.doctors as number[];
+  //       const docs = await Promise.all(docIds.map((d) => axios.get<Doctor>(`${API_BASE_URL}/api/en/doctors/${d}`, {
+  //         headers: {
+  //           'Authorization': `Bearer ${token}`
+  //         }
+  //       })));
+  //       setDoctors(docs.map((d) => d.data));
+  //     }
+  //   } catch (err) {
+  //     toast.error("Failed to load chat");
+  //   } finally {
+  //     setAnalyzing(false);
+  //   }
+  // }, []);
 
   // delete chat
   const handleDeleteChat = async (id: string) => {
@@ -148,6 +154,10 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
   }, []);
 
   const removeFile = (idx: number) => setFiles((f) => f.filter((_, i) => i !== idx));
+
+  let doctorIds;
+  console.log(doctorIds);
+  
 
   // send message (CSR) - required because of geolocation & file upload
   const handleSendMessage = async (e?: React.FormEvent) => {
@@ -199,6 +209,8 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
       // doctors
       if ((resp as any).data?.doctors?.length) {
         const docIds = (resp as any).data.doctors as number[];
+        doctorIds = (resp as any).data.doctors as number[];
+        router.push(`/diagnosis/${initialSelectedId}?doctorIds=${doctorIds.join(',')}`);
         const docs = await Promise.all(docIds.map((d) => axios.get(`${API_BASE_URL}/api/en/doctors/${d}`, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -339,37 +351,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
             </Card>
           </div>
 
-          <div className="w-80">
-            <Card>
-              <CardHeader>
-                <CardTitle>Recommended Specialists</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {doctors.length > 0 ? (
-                  doctors.map((doc) => (
-                    <div key={doc.id} className="p-3 border rounded mb-3 cursor-pointer" onClick={() => router.push(`/doctors/${doc.id}`)}>
-                      <div className="flex gap-3 items-start">
-                        <Avatar className="h-12 w-12"><AvatarFallback>{doc.name.split(" ").map((n) => n[0]).join("")}</AvatarFallback></Avatar>
-                        <div className="flex-1">
-                          <div className="font-semibold">{doc.name}</div>
-                          <div className="text-xs text-gray-500">{doc.translations?.field}</div>
-                          <div className="text-sm text-gray-600 line-clamp-2">{doc.translations?.description}</div>
-                          <div className="text-xs text-gray-500 flex items-center gap-1 mt-2"><MapPin className="h-3 w-3" />{doc.hospital?.name}</div>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center p-6">
-                    <div className="mb-3"><User className="h-8 w-8 text-gray-400" /></div>
-                    <div className="text-sm text-gray-500">Complete diagnosis to see recommendations</div>
-                  </div>
-                )}
-
-                <Button className="w-full mt-4" onClick={() => router.push('/doctors')}>View All Specialists</Button>
-              </CardContent>
-            </Card>
-          </div>
+         <Doctors doctorIds={doctorIds} token={token} />
         </div>
       </SidebarProvider>
     </div>

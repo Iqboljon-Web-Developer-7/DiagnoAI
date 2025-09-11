@@ -41,16 +41,10 @@ export default async function Page({ params }: { params: Promise<{ id?: string; 
     let doctors: Doctor[] = [];
 
     if (id) {
-        console.log("found id");
-        
         try {
-            console.log("fetching chat");
             const data = await serverFetch(`${API_BASE_URL}/chats/${id}`);
-            console.log("chat data", data);
             
             if (data) {
-                console.log(data);
-                
                 selectedChat = {
                     id: data.id,
                     created_at: data.created_at,
@@ -59,8 +53,6 @@ export default async function Page({ params }: { params: Promise<{ id?: string; 
                 };
 
                 if (Array.isArray(data.doctors) && data.doctors.length) {
-                    // fetch doctor details
-                    console.log("fetching doctors");
                     const docs = await Promise.all(
                         data.doctors.map((docId: number) => serverFetch(`${API_BASE_URL}/api/en/doctors/${docId}`)),
                     );
@@ -68,13 +60,12 @@ export default async function Page({ params }: { params: Promise<{ id?: string; 
                 }
             }
         } catch (e) {
-            // swallow
-
-            console.log(e);
-            
             selectedChat = null;
         }
     }
+
+    console.log('doctors server', doctors);
+    
 
     // Render client interactive component, hydrated with SSR data
     return (
