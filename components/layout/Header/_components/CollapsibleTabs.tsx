@@ -174,10 +174,10 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
               <Menu className="h-5 w-5" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="center" className="min-w-[150px]">
+          <DropdownMenuContent align="center" className="min-w-[150px] bg-white/50 backdrop-blur-sm border-none">
             <div className='hidden sm:block'>
               {hiddenTabs.map((tab) => (
-                <DropdownMenuItem key={tab.path} asChild>
+                <DropdownMenuItem key={tab.path} asChild className='bg-transparent'>
                   <Link
                     href={tab.path}
                     className={`w-full px-4 py-2 text-sm  hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline text-blue-500' : 'text-gray-600'}`}
@@ -189,7 +189,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
             </div>
             <div className='block sm:hidden'>
               {tabs.map((tab) => (
-                <DropdownMenuItem key={tab.path} asChild>
+                <DropdownMenuItem key={tab.path} asChild className='hover:bg-white/30 duration-500 ease-in-out'>
                   <Link
                     href={tab.path}
                     className={`w-full px-4 py-2 text-sm  hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline text-blue-500' : 'text-gray-600'}`}

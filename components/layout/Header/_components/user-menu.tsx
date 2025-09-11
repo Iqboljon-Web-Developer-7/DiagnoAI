@@ -86,7 +86,7 @@ export function UserMenu({ className }: { className?: string }) {
               <TooltipTrigger asChild>
                 <Button 
                   variant="link" 
-                  className='hover:bg-slate-100 duration-200' 
+                  className='hover:bg-white/60 duration-200 rounded-full' 
                   size="sm" 
                   onClick={openLoginModal}
                   aria-label={t('login')}
@@ -106,7 +106,7 @@ export function UserMenu({ className }: { className?: string }) {
               <Button 
                 size="sm" 
                 variant={"link"} 
-                className="hover:bg-blue-700 hover:text-slate-100 duration-200" 
+                className="hover:bg-blue-700 hover:text-slate-100 duration-200 rounded-full" 
                 onClick={openRegisterModal}
                 aria-label={t('register')}
               >

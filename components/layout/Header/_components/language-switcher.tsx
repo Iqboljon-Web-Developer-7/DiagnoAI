@@ -32,21 +32,20 @@ export function LanguageSwitcher() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button 
-          variant="ghost" 
-          size="icon" 
-          className="h-9 w-9 sm:h-10 sm:w-fit px-3"
+          variant="link"
+          className="sm:w-fit px-3 hover:bg-green-50 rounded-full"
           aria-label="Select language"
         >
-          <Globe className="h-4 w-4" aria-hidden="true" />
-          <span className="hidden sm:inline-block">{locale.toUpperCase()}</span>
+          <Globe aria-hidden="true" />
+          {/* <span className="hidden sm:inline-block">{locale.toUpperCase()}</span> */}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className='bg-white/50 backdrop-blur-sm border-none'>
         {LANGUAGES.map(({ code, label }) => (
           <DropdownMenuItem
             key={code}
             onClick={() => handleLanguageChange(code)}
-            className={locale === code ? 'bg-accent' : ''}
+            className={locale === code ? 'bg-accent' : 'hover:bg-white/30 duration-500 ease-in-out'}
           >
             {t(label)}
           </DropdownMenuItem>
