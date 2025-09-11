@@ -972,7 +972,8 @@
     "stethoscopeLabel": "Stetoskop ikonkasi",
     "symptomPlaceholder": "Simptomlaringizni kiriting...",
     "startConsultation": "Maslahatni boshlash",
-    "newConsultation": "Yangi maslahatlashuv"
+    "newConsultation": "Yangi maslahatlashuv",
+    "notLoggedIn": "Siz maslahatni boshlash uchun tizimga kirishingiz kerak."
   },
   "notFound": {
     "title": "Sahifa topilmadi",

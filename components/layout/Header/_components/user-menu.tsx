@@ -47,20 +47,20 @@ export function UserMenu({ className }: { className?: string }) {
       )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="relative bg-transparent hover:bg-blue-100" size={"icon"} aria-label={'userMenu'}>
+            <Button className="relative bg-transparent hover:bg-blue-100 rounded-full" size={"icon"} aria-label={'userMenu'}>
               <div className="flex items-center justify-center h-8 w-8 rounded-full">
                 <User color="black" className="h-4 w-4 text-blue-600" aria-hidden="true" />
               </div>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" forceMount>
+          <DropdownMenuContent className="bg-white/50 backdrop-blur-sm border-none" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{user.name}</p>
-                <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                <p className="font-medium leading-none">{user.name}</p>
+                <p className="text-sm leading-none text-muted-foreground">{user.email}</p>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className='bg-white/30' />
             {/* <Link href="/dashboard">
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" aria-hidden="true" />
@@ -68,7 +68,7 @@ export function UserMenu({ className }: { className?: string }) {
               </DropdownMenuItem>
             </Link> */}
             {/* <DropdownMenuSeparator /> */}
-            <DropdownMenuItem onClick={handleLogout}>
+            <DropdownMenuItem className='hover:bg-white/30 duration-500 ease-in-out' onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
               <span>{t('logout')}</span>
             </DropdownMenuItem>

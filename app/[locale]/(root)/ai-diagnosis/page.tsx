@@ -44,6 +44,7 @@ import {
 
 import bgWallpaper from "@/assets/images/useful/bg-wallpaper-line.webp"
 import { useAppStore } from "@/store/store"
+import { useChat } from "./hooks"
 
 
 
@@ -93,16 +94,17 @@ type PageProps = {
   };
   searchParams?: { [key: string]: string | string[] | undefined };
 }
- 
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 export default function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = use(params) // ✅ unwrap Promise
 
-
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
-  const t = useTranslations("diagnosis")
   const { isLoggedIn, user } = useAppStore()
-  const router = useRouter()
   const user_id = user?.id
+
+  const t = useTranslations("diagnosis")
+
+  const router = useRouter()
 
   // State management
   const [chats, setChats] = useState<Chat[]>([])
@@ -114,67 +116,45 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null)
   const [doctors, setDoctors] = useState<Doctor[]>([])
   const [isUserScrolling, setIsUserScrolling] = useState(false)
+
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    if (doctors?.length) {
-      setIsSidebarOpen(true)
-
-    } else {
-      setIsSidebarOpen(false)
-    }
-  }, [doctors])
-
-  // Fetch all chats on mount
-  useEffect(() => {
-    if (!isLoggedIn) return
-    const fetchChats = async () => {
-      try {
-        const resp = await axios.get<Chat[]>(`${API_BASE_URL}/chats`, {
-          headers: {
-            Authorization: `Bearer ${user?.token}`
-          },
-          params: { user_id },
-        })
-        setChats(resp.data)
-      } catch (err) {
-        toast(t("failedToLoadChats"))
-        console.log(err);
-      }
-    }
-    fetchChats()
-  }, [isLoggedIn, user_id, user?.token, t, toast])
-
   // Fetch specific chat
-  const fetchChatById = async (id: string) => {
-    setAnalyzing(true)
-    try {
-      const resp = await axios.get<ChatApiResponse>(`${API_BASE_URL}/chats/${id}`, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`
-        }
-      })
-      const msgs = resp.data.messages || []
-      setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
-      setSelectedChat({
-        id,
-        created_at: resp.data.created_at,
-        updated_at: resp.data.updated_at,
-        messages: msgs,
-      })
+  // const fetchChatById = async (id: string) => {
+  //   setAnalyzing(true)
+  //   try {
+  //     const resp = await axios.get<ChatApiResponse>(`${API_BASE_URL}/chats/${id}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${user?.token}`
+  //       }
+  //     })
+  //     const msgs = resp.data.messages || []
+  //     setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
+  //     setSelectedChat({
+  //       id,
+  //       created_at: resp.data.created_at,
+  //       updated_at: resp.data.updated_at,
+  //       messages: msgs,
+  //     })
 
-      if (resp.data.doctors?.length) {
-        const docResp = await axios.post<Doctor[]>(`${API_BASE_URL}/api/${locale}/doctors`, {
-          ids: resp.data.doctors,
-        })
-        setDoctors(docResp.data)
-      }
-    } catch {
-      toast(t("failedToLoadChat"))
-    } finally {
-      setAnalyzing(false)
-    }
+  //     if (resp.data.doctors?.length) {
+  //       const docResp = await axios.post<Doctor[]>(`${API_BASE_URL}/api/${locale}/doctors`, {
+  //         ids: resp.data.doctors,
+  //       })
+  //       setDoctors(docResp.data)
+  //     }
+  //   } catch {
+  //     toast(t("failedToLoadChat"))
+  //   } finally {
+  //     setAnalyzing(false)
+  //   }
+  // }
+
+  const fetchChatById = (id: string) => {
+    const {chat} = useChat(id)
+    console.log(chat);
+      
   }
 
   const handleNewChat = () => {
@@ -197,31 +177,6 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
       toast.error(t("deleteFail") ?? "Failed to delete")
     }
   }
-
-  // Auto-scroll logic
-  useEffect(() => {
-    const container = chatContainerRef.current
-    if (!container) return
-    let timeout: NodeJS.Timeout
-    const onScroll = () => {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        const { scrollTop, scrollHeight, clientHeight } = container
-        setIsUserScrolling(scrollTop + clientHeight < scrollHeight - 50)
-      }, 100)
-    }
-    container.addEventListener("scroll", onScroll)
-    return () => {
-      container.removeEventListener("scroll", onScroll)
-      clearTimeout(timeout)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!isUserScrolling && messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
-    }
-  }, [chatMessages, isUserScrolling])
 
   const getGeolocation = () =>
     new Promise<{ latitude: number; longitude: number }>((res) =>
@@ -282,7 +237,7 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
         setSelectedChat(resp.data)
       } else {
         let chatId = selectedChat.id
-        
+
         if (!chatId) {
           chatId = chats[chats.length - 1]?.id
         }
@@ -318,15 +273,70 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
         params: { user_id },
       })
       setChats(updated.data)
-    } catch(err) {
+    } catch (err) {
       console.log(err);
-      
+
       toast(t("failedToSendMessage"))
     } finally {
       setAnalyzing(false)
       // setProgress(100)
     }
   }
+
+  // Auto-scroll logic
+  useEffect(() => {
+    const container = chatContainerRef.current
+    if (!container) return
+    let timeout: NodeJS.Timeout
+    const onScroll = () => {
+      clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        const { scrollTop, scrollHeight, clientHeight } = container
+        setIsUserScrolling(scrollTop + clientHeight < scrollHeight - 50)
+      }, 100)
+    }
+    container.addEventListener("scroll", onScroll)
+    return () => {
+      container.removeEventListener("scroll", onScroll)
+      clearTimeout(timeout)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isUserScrolling && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
+    }
+  }, [chatMessages, isUserScrolling])
+
+
+  useEffect(() => {
+    if (doctors?.length) {
+      setIsSidebarOpen(true)
+
+    } else {
+      setIsSidebarOpen(false)
+    }
+  }, [doctors])
+
+  // Fetch all chats on mount
+  useEffect(() => {
+    if (!isLoggedIn) return
+    const fetchChats = async () => {
+      try {
+        const resp = await axios.get<Chat[]>(`${API_BASE_URL}/chats`, {
+          headers: {
+            Authorization: `Bearer ${user?.token}`
+          },
+          params: { user_id },
+        })
+        setChats(resp.data)
+      } catch (err) {
+        toast(t("failedToLoadChats"))
+        console.log(err);
+      }
+    }
+    fetchChats()
+  }, [isLoggedIn, user_id, user?.token, t, toast])
 
   useEffect(() => {
     const header = document.querySelector("header")
@@ -353,7 +363,7 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
                 <h2 className="font-bold text-lg">DiagnoAI</h2>
               </div>
             </Link>
-            <SidebarTrigger  className="absolute bottom-0 -translate-y-full -translate-x-full bg-neutral-200 z-10 -right-10 text-black" />
+            <SidebarTrigger className="absolute bottom-0 -translate-y-full -translate-x-full bg-neutral-200 z-10 -right-10 text-black" />
           </SidebarHeader>
 
           <SidebarContent className="p-4">
@@ -402,8 +412,8 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
         </Sidebar>
 
         <SidebarInset className="bg-transparent backdrop-blur-md "  >
-         {/* <div className="border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4"> */}
-            {/* <Link href={'/'} className="flex items-center gap-3">
+          {/* <div className="border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4"> */}
+          {/* <Link href={'/'} className="flex items-center gap-3">
               <div className="p-2 bg-white/20 rounded-lg">
                 <Brain className="h-6 w-6" />
               </div>
@@ -411,7 +421,7 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
                 <h2 className="font-bold text-lg">DiagnoAI</h2>
               </div>
             </Link> */}
-            {/* <SidebarTrigger className="bottom-0 -translate-y-full -translate-x-full bg-neutral-200 z-10 -right-10 text-black" /> */}
+          {/* <SidebarTrigger className="bottom-0 -translate-y-full -translate-x-full bg-neutral-200 z-10 -right-10 text-black" /> */}
           {/* </div> */}
           <SidebarTrigger iconType="ai-diagnosis" className=" absolute top-4 left-4 z-10   duration-200 scale-125" />
           <main className="flex-1 p-2 md:p-4 max-h-[100svh]  ">
@@ -455,7 +465,7 @@ export default function Page({ params }: { params: Promise<{ locale: string }> }
                           </div>
                           <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("title")}</h3>
                           <p className="text-gray-600 max-w-md">
-                           {t("description")}
+                            {t("description")}
                           </p>
                         </div>
                       ) : null}

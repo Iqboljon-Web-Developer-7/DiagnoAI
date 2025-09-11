@@ -1037,7 +1037,9 @@
     "stethoscopeLabel": "Stethoscope icon",
     "symptomPlaceholder": "Enter your symptoms...",
     "startConsultation": "Start Consultation",
-    "newConsultation": "New Consultation"
+    "newConsultation": "New Consultation",
+    "notLoggedIn": "You must be logged in to start a consultation."
+
   },
   "notFound": {
     "title": "Page not found",

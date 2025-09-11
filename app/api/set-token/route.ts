@@ -10,10 +10,10 @@ export async function GET(req:NextRequest) {
 export async function POST(req:NextRequest) {
   try {
     const body = await req.json();
-    const { attribute, value } = body;
+    const { token } = body;
 
-    if (!attribute || !value) {
-      return new Response(JSON.stringify({ message: 'Attribute and value are required' }), {
+    if (!token) {
+      return new Response(JSON.stringify({ message: 'Token is required' }), {
         status: 400,
       });
     }
@@ -25,7 +25,7 @@ export async function POST(req:NextRequest) {
 
     response.headers.set(
       'Set-Cookie',
-      `${attribute}=${value}; HttpOnly; Secure=${
+      `token=${token}; HttpOnly; Secure=${
         process.env.NODE_ENV === 'production'
       }; SameSite=Strict; Path=/; Max-Age=${24 * 60 * 60}`
     );

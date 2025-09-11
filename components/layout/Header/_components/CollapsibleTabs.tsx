@@ -154,7 +154,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
             >
               <Link
                 href={tab.path}
-                className={`transition-all p-2 text-xs sm:text-sm whitespace-nowrap hover:text-blue-500 ${tab.path === pathname ? 'font-semibold underline text-blue-500' : 'text-gray-600'}`}
+                className={`transition-all p-2 text-xs sm:text-sm whitespace-nowrap hover:text-blue-400 ${tab.path === pathname ? 'font-semibold underline text-blue-400' : 'text-gray-800'}`}
               >
                 {tab.label}
               </Link>
@@ -168,7 +168,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
             <Button
               size={"icon"}
               variant={"link"}
-              className="ml-0 p-2 text-gray-600 hover:text-blue-500 focus:outline-none bg-transparent animate-fade-in-down opacity-0 delay-700"
+              className="ml-0 p-2 text-gray-800 hover:text-blue-400 focus:outline-none bg-transparent animate-fade-in-down opacity-0 delay-700"
               aria-label="Show more navigation options"
             >
               <Menu className="h-5 w-5" />
@@ -180,7 +180,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
                 <DropdownMenuItem key={tab.path} asChild className='bg-transparent'>
                   <Link
                     href={tab.path}
-                    className={`w-full px-4 py-2 text-sm  hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline text-blue-500' : 'text-gray-600'}`}
+                    className={`w-full px-4 py-2 text-sm  hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline text-blue-400' : 'text-gray-800'}`}
                   > 
                     {tab.label}
                   </Link>
@@ -192,7 +192,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
                 <DropdownMenuItem key={tab.path} asChild className='hover:bg-white/30 duration-500 ease-in-out'>
                   <Link
                     href={tab.path}
-                    className={`w-full px-4 py-2 text-sm  hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline text-blue-500' : 'text-gray-600'}`}
+                    className={`w-full px-4 py-2 text-sm  hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline text-blue-400' : 'text-gray-800'}`}
                   >
                     {tab.label}
                   </Link>

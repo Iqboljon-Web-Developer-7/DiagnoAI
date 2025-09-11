@@ -968,7 +968,8 @@
     "stethoscopeLabel": "Иконка стетоскопа",
     "symptomPlaceholder": "Введите ваши симптомы...",
     "startConsultation": "Начать консультацию",
-    "newConsultation": "Новая консультация"
+    "newConsultation": "Новая консультация",
+    "notLoggedIn": "Чтобы начать консультацию, пожалуйста, войдите в свой аккаунт."
   },
   "notFound": {
     "title": "Страница не найдена",
