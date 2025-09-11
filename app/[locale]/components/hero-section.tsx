@@ -8,7 +8,7 @@ export async function HeroSection() {
 
   return (
     <section
-      className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-sky-800 bg-no-repeat h-[100svh] flex items-center "
+      className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-sky-800 bg-no-repeat min-h-[38rem] h-[100svh] flex items-center "
     >
       <video
         autoPlay
@@ -23,11 +23,7 @@ export async function HeroSection() {
       <span
         className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2] z-10"
       ></span>
-      <div
-        className="container relative max-w-6xl mx-auto z-10"
-      >
-        <div className="items-center">
-          <div className="text-center items-center justify-center flex flex-col animate-fade-in-down delay-300 opacity-0 duration-500">
+          <div className="flex items-center justify-center flex-col mx-auto text-center animate-fade-in-down delay-300 opacity-0 duration-500 py-60 z-20">
             <h1
               className="text-3xl max-w-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6"
             >
@@ -41,7 +37,7 @@ export async function HeroSection() {
             </p>
 
             <div
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start my-14 md:my-32 flex-wrap"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start my-10 md:my-32 flex-wrap"
             >
               <Link href="/ai-diagnosis">
                 <Button
@@ -54,8 +50,6 @@ export async function HeroSection() {
               </Link>
             </div>
           </div>
-        </div>
-      </div>
     </section>
   );
 }

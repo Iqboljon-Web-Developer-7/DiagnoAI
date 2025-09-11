@@ -19,7 +19,7 @@ export async function Header() {
         <div className="flex items-center animate-fade-in-down opacity-0 delay-1000">
           <LanguageSwitcher />
           <UserMenu />
-          <Bookings />
+          {/* <Bookings /> */}
           {/* <ThemeToggle /> */}
         </div>
       </header>
