@@ -1,6 +1,7 @@
 'use server';
 
 
+import axios from "axios";
 import { redirect } from "next/navigation";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -47,3 +48,58 @@ export async function getDoctors(doctorIds: number[], token: string): Promise<Do
     return [];
   }
 }
+
+ export const handleDeleteChat = async (id: string, token: string) => {
+    try {
+      await axios.delete(`${API_BASE_URL}/chats/${id}/`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      // setChats((c) => c.filter((x) => x.id !== id));
+      // if (selectedChat?.id === id) {
+        // setSelectedChat(null);
+        // setChatMessages([]);
+        // setDoctors([]);
+      // }
+      // toast.success("Chat deleted");
+    } catch (e) {
+      // toast.error("Failed to delete");
+    }
+  };
+
+
+interface Chat {
+  id: string;
+  message?: string;
+  doctors?: number[];
+}
+
+export const createChat = async (form: FormData, token: string): Promise<Partial<Chat>> => {
+  try {
+    const response = await axios.post<Partial<Chat>>(`${API_BASE_URL}/chats/`, form, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating chat:", error);
+    throw error;
+  }
+};
+export const updateChat = async (id: string, form: FormData, token: string): Promise<Partial<Chat>> => {
+  try {
+    const response = await axios.patch<Partial<Chat>>(`${API_BASE_URL}/chats/${id}/`, form, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating chat:", error);
+    throw error;
+  }
+};

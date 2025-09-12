@@ -1,6 +1,4 @@
 // @ts-nocheck
-
-
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -15,17 +13,15 @@ import { toast } from "sonner";
 import { Loader2, Plus, MessageSquare, Trash, Paperclip, Send, Stethoscope, ImageIcon, FileText, X, MapPin, User } from "lucide-react";
 import dynamic from "next/dynamic";
 import Doctors from "./componnets/Doctors";
+import { createChat, handleDeleteChat, updateChat } from "./actions/actions";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 const ReactMarkdown = dynamic(() => import("react-markdown"), { ssr: false });
 
-
 type ChatMessage = { id: number; content: string; is_from_user: boolean; created_at: string };
 type Chat = { id: string; created_at: string; updated_at?: string; messages?: ChatMessage[] };
 type Doctor = { id: number; name: string; specialty?: string; hospital?: { id: number; name: string }; field?: string; description?: string; image?: string; translations?: any };
-
-
 
 type DiagnosisClientProps = {
   initialChats: Chat[];
@@ -42,23 +38,34 @@ function parseTokenFromCookie() {
 }
 
 export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoctors, initialSelectedId, token }: DiagnosisClientProps) {
-  const router = useRouter();
+  const router = useRouter(); 
 
   // state
   const [chats, setChats] = useState<Chat[]>(initialChats || []);
   const [selectedChat, setSelectedChat] = useState<Chat | null>(initialSelectedChat || null);
   const [doctors, setDoctors] = useState<Doctor[]>(initialDoctors || []);
+
+  console.log(initialSelectedChat);
+
   const [chatMessages, setChatMessages] = useState<{ user?: string; ai?: string }[]>(() => {
     if (!initialSelectedChat?.messages) return [];
     return initialSelectedChat.messages.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content }));
   });
+
+  useEffect(() => {
+    if (!initialSelectedChat?.messages) return;
+    setChatMessages(initialSelectedChat.messages.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })));
+  }, [initialSelectedChat])
+
+  console.log(chatMessages);
+
+
   const [symptoms, setSymptoms] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const [analyzing, setAnalyzing] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  console.log("doctors client",doctors);
-  
+  console.log("doctors client", doctors);
 
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -82,7 +89,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
   // Client-side fetching when user clicks a chat - still SSR preloaded but this updates latest
   // const fetchChatById = useCallback(async (id: string) => {
   //   setAnalyzing(true);
-    
+
   //   try {
   //     const resp = await axios.get<Chat>(`${API_BASE_URL}/chats/${id}`, {
   //       headers: {
@@ -94,7 +101,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
   //     setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })));
   //     setSelectedChat({ id: data.id, created_at: data.created_at, updated_at: data.updated_at, messages: msgs });
 
-      
+
 
   //     if ((resp as any).data?.doctors?.length) {
   //       doctorIds = res?.data?.doctors
@@ -114,24 +121,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
   // }, []);
 
   // delete chat
-  const handleDeleteChat = async (id: string) => {
-    try {
-      await axios.delete(`${API_BASE_URL}/chats/${id}/`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      setChats((c) => c.filter((x) => x.id !== id));
-      if (selectedChat?.id === id) {
-        setSelectedChat(null);
-        setChatMessages([]);
-        setDoctors([]);
-      }
-      toast.success("Chat deleted");
-    } catch (e) {
-      toast.error("Failed to delete");
-    }
-  };
+ 
 
   // new chat
   const handleNewChat = () => {
@@ -157,7 +147,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
 
   let doctorIds;
   console.log(doctorIds);
-  
+
 
   // send message (CSR) - required because of geolocation & file upload
   const handleSendMessage = async (e?: React.FormEvent) => {
@@ -181,36 +171,32 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
       // @ts-ignore
       let resp;
       if (!selectedChat) {
-        resp = await axios.post<Partial<Chat & { message?: string; doctors?: number[] }>>(`${API_BASE_URL}/chats/`, form, {
-          headers: { 
-            "Content-Type": "multipart/form-data",
-            "Authorization": `Bearer ${token}`
-          },
-        });
+        resp = await createChat(form, token!)
+        // await axios.post<Partial<Chat & { message?: string; doctors?: number[] }>>(`${API_BASE_URL}/chats/`, form, {
+        //   headers: {
+        //     "Content-Type": "multipart/form-data",
+        //     "Authorization": `Bearer ${token}`
+        //   },
+        // });
         // setSelectedChat(resp.data as Chat)
       } else {
         const chatId = selectedChat.id;
-        resp = await axios.patch(`${API_BASE_URL}/chats/${chatId}/`, form, {
-          headers: { 
-            "Content-Type": "multipart/form-data",
-            "Authorization": `Bearer ${token}`
-          },
-        });
+        resp = await updateChat(chatId, form, token!);
       }
 
       // messages handling
-      if (Array.isArray((resp as any).data.messages)) {
-        const msgs = (resp as any).data.messages as ChatMessage[];
+      if (Array.isArray((resp as any)?.messages)) {
+        const msgs = (resp as any)?.messages as ChatMessage[];
         setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })));
       } else {
-        setChatMessages((prev) => [...prev, { user: symptoms }, { ai: (resp as any).data.message || "" }]);
+        setChatMessages((prev) => [...prev, { user: symptoms }, { ai: (resp as any)?.message || "" }]);
       }
 
       // doctors
-      if ((resp as any).data?.doctors?.length) {
-        const docIds = (resp as any).data.doctors as number[];
-        doctorIds = (resp as any).data.doctors as number[];
-        router.push(`/diagnosis/${initialSelectedId}?doctorIds=${doctorIds.join(',')}`);
+      if ((resp as any)?.doctors?.length) {
+        const docIds = (resp as any)?.doctors as number[];
+        doctorIds = (resp as any)?.doctors as number[];
+        router.push(`/diagnosis?chatId=${initialSelectedId}?doctorIds=${doctorIds.join(',')}`);
         const docs = await Promise.all(docIds.map((d) => axios.get(`${API_BASE_URL}/api/en/doctors/${d}`, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -226,7 +212,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
       // refresh chats list (lightweight)
       const updated = await axios.get<Chat[]>(`${API_BASE_URL}/chats`, {
         headers: {
-          'Authorization': `Bearer ${token}` 
+          'Authorization': `Bearer ${token}`
         }
       });
       setChats(updated.data);
@@ -257,7 +243,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
                 <SidebarMenu>
                   {chats.map((c, i) => (
                     <SidebarMenuItem key={c.id}>
-                      <SidebarMenuButton onClick={() => {router.push(`/diagnosis/${c.id}`)}}>
+                      <SidebarMenuButton onClick={() => { router.push(`/diagnosis?chatId=${c.id}`) }}>
                         <div className="flex items-center gap-2">
                           <div className="p-2 bg-blue-50 rounded">
                             <MessageSquare className="h-4 w-4 text-blue-600" />
@@ -266,7 +252,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
                             <div className="text-sm">Session {i + 1}</div>
                             <div className="text-xs text-gray-500">{new Date(c.created_at).toLocaleString()}</div>
                           </div>
-                          <div onClick={(e) => { e.stopPropagation(); handleDeleteChat(c.id); }}>
+                          <div onClick={(e) => { e.stopPropagation(); handleDeleteChat(c.id, token!); }}>
                             <Trash className="h-4 w-4 text-red-500" />
                           </div>
                         </div>
@@ -351,7 +337,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
             </Card>
           </div>
 
-         <Doctors doctorIds={doctorIds} token={token} />
+          {/* <Doctors doctorIds={doctorIds} token={token} /> */}
         </div>
       </SidebarProvider>
     </div>
