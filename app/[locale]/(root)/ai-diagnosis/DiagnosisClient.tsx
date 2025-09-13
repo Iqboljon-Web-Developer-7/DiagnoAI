@@ -309,7 +309,7 @@ export default function DiagnosisClient({
     // Initial scroll to bottom if messages exist
     useEffect(() => {
         if (chatMessages?.length > 0 && messagesEndRef.current && !isUserScrolling) {
-            messagesEndRef.current.scrollIntoView({ behavior: "auto" })
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
         }
     }, [chatMessages?.length, isUserScrolling])
 
@@ -341,7 +341,7 @@ export default function DiagnosisClient({
                                 </Button>
 
                                 <SidebarMenu>
-                                    {chats.map((chat, i) => (
+                                    {chats?.map((chat, i) => (
                                         <SidebarMenuItem key={chat.id}>
                                             <SidebarMenuButton
                                                 size={'lg'}
