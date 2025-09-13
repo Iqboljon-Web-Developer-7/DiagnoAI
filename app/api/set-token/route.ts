@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       httpOnly: true, // Inaccessible to JS
       secure: process.env.NODE_ENV === 'production', // HTTPS only in prod
       sameSite: 'strict', // CSRF protection
-      maxAge: 60 * 60, // 1 hour expiry
+      maxAge: 60 * 60 * 24 * 4, // 4 days expiry
       path: '/',
     });
 
