@@ -81,7 +81,7 @@ export default function DiagnosisClient({
     const [chats, setChats] = useState<Chat[]>(initialChats)
     const [files, setFiles] = useState<File[]>([])
     const [symptoms, setSymptoms] = useState("")
-    const [isSidebarOpen, setIsSidebarOpen] = useState(initialDoctors.length > 0)
+    const [isSidebarOpen, setIsSidebarOpen] = useState(initialDoctors?.length > 0)
     const [analyzing, setAnalyzing] = useState(false)
     const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
     const [selectedChat, setSelectedChat] = useState<Chat | null>(initialSelectedChat)
@@ -105,7 +105,7 @@ export default function DiagnosisClient({
     useEffect(() => {
         if (initialDoctors.length) {
             setIsSidebarOpen(true)
-            setDoctors(initialDoctors)    
+            setDoctors(initialDoctors)
         }
     }, [initialDoctors])
 
@@ -123,7 +123,7 @@ export default function DiagnosisClient({
             })
 
 
-            // if (resp.data.doctors?.length) {
+            // if (resp.data.doctors??.length) {
             //     const docResp = await axios.post<Doctor[]>(`${API_BASE_URL}/api/${'en'}/doctors`, {
             //         ids: resp.data.doctors,
             //     })
@@ -186,7 +186,7 @@ export default function DiagnosisClient({
             router.push("/auth/login")
             return
         }
-        if (!symptoms.trim() && !files.length) {
+        if (!symptoms.trim() && !files?.length) {
             toast(t("noInputProvided"))
             return
         }
@@ -206,13 +206,13 @@ export default function DiagnosisClient({
                 resp = await createChat(form)
                 setSelectedChat(resp.data)
                 console.log(resp.data);
-                
+
                 router.push(`/ai-diagnosis?chatId=${resp?.data?.id}`)
             } else {
                 let chatId = selectedChat.id
 
                 if (!chatId) {
-                    chatId = chats[chats.length - 1]?.id
+                    chatId = chats[chats?.length - 1]?.id
                 }
                 resp = await updateChat(chatId, form)
             }
@@ -226,9 +226,9 @@ export default function DiagnosisClient({
             if (resp.data.doctors?.length) {
                 const docIds = resp.data.doctors.join(',')
                 console.log(initialSelectedId);
-                
+
                 router.push(`/ai-diagnosis?chatId=${initialSelectedId}&doctors=${docIds}`)
-                
+
 
                 const docs = await getDoctors(resp.data.doctors)
                 setDoctors(docs.map((d) => d.data))
@@ -276,12 +276,12 @@ export default function DiagnosisClient({
 
     // Sidebar open based on doctors
     useEffect(() => {
-        setIsSidebarOpen(doctors.length > 0)
+        setIsSidebarOpen(doctors?.length > 0)
     }, [doctors])
 
     // Only refetch chats if initialChats is empty or on login state change (avoid duplicate fetches)
     useEffect(() => {
-        if (!isLoggedIn || initialChats.length > 0) return
+        if (!isLoggedIn || initialChats?.length > 0) return
         const fetchChats = async () => {
             try {
                 const resp = await getChats(user_id!)
@@ -292,11 +292,11 @@ export default function DiagnosisClient({
             }
         }
         fetchChats()
-    }, [isLoggedIn, user, initialChats.length, t])
+    }, [isLoggedIn, user, initialChats?.length, t])
 
     useEffect(() => {
         const header = document.querySelector("header")
-        if (header && header.style) {
+        if (header) {
             header.style.display = "none"
         }
         return () => {
@@ -308,10 +308,10 @@ export default function DiagnosisClient({
 
     // Initial scroll to bottom if messages exist
     useEffect(() => {
-        if (chatMessages.length > 0 && messagesEndRef.current && !isUserScrolling) {
+        if (chatMessages?.length > 0 && messagesEndRef.current && !isUserScrolling) {
             messagesEndRef.current.scrollIntoView({ behavior: "auto" })
         }
-    }, [chatMessages.length, isUserScrolling])
+    }, [chatMessages?.length, isUserScrolling])
 
     return (
         <div className="z-50">
@@ -380,10 +380,10 @@ export default function DiagnosisClient({
                     <main className="flex-1 p-2 md:p-4 max-h-[100svh]  ">
                         <div className="gap-8 max-w-7xl mx-auto h-full">
                             <div className="flex flex-col relative h-full max-h-[96svh] overflow-auto">
-                                <Card className={`min-h-[40svh] max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${!chatMessages.length && 'flex items-center justify-center'}`}>
+                                <Card className={`min-h-[40svh] max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${!chatMessages?.length && 'flex items-center justify-center'}`}>
                                     <CardContent className="p-0">
-                                        <div className={`overflow-y-auto p-6 space-y-4 ${chatMessages.length === 0 ? "flex items-center justify-center" : ""}`} ref={chatContainerRef}>
-                                            {chatMessages.length > 0 ? (
+                                        <div className={`overflow-y-auto p-6 space-y-4 ${chatMessages?.length === 0 ? "flex items-center justify-center" : ""}`} ref={chatContainerRef}>
+                                            {chatMessages?.length > 0 ? (
                                                 chatMessages.map((msg, idx) => (
                                                     <div key={idx} className="space-y-4">
                                                         {msg.user && (
@@ -447,24 +447,22 @@ export default function DiagnosisClient({
 
                                 <Card className="bg-transparent border-none shadow-none animate-fade-in-down duration-200 opacity-0 delay-500">
                                     <CardContent className="p-2">
-                                        {files.length > 0 && (
+                                        {files?.length > 0 && (
                                             <div className="py-2">
                                                 <div className="flex items-center justify-start gap-3">
                                                     {files.map((file, i) => (
                                                         <div key={i} className="relative group w-12 h-12">
-                                                            <div className="aspect-square w-full rounded-lg border-2 border-gray-200 overflow-hidden">
+                                                            <div className="aspect-square w-full rounded-lg border-2 border-gray-200 overflow-hidden flex items-center justify-center hover:bg-white/30 duration-100">
                                                                 {file.type.startsWith("image/") ? (
-                                                                    <div className="h-full w-full bg-red-200">
-                                                                        <Zoom>
-                                                                            <Image
-                                                                                width={48}
-                                                                                height={48}
-                                                                                src={URL.createObjectURL(file)}
-                                                                                alt={file.name}
-                                                                                className="w-full h-full object-cover"
-                                                                            />
-                                                                        </Zoom>
-                                                                    </div>
+                                                                    <Zoom>
+                                                                        <Image
+                                                                            width={48}
+                                                                            height={48}
+                                                                            src={URL.createObjectURL(file)}
+                                                                            alt={file.name}
+                                                                            className="w-full h-full object-cover"
+                                                                        />
+                                                                    </Zoom>
                                                                 ) : (
                                                                     <div className="w-full h-full flex items-center justify-center bg-gray-50">
                                                                         <div className="text-center p-4">
@@ -495,7 +493,7 @@ export default function DiagnosisClient({
                                                     placeholder={t('symptomPlaceholder')}
                                                     value={symptoms}
                                                     onChange={(e) => setSymptoms(e.target.value)}
-                                                    className="min-h-8 text-sm md:text-lg max-h-40 w-full pr-12 border-2 border-gray-200 focus:border-blue-400 rounded-2xl border-none focus-visible:ring-0"
+                                                    className="min-h-5 md:min-h-8 text-sm bg-white/50 backdrop-blur-sm md:text-lg max-h-40 w-full pr-12 focus:border-blue-400 rounded-2xl border-none focus-visible:outline-none focus-visible:ring-offset-0"
                                                     rows={1}
                                                     style={{
                                                         height: 'auto',
@@ -507,7 +505,7 @@ export default function DiagnosisClient({
                                                         target.style.height = `${target.scrollHeight}px`;
                                                     }}
                                                 />
-                                                <div className="rounded-xl text-center transition-colors absolute bottom-2 lg:bottom-3 right-11">
+                                                <div className="rounded-xl text-center transition-colors absolute bottom-2 md:bottom-3 right-11">
                                                     <input
                                                         type="file"
                                                         multiple
@@ -517,24 +515,24 @@ export default function DiagnosisClient({
                                                         onChange={handleFileUpload}
                                                     />
                                                     <label htmlFor="file-upload" className="cursor-pointer">
-                                                        <Paperclip className="h-4 w-4" />
+                                                        <Paperclip className="h-4 w-4 md:h-5 md:w-5" />
                                                     </label>
                                                 </div>
-                                                <div className="rounded-xl text-center transition-colors absolute -bottom-1 lg:bottom-0 right-1">
+                                                <div className="rounded-xl text-center transition-colors absolute -bottom-1 md:bottom-0 right-1">
                                                     <Button
                                                         size={"icon"}
                                                         type="submit"
-                                                        title={analyzing ? "Analyzing..." : (!symptoms.trim() && !files.length) ? "Type something please..." : "Send"}
-                                                        disabled={analyzing || (!symptoms.trim() && !files.length)}
+                                                        title={analyzing ? "Analyzing..." : (!symptoms.trim() && !files?.length) ? "Type something please..." : "Send"}
+                                                        disabled={analyzing || (!symptoms.trim() && !files?.length)}
                                                         className="text-blackshadow-lg rounded-full bg-transparent hover:bg-transparent hover:text-blue-500 hover:scale-105 duration-200"
                                                     >
                                                         {analyzing ? (
                                                             <>
-                                                                <Loader2 className="animate-spin  h-4 w-4" />
+                                                                <Loader2 className="animate-spin h-4 w-4 md:h-5 md:w-5" />
                                                             </>
                                                         ) : (
                                                             <>
-                                                                <Send size={1} />
+                                                                <Send className="h-4 w-4 md:h-5 md:w-5 scale-125" />
                                                             </>
                                                         )}
                                                     </Button>

@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 interface ErrorProps {
   error: Error & { digest?: string };
