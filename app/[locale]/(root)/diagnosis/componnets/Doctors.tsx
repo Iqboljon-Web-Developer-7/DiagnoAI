@@ -37,7 +37,7 @@ export default function Doctors({ token }: DoctorsProps) {
     useEffect(() => {
         const fetchDoctors = async () => {
             try {
-                const data = await getDoctors(doctorIds, token);
+                const data = await getDoctors(doctorIds);
                 setDoctors(data);
             } catch (error) {
                 console.error("Error fetching doctors:", error);

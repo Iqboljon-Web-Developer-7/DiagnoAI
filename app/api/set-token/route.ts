@@ -23,6 +23,7 @@ export async function POST(req: NextRequest) {
       status: 200,
     });
 
+    // @ts-ignore
     cookies().set('access-token', token, {
       httpOnly: true, // Inaccessible to JS
       secure: process.env.NODE_ENV === 'production', // HTTPS only in prod
