@@ -973,7 +973,9 @@
     "symptomPlaceholder": "Simptomlaringizni kiriting...",
     "startConsultation": "Maslahatni boshlash",
     "newConsultation": "Yangi maslahatlashuv",
-    "notLoggedIn": "Siz maslahatni boshlash uchun tizimga kirishingiz kerak."
+    "notLoggedIn": "Siz maslahatni boshlash uchun tizimga kirishingiz kerak.",
+    "deleteSuccess": "O'chirish muvaffaqiyatli amalga oshirildi",
+    "failedToSendMessage": "Xabar yuborib bo'lmadi"
   },
   "notFound": {
     "title": "Sahifa topilmadi",

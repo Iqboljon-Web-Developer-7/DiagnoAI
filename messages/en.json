@@ -1038,8 +1038,9 @@
     "symptomPlaceholder": "Enter your symptoms...",
     "startConsultation": "Start Consultation",
     "newConsultation": "New Consultation",
-    "notLoggedIn": "You must be logged in to start a consultation."
-
+    "notLoggedIn": "You must be logged in to start a consultation.",
+    "deleteSuccess": "Deletion successful",
+    "failedToSendMessage": "Failed to send message"
   },
   "notFound": {
     "title": "Page not found",
