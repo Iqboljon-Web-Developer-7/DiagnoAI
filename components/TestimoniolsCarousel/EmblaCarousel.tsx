@@ -26,9 +26,16 @@ type PropType = {
 }
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { slides, options, type } = props
+  const { slides, type } = props
+
+  const options = {
+    loop: true,
+    dragFree: true,
+    duration: 32,
+  };
+
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-    Autoplay({ playOnInit: false, delay: 3000 })
+    Autoplay({ delay: 3500 })
   ])
 
   const { ref: inViewRef, inView } = useInView({
@@ -39,7 +46,9 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 
   useEffect(() => {
     if (inView && emblaApi && !autoplayIsPlaying) {
-      toggleAutoplay()
+      setTimeout(() => {
+        toggleAutoplay()
+      }, 500);
     }
   }, [inView])
 
@@ -47,10 +56,18 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     <div className="embla" ref={inViewRef}>
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container gap-0">
-           {type == 'partners' && slides.map((slide) => (
+          {type == 'partners' && slides.map((slide) => (
             <div key={slide.id} className="border mx-2 shrink-0 max-w-80 bg-[#edf2f4] rounded-xl p-6 sm:p-8 mb-5  relative">
               <div className="flex items-center justify-center h-full">
-                <Image loading="lazy" src={slide?.imageSrc} alt='slide-image' width={250} height={250} />
+                <Image
+                  loading="lazy"
+                  src={slide?.imageSrc}
+                  alt='slide-image'
+                  width={250}
+                  height={250}
+                  placeholder="blur"  // Adds blur placeholder to avoid blank/white during load
+                  sizes="(max-width: 768px) 100vw, 33vw"  // Optimize fetch based on viewport
+                />
               </div>
             </div>
           ))}

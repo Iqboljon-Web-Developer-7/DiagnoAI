@@ -2,6 +2,7 @@
 
 
 import axios from "axios";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -17,16 +18,20 @@ interface Doctor {
   };
 }
 
+const cookieStore = cookies();
+// @ts-ignore
+const token = cookieStore.get("access-token")?.value ?? null; // change cookie name if different
+
 export const handleDoctorClick = async (doctorId: number) => {
-    redirect(`/doctors/${doctorId}`);
-  };
+  redirect(`/doctors/${doctorId}`);
+};
 
-  export const handleViewAllClick = async () => {
-    redirect('/doctors');
-  };
+export const handleViewAllClick = async () => {
+  redirect('/doctors');
+};
 
-  
-export async function getDoctors(doctorIds: number[], token: string): Promise<Doctor[]> {
+
+export async function getDoctors(doctorIds: number[]): Promise<Doctor[]> {
   if (!doctorIds?.length) return [];
 
   try {
@@ -49,24 +54,24 @@ export async function getDoctors(doctorIds: number[], token: string): Promise<Do
   }
 }
 
- export const handleDeleteChat = async (id: string, token: string) => {
-    try {
-      await axios.delete(`${API_BASE_URL}/chats/${id}/`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      // setChats((c) => c.filter((x) => x.id !== id));
-      // if (selectedChat?.id === id) {
-        // setSelectedChat(null);
-        // setChatMessages([]);
-        // setDoctors([]);
-      // }
-      // toast.success("Chat deleted");
-    } catch (e) {
-      // toast.error("Failed to delete");
-    }
-  };
+export const handleDeleteChat = async (id: string) => {
+  try {
+    await axios.delete(`${API_BASE_URL}/chats/${id}/`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    // setChats((c) => c.filter((x) => x.id !== id));
+    // if (selectedChat?.id === id) {
+    // setSelectedChat(null);
+    // setChatMessages([]);
+    // setDoctors([]);
+    // }
+    // toast.success("Chat deleted");
+  } catch (e) {
+    // toast.error("Failed to delete");
+  }
+};
 
 
 interface Chat {
@@ -75,7 +80,7 @@ interface Chat {
   doctors?: number[];
 }
 
-export const createChat = async (form: FormData, token: string): Promise<Partial<Chat>> => {
+export const createChat = async (form: FormData): Promise<Partial<Chat>> => {
   try {
     const response = await axios.post<Partial<Chat>>(`${API_BASE_URL}/chats/`, form, {
       headers: {
@@ -89,7 +94,7 @@ export const createChat = async (form: FormData, token: string): Promise<Partial
     throw error;
   }
 };
-export const updateChat = async (id: string, form: FormData, token: string): Promise<Partial<Chat>> => {
+export const updateChat = async (id: string, form: FormData): Promise<Partial<Chat>> => {
   try {
     const response = await axios.patch<Partial<Chat>>(`${API_BASE_URL}/chats/${id}/`, form, {
       headers: {
@@ -101,5 +106,20 @@ export const updateChat = async (id: string, form: FormData, token: string): Pro
   } catch (error) {
     console.error("Error updating chat:", error);
     throw error;
+  }
+};
+
+
+export const getChats = async (): Promise<Chat[]> => {
+  try {
+    const response = await axios.get<Chat[]>(`${API_BASE_URL}/chats`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching chats:", error);
+    return [];
   }
 };

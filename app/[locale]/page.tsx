@@ -6,24 +6,37 @@ import { CTASection } from "@/app/[locale]/components/cta-section";
 import { Partners } from "./components/partners";
 
 import bgSquares from "@/assets/images/useful/bg-square.webp"
+import { Suspense } from "react";
 
 export default async function HomePage() {
   return (
     <>
-      {/* @ts-expect-error Async Server Component */}
-      <HeroSection />
-      {/* @ts-expect-error Async Server Component */}
-      <HowItWorksSection />
-      {/* @ts-expect-error Async Server Component */}
-      <FeaturesSection />
+      <Suspense fallback={<div>Loading hero...</div>}>
+        {/* @ts-expect-error Async Server Component */}
+        <HeroSection />
+      </Suspense>
+      <Suspense fallback={<div>Loading how it works...</div>}>
+        {/* @ts-expect-error Async Server Component */}
+        <HowItWorksSection />
+      </Suspense>
+      <Suspense fallback={<div>Loading features...</div>}>
+        {/* @ts-expect-error Async Server Component */}
+        <FeaturesSection />
+      </Suspense>
       <div style={{ backgroundImage: `url(${bgSquares.src})` }} className="bg-cover">
-        {/* @ts-expect-error Async Server Component */}
-        <Partners />
-        {/* @ts-expect-error Async Server Component */}
-        <TestimonialsSection />
+        <Suspense fallback={<div>Loading partners...</div>}>
+          {/* @ts-expect-error Async Server Component */}
+          <Partners />
+        </Suspense>
+        <Suspense fallback={<div>Loading testimonials...</div>}>
+          {/* @ts-expect-error Async Server Component */}
+          <TestimonialsSection />
+        </Suspense>
       </div>
-      {/* @ts-expect-error Async Server Component */}
-      <CTASection />
+      <Suspense fallback={<div>Loading CTA...</div>}>
+        {/* @ts-expect-error Async Server Component */}
+        <CTASection />
+      </Suspense>
     </>
   );
 }

@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { Loader2, Plus, MessageSquare, Trash, Paperclip, Send, Stethoscope, ImageIcon, FileText, X, MapPin, User } from "lucide-react";
 import dynamic from "next/dynamic";
 import Doctors from "./componnets/Doctors";
-import { createChat, handleDeleteChat, updateChat } from "./actions/actions";
+import { createChat, getChats, getDoctors, handleDeleteChat, updateChat } from "./actions/actions";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -30,12 +30,6 @@ type DiagnosisClientProps = {
   initialSelectedId: string | null;
   token: string | null;
 };
-
-function parseTokenFromCookie() {
-  if (typeof document === "undefined") return null;
-  const m = document.cookie.match(/(?:^|; )token=([^;]+)/);
-  return m ? decodeURIComponent(m[1]) : null;
-}
 
 export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoctors, initialSelectedId, token }: DiagnosisClientProps) {
   const router = useRouter(); 
@@ -69,12 +63,6 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
 
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
-  // set axios auth header from cookie (best-effort)
-  useEffect(() => {
-    const token = parseTokenFromCookie();
-    if (token) axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  }, []);
 
   // keep doctors-driven sidebar open
   // useEffect(() => {
@@ -171,7 +159,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
       // @ts-ignore
       let resp;
       if (!selectedChat) {
-        resp = await createChat(form, token!)
+        resp = await createChat(form)
         // await axios.post<Partial<Chat & { message?: string; doctors?: number[] }>>(`${API_BASE_URL}/chats/`, form, {
         //   headers: {
         //     "Content-Type": "multipart/form-data",
@@ -181,7 +169,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
         // setSelectedChat(resp.data as Chat)
       } else {
         const chatId = selectedChat.id;
-        resp = await updateChat(chatId, form, token!);
+        resp = await updateChat(chatId, form);
       }
 
       // messages handling
@@ -197,11 +185,14 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
         const docIds = (resp as any)?.doctors as number[];
         doctorIds = (resp as any)?.doctors as number[];
         router.push(`/diagnosis?chatId=${initialSelectedId}?doctorIds=${doctorIds.join(',')}`);
-        const docs = await Promise.all(docIds.map((d) => axios.get(`${API_BASE_URL}/api/en/doctors/${d}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })));
+
+        const docs = await getDoctors(docIds);
+
+        // Promise.all(docIds.map((d) => axios.get(`${API_BASE_URL}/api/en/doctors/${d}`, {
+        //   headers: {
+        //     'Authorization': `Bearer ${token}`
+        //   }
+        // })));
         setDoctors(docs.map((d) => (d as any).data));
       }
 
@@ -209,13 +200,8 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
       setSymptoms("");
       setFiles([]);
 
-      // refresh chats list (lightweight)
-      const updated = await axios.get<Chat[]>(`${API_BASE_URL}/chats`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      setChats(updated.data);
+      const updated = await getChats();
+      setChats(updated);
     } catch (err) {
       console.error(err);
       toast.error("Failed to send message");
@@ -252,7 +238,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
                             <div className="text-sm">Session {i + 1}</div>
                             <div className="text-xs text-gray-500">{new Date(c.created_at).toLocaleString()}</div>
                           </div>
-                          <div onClick={(e) => { e.stopPropagation(); handleDeleteChat(c.id, token!); }}>
+                          <div onClick={(e) => { e.stopPropagation(); handleDeleteChat(c.id!); }}>
                             <Trash className="h-4 w-4 text-red-500" />
                           </div>
                         </div>

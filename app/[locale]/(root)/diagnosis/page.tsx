@@ -16,7 +16,7 @@ export default async function Page({
     // read token from cookie (set by /api/set-token endpoint)
     const cookieStore = cookies();
     // @ts-ignore
-    const token = cookieStore.get("token")?.value ?? null; // change cookie name if different
+    const token = cookieStore.get("access-token")?.value ?? null; // change cookie name if different
 
     // Helper: server-side fetch with Authorization
     const serverFetch = async (url: string) => {

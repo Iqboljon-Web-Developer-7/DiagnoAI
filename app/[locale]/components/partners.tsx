@@ -6,7 +6,11 @@ import Img4 from "@/assets/images/partners/4.png"
 import Img5 from "@/assets/images/partners/5.png"
 import Img6 from "@/assets/images/partners/6.png"
 
-import EmblaCarousel from '@/components/TestimoniolsCarousel/EmblaCarousel';
+import dynamic from 'next/dynamic';
+
+const EmblaCarousel = dynamic(() => import('@/components/TestimoniolsCarousel/EmblaCarousel'), {
+  loading: () => <div className="h-[200px] bg-gray-200 animate-pulse">Loading carousel...</div>  // Placeholder to avoid white flash
+});
 
 const testimonialData = [
   { id: 1, imageSrc: Img1, name: "Abdullayev Aziz" },
