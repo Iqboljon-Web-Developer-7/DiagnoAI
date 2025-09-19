@@ -37,7 +37,7 @@ export async function Partners() {
             {t('partners.description')}
           </p>
         </div>
-      <SwiperCarousel testimonials={testimonialData} />
+        <SwiperCarousel testimonials={testimonialData} />
 
         {/* <EmblaCarousel slides={testimonialData} type='partners' /> */}
       </div>
