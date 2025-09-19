@@ -7,6 +7,7 @@ import { Partners } from "./components/partners";
 
 import bgSquares from "@/assets/images/useful/bg-square.webp"
 import { Suspense } from "react";
+import Image from "next/image";
 
 export default async function HomePage() {
   return (
@@ -23,16 +24,14 @@ export default async function HomePage() {
         {/* @ts-expect-error Async Server Component */}
         <FeaturesSection />
       </Suspense>
-      {/* <div style={{ backgroundImage: `url(${bgSquares.src})` }} className="bg-cover"> */}
-        <Suspense fallback={<div>Loading partners...</div>}>
-          {/* @ts-expect-error Async Server Component */}
-          <Partners />
-        </Suspense>
-        <Suspense fallback={<div>Loading testimonials...</div>}>
-          {/* @ts-expect-error Async Server Component */}
-          <TestimonialsSection />
-        </Suspense>
-      {/* </div> */}
+      <Suspense fallback={<div>Loading partners...</div>}>
+        {/* @ts-expect-error Async Server Component */}
+        <Partners />
+      </Suspense>
+      <Suspense fallback={<div>Loading testimonials...</div>}>
+        {/* @ts-expect-error Async Server Component */}
+        <TestimonialsSection />
+      </Suspense>
       <Suspense fallback={<div>Loading CTA...</div>}>
         {/* @ts-expect-error Async Server Component */}
         <CTASection />
