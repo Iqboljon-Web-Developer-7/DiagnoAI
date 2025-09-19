@@ -23,7 +23,7 @@ export default async function HomePage() {
         {/* @ts-expect-error Async Server Component */}
         <FeaturesSection />
       </Suspense>
-      <div style={{ backgroundImage: `url(${bgSquares.src})` }} className="bg-cover">
+      {/* <div style={{ backgroundImage: `url(${bgSquares.src})` }} className="bg-cover"> */}
         <Suspense fallback={<div>Loading partners...</div>}>
           {/* @ts-expect-error Async Server Component */}
           <Partners />
@@ -32,7 +32,7 @@ export default async function HomePage() {
           {/* @ts-expect-error Async Server Component */}
           <TestimonialsSection />
         </Suspense>
-      </div>
+      {/* </div> */}
       <Suspense fallback={<div>Loading CTA...</div>}>
         {/* @ts-expect-error Async Server Component */}
         <CTASection />
