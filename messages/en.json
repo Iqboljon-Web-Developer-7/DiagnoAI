@@ -1,8 +1,12 @@
 {
   "Index": {
     "hero": {
-      "title": "Artificial Intelligence for",
-      "titleHighlight": "your health",
+      "1": "Artificial Intelligence for Your Health",
+      "2": " Doctor's Advice for Your Health",
+      "3": " Quick Diagnosis for Your Health",
+      "4": " Modern Medicine for Your Health",
+      "5": " Accurate Results for Your Health",
+      "6": " Professional Care for Your Health",
       "description": "Upload your analysis, get diagnosis and doctor recommendations. Fast and accurate diagnosis with AI assistance.",
       "getDiagnosis": "Get Diagnosis",
       "uploadAnalysis": "Upload Analysis",
@@ -593,6 +597,8 @@
       "title": "About Us",
       "description": "Diagno AI is an innovative platform providing medical diagnostics and doctor recommendations powered by artificial intelligence"
     },
+    "learnMore": "Learn More",
+    "watchDemo": "Watch Demo",
     "mission": {
       "title": "Our Mission",
       "description1": "The primary goal of the Diagno AI platform is to expand access to quality medical care and make healthcare services universally accessible using artificial intelligence technologies.",

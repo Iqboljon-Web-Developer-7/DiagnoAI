@@ -4,9 +4,12 @@
       "title": "Shoshiling tibbiy yordam! "
     },
     "hero": {
-      "title": "Sizning salomatligingiz uchun",
-      "titleHighlight": "sun'iy intellekt",
-      "description": "Tahlillaringizni yuklang, tashxis va shifokor tavsiyalarini oling. Sun'iy intellekt yordamida tez va aniq tashxis.",
+      "1": "Sog'ligingiz uchun sun'iy intellekt",
+      "2": "Sog'ligingiz uchun shifokor maslahatlari", 
+      "3": "Sog'ligingiz uchun tezkor tashxis",
+      "4": "Sog'ligingiz uchun zamonaviy tibbiyot",
+      "5": "Sog'ligingiz uchun aniq natijalar",
+      "6": "Sog'ligingiz uchun professional g'amxo'rlik",
       "getDiagnosis": "Tashxis olish",
       "uploadAnalysis": "Tahlil yuklash",
       "emergencyHelp": "Shoshilinch yordam"
@@ -679,6 +682,8 @@
       "title": "Biz haqimizda",
       "description": "Diagno AI - bu sun'iy intellekt yordamida tibbiy tashxis va shifokor tavsiyalarini taqdim etuvchi innovatsion platforma"
     },
+    "learnMore": "Ko'proq ma'lumot",
+    "watchDemo": "Demo ko'rish",
     "mission": {
       "title": "Bizning vazifamiz",
       "description1": "Diagno AI platformasining asosiy maqsadi - sun'iy intellekt texnologiyalari yordamida sifatli tibbiy yordam olish imkoniyatini kengaytirish va tibbiy xizmatlarni hammabop qilish.",

@@ -8,6 +8,7 @@ import { Partners } from "./components/partners";
 import bgSquares from "@/assets/images/useful/bg-square.webp"
 import { Suspense } from "react";
 import Image from "next/image";
+import InfiniteCarousel from "./components/InfiniteCarousel Types/InfiniteCarousel";
 
 export default async function HomePage() {
   return (
@@ -20,6 +21,7 @@ export default async function HomePage() {
         {/* @ts-expect-error Async Server Component */}
         <HowItWorksSection />
       </Suspense>
+      <InfiniteCarousel />
       <Suspense fallback={<div>Loading features...</div>}>
         {/* @ts-expect-error Async Server Component */}
         <FeaturesSection />

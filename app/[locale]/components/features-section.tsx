@@ -7,11 +7,11 @@ export async function FeaturesSection() {
   return (
     <section className="py-8 xs:py-10 sm:py-16 md:py-20" >
       <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 xs:mb-10 sm:mb-12 md:mb-16 lg:mb-20">
+        <div className="mb-8 xs:mb-10 sm:mb-12 md:mb-16 text-center">
           <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 xs:mb-4">
             {t('features.title')}
           </h2>
-          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl">
+          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
             {t('features.description')}
           </p>
         </div>

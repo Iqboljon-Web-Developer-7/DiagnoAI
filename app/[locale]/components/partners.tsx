@@ -7,6 +7,7 @@ import Img5 from "@/assets/images/partners/5.png"
 import Img6 from "@/assets/images/partners/6.png"
 
 import dynamic from 'next/dynamic';
+import Carousel from './SwiperCarousel/Carousel';
 
 const EmblaCarousel = dynamic(() => import('@/components/TestimoniolsCarousel/EmblaCarousel'), {
   loading: () => <div className="h-[200px] bg-gray-200 animate-pulse">Loading carousel...</div>  // Placeholder to avoid white flash
@@ -25,9 +26,9 @@ export async function Partners() {
 
   return (
     <section className="py-8 sm:py-10 sm:pt-14">
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 ">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 ">
+      <div className="mx-auto px-0 sm:px-2 lg:px-4">
+        <div className="mb-12 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl leading-loose font-bold text-gray-900 ">
             {t('partners.title')}
           </h2>
           <p className="text-base sm:text-lg text-gray-600">
@@ -35,6 +36,7 @@ export async function Partners() {
           </p>
         </div>
         <EmblaCarousel slides={testimonialData} type='partners' />
+        {/* <Carousel testimonials={testimonialData} /> */}
       </div>
     </section>
   )

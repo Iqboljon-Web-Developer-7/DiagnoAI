@@ -33,9 +33,13 @@ export default function Carousel({ testimonials, navigation = true, pagination }
         loop={true}
         spaceBetween={25}
         autoplay={{
-          delay: 2500,
+          delay: 0,
+          
           disableOnInteraction: false,
         }}
+        speed={1300}
+        // freeMode={true}
+        // cssMode={true}
         pagination={{
           clickable: true,
         }}
