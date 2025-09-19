@@ -126,7 +126,7 @@ export default function page({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-11">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
           <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-12">

@@ -93,7 +93,7 @@ export default function EmergencyHelpPage() {
   }, [showSuccessToast, toast, toastMessage]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-50 to-red-100 flex flex-col pt-11">
+    <div className="min-h-screen bg-gradient-to-b from-red-50 to-red-100 flex flex-col pt-12">
       <main className="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Emergency Alert */}
         <div className="bg-red-100 border-2 border-red-400 rounded-xl p-4 sm:p-6 mb-6 md:mb-8 shadow-md transition-all hover:shadow-lg">

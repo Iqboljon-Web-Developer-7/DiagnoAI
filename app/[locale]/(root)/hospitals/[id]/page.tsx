@@ -55,7 +55,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-11">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 2">
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>

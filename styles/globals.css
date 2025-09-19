@@ -395,11 +395,11 @@ body {
   scale: 0;
   z-index: -1;
   background-color: rgb(144, 238, 144);
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  transition: all 1s cubic-bezier(0.23, 1, 0.320, 1);
 }
 
 .button:hover::before {
-  scale: 4;
+  scale: 5;
 }
 
 .button:hover {
