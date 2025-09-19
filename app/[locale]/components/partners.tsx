@@ -20,6 +20,9 @@ const testimonialData = [
   { id: 5, imageSrc: Img5, name: "Botir Ismoilov" },
   { id: 6, imageSrc: Img6, name: "Botir Ismoilov" },
 ];
+
+import SwiperCarousel from "@/app/[locale]/components/SwiperCarousel/Carousel";
+
 export async function Partners() {
   const t = await getTranslations('Index');
 
@@ -34,7 +37,9 @@ export async function Partners() {
             {t('partners.description')}
           </p>
         </div>
-        <EmblaCarousel slides={testimonialData} type='partners' />
+      <SwiperCarousel testimonials={testimonialData} />
+
+        {/* <EmblaCarousel slides={testimonialData} type='partners' /> */}
       </div>
     </section>
   )

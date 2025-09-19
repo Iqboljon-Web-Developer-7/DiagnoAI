@@ -31,7 +31,8 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button 
+        <Button
+          size={"sm"}
           variant="link"
           className="sm:w-fit px-3 hover:bg-green-50 rounded-full"
           aria-label="Select language"

@@ -47,8 +47,8 @@ export function UserMenu({ className }: { className?: string }) {
       )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="relative bg-transparent hover:bg-blue-100 rounded-full" size={"icon"} aria-label={'userMenu'}>
-              <div className="flex items-center justify-center h-8 w-8 rounded-full">
+            <Button className="relative bg-transparent hover:bg-blue-100 rounded-full" size={"sm"} aria-label={'userMenu'}>
+              <div className="flex items-center justify-center   rounded-full">
                 <User color="black" className="h-4 w-4 text-blue-600" aria-hidden="true" />
               </div>
             </Button>
