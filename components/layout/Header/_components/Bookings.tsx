@@ -155,7 +155,7 @@ export const Bookings = () => {
     onMutate: async (bookingId) => {
       await queryClient.cancelQueries({ queryKey: ["bookings", user?.id] });
       const prev = queryClient.getQueryData<Booking[]>(["bookings", user?.id]);
-      queryClient.setQueryData(["bookings", user?.id], (old) =>
+      queryClient.setQueryData(["bookings", user?.id], (old: Booking[]) =>
         old?.filter((b) => b.id !== bookingId)
       );
       return { prev };
@@ -198,7 +198,7 @@ export const Bookings = () => {
               <BookingSkeleton key={i} />
             ))}
           </div>
-        ) : bookings.length > 0 ? (
+        ) : bookings?.length > 0 ? (
           <div className="grid gap-4 mt-4 max-h-96 overflow-y-auto pr-2">
             {bookings.map((booking) => (
               <BookingCard
