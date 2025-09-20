@@ -1,5 +1,4 @@
 // app/bookings/page.tsx
-// Remove "use client" directive to enable SSR
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { Calendar, Trash2 } from "lucide-react";
@@ -16,15 +15,11 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
-// API base URL (ideally from environment variables)
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.diagnoai.uz";
+import { deleteBooking } from "./actions"; // Import the Server Action
 
 interface Booking {
   id: number;
@@ -54,7 +49,6 @@ const formatDate = (date: string) =>
     minute: "2-digit",
   });
 
-// StatusIndicator component (pure, no hooks, SSR-friendly)
 const StatusIndicator = ({ status }: { status: Booking["status"] }) => {
   return (
     <span
@@ -65,7 +59,6 @@ const StatusIndicator = ({ status }: { status: Booking["status"] }) => {
   );
 };
 
-// BookingCard component (pure, no hooks, SSR-friendly)
 const BookingCard = ({ booking }: { booking: Booking }) => {
   return (
     <div className="p-4 border rounded-lg bg-white shadow-sm hover:shadow-md transition space-y-3">
@@ -79,8 +72,8 @@ const BookingCard = ({ booking }: { booking: Booking }) => {
         <span className="font-medium text-gray-600">Status:</span>
         <div className="flex items-center gap-2">
           <StatusIndicator status={booking.status} />
-          <form action="/api/bookings/delete" method="POST">
-            <input type="hidden" name="bookingId" value={booking.id} />
+          <form action={deleteBooking}>
+            <input type="hidden" name="id" value={booking.id} />
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
@@ -127,7 +120,6 @@ const BookingCard = ({ booking }: { booking: Booking }) => {
   );
 };
 
-// BookingSkeleton component (pure, SSR-friendly)
 const BookingSkeleton = () => (
   <div className="p-4 border rounded-lg animate-pulse space-y-3">
     <div className="h-4 bg-gray-200 rounded w-1/2" />
@@ -140,13 +132,11 @@ const BookingSkeleton = () => (
   </div>
 );
 
-// Server-side data fetching with getServerSideProps
 export async function getServerSideProps(context: any) {
   const cookieStore = cookies();
-  const token = cookieStore.get("token")?.value;
+  const token = cookieStore.get("access-token")?.value;
   const role = cookieStore.get("role")?.value;
 
-  // Redirect if not authenticated or not a client
   if (!token || role !== "client") {
     return {
       redirect: {
@@ -157,11 +147,14 @@ export async function getServerSideProps(context: any) {
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/bookings/user/bookings/`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      "https://api.diagnoai.uz/bookings/user/bookings/",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Failed to fetch bookings");
@@ -186,9 +179,7 @@ export async function getServerSideProps(context: any) {
   }
 }
 
-// Main Bookings component
 export default function Bookings({ bookings, user }: { bookings: Booking[]; user: { token: string; role: string } }) {
-  // Hide component if user is not a client or not authenticated
   if (user.role !== "client") {
     return null;
   }
