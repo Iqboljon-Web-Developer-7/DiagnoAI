@@ -1,10 +1,7 @@
-"use client";
-
-import { useState, memo } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { useAppStore } from "@/store/store";
+// app/bookings/page.tsx
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import { Calendar, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,9 +10,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Calendar, Trash2 } from "lucide-react";
-
-const API_BASE_URL = "https://api.diagnoai.uz";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { deleteBooking } from "./actions"; // Import the Server Action
 
 interface Booking {
   id: number;
@@ -45,7 +49,7 @@ const formatDate = (date: string) =>
     minute: "2-digit",
   });
 
-const StatusIndicator = memo(({ status }: { status: Booking["status"] }) => {
+const StatusIndicator = ({ status }: { status: Booking["status"] }) => {
   return (
     <span
       className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_COLORS[status]}`}
@@ -53,61 +57,68 @@ const StatusIndicator = memo(({ status }: { status: Booking["status"] }) => {
       {status}
     </span>
   );
-});
+};
 
-const BookingCard = memo(
-  ({
-    booking,
-    onDelete,
-    isDeleting,
-  }: {
-    booking: Booking;
-    onDelete: (id: number) => void;
-    isDeleting: boolean;
-  }) => {
-    return (
-      <div className="p-4 border rounded-lg bg-white shadow-sm hover:shadow-md transition space-y-3">
-        <div className="flex justify-between items-center text-sm">
-          <span className="font-medium text-gray-600">Appointment Date:</span>
-          <span className="text-gray-800">
-            {formatDate(booking.appointment_date)}
-          </span>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="font-medium text-gray-600">Status:</span>
-          <div className="flex items-center gap-2">
-            <StatusIndicator status={booking.status} />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => onDelete(booking.id)}
-              disabled={isDeleting}
-            >
-              <Trash2 className="h-4 w-4 text-red-500" />
-            </Button>
-          </div>
-        </div>
-        <div className="grid grid-cols-3 gap-3">
-          {["Pending", "Approved", "Rejected"].map((status) => (
-            <div
-              key={status}
-              className="rounded-lg border p-2 text-center bg-gray-50"
-            >
-              <div className="text-xs text-gray-500">{status}</div>
-              <div className="font-semibold text-gray-800">
-                {
-                  booking[
-                    `number_of_${status.toLowerCase()}` as keyof Booking
-                  ]
-                }
-              </div>
-            </div>
-          ))}
+const BookingCard = ({ booking }: { booking: Booking }) => {
+  return (
+    <div className="p-4 border rounded-lg bg-white shadow-sm hover:shadow-md transition space-y-3">
+      <div className="flex justify-between items-center text-sm">
+        <span className="font-medium text-gray-600">Appointment Date:</span>
+        <span className="text-gray-800">
+          {formatDate(booking.appointment_date)}
+        </span>
+      </div>
+      <div className="flex justify-between items-center">
+        <span className="font-medium text-gray-600">Status:</span>
+        <div className="flex items-center gap-2">
+          <StatusIndicator status={booking.status} />
+          <form action={deleteBooking}>
+            <input type="hidden" name="id" value={booking.id} />
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  type="button"
+                  className="hover:bg-red-50"
+                >
+                  <Trash2 className="h-4 w-4 text-red-500" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action will permanently delete the booking.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction type="submit">
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </form>
         </div>
       </div>
-    );
-  }
-);
+      <div className="grid grid-cols-3 gap-3">
+        {["Pending", "Approved", "Rejected"].map((status) => (
+          <div
+            key={status}
+            className="rounded-lg border p-2 text-center bg-gray-50"
+          >
+            <div className="text-xs text-gray-500">{status}</div>
+            <div className="font-semibold text-gray-800">
+              {booking[`number_of_${status.toLowerCase()}` as keyof Booking]}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const BookingSkeleton = () => (
   <div className="p-4 border rounded-lg animate-pulse space-y-3">
@@ -121,64 +132,60 @@ const BookingSkeleton = () => (
   </div>
 );
 
-export const Bookings = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { isLoggedIn, user } = useAppStore();
+export async function getServerSideProps(context: any) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("access-token")?.value;
+  const role = cookieStore.get("role")?.value;
 
-  const queryClient = useQueryClient();
+  if (!token || role !== "client") {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
 
-  const { data: bookings = [], isLoading } = useQuery({
-    queryKey: ["bookings", user?.id],
-    queryFn: async () => {
-      if (!isLoggedIn || !user?.token) return [];
-      const resp = await axios.get<Booking[]>(
-        `${API_BASE_URL}/bookings/user/bookings/`,
-        {
-          headers: { Authorization: `Bearer ${user.token}` },
-        }
-      );
-      return resp.data;
-    },
-    enabled: !!isLoggedIn && !!user?.token,
-  });
+  try {
+    const response = await fetch(
+      "https://api.diagnoai.uz/bookings/user/bookings/",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-  const deleteMutation = useMutation({
-    mutationFn: async (bookingId: number) => {
-      if (!user?.token) throw new Error("Not authenticated");
-      return axios.delete(
-        `${API_BASE_URL}/bookings/bookings/en/${bookingId}/update/`,
-        {
-          headers: { Authorization: `Bearer ${user.token}` },
-        }
-      );
-    },
-    onMutate: async (bookingId) => {
-      await queryClient.cancelQueries({ queryKey: ["bookings", user?.id] });
-      const prev = queryClient.getQueryData<Booking[]>(["bookings", user?.id]);
-      queryClient.setQueryData(["bookings", user?.id], (old: Booking[]) =>
-        old?.filter((b) => b.id !== bookingId)
-      );
-      return { prev };
-    },
-    onError: (_err, _id, ctx) => {
-      queryClient.setQueryData(["bookings", user?.id], ctx?.prev);
-      toast.error("Failed to delete booking");
-    },
-    onSuccess: () => toast.success("Booking deleted successfully"),
-  });
-
-  const handleDeleteBooking = (bookingId: number) => {
-    // 🚨 Replace with a shadcn AlertDialog for better UX
-    if (confirm("Are you sure you want to delete this booking?")) {
-      deleteMutation.mutate(bookingId);
+    if (!response.ok) {
+      throw new Error("Failed to fetch bookings");
     }
-  };
 
-  // 👇 condition after hooks to keep hook order consistent
-  if (user?.role !== "client" || !isLoggedIn) return null;
+    const bookings: Booking[] = await response.json();
+
+    return {
+      props: {
+        bookings,
+        user: { token, role },
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching bookings:", error);
+    return {
+      props: {
+        bookings: [],
+        user: { token, role },
+      },
+    };
+  }
+}
+
+export default function Bookings({ bookings, user }: { bookings: Booking[]; user: { token: string; role: string } }) {
+  if (user.role !== "client") {
+    return null;
+  }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog defaultOpen={false}>
       <DialogTrigger asChild>
         <Button variant="link" size="sm" className="hover:bg-sky-50 rounded-full">
           <Calendar />
@@ -192,21 +199,10 @@ export const Bookings = () => {
           </DialogTitle>
         </DialogHeader>
 
-        {isLoading ? (
-          <div className="grid gap-4 mt-4">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <BookingSkeleton key={i} />
-            ))}
-          </div>
-        ) : bookings?.length > 0 ? (
+        {bookings.length > 0 ? (
           <div className="grid gap-4 mt-4 max-h-96 overflow-y-auto pr-2">
             {bookings.map((booking) => (
-              <BookingCard
-                key={booking.id}
-                booking={booking}
-                onDelete={handleDeleteBooking}
-                isDeleting={deleteMutation.isPending}
-              />
+              <BookingCard key={booking.id} booking={booking} />
             ))}
           </div>
         ) : (
@@ -215,4 +211,4 @@ export const Bookings = () => {
       </DialogContent>
     </Dialog>
   );
-};
+}
