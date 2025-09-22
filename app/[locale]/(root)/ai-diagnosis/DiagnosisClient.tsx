@@ -145,7 +145,7 @@ export default function DiagnosisClient({
 
     const handleDeleteChat = async (id: string) => {
         try {
-            await deleteChat
+            await deleteChat(id)
             setChats(chats.filter((c) => c.id !== id))
             if (selectedChat?.id === id) handleNewChat()
             toast.success(t("deleteSuccess") ?? "Chat deleted")
@@ -191,61 +191,62 @@ export default function DiagnosisClient({
             return
         }
 
-        setAnalyzing(true)
         const form = new FormData()
         form.append("id", user_id!)
         const { latitude, longitude } = await getGeolocation()
         form.append("latitude", latitude.toString())
         form.append("longitude", longitude.toString())
         if (symptoms) form.append("message", symptoms)
-        files.forEach((f) => form.append("file", f))
-
+            files.forEach((f) => form.append("file", f))
+        setAnalyzing(true)
+        
         try {
-            let resp: AxiosResponse<ChatApiResponse>
-            if (!selectedChat) {
-                resp = await createChat(form)
-                setSelectedChat(resp.data)
-                console.log(resp.data);
-
-                router.push(`/ai-diagnosis?chatId=${resp?.data?.id}`)
+            let resp: ChatApiResponse; // Use the type for clarity
+            let chatId = selectedChat?.id;
+            if (!chatId) {
+                resp = await createChat(form);
+                console.log(resp);
+                console.log(chats);
+                
+                
+                chatId = resp.id  || chats[chats?.length - 1]?.id
+                setSelectedChat({
+                    id: resp.id,
+                    created_at: resp.created_at,
+                    updated_at: resp.updated_at,
+                    messages: resp.messages || [],
+                });
             } else {
-                let chatId = selectedChat.id
-
-                if (!chatId) {
-                    chatId = chats[chats?.length - 1]?.id
-                }
-                resp = await updateChat(chatId, form)
+                resp = await updateChat(chatId, form);
+                // Update selectedChat messages if needed (e.g., append new ones)
+                setSelectedChat((prev) => prev ? { ...prev, messages: [...(prev.messages || []), ... (resp.messages || [])] } : null);
             }
 
-            if (Array.isArray(resp.data.messages)) {
-                setChatMessages(resp.data.messages.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
+            if (Array.isArray(resp.messages)) {
+                setChatMessages(resp.messages.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })));
             } else {
-                setChatMessages((prev) => [...prev, { user: symptoms }, { ai: resp.data.message || "" }])
+                setChatMessages((prev) => [...prev, { user: symptoms }, { ai: resp.message || "" }]);
             }
 
-            if (resp.data.doctors?.length) {
-                const docIds = resp.data.doctors.join(',')
-                console.log(initialSelectedId);
-
-                router.push(`/ai-diagnosis?chatId=${initialSelectedId}&doctors=${docIds}`)
-
-
-                const docs = await getDoctors(resp.data.doctors)
-                setDoctors(docs.map((d) => d.data))
-                setIsSidebarOpen(true)
+            let pushParams = `chatId=${chatId}`;
+            if (resp.doctors?.length) {
+                const docIds = resp.doctors.join(',');
+                pushParams += `&doctors=${docIds}`;
+                const docs = await getDoctors(resp.doctors);
+                setDoctors(docs); // <-- Remove .map((d) => d.data); getDoctors already extracts .data
             }
+            router.push(`/ai-diagnosis?${pushParams}`);
 
-            setSymptoms("")
-            setFiles([])
+            setSymptoms("");
+            setFiles([]);
 
-            // Refetch chats to update list (optimistic update could be added for better UX)
-            const updated = await getChats(user_id!)
-            setChats(updated.data)
+            const updated = await getChats(user_id!);
+            setChats(updated); // <-- Already .data in action, so setChats(updated)
         } catch (err) {
             console.log(err);
-            toast(t("failedToSendMessage"))
+            toast(t("failedToSendMessage"));
         } finally {
-            setAnalyzing(false)
+            setAnalyzing(false);
         }
     }
 

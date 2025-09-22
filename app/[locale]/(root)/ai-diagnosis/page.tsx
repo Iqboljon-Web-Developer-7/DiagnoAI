@@ -31,6 +31,9 @@ export default async function Page({
 
   console.log("Chats", chats);
 
+  console.log(id);
+  
+
   if (id) {
     try {
       const data = await serverFetch(`${API_BASE_URL}/chats/${id}`);
@@ -63,7 +66,6 @@ export default async function Page({
     }
   }
 
-  // Render client interactive component, hydrated with SSR data
   return (
     <>
       <DiagnosisClient

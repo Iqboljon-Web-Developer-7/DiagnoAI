@@ -95,6 +95,9 @@ export const createChat = async (form: FormData) => {
             }
         });
 
+        console.log(response);
+        
+
         if (!response.data) {
             throw new Error('Failed to create chat');
         }
@@ -102,7 +105,7 @@ export const createChat = async (form: FormData) => {
         return response.data;
     } catch (error) {
         console.error('Error creating chat:', error);
-        throw error;
+        throw error;    
     }
 };
 
