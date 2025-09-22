@@ -47,6 +47,9 @@ const LoginPage: React.FC = () => {
 
     mutate(formData, {
       onSuccess: (data) => {
+        console.log(data);
+        
+
         setUser({
           id: `user-${Date.now()}`,
           email: formData.email,
@@ -55,8 +58,9 @@ const LoginPage: React.FC = () => {
           token: data.token,
         })
 
-        const res = axios.post("/api/set-token", {
+        const res = axios.post("/api/set-auth", {
           token: data.token,
+          role: data.role
         }).then((res) => {
           console.log(res.data);
         })

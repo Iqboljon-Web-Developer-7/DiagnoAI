@@ -123,8 +123,12 @@
     "education": "Ta'lim"
   },
   "hospitals": {
-    "pageTitle": "Shifoxonalarni topish",
-    "pageDescription": "Yaqin atrofdagi eng yaxshi shifoxonalarni toping.",
+
+    "badgeTitle": "Sifatli tibbiy xizmatni toping",
+    
+
+    "pageTitle": "Sifatli tibbiy xizmatni toping",
+    "pageDescription": "Eng yaxshi shifoxonalarni kashf eting.",
     "typesTitle": "Shifoxona turlari",
     "typesDescription": "Shifoxonalarni turi bo'yicha ko'ring.",
     "types": {
@@ -140,6 +144,10 @@
       }
     },
     "hospital": {
+        "availability": "24/7 Mavjud",
+        "no-location": "Manzil ko'rsatilmagan",
+      "years":"Yillar",
+
       "beds": "Yotoqlar",
       "doctors": "Shifokorlar",
       "yearsOfService": "Xizmat yillari",
@@ -180,7 +188,7 @@
       "ratingPlaceholder": "Minimal reytingni tanlang",
       "clearFiltersButton": "Filtrlarni tozalash"
     },
-    "hospitalsListTitle": "Shifoxonalar ({count})",
+    "hospitalsListTitle": "Shifoxonalar - {count}",
     "sortOptions": {
       "rating": "Reyting bo'yicha saralash",
       "distance": "Masofa bo'yicha saralash",

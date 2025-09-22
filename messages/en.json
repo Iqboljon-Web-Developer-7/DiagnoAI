@@ -714,7 +714,8 @@
     }
   },
   "hospitals": {
-    "pageTitle": "Find Hospitals",
+    "badgeTitle": "Find Quality Healthcare",
+    "pageTitle": "Discover the Best Hospitals",
     "pageDescription": "Discover the best hospitals near you.",
     "typesTitle": "Hospital Types",
     "typesDescription": "Browse hospitals by type.",
@@ -731,7 +732,9 @@
       }
     },
     "hospital": {
+      "availability": "24/7 Available",
       "beds": "Beds",
+      "no-location": "Location not specified",
       "doctors": "Doctors",
       "yearsOfService": "Years of Service",
       "patientsPerYear": "Patients/Year",
@@ -742,6 +745,7 @@
       "contactInformation": "Contact Information",
       "address": "Address",
       "phone": "Phone",
+      "years":"Years",
       "emergency": "Emergency",
       "available247": "24/7 Available",
       "needImmediateCare": "Need Immediate Care?",
@@ -771,7 +775,7 @@
       "ratingPlaceholder": "Select minimum rating",
       "clearFiltersButton": "Clear Filters"
     },
-    "hospitalsListTitle": "Hospitals ({count})",
+    "hospitalsListTitle": "Hospitals - {count}",
     "sortOptions": {
       "rating": "Sort by Rating",
       "distance": "Sort by Distance",

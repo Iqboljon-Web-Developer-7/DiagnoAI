@@ -1,5 +1,4 @@
 // app/bookings/page.tsx
-import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { Calendar, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,11 +14,13 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { deleteBooking } from "./actions"; // Import the Server Action
+import { deleteBooking, serverFetch } from "@/app/actions"; // Import the Server Action
 
 interface Booking {
   id: number;
@@ -58,7 +59,6 @@ const StatusIndicator = ({ status }: { status: Booking["status"] }) => {
     </span>
   );
 };
-
 const BookingCard = ({ booking }: { booking: Booking }) => {
   return (
     <div className="p-4 border rounded-lg bg-white shadow-sm hover:shadow-md transition space-y-3">
@@ -74,16 +74,16 @@ const BookingCard = ({ booking }: { booking: Booking }) => {
           <StatusIndicator status={booking.status} />
           <form action={deleteBooking}>
             <input type="hidden" name="id" value={booking.id} />
+            <Button
+              variant="ghost"
+              size="icon"
+              type="submit"
+              className="hover:bg-red-50"
+            >
+              <Trash2 className="h-4 w-4 text-red-500" />
+            </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  type="button"
-                  className="hover:bg-red-50"
-                >
-                  <Trash2 className="h-4 w-4 text-red-500" />
-                </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
@@ -119,7 +119,6 @@ const BookingCard = ({ booking }: { booking: Booking }) => {
     </div>
   );
 };
-
 const BookingSkeleton = () => (
   <div className="p-4 border rounded-lg animate-pulse space-y-3">
     <div className="h-4 bg-gray-200 rounded w-1/2" />
@@ -132,55 +131,17 @@ const BookingSkeleton = () => (
   </div>
 );
 
-export async function getServerSideProps(context: any) {
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL
+
+export default async function Bookings() {
   const cookieStore = cookies();
-  const token = cookieStore.get("access-token")?.value;
-  const role = cookieStore.get("role")?.value;
 
-  if (!token || role !== "client") {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
+  // @ts-ignore
+  const role = cookieStore.get("role")?.value ?? null;
 
-  try {
-    const response = await fetch(
-      "https://api.diagnoai.uz/bookings/user/bookings/",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  const bookings = await serverFetch(`${BASE_URL}/bookings/user/bookings/`)
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch bookings");
-    }
-
-    const bookings: Booking[] = await response.json();
-
-    return {
-      props: {
-        bookings,
-        user: { token, role },
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching bookings:", error);
-    return {
-      props: {
-        bookings: [],
-        user: { token, role },
-      },
-    };
-  }
-}
-
-export default function Bookings({ bookings, user }: { bookings: Booking[]; user: { token: string; role: string } }) {
-  if (user.role !== "client") {
+  if (role !== "client") {
     return null;
   }
 
@@ -199,15 +160,17 @@ export default function Bookings({ bookings, user }: { bookings: Booking[]; user
           </DialogTitle>
         </DialogHeader>
 
-        {bookings.length > 0 ? (
-          <div className="grid gap-4 mt-4 max-h-96 overflow-y-auto pr-2">
-            {bookings.map((booking) => (
-              <BookingCard key={booking.id} booking={booking} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center p-4 text-gray-500">No bookings found</div>
-        )}
+        {!bookings ?
+          <BookingSkeleton /> :
+          bookings.length > 0 ? (
+            <div className="grid gap-4 mt-4 max-h-96 overflow-y-auto pr-2">
+              {bookings.map((booking: Booking) => (
+                <BookingCard key={booking.id} booking={booking} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center p-4 text-gray-500">No bookings found</div>
+          )}
       </DialogContent>
     </Dialog>
   );

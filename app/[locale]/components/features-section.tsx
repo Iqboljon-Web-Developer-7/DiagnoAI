@@ -6,7 +6,7 @@ export async function FeaturesSection() {
 
   return (
     <section className="py-8 xs:py-10 sm:py-16 md:py-20" >
-      <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-1 xs:px-2 sm:px-4 lg:px-6">
         <div className="mb-8 xs:mb-10 sm:mb-12 md:mb-16 text-center">
           <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 xs:mb-4">
             {t('features.title')}
@@ -16,9 +16,9 @@ export async function FeaturesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6 sm:gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6 sm:gap-8 lg:gap-10">
           {/* AI Diagnosis */}
-          <div className="bg-white rounded-xl p-4 xs:p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div className="bg-white rounded-xl p-4 xs:p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center flex-col text-center">
             <div className="w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-3 xs:mb-4 sm:mb-6">
               <Brain className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />
             </div>
@@ -31,7 +31,7 @@ export async function FeaturesSection() {
           </div>
 
           {/* Doctor Consultation */}
-          <div className="bg-white rounded-xl p-4 xs:p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div className="bg-white rounded-xl p-4 xs:p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center flex-col text-center">
             <div className="w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-green-100 rounded-lg flex items-center justify-center mb-3 xs:mb-4 sm:mb-6">
               <UserCheck className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-green-600" />
             </div>
@@ -44,7 +44,7 @@ export async function FeaturesSection() {
           </div>
 
           {/* Emergency Help */}
-          <div className="bg-white rounded-xl p-4 xs:p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div className="bg-white col-span-2 lg:col-span-1 rounded-xl p-4 xs:p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center flex-col text-center">
             <div className="w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-red-100 rounded-lg flex items-center justify-center mb-3 xs:mb-4 sm:mb-6">
               <Clock className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-red-600" />
             </div>

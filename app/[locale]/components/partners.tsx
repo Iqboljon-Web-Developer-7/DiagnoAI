@@ -28,7 +28,7 @@ export async function Partners() {
     <section className="py-8 sm:py-10 sm:pt-14">
       <div className="mx-auto px-0 sm:px-2 lg:px-4">
         <div className="mb-12 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl leading-loose font-bold text-gray-900 ">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl leading-loose font-bold text-gray-900 mb-3">
             {t('partners.title')}
           </h2>
           <p className="text-base sm:text-lg text-gray-600">

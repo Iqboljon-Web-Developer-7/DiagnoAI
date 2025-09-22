@@ -1,19 +1,54 @@
 'use client';
 
-import React, { memo, useMemo } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import { Doctor } from './types';
 import { User } from '../hospitals/types';
 import { DoctorCard } from './DoctorCard';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAppStore } from '@/store/store';
+import { useBookAppointmentMutation } from './api';
+import { Filters } from './components/Filters';
 
 interface DoctorListProps {
     doctors: Doctor[];
-    onBookAppointment: (doctor: Doctor) => void;
-    isBookingPending: boolean;
-    user: User;
+    // onBookAppointment: (doctor: Doctor) => void;
+    // isBookingPending: boolean;
+    // user: User;
 }
 
-const DoctorList = memo(({ doctors, user }: DoctorListProps) => {
+const DoctorList = memo(({ doctors }: DoctorListProps) => {
+  const { user, latitude, longitude, setLocation } = useAppStore();
+
+ const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRating, setSelectedRating] = useState('');
+
+  const bookMutation = useBookAppointmentMutation();
+
+
+  const filteredDoctors = doctors?.filter((doctor: Doctor) => {
+    const matchesSearch =
+      doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      doctor.translations.field.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch;
+  
+  });
+
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation(position.coords.latitude, position.coords.longitude);
+        },
+        () => {
+          setLocation(0, 0);
+        }
+      );
+    } else {
+      setLocation(0, 0);
+    }
+  }, [setLocation]);
+
     const memoizedDoctors = useMemo(() => doctors, [doctors]);
 
     const containerVariants = {
@@ -45,7 +80,28 @@ const DoctorList = memo(({ doctors, user }: DoctorListProps) => {
     }
 
     return (
-        <motion.div 
+         <div className="grid lg:grid-cols-4 gap-8">
+          <div className="lg:col-span-1 relative">
+            <Filters
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedRating={selectedRating}
+              setSelectedRating={setSelectedRating}
+              onClearFilters={() => {
+                setSearchTerm('');
+                setSelectedRating('');
+              }}
+            />
+          </div>
+
+          <div className="lg:col-span-3">
+            {/* {error && (
+              <div className="text-center py-8 text-red-600">
+                {translations('toastMessages.error') || 'Failed to load doctors'}
+              </div>
+            )} */}
+
+               <motion.div 
             className="space-y-8 max-w-6xl mx-auto "
             variants={containerVariants}
             initial="hidden"
@@ -76,13 +132,16 @@ const DoctorList = memo(({ doctors, user }: DoctorListProps) => {
                         <DoctorCard
                             key={doctor.id}
                             doctor={doctor}
-                            user={user}
+                            user={user!}
                             index={index}
                         />
                     ))}
                 </motion.div>
             </AnimatePresence>
         </motion.div>
+          </div>
+        </div>
+    
     );
 });
 

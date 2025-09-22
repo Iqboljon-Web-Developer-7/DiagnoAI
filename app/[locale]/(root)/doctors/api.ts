@@ -67,16 +67,19 @@ export function useBookAppointmentMutation() {
       formData.append('longitude', longitude.toString());
       formData.append('message', `Book appointment with ${doctorName}`);
 
-      const res = await fetch(`${API_BASE_URL}/chats/`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: formData,
-      });
+      return {awesome:'yeaaah'}
 
-      if (!res.ok) throw new Error('Failed to book appointment');
-      return res.json();
+      // const res = {ok:}
+      // await fetch(`${API_BASE_URL}/chats/`, {
+      //   method: 'POST',
+      //   headers: {
+      //     Authorization: `Bearer ${user.token}`,
+      //   },
+      //   body: formData,
+      // });
+
+      // if (!res.ok) throw new Error('Failed to book appointment');
+      // return res.json();
     },
     onSuccess: (_data, variables) => {
       addAppointment({

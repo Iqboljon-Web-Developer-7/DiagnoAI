@@ -55,7 +55,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 2">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-12">
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -217,6 +217,16 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
                 </div>
               </div>
             </div>
+            <iframe
+              src={`https://yandex.uz/map-widget/v1/?ll=${hospital?.longitude},${hospital?.latitude}&z=18&pt=${hospital?.longitude},${hospital?.latitude},pm2rdl`}
+              width="100%"
+              height="450"
+              frameBorder="0"
+              allowFullScreen
+              style={{ position: 'relative', borderRadius: '0.75rem' }}
+            />
+
+
 
             {/* Quick Actions */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-lg p-6 text-white">

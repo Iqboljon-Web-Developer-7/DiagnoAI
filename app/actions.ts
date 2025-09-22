@@ -7,6 +7,8 @@ import { cookies } from "next/headers";
 // Helper: server-side fetch with authorization
 export const serverFetch = async (url: string) => {
   const cookieStore = cookies();
+
+  // @ts-ignore
   const token = cookieStore.get("access-token")?.value ?? null;
 
   const headers: Record<string, string> = {
@@ -25,10 +27,16 @@ export const serverFetch = async (url: string) => {
 
   return res.json();
 };
-
 // Server Action to delete a booking
-export const deleteBooking = async (id: string) => {
+export async function deleteBooking(formData: FormData) {
   const cookieStore = cookies();
+  const id = formData.get('id') as string;
+
+  if (!id) {
+    throw new Error("Booking ID is required");
+  }
+
+  // @ts-ignore
   const token = cookieStore.get("access-token")?.value ?? null;
 
   if (!token) {
@@ -51,10 +59,9 @@ export const deleteBooking = async (id: string) => {
       throw new Error("Failed to delete booking");
     }
 
-    // Return a success message or redirect info
-    return { success: "Booking deleted successfully" };
+    // return { success: true };
   } catch (error) {
     console.error("Error deleting booking:", error);
-    throw new Error("Failed to delete booking");
+    // throw new Error("Failed to delete booking");
   }
-};
+}

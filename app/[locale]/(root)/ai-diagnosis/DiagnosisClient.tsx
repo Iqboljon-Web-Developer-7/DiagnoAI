@@ -36,7 +36,6 @@ import {
     Trash,
     Brain,
     FileText,
-
     Loader2,
     Plus,
     MessageSquare,
@@ -121,14 +120,6 @@ export default function DiagnosisClient({
                 updated_at: resp.data.updated_at,
                 messages: msgs,
             })
-
-
-            // if (resp.data.doctors??.length) {
-            //     const docResp = await axios.post<Doctor[]>(`${API_BASE_URL}/api/${'en'}/doctors`, {
-            //         ids: resp.data.doctors,
-            //     })
-            //     setDoctors(docResp.data)
-            // }
         } catch {
             toast(t("failedToLoadChat"))
         } finally {
@@ -141,6 +132,7 @@ export default function DiagnosisClient({
         setChatMessages([])
         setDoctors([])
         setIsSidebarOpen(false)
+        router.push('/ai-diagnosis')
     }
 
     const handleDeleteChat = async (id: string) => {
@@ -197,56 +189,60 @@ export default function DiagnosisClient({
         form.append("latitude", latitude.toString())
         form.append("longitude", longitude.toString())
         if (symptoms) form.append("message", symptoms)
-            files.forEach((f) => form.append("file", f))
+        files.forEach((f) => form.append("file", f))
         setAnalyzing(true)
         
         try {
-            let resp: ChatApiResponse; // Use the type for clarity
-            let chatId = selectedChat?.id;
+            let resp: ChatApiResponse
+            let chatId = selectedChat?.id
+
             if (!chatId) {
-                resp = await createChat(form);
-                console.log(resp);
-                console.log(chats);
-                
-                
-                chatId = resp.id  || chats[chats?.length - 1]?.id
+                resp = await createChat(form)
+                chatId = resp.id
                 setSelectedChat({
                     id: resp.id,
                     created_at: resp.created_at,
                     updated_at: resp.updated_at,
                     messages: resp.messages || [],
-                });
+                })
             } else {
-                resp = await updateChat(chatId, form);
-                // Update selectedChat messages if needed (e.g., append new ones)
-                setSelectedChat((prev) => prev ? { ...prev, messages: [...(prev.messages || []), ... (resp.messages || [])] } : null);
+                resp = await updateChat(chatId, form)
+                setSelectedChat((prev) => prev ? {
+                    ...prev,
+                    messages: resp.messages || []
+                } : null)
             }
 
+            // Update chat messages
             if (Array.isArray(resp.messages)) {
-                setChatMessages(resp.messages.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })));
+                setChatMessages(resp.messages.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
             } else {
-                setChatMessages((prev) => [...prev, { user: symptoms }, { ai: resp.message || "" }]);
+                setChatMessages((prev) => [...prev, { user: symptoms }, { ai: resp.message || "" }])
             }
 
-            let pushParams = `chatId=${chatId}`;
+            // Handle doctors and navigation
             if (resp.doctors?.length) {
-                const docIds = resp.doctors.join(',');
-                pushParams += `&doctors=${docIds}`;
-                const docs = await getDoctors(resp.doctors);
-                setDoctors(docs); // <-- Remove .map((d) => d.data); getDoctors already extracts .data
+                const docs = await getDoctors(resp.doctors)
+                setDoctors(docs)
+                router.push(`/ai-diagnosis?chatId=${chatId}&doctors=${resp.doctors.join(',')}`)
+            } else {
+                router.push(`/ai-diagnosis?chatId=${chatId}`)
             }
-            router.push(`/ai-diagnosis?${pushParams}`);
 
-            setSymptoms("");
-            setFiles([]);
+            setAnalyzing(false)
 
-            const updated = await getChats(user_id!);
-            setChats(updated); // <-- Already .data in action, so setChats(updated)
+
+            // Reset form
+            setSymptoms("")
+            setFiles([])
+
+            // Update chats list
+            const updated = await getChats(user_id!)
+            setChats(updated) 
         } catch (err) {
-            console.log(err);
-            toast(t("failedToSendMessage"));
-        } finally {
-            setAnalyzing(false);
+            console.log(err)
+            toast(t("failedToSendMessage"))
+            setAnalyzing(false)
         }
     }
 
@@ -286,10 +282,10 @@ export default function DiagnosisClient({
         const fetchChats = async () => {
             try {
                 const resp = await getChats(user_id!)
-                setChats(resp.data)
+                setChats(resp)
             } catch (err) {
                 toast(t("failedToLoadChats"))
-                console.log(err);
+                console.log(err)
             }
         }
         fetchChats()

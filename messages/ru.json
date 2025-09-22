@@ -158,8 +158,9 @@
     }
   },
   "hospitals": {
-    "pageTitle": "Найти больницы",
-    "pageDescription": "Найдите лучшие больницы рядом с вами.",
+    "badgeTitle": "Найти качественное здравоохранение",
+    "pageTitle": "Откройте для себя лучшие больницы",
+    "pageDescription": "Откройте для себя лучшие больницы рядом с вами.",
     "typesTitle": "Типы больниц",
     "typesDescription": "Просмотр больниц по типу.",
     "types": {
@@ -175,7 +176,11 @@
       }
     },
     "hospital": {
+        "availability": "Доступно 24/7",
+        "no-location": "Местоположение не указано",
       "beds": "Койки",
+      "years":"лет",
+
       "doctors": "Врачи",
       "yearsOfService": "Лет работы",
       "patientsPerYear": "Пациентов/Год",
@@ -215,7 +220,7 @@
       "ratingPlaceholder": "Выберите минимальный рейтинг",
       "clearFiltersButton": "Очистить фильтры"
     },
-    "hospitalsListTitle": "Больницы ({count})",
+    "hospitalsListTitle": "Больницы - {count}",
     "sortOptions": {
       "rating": "Сортировать по рейтингу",
       "distance": "Сортировать по расстоянию",
