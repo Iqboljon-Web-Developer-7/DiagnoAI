@@ -44,7 +44,7 @@ export async function FeaturesSection() {
           </div>
 
           {/* Emergency Help */}
-          <div className="bg-white col-span-2 lg:col-span-1 rounded-xl p-4 xs:p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center flex-col text-center">
+          <div className="bg-white sm:col-span-2 lg:col-span-1 rounded-xl p-4 xs:p-6 sm:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center flex-col text-center">
             <div className="w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-red-100 rounded-lg flex items-center justify-center mb-3 xs:mb-4 sm:mb-6">
               <Clock className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-red-600" />
             </div>
