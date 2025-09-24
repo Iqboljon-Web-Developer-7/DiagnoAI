@@ -1,42 +1,34 @@
 // app/actions.ts
 "use server";
 
-import axios from "axios";
 import { cookies } from "next/headers";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
 // Helper: server-side fetch with authorization
 export const serverFetch = async (url: string) => {
-  const cookieStore = cookies();
+    const cookieStore = await cookies();
+    const token = cookieStore.get("access-token")?.value ?? null;
 
-  // @ts-ignore
-  const token = cookieStore.get("access-token")?.value ?? null;
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const res = await fetch(`${API_BASE_URL}${url}`, { headers, cache: "no-store" });
+    if (!res.ok) {
 
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-  if (token) headers["Authorization"] = `Bearer ${token}`;
-
-  const res = await fetch(url, {
-    headers,
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    return null;
-  }
-
-  return res.json();
+        return null;
+    }
+    return res.json();
 };
+
 // Server Action to delete a booking
 export async function deleteBooking(formData: FormData) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const id = formData.get('id') as string;
 
   if (!id) {
     throw new Error("Booking ID is required");
   }
 
-  // @ts-ignore
   const token = cookieStore.get("access-token")?.value ?? null;
 
   if (!token) {

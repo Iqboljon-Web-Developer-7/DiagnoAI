@@ -1050,7 +1050,8 @@
     "newConsultation": "New Consultation",
     "notLoggedIn": "You must be logged in to start a consultation.",
     "deleteSuccess": "Deletion successful",
-    "failedToSendMessage": "Failed to send message"
+    "failedToSendMessage": "Failed to send message",
+"failedToLoadChats": "Failed to load chat history. Please try again later."
   },
   "notFound": {
     "title": "Page not found",

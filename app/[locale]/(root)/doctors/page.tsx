@@ -13,7 +13,7 @@ export default async function Page({params}: {params:Promise<{ locale: string }>
 
   const t = await getTranslations("doctors")
 
-  const doctors:Doctor[] = await serverFetch(`${BASE_URL}/api/${locale}/doctors/`)
+  const doctors:Doctor[] = await serverFetch(`/api/${locale}/doctors/`)
 
   console.log(`${BASE_URL}/api/${locale}/doctors/`);
   

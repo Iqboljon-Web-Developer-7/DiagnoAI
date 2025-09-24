@@ -131,17 +131,15 @@ const BookingSkeleton = () => (
   </div>
 );
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL
-
 export default async function Bookings() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
-  // @ts-ignore
   const role = cookieStore.get("role")?.value ?? null;
+  const token = cookieStore.get("access-token")?.value ?? null;
 
-  const bookings = await serverFetch(`${BASE_URL}/bookings/user/bookings/`)
+  const bookings = await serverFetch(`/bookings/user/bookings/`)
 
-  if (role !== "client") {
+  if (role !== "client" || !token) {
     return null;
   }
 

@@ -3,16 +3,17 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+
 
 // Helper: server-side fetch with Authorization
 export const serverFetch = async (url: string) => {
-    const cookieStore = cookies();
-    // @ts-ignore
+    const cookieStore = await cookies();
     const token = cookieStore.get("access-token")?.value ?? null;
 
     const headers: Record<string, string> = { "Content-Type": "application/json" };
     if (token) headers["Authorization"] = `Bearer ${token}`;
-    const res = await fetch(url, { headers, cache: "no-store" });
+    const res = await fetch(`${API_BASE_URL}${url}`, { headers, cache: "no-store" });
     if (!res.ok) {
 
         return null;
@@ -21,8 +22,7 @@ export const serverFetch = async (url: string) => {
 };
 
 export const deleteChat = async (id: string) => {
-    const cookieStore = cookies();
-    // @ts-ignore
+    const cookieStore = await cookies();
     const token = cookieStore.get("access-token")?.value ?? null;
 
     if (!token) {
@@ -50,8 +50,7 @@ export const deleteChat = async (id: string) => {
 
 
 export const updateChat = async (chatId: string, form: FormData) => {
-    const cookieStore = cookies();
-    // @ts-ignore
+    const cookieStore = await cookies();
     const token = cookieStore.get("access-token")?.value ?? null;
 
     if (!token) {
@@ -79,8 +78,7 @@ export const updateChat = async (chatId: string, form: FormData) => {
   
 
 export const createChat = async (form: FormData) => {
-    const cookieStore = cookies();
-    // @ts-ignore
+    const cookieStore = await cookies();
     const token = cookieStore.get("access-token")?.value ?? null;
 
     if (!token) {
@@ -111,8 +109,7 @@ export const createChat = async (form: FormData) => {
 
 
 export const getDoctors = async (ids: number[]) => {
-    const cookieStore = cookies();
-    // @ts-ignore
+    const cookieStore = await cookies();
     const token = cookieStore.get("access-token")?.value ?? null;
 
     if (!token) {
@@ -140,8 +137,7 @@ export const getDoctors = async (ids: number[]) => {
 
 
 export const getChats = async (userId: string) => {
-    const cookieStore = cookies();
-    // @ts-ignore
+    const cookieStore = await cookies();
     const token = cookieStore.get("access-token")?.value ?? null;
 
     if (!token) {

@@ -20,14 +20,18 @@ import { useAppStore } from "@/store/store"
 import { User, LogOut, LogIn, UserPlus, Hospital } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import axios from 'axios'
 
 export function UserMenu({ className }: { className?: string }) {
   const { user, isLoggedIn, logout } = useAppStore()
   const t = useTranslations('UserMenu')
   const router = useRouter()
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     logout()
+    await axios.post("/api/clear-auth",{},{
+      withCredentials: true
+    })
     router.push("/")
   }
 

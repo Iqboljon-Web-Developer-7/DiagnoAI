@@ -3,8 +3,6 @@
 import type React from "react"
 import { useState, useCallback, useEffect, useRef, type FormEvent } from "react"
 
-import axios, { type AxiosResponse } from "axios"
-
 import { useTranslations } from "next-intl"
 import { Link, useRouter } from "@/i18n/navigation"
 
@@ -82,24 +80,32 @@ export default function DiagnosisClient({
     const [symptoms, setSymptoms] = useState("")
     const [isSidebarOpen, setIsSidebarOpen] = useState(initialDoctors?.length > 0)
     const [analyzing, setAnalyzing] = useState(false)
-    const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
-    const [selectedChat, setSelectedChat] = useState<Chat | null>(initialSelectedChat)
+    // const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
+    // const [selectedChat, setSelectedChat] = useState<Chat | null>(initialSelectedChat)
     const [doctors, setDoctors] = useState<Doctor[]>(initialDoctors)
     const [isUserScrolling, setIsUserScrolling] = useState(false)
 
     const chatContainerRef = useRef<HTMLDivElement>(null)
     const messagesEndRef = useRef<HTMLDivElement>(null)
 
+    // console.log(selectedChat);
+    
+
     // Load selected chat if initialSelectedId is provided but no initialSelectedChat (e.g., hydration mismatch)
-    useEffect(() => {
-        if (initialSelectedId && !initialSelectedChat && isLoggedIn) {
-            fetchChatById(initialSelectedId)
-        } else if (initialSelectedChat) {
-            // Set messages from initialSelectedChat
-            const msgs = initialSelectedChat.messages || []
-            setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
-        }
-    }, [initialSelectedId, initialSelectedChat, isLoggedIn])
+    // useEffect(() => {
+    //     if (initialSelectedId && !initialSelectedChat && isLoggedIn) {
+    //         fetchChatById(initialSelectedId)
+    //     } else if (initialSelectedChat) {
+    //         // Set messages from initialSelectedChat
+    //         const msgs = initialSelectedChat.messages || []
+    //         setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
+    //     }
+    // }, [initialSelectedId, initialSelectedChat, isLoggedIn])
+
+    // let filteredChats = selectedChat?.messages?.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })) 
+    // console.log(filteredChats);
+
+
 
     useEffect(() => {
         if (initialDoctors.length) {
@@ -112,14 +118,14 @@ export default function DiagnosisClient({
         setAnalyzing(true)
         try {
             const resp = await customAxios.get<ChatApiResponse>(`/chats/${id}`)
-            const msgs = resp.data.messages || []
-            setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
-            setSelectedChat({
-                id,
-                created_at: resp.data.created_at,
-                updated_at: resp.data.updated_at,
-                messages: msgs,
-            })
+            const msgs = resp.data?.messages || []
+            // setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
+            // setSelectedChat({
+            //     id,
+            //     created_at: resp.data.created_at,
+            //     updated_at: resp.data.updated_at,
+            //     messages: msgs,
+            // })
         } catch {
             toast(t("failedToLoadChat"))
         } finally {
@@ -128,8 +134,8 @@ export default function DiagnosisClient({
     }
 
     const handleNewChat = () => {
-        setSelectedChat(null)
-        setChatMessages([])
+        // setSelectedChat(null)
+        // setChatMessages([])
         setDoctors([])
         setIsSidebarOpen(false)
         router.push('/ai-diagnosis')
@@ -139,7 +145,7 @@ export default function DiagnosisClient({
         try {
             await deleteChat(id)
             setChats(chats.filter((c) => c.id !== id))
-            if (selectedChat?.id === id) handleNewChat()
+            if (initialSelectedChat?.id === id) handleNewChat()
             toast.success(t("deleteSuccess") ?? "Chat deleted")
         } catch {
             toast.error(t("deleteFail") ?? "Failed to delete")
@@ -191,33 +197,33 @@ export default function DiagnosisClient({
         if (symptoms) form.append("message", symptoms)
         files.forEach((f) => form.append("file", f))
         setAnalyzing(true)
-        
+
         try {
             let resp: ChatApiResponse
-            let chatId = selectedChat?.id
+            let chatId = initialSelectedChat?.id
 
             if (!chatId) {
                 resp = await createChat(form)
                 chatId = resp.id
-                setSelectedChat({
-                    id: resp.id,
-                    created_at: resp.created_at,
-                    updated_at: resp.updated_at,
-                    messages: resp.messages || [],
-                })
+                // setSelectedChat({
+                //     id: resp.id,
+                //     created_at: resp.created_at,
+                //     updated_at: resp.updated_at,
+                //     messages: resp.messages || [],
+                // })
             } else {
                 resp = await updateChat(chatId, form)
-                setSelectedChat((prev) => prev ? {
-                    ...prev,
-                    messages: resp.messages || []
-                } : null)
+                // setSelectedChat((prev) => prev ? {
+                //     ...prev,
+                //     messages: resp.messages || []
+                // } : null)
             }
 
             // Update chat messages
-            if (Array.isArray(resp.messages)) {
-                setChatMessages(resp.messages.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
+            if (Array.isArray(resp?.messages)) {
+                // setChatMessages(resp.messages.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
             } else {
-                setChatMessages((prev) => [...prev, { user: symptoms }, { ai: resp.message || "" }])
+                // setChatMessages((prev) => [...prev, { user: symptoms }, { ai: resp.message || "" }])
             }
 
             // Handle doctors and navigation
@@ -238,7 +244,7 @@ export default function DiagnosisClient({
 
             // Update chats list
             const updated = await getChats(user_id!)
-            setChats(updated) 
+            setChats(updated)
         } catch (err) {
             console.log(err)
             toast(t("failedToSendMessage"))
@@ -269,7 +275,7 @@ export default function DiagnosisClient({
         if (!isUserScrolling && messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
         }
-    }, [chatMessages, isUserScrolling])
+    }, [   isUserScrolling])
 
     // Sidebar open based on doctors
     useEffect(() => {
@@ -304,12 +310,14 @@ export default function DiagnosisClient({
     }, [])
 
     // Initial scroll to bottom if messages exist
-    useEffect(() => {
-        if (chatMessages?.length > 0 && messagesEndRef.current && !isUserScrolling) {
-            messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-        }
-    }, [chatMessages?.length, isUserScrolling])
+    // useEffect(() => {
+    //     if (chatMessages?.length > 0 && messagesEndRef.current && !isUserScrolling) {
+    //         messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+    //     }
+    // }, [chatMessages?.length, isUserScrolling])
 
+    // console.log(chatMessages);
+    
     return (
         <div className="z-50">
             <SidebarProvider className=" bg-cover  bg-no-repeat bg-center" defaultOpen={false} style={{ backgroundImage: `url(${bgWallpaper.src})` }}>
@@ -377,46 +385,39 @@ export default function DiagnosisClient({
                     <main className="flex-1 p-2 md:p-4 max-h-[100svh]  ">
                         <div className="gap-8 max-w-7xl mx-auto h-full">
                             <div className="flex flex-col relative h-full max-h-[96svh] overflow-auto">
-                                <Card className={`min-h-[40svh] max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${!chatMessages?.length && 'flex items-center justify-center'}`}>
+                                <Card className={`min-h-[40svh] max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${!initialSelectedChat!?.messages!.length && 'flex items-center justify-center'}`}>
                                     <CardContent className="p-0">
-                                        <div className={`overflow-y-auto p-6 space-y-4 ${chatMessages?.length === 0 ? "flex items-center justify-center" : ""}`} ref={chatContainerRef}>
-                                            {chatMessages?.length > 0 ? (
-                                                chatMessages.map((msg, idx) => (
-                                                    <div key={idx} className="space-y-4">
-                                                        {msg.user && (
-                                                            <div className="flex justify-end">
-                                                                <div className="max-w-[80%] bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-2xl rounded-br-md shadow-lg">
-                                                                    <p className="text-sm leading-relaxed">{msg.user}</p>
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                        {msg.ai && (
-                                                            <div className="flex justify-start">
-                                                                <div className="flex flex-col sm:flex-row gap-3 max-w-full sm:max-w-[80%]">
-                                                                    <Avatar className="h-8 w-8 border-2 border-blue-200">
-                                                                        <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs">
-                                                                            AI
-                                                                        </AvatarFallback>
-                                                                    </Avatar>
-                                                                    <div className="bg-gray-50 p-4 rounded-2xl rounded-bl-md shadow-md">
-                                                                        <ReactMarkdown  >
-                                                                            {msg.ai}
-                                                                        </ReactMarkdown>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        )}
+                                        <div className={`overflow-y-auto p-6 space-y-4 ${initialSelectedChat!?.messages!.length === 0 ? "flex items-center justify-center" : ""}`} ref={chatContainerRef}>
+                                            {initialSelectedChat!?.messages!.length > 0 ? (
+                                                initialSelectedChat?.messages?.map((m) => (m.is_from_user ?
+                                                    <div key={m?.id} className="flex justify-end">
+                                                        <div className="max-w-[80%] bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-2xl rounded-br-md shadow-lg">
+                                                            <p className="text-sm leading-relaxed">{m.content}</p>
+                                                        </div>
                                                     </div>
-                                                ))
+                                                    : <div key={m?.id} className="flex justify-start">
+                                                        <div className="flex flex-col sm:flex-row gap-3 max-w-full sm:max-w-[80%]">
+                                                            <Avatar className="h-8 w-8 border-2 border-blue-200">
+                                                                <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs">
+                                                                    AI
+                                                                </AvatarFallback>
+                                                            </Avatar>
+                                                            <div className="bg-gray-50 p-4 rounded-2xl rounded-bl-md shadow-md">
+                                                                <ReactMarkdown  >
+                                                                    {m.content}
+                                                                </ReactMarkdown>
+                                                            </div>
+                                                        </div>
+                                                    </div>))
                                             ) : !analyzing ? (
                                                 <div className="flex flex-col items-center justify-center text-center animate-fade-in-down duration-200 opacity-0 delay-300">
                                                     <div className="p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full mb-4">
                                                         <Stethoscope className="h-12 w-12 text-blue-600" />
                                                     </div>
                                                     <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("title")}</h3>
-                                                    <p className="text-gray-600 max-w-md">
+                                                    {/* <p className="text-gray-600 max-w-md">
                                                         {t("description")}
-                                                    </p>
+                                                    </p> */}
                                                 </div>
                                             ) : null}
 

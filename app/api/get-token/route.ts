@@ -4,8 +4,7 @@ import { cookies } from "next/headers";
 // GET /api/get-token
 // Returns the value of the `token` cookie if it exists in an HTTP-only cookie.
 export async function GET(req: NextRequest) {
-    const cookieStore = cookies();
-    // @ts-ignore
+    const cookieStore = await cookies();
     const token = cookieStore.get("access-token")?.value ?? null; // change cookie name if different
 
     if (!token) {

@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
+import { cookies } from "next/headers";
 
 // pages/api/set-token.js
 export async function GET(req: NextRequest) {
@@ -29,8 +29,7 @@ export async function POST(req: NextRequest) {
       status: 200,
     });
 
-    // @ts-ignore
-    cookies().set('access-token', token, {
+    (await cookies()).set('access-token', token, {
       httpOnly: true, // Inaccessible to JS
       secure: process.env.NODE_ENV === 'production', // HTTPS only in prod
       sameSite: 'strict', // CSRF protection
@@ -39,8 +38,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Set role cookie
-    // @ts-ignore
-    cookies().set('role', role, {
+    (await cookies()).set('role', role, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',

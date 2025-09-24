@@ -1,9 +1,6 @@
-import React from "react";
-import { Chat, Doctor } from "./types";
 import { serverFetch } from "./actions";
 import DiagnosisClient from "./DiagnosisClient";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+import { Chat, Doctor } from "./types";
 
 export default async function Page({
   params,
@@ -15,36 +12,27 @@ export default async function Page({
   const { locale } = await params;
   const { chatId: id, doctorIds } = await searchParams;
 
-  console.log("language", locale);
-
   let chats: Chat[] = [];
   let doctors: Doctor[] = [];
+  let selectedChat: Chat | null = null;
 
   try {
-    const data = await serverFetch(`${API_BASE_URL}/chats`);
-    chats = data;
+    const response = await serverFetch(`/chats`);
+    chats = response;
   } catch (e) {
     chats = [];
   }
 
-  let selectedChat: Chat | null = null;
-
-  console.log("Chats", chats);
-
-  console.log(id);
-  
-
   if (id) {
     try {
-      const data = await serverFetch(`${API_BASE_URL}/chats/${id}`);
-      console.log(`Chat: ${id}`, data);
+      const chat = await serverFetch(`/chats/${id}`);
 
-      if (data) {
+      if (chat) {
         selectedChat = {
-          id: data.id,
-          created_at: data.created_at,
-          updated_at: data.updated_at,
-          messages: data.messages || [],
+          id: chat.id,
+          created_at: chat.created_at,
+          updated_at: chat.updated_at,
+          messages: chat.messages || [],
         };
       }
     } catch (e) {
@@ -56,7 +44,7 @@ export default async function Page({
     try {
       const ids = doctorIds.split(',').map(id => parseInt(id.trim()));
       const doctorPromises = ids.map(docId =>
-        serverFetch(`${API_BASE_URL}/api/en/doctors/${docId}`)
+        serverFetch(`/api/${locale}/doctors/${docId}`)
       );
 
       const doctorResults = await Promise.all(doctorPromises);
@@ -66,14 +54,15 @@ export default async function Page({
     }
   }
 
+  console.log(selectedChat);
+  
+
   return (
-    <>
-      <DiagnosisClient
-        initialChats={chats}
-        initialSelectedChat={selectedChat}
-        initialDoctors={doctors}
-        initialSelectedId={id ?? null}
-      />
-    </>
+    <DiagnosisClient
+      initialChats={chats}
+      initialSelectedChat={selectedChat}
+      initialDoctors={doctors}
+      initialSelectedId={id ?? null}
+    />
   );
 }

@@ -14,8 +14,7 @@ export default async function Page({
     const {chatId: id} = await searchParams
 
     // read token from cookie (set by /api/set-token endpoint)
-    const cookieStore = cookies();
-    // @ts-ignore
+    const cookieStore = await cookies();
     const token = cookieStore.get("access-token")?.value ?? null; // change cookie name if different
 
     // Helper: server-side fetch with Authorization
@@ -33,7 +32,7 @@ export default async function Page({
     // fetch chats list (server side)
     let chats: Chat[] = [];
     try {
-        const data = await serverFetch(`${API_BASE_URL}/chats`);
+        const data = await serverFetch(`/chats`);
         if (Array.isArray(data)) chats = data;
     } catch (e) {
         // ignore - we'll render UI and client can refetch if needed
@@ -49,7 +48,7 @@ export default async function Page({
 
     if (id) {
         try {
-            const data = await serverFetch(`${API_BASE_URL}/chats/${id}`);
+            const data = await serverFetch(`/chats/${id}`);
 
             console.log(data);
             
@@ -64,7 +63,7 @@ export default async function Page({
 
                 if (Array.isArray(data.doctors) && data.doctors.length) {
                     const docs = await Promise.all(
-                        data.doctors.map((docId: number) => serverFetch(`${API_BASE_URL}/api/en/doctors/${docId}`)),
+                        data.doctors.map((docId: number) => serverFetch(`/api/en/doctors/${docId}`)),
                     );
                     doctors = docs.filter(Boolean) as Doctor[];
                 }

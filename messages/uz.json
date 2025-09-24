@@ -988,7 +988,8 @@
     "newConsultation": "Yangi maslahatlashuv",
     "notLoggedIn": "Siz maslahatni boshlash uchun tizimga kirishingiz kerak.",
     "deleteSuccess": "O'chirish muvaffaqiyatli amalga oshirildi",
-    "failedToSendMessage": "Xabar yuborib bo'lmadi"
+    "failedToSendMessage": "Xabar yuborib bo'lmadi",
+"failedToLoadChats": "Chat tarixini yuklab bo'lmadi. Iltimos, keyinroq urinib ko'ring."
   },
   "notFound": {
     "title": "Sahifa topilmadi",
