@@ -93,7 +93,7 @@ export default function Form({ initialSelectedId }: FormProps) {
 
     return (
         <>
-            {!analyzing &&
+            {analyzing &&
                 <AutoWrite speed={65} repeat={0} sequence={["ai-thinking.1", "ai-thinking.2", "ai-thinking.3", "ai-thinking.4"]} className='max-w-md text-center mx-auto text-gray-700' />
             }
             {files!?.length > 0 && (
