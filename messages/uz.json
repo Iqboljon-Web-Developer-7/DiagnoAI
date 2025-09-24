@@ -1,11 +1,17 @@
 {
   "Index": {
+    "ai-thinking": {
+      "1": "Aniq tashxis qo'yish uchun simptomlaringiz chuqur tahlil qilinmoqda.",
+      "2": "Sizga mos tavsiyalar uchun keng tibbiy ma'lumotlar bazasidan foydalanilmoqda.",
+      "3": "Deyarli tayyor - sog'ligingiz uchun har bir detalga e'tibor berilmoqda.",
+      "4": "Shaxsiy tashxisingiz bir zumda tayyor bo'ladi!"
+    },
     "emergency": {
       "title": "Shoshiling tibbiy yordam! "
     },
     "hero": {
       "1": "Sog'ligingiz uchun sun'iy intellekt",
-      "2": "Sog'ligingiz uchun shifokor maslahatlari", 
+      "2": "Sog'ligingiz uchun shifokor maslahatlari",
       "3": "Sog'ligingiz uchun tezkor tashxis",
       "4": "Sog'ligingiz uchun zamonaviy tibbiyot",
       "5": "Sog'ligingiz uchun aniq natijalar",
@@ -123,10 +129,7 @@
     "education": "Ta'lim"
   },
   "hospitals": {
-
     "badgeTitle": "Sifatli tibbiy xizmatni toping",
-    
-
     "pageTitle": "Sifatli tibbiy xizmatni toping",
     "pageDescription": "Eng yaxshi shifoxonalarni kashf eting.",
     "typesTitle": "Shifoxona turlari",
@@ -144,10 +147,9 @@
       }
     },
     "hospital": {
-        "availability": "24/7 Mavjud",
-        "no-location": "Manzil ko'rsatilmagan",
-      "years":"Yillar",
-
+      "availability": "24/7 Mavjud",
+      "no-location": "Manzil ko'rsatilmagan",
+      "years": "Yillar",
       "beds": "Yotoqlar",
       "doctors": "Shifokorlar",
       "yearsOfService": "Xizmat yillari",
@@ -737,7 +739,7 @@
         "description": "Foydalanuvchilarimizga istalgan vaqtda va istalgan joyda tez va qulay tibbiy yordam olish imkoniyatini taqdim etamiz. 24/7 xizmat ko'rsatish bizning asosiy tamoyilimiz."
       }
     },
-   "team": {
+    "team": {
       "title": "Bizning jamoamiz",
       "description": "Sog'liqni saqlash sohasini o'zgartirish missiyasini olg'a siljitayotgan ishtiyoqli shaxslarni tanishtiramiz.",
       "members": {
@@ -989,7 +991,10 @@
     "notLoggedIn": "Siz maslahatni boshlash uchun tizimga kirishingiz kerak.",
     "deleteSuccess": "O'chirish muvaffaqiyatli amalga oshirildi",
     "failedToSendMessage": "Xabar yuborib bo'lmadi",
-"failedToLoadChats": "Chat tarixini yuklab bo'lmadi. Iltimos, keyinroq urinib ko'ring."
+    "failedToLoadChats": "Chat tarixini yuklab bo'lmadi. Iltimos, keyinroq urinib ko'ring.",
+    "viewAllSpecialists": "Barcha mutaxassislarni ko'rish",
+    "noDiagnosis": "Tavsiya etilgan mutaxassislarni ko'rish uchun tashxisingizni yakunlang",
+    "specialists": "Tavsiya etilgan mutaxassislar"
   },
   "notFound": {
     "title": "Sahifa topilmadi",

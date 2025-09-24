@@ -32,10 +32,10 @@ import {
 
 import { toast } from "sonner"
 
+import "react-medium-image-zoom/dist/styles.css";
 
 import { DiagnosisClientProps } from "./types"
 import { deleteChat } from "./actions"
-import "react-medium-image-zoom/dist/styles.css";
 import SideBarChat from "./components/SideBarChat/SideBarChat"
 import { ChatMessages } from "./components/CurrentChat/CurrentChat"
 import Form from "./components/Form/Form"
@@ -105,9 +105,9 @@ export default function DiagnosisClient({
     }, [initialSelectedChat?.messages, isUserScrolling])
 
     return (
-        <div className="z-50">
-            <SidebarProvider className=" bg-cover  bg-no-repeat bg-center" defaultOpen={false} style={{ backgroundImage: `url(${bgWallpaper.src})` }}>
-                <Sidebar side="left" hidden={true} className="border-r-0 shadow-lg   backdrop-blur-[2px] z-50">
+        <div >
+            <SidebarProvider className="bg-cover  bg-no-repeat bg-center" defaultOpen={false} style={{ backgroundImage: `url(${bgWallpaper.src})` }}>
+                <Sidebar side="left" hidden={true} className="border-r-0 shadow-lg  bg-white/30 backdrop-blur-sm z-50">
                     <SidebarHeader className="relative border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
                         <Link href={'/'} className="flex items-center gap-3">
                             <div className="p-2 bg-white/20 rounded-lg">
@@ -171,14 +171,14 @@ export default function DiagnosisClient({
                         : ''
                     }
                 </div>
-                <Sidebar side="right" className="!bg-transparent backdrop-blur-[2px]" style={{ backgroundColor: 'transparent' }}>
+                <Sidebar side="right" className="bg-white/30 backdrop-blur-sm" style={{ backgroundColor: 'transparent' }}>
                     <SidebarInset className="relative bg-transparent" style={{ backgroundColor: 'transparent' }}>
                         <div className="space-y-6">
                             <Card className="h-[100svh] shadow-xl border-0  bg-transparent">
                                 <CardHeader className="p-4 relative">
                                     <div className="flex items-center gap-3">
                                         <div>
-                                            <CardTitle className="leading-7 text-blue-900">Recommended Specialists</CardTitle>
+                                            <CardTitle className="leading-7 text-blue-900">{t('specialists')}</CardTitle>
                                         </div>
                                     </div>
                                     <SidebarTrigger className="absolute top-16 -translate-y-full -translate-x-full bg-neutral-200 z-10 left-4 text-black" />
@@ -226,13 +226,13 @@ export default function DiagnosisClient({
                                             <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                                                 <User className="h-8 w-8 text-gray-400" />
                                             </div>
-                                            <p className="text-gray-500 text-sm">Complete your diagnosis to see recommended specialists</p>
+                                            <p className="text-gray-500 text-sm">{t('noDiagnosis')}</p>
                                         </div>
                                     )}
 
                                     <Link href="/doctors" passHref>
                                         <Button className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white">
-                                            View All Specialists
+                                            {t('viewAllSpecialists')}
                                         </Button>
                                     </Link>
                                 </CardContent>

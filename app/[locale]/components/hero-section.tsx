@@ -2,8 +2,8 @@ import { getTranslations } from 'next-intl/server';
 import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
 import { StarsIcon } from "lucide-react"
-import ExampleComponent from './AutoWritten';
- 
+import AutoWrite from './AutoWritten';
+
 export async function HeroSection() {
   const t = await getTranslations('Index');
 
@@ -29,7 +29,13 @@ export async function HeroSection() {
       ></span>
       <div className="flex items-center justify-center flex-col mx-auto animate-fade-in-down delay-300 opacity-0 duration-500 py-60 z-20 gap-14">
         <div className='text-center flex items-center justify-center flex-col min-h-64'>
-          <ExampleComponent />
+          <AutoWrite sequence={[
+            "hero.1",
+            "hero.2",
+            "hero.3",
+            "hero.4",
+            "hero.5",
+          ]} className="text-4xl sm:text-4xl md:text-5xl lg:text-7xl max-w-5xl" />
         </div>
 
         <div

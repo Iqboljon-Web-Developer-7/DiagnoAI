@@ -3,34 +3,30 @@
 import { useTranslations } from 'next-intl';
 import { TypeAnimation } from 'react-type-animation';
 
-export default function ExampleComponent () {
-    //  <h1
-    //         className="text-4xl sm:text-4xl md:text-5xl lg:text-7xl max-w-4xl font-bold mb-4 sm:mb-6"
-    //       >
-    //         {t('hero.title')}
-    //         <span className="text-blue-300 block sm:inline italic"> {t('hero.titleHighlight')}</span>
-    //       </h1>
-    const t = useTranslations("Index")
-  return (
+type Speed = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 | 33 | 34 | 35 | 36 | 37 | 38 | 39 | 40 | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 55 | 56 | 57 | 58 | 59 | 60 | 61 | 62 | 63 | 64 | 65 | 66 | 67 | 68 | 69 | 70 | 71 | 72 | 73 | 74 | 75 | 76 | 77 | 78 | 79 | 80 | 81 | 82 | 83 | 84 | 85 | 86 | 87 | 88 | 89 | 90 | 91 | 92 | 93 | 94 | 95 | 96 | 97 | 98 | 99;
 
+interface AutoWriteProps {
+  sequence: any[];
+  repeat?: number | undefined;
+  className?: string;
+  speed?: Speed
+}
+
+export default function AutoWrite({ sequence, repeat = Infinity, speed = 50, className = '' }: AutoWriteProps) {
+  const t = useTranslations("Index")
+
+  // Transform sequence array to include delays
+  const animationSequence = sequence.reduce((acc: (string | number)[], curr) => {
+    return [...acc, t(curr), 2000];
+  }, []);
+
+  return (
     <TypeAnimation
-      sequence={[
-        t("hero.1"),
-        2000,
-        t("hero.2"),
-        2000,
-        t("hero.3"),
-        2000,
-        t("hero.4"),
-        2000,
-        t("hero.5"),
-        2000
-      ]}
+      sequence={animationSequence}
       wrapper="h1"
-      speed={50}
-    //   style={{ fontSize: '2em', display: 'inline-block' }}
-      repeat={Infinity}
-      className='text-4xl sm:text-4xl md:text-5xl lg:text-7xl max-w-4xl font-bold mb-4 sm:mb-6'
+      speed={speed}
+      repeat={repeat}
+      className={`font-bold mb-4 sm:mb-6 ${className}`}
     />
   );
 };

@@ -15,6 +15,7 @@ import Image from "next/image";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { useAppStore } from '@/store/store'
+import AutoWrite from '@/app/[locale]/components/AutoWritten'
 
 interface FormProps {
     initialSelectedId?: string
@@ -92,6 +93,9 @@ export default function Form({ initialSelectedId }: FormProps) {
 
     return (
         <>
+            {!analyzing &&
+                <AutoWrite speed={65} repeat={0} sequence={["ai-thinking.1", "ai-thinking.2", "ai-thinking.3", "ai-thinking.4"]} className='max-w-md text-center mx-auto text-gray-700' />
+            }
             {files!?.length > 0 && (
                 <div className="py-2">
                     <div className="flex items-center justify-start gap-3">

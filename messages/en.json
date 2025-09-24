@@ -1,5 +1,11 @@
 {
   "Index": {
+    "ai-thinking": {
+      "1": "Analyzing your symptoms with precision to provide the most accurate insights.",
+      "2": " Consulting our vast medical knowledge base for tailored recommendations.",
+      "3": " Almost there—ensuring every detail is considered for your health.",
+      "4": "Your personalized diagnosis is ready in just a moment!"
+    },
     "hero": {
       "1": "Artificial Intelligence for Your Health",
       "2": " Doctor's Advice for Your Health",
@@ -745,7 +751,7 @@
       "contactInformation": "Contact Information",
       "address": "Address",
       "phone": "Phone",
-      "years":"Years",
+      "years": "Years",
       "emergency": "Emergency",
       "available247": "24/7 Available",
       "needImmediateCare": "Need Immediate Care?",
@@ -1051,7 +1057,10 @@
     "notLoggedIn": "You must be logged in to start a consultation.",
     "deleteSuccess": "Deletion successful",
     "failedToSendMessage": "Failed to send message",
-"failedToLoadChats": "Failed to load chat history. Please try again later."
+    "failedToLoadChats": "Failed to load chat history. Please try again later.",
+    "viewAllSpecialists": "View All Specialists",
+    "noDiagnosis": "Complete your diagnosis to see recommended specialists",
+    "specialists": "Recommended Specialists"
   },
   "notFound": {
     "title": "Page not found",
