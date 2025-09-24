@@ -48,8 +48,8 @@ import { toast } from "sonner"
 
 import ReactMarkdown from "react-markdown"
 
-import { Chat, ChatMessage, Doctor, ChatApiResponse } from "./types"
-import { createChat, deleteChat, getChats, getDoctors, updateChat } from "./actions"
+import { Chat , Doctor, ChatApiResponse } from "./types"
+import { createChat, deleteChat,  getDoctors, updateChat } from "./actions"
 import Image from "next/image"
 import "react-medium-image-zoom/dist/styles.css";
 import Zoom from 'react-medium-image-zoom';
@@ -74,69 +74,16 @@ export default function DiagnosisClient({
 
     const router = useRouter()
 
-    // Initialize state with SSR data
-    const [chats, setChats] = useState<Chat[]>(initialChats)
     const [files, setFiles] = useState<File[]>([])
     const [symptoms, setSymptoms] = useState("")
     const [isSidebarOpen, setIsSidebarOpen] = useState(initialDoctors?.length > 0)
     const [analyzing, setAnalyzing] = useState(false)
-    // const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
-    // const [selectedChat, setSelectedChat] = useState<Chat | null>(initialSelectedChat)
-    const [doctors, setDoctors] = useState<Doctor[]>(initialDoctors)
     const [isUserScrolling, setIsUserScrolling] = useState(false)
 
     const chatContainerRef = useRef<HTMLDivElement>(null)
     const messagesEndRef = useRef<HTMLDivElement>(null)
 
-    // console.log(selectedChat);
-    
-
-    // Load selected chat if initialSelectedId is provided but no initialSelectedChat (e.g., hydration mismatch)
-    // useEffect(() => {
-    //     if (initialSelectedId && !initialSelectedChat && isLoggedIn) {
-    //         fetchChatById(initialSelectedId)
-    //     } else if (initialSelectedChat) {
-    //         // Set messages from initialSelectedChat
-    //         const msgs = initialSelectedChat.messages || []
-    //         setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
-    //     }
-    // }, [initialSelectedId, initialSelectedChat, isLoggedIn])
-
-    // let filteredChats = selectedChat?.messages?.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })) 
-    // console.log(filteredChats);
-
-
-
-    useEffect(() => {
-        if (initialDoctors.length) {
-            setIsSidebarOpen(true)
-            setDoctors(initialDoctors)
-        }
-    }, [initialDoctors])
-
-    const fetchChatById = async (id: string) => {
-        setAnalyzing(true)
-        try {
-            const resp = await customAxios.get<ChatApiResponse>(`/chats/${id}`)
-            const msgs = resp.data?.messages || []
-            // setChatMessages(msgs.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
-            // setSelectedChat({
-            //     id,
-            //     created_at: resp.data.created_at,
-            //     updated_at: resp.data.updated_at,
-            //     messages: msgs,
-            // })
-        } catch {
-            toast(t("failedToLoadChat"))
-        } finally {
-            setAnalyzing(false)
-        }
-    }
-
     const handleNewChat = () => {
-        // setSelectedChat(null)
-        // setChatMessages([])
-        setDoctors([])
         setIsSidebarOpen(false)
         router.push('/ai-diagnosis')
     }
@@ -144,7 +91,6 @@ export default function DiagnosisClient({
     const handleDeleteChat = async (id: string) => {
         try {
             await deleteChat(id)
-            setChats(chats.filter((c) => c.id !== id))
             if (initialSelectedChat?.id === id) handleNewChat()
             toast.success(t("deleteSuccess") ?? "Chat deleted")
         } catch {
@@ -229,8 +175,8 @@ export default function DiagnosisClient({
             // Handle doctors and navigation
             if (resp.doctors?.length) {
                 const docs = await getDoctors(resp.doctors)
-                setDoctors(docs)
-                router.push(`/ai-diagnosis?chatId=${chatId}&doctors=${resp.doctors.join(',')}`)
+                // setDoctors(docs)
+                router.push(`/ai-diagnosis?chatId=${chatId}&doctorIds=${resp.doctors.join(',')}`)
             } else {
                 router.push(`/ai-diagnosis?chatId=${chatId}`)
             }
@@ -243,8 +189,8 @@ export default function DiagnosisClient({
             setFiles([])
 
             // Update chats list
-            const updated = await getChats(user_id!)
-            setChats(updated)
+            // const updated = await getChats(user_id!)
+            // setChats(updated)
         } catch (err) {
             console.log(err)
             toast(t("failedToSendMessage"))
@@ -278,17 +224,17 @@ export default function DiagnosisClient({
     }, [   isUserScrolling])
 
     // Sidebar open based on doctors
-    useEffect(() => {
-        setIsSidebarOpen(doctors?.length > 0)
-    }, [doctors])
+    // useEffect(() => {
+    //     setIsSidebarOpen(doctors?.length > 0)
+    // }, [doctors])
 
     // Only refetch chats if initialChats is empty or on login state change (avoid duplicate fetches)
     useEffect(() => {
         if (!isLoggedIn || initialChats?.length > 0) return
         const fetchChats = async () => {
             try {
-                const resp = await getChats(user_id!)
-                setChats(resp)
+                // const resp = await getChats(user_id!)
+                // setChats(resp)
             } catch (err) {
                 toast(t("failedToLoadChats"))
                 console.log(err)
@@ -346,7 +292,7 @@ export default function DiagnosisClient({
                                 </Button>
 
                                 <SidebarMenu>
-                                    {chats?.map((chat, i) => (
+                                    {initialChats?.map((chat, i) => (
                                         <SidebarMenuItem key={chat.id}>
                                             <SidebarMenuButton
                                                 size={'lg'}
@@ -382,11 +328,11 @@ export default function DiagnosisClient({
 
                 <SidebarInset className="bg-transparent backdrop-blur-md "  >
                     <SidebarTrigger iconType="ai-diagnosis" className=" absolute top-4 left-4 z-10   duration-200 scale-125" />
-                    <main className="flex-1 p-2 md:p-4 max-h-[100svh]  ">
-                        <div className="gap-8 max-w-7xl mx-auto h-full">
-                            <div className="flex flex-col relative h-full max-h-[96svh] overflow-auto">
-                                <Card className={`min-h-[40svh] max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${!initialSelectedChat!?.messages!.length && 'flex items-center justify-center'}`}>
-                                    <CardContent className="p-0">
+                    <main className={`flex-1 p-2 md:p-4 max-h-[100svh]  ${!initialSelectedChat && 'flex items-center justify-center'}`}>
+                        <div className={`gap-8 max-w-7xl mx-auto ${initialSelectedChat && 'h-full'}`}>
+                            <div className="flex flex-col relative max-h-[96svh] overflow-auto h-full">
+                                <Card className={`max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${!initialSelectedChat!?.messages!.length && 'flex items-center justify-center'}`}>
+                                    <CardContent className="p-0 w-full">
                                         <div className={`overflow-y-auto p-6 space-y-4 ${initialSelectedChat!?.messages!.length === 0 ? "flex items-center justify-center" : ""}`} ref={chatContainerRef}>
                                             {initialSelectedChat!?.messages!.length > 0 ? (
                                                 initialSelectedChat?.messages?.map((m) => (m.is_from_user ?
@@ -410,14 +356,11 @@ export default function DiagnosisClient({
                                                         </div>
                                                     </div>))
                                             ) : !analyzing ? (
-                                                <div className="flex flex-col items-center justify-center text-center animate-fade-in-down duration-200 opacity-0 delay-300">
-                                                    <div className="p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full mb-4">
+                                                <div className="flex flex-row gap-[5%] items-center justify-center flex-wrap text-center animate-fade-in-down duration-200 opacity-0 delay-300">
+                                                    <div className="p-6 bg-gradient-to-r from-blue-200 to-purple-100 rounded-full mb-4">
                                                         <Stethoscope className="h-12 w-12 text-blue-600" />
                                                     </div>
-                                                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{t("title")}</h3>
-                                                    {/* <p className="text-gray-600 max-w-md">
-                                                        {t("description")}
-                                                    </p> */}
+                                                    <h1 className="text-3xl font-semibold text-[#028090] mb-2 text-nowrap">{t("title")}</h1>
                                                 </div>
                                             ) : null}
 
@@ -546,9 +489,9 @@ export default function DiagnosisClient({
                 </SidebarInset>
             </SidebarProvider>
             <SidebarProvider className="min-h-0 bg-transparent" defaultOpen={false} open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-                <div className={`absolute top-5 right-5 ${doctors?.length && 'animate-pulse'}`}>
+                <div className={`absolute top-5 right-5 ${initialDoctors?.length && 'animate-pulse'}`}>
                     <SidebarTrigger iconType="doctors" className="bg-purple-100 hover:bg-purple-200 hover:text-blue-600 duration-200 z-10 text-blue-500 scale-125" />
-                    {doctors?.length ?
+                    {initialDoctors?.length ?
                         <span className="inline-block w-2 h-2 bg-red-500 rounded-full absolute -top-1 -right-1"></span>
                         : ''
                     }
@@ -567,9 +510,9 @@ export default function DiagnosisClient({
 
                                 </CardHeader>
                                 <CardContent className="h-full">
-                                    {doctors?.length > 0 ? (
+                                    {initialDoctors?.length > 0 ? (
                                         <div className="space-y-4">
-                                            {doctors?.map((doc) => (
+                                            {initialDoctors?.map((doc) => (
                                                 <div
                                                     onClick={() => router.push(`/doctors/${doc?.id}`)}
                                                     key={doc?.id}

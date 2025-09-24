@@ -54,8 +54,6 @@ export default async function Page({
     }
   }
 
-  console.log(selectedChat);
-  
 
   return (
     <DiagnosisClient
