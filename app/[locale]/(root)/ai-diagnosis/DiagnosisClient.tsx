@@ -1,19 +1,15 @@
 "use client"
 
 import type React from "react"
-import { useState, useCallback, useEffect, useRef, type FormEvent } from "react"
+import { useState, useEffect, useRef } from "react"
 
 import { useTranslations } from "next-intl"
 import { Link, useRouter } from "@/i18n/navigation"
-
-import { useAppStore } from "@/store/store"
-import customAxios from "@/lib/customAxios"
 
 import bgWallpaper from "@/assets/images/useful/bg-wallpaper-line.webp"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
@@ -24,60 +20,39 @@ import {
     SidebarHeader,
     SidebarInset,
     SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
 import {
-    X,
-    Trash,
     Brain,
-    FileText,
-    Loader2,
     Plus,
-    MessageSquare,
-    Stethoscope,
     MapPin,
     User,
-    Send,
-    Paperclip,
 } from "lucide-react"
 
 import { toast } from "sonner"
 
-import ReactMarkdown from "react-markdown"
 
-import { Chat , Doctor, ChatApiResponse } from "./types"
-import { createChat, deleteChat,  getDoctors, updateChat } from "./actions"
-import Image from "next/image"
+import { DiagnosisClientProps } from "./types"
+import { deleteChat } from "./actions"
 import "react-medium-image-zoom/dist/styles.css";
-import Zoom from 'react-medium-image-zoom';
+import SideBarChat from "./components/SideBarChat/SideBarChat"
+import { ChatMessages } from "./components/CurrentChat/CurrentChat"
+import Form from "./components/Form/Form"
 
-interface DiagnosisClientProps {
-    initialChats: Chat[]
-    initialSelectedChat: Chat | null
-    initialDoctors: Doctor[]
-    initialSelectedId: string | null
-}
+
 
 export default function DiagnosisClient({
     initialChats,
     initialSelectedChat,
     initialDoctors,
-    initialSelectedId,
+    initialSelectedId
 }: DiagnosisClientProps) {
-    const { isLoggedIn, user } = useAppStore()
-    const user_id = user?.id
-
     const t = useTranslations("diagnosis")
 
     const router = useRouter()
 
-    const [files, setFiles] = useState<File[]>([])
-    const [symptoms, setSymptoms] = useState("")
     const [isSidebarOpen, setIsSidebarOpen] = useState(initialDoctors?.length > 0)
-    const [analyzing, setAnalyzing] = useState(false)
     const [isUserScrolling, setIsUserScrolling] = useState(false)
 
     const chatContainerRef = useRef<HTMLDivElement>(null)
@@ -98,107 +73,6 @@ export default function DiagnosisClient({
         }
     }
 
-    const getGeolocation = () =>
-        new Promise<{ latitude: number; longitude: number }>((res) =>
-            navigator.geolocation.getCurrentPosition(
-                (pos) => res({ latitude: pos.coords.latitude, longitude: pos.coords.longitude }),
-                () => res({ latitude: 0, longitude: 0 }),
-            ),
-        )
-
-    const handleFileUpload = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
-            if (!e.target.files) return
-            const valid = Array.from(e.target.files).filter((file) => {
-                const okType = ["image/jpeg", "image/png", "application/pdf"].includes(file.type)
-                const okSize = file.size <= 5 * 1024 * 1024
-                if (!okType) toast(t("invalidFileType"))
-                if (!okSize) toast(t("fileTooLarge"))
-                return okType && okSize
-            })
-            setFiles((prev) => [...prev, ...valid])
-        },
-        [t],
-    )
-
-    const removeFile = (idx: number) => setFiles((f) => f.filter((_, i) => i !== idx))
-
-    const handleSendMessage = async (e: FormEvent) => {
-        e.preventDefault()
-        if (!isLoggedIn) {
-            toast(t("notLoggedIn"))
-            router.push("/auth/login")
-            return
-        }
-        if (!symptoms.trim() && !files?.length) {
-            toast(t("noInputProvided"))
-            return
-        }
-
-        const form = new FormData()
-        form.append("id", user_id!)
-        const { latitude, longitude } = await getGeolocation()
-        form.append("latitude", latitude.toString())
-        form.append("longitude", longitude.toString())
-        if (symptoms) form.append("message", symptoms)
-        files.forEach((f) => form.append("file", f))
-        setAnalyzing(true)
-
-        try {
-            let resp: ChatApiResponse
-            let chatId = initialSelectedChat?.id
-
-            if (!chatId) {
-                resp = await createChat(form)
-                chatId = resp.id
-                // setSelectedChat({
-                //     id: resp.id,
-                //     created_at: resp.created_at,
-                //     updated_at: resp.updated_at,
-                //     messages: resp.messages || [],
-                // })
-            } else {
-                resp = await updateChat(chatId, form)
-                // setSelectedChat((prev) => prev ? {
-                //     ...prev,
-                //     messages: resp.messages || []
-                // } : null)
-            }
-
-            // Update chat messages
-            if (Array.isArray(resp?.messages)) {
-                // setChatMessages(resp.messages.map((m) => (m.is_from_user ? { user: m.content } : { ai: m.content })))
-            } else {
-                // setChatMessages((prev) => [...prev, { user: symptoms }, { ai: resp.message || "" }])
-            }
-
-            // Handle doctors and navigation
-            if (resp.doctors?.length) {
-                const docs = await getDoctors(resp.doctors)
-                // setDoctors(docs)
-                router.push(`/ai-diagnosis?chatId=${chatId}&doctorIds=${resp.doctors.join(',')}`)
-            } else {
-                router.push(`/ai-diagnosis?chatId=${chatId}`)
-            }
-
-            setAnalyzing(false)
-
-
-            // Reset form
-            setSymptoms("")
-            setFiles([])
-
-            // Update chats list
-            // const updated = await getChats(user_id!)
-            // setChats(updated)
-        } catch (err) {
-            console.log(err)
-            toast(t("failedToSendMessage"))
-            setAnalyzing(false)
-        }
-    }
-
-    // Auto-scroll logic
     useEffect(() => {
         const container = chatContainerRef.current
         if (!container) return
@@ -221,49 +95,15 @@ export default function DiagnosisClient({
         if (!isUserScrolling && messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
         }
-    }, [   isUserScrolling])
+    }, [isUserScrolling])
 
-    // Sidebar open based on doctors
-    // useEffect(() => {
-    //     setIsSidebarOpen(doctors?.length > 0)
-    // }, [doctors])
-
-    // Only refetch chats if initialChats is empty or on login state change (avoid duplicate fetches)
-    useEffect(() => {
-        if (!isLoggedIn || initialChats?.length > 0) return
-        const fetchChats = async () => {
-            try {
-                // const resp = await getChats(user_id!)
-                // setChats(resp)
-            } catch (err) {
-                toast(t("failedToLoadChats"))
-                console.log(err)
-            }
-        }
-        fetchChats()
-    }, [isLoggedIn, user, initialChats?.length, t])
 
     useEffect(() => {
-        const header = document.querySelector("header")
-        if (header) {
-            header.style.display = "none"
+        if (initialSelectedChat!?.messages!.length > 0 && messagesEndRef.current && !isUserScrolling) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
         }
-        return () => {
-            if (header && header.style) {
-                header.style.display = "flex"
-            }
-        }
-    }, [])
+    }, [initialSelectedChat?.messages, isUserScrolling])
 
-    // Initial scroll to bottom if messages exist
-    // useEffect(() => {
-    //     if (chatMessages?.length > 0 && messagesEndRef.current && !isUserScrolling) {
-    //         messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-    //     }
-    // }, [chatMessages?.length, isUserScrolling])
-
-    // console.log(chatMessages);
-    
     return (
         <div className="z-50">
             <SidebarProvider className=" bg-cover  bg-no-repeat bg-center" defaultOpen={false} style={{ backgroundImage: `url(${bgWallpaper.src})` }}>
@@ -292,34 +132,7 @@ export default function DiagnosisClient({
                                 </Button>
 
                                 <SidebarMenu>
-                                    {initialChats?.map((chat, i) => (
-                                        <SidebarMenuItem key={chat.id}>
-                                            <SidebarMenuButton
-                                                size={'lg'}
-                                                onClick={() => router.push(`/ai-diagnosis?chatId=${chat.id}`)}
-                                                className="group relative p-2 rounded-lg hover:bg-blue-50 transition-all duration-200"
-                                            >
-                                                <div className="flex items-center gap-3 w-full">
-                                                    <div className="p-2 my-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
-                                                        <MessageSquare className="h-4 w-4 text-blue-600" />
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-medium text-gray-900 truncate">Session {i + 1}</p>
-                                                        <p className="text-xs text-gray-500">{new Date(chat.created_at).toLocaleDateString()}</p>
-                                                    </div>
-                                                    <span
-                                                        onClick={(e) => {
-                                                            e.stopPropagation()
-                                                            handleDeleteChat(chat.id)
-                                                        }}
-                                                        className="md:opacity-0 group-hover:opacity-100 text-red-500 bg-red-50 p-3 rounded-full duration-200 transition-all hover:text-red-100 hover:bg-red-500"
-                                                    >
-                                                        <Trash className="h-4 w-4" />
-                                                    </span>
-                                                </div>
-                                            </SidebarMenuButton>
-                                        </SidebarMenuItem>
-                                    ))}
+                                    <SideBarChat initialChats={initialChats} handleDeleteChat={handleDeleteChat} />
                                 </SidebarMenu>
                             </SidebarGroupContent>
                         </SidebarGroup>
@@ -334,53 +147,7 @@ export default function DiagnosisClient({
                                 <Card className={`max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${!initialSelectedChat!?.messages!.length && 'flex items-center justify-center'}`}>
                                     <CardContent className="p-0 w-full">
                                         <div className={`overflow-y-auto p-6 space-y-4 ${initialSelectedChat!?.messages!.length === 0 ? "flex items-center justify-center" : ""}`} ref={chatContainerRef}>
-                                            {initialSelectedChat!?.messages!.length > 0 ? (
-                                                initialSelectedChat?.messages?.map((m) => (m.is_from_user ?
-                                                    <div key={m?.id} className="flex justify-end">
-                                                        <div className="max-w-[80%] bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 rounded-2xl rounded-br-md shadow-lg">
-                                                            <p className="text-sm leading-relaxed">{m.content}</p>
-                                                        </div>
-                                                    </div>
-                                                    : <div key={m?.id} className="flex justify-start">
-                                                        <div className="flex flex-col sm:flex-row gap-3 max-w-full sm:max-w-[80%]">
-                                                            <Avatar className="h-8 w-8 border-2 border-blue-200">
-                                                                <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs">
-                                                                    AI
-                                                                </AvatarFallback>
-                                                            </Avatar>
-                                                            <div className="bg-gray-50 p-4 rounded-2xl rounded-bl-md shadow-md">
-                                                                <ReactMarkdown  >
-                                                                    {m.content}
-                                                                </ReactMarkdown>
-                                                            </div>
-                                                        </div>
-                                                    </div>))
-                                            ) : !analyzing ? (
-                                                <div className="flex flex-row gap-[5%] items-center justify-center flex-wrap text-center animate-fade-in-down duration-200 opacity-0 delay-300">
-                                                    <div className="p-6 bg-gradient-to-r from-blue-200 to-purple-100 rounded-full mb-4">
-                                                        <Stethoscope className="h-12 w-12 text-blue-600" />
-                                                    </div>
-                                                    <h1 className="text-3xl font-semibold text-[#028090] mb-2 text-nowrap">{t("title")}</h1>
-                                                </div>
-                                            ) : null}
-
-                                            {analyzing && (
-                                                <div className="flex justify-start">
-                                                    <div className="flex gap-3">
-                                                        <Avatar className="h-8 w-8 border-2 border-blue-200">
-                                                            <AvatarFallback className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs">
-                                                                AI
-                                                            </AvatarFallback>
-                                                        </Avatar>
-                                                        <div className="bg-gray-50 p-4 rounded-2xl rounded-bl-md shadow-md">
-                                                            <div className="flex items-center gap-2">
-                                                                <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
-                                                                <span className="text-sm text-gray-600">Analyzing your symptoms...</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
+                                            <ChatMessages initialSelectedChat={initialSelectedChat} t={t} />
                                             <div ref={messagesEndRef} />
                                         </div>
                                     </CardContent>
@@ -388,99 +155,7 @@ export default function DiagnosisClient({
 
                                 <Card className="bg-transparent border-none shadow-none animate-fade-in-down duration-200 opacity-0 delay-500">
                                     <CardContent className="p-2">
-                                        {files?.length > 0 && (
-                                            <div className="py-2">
-                                                <div className="flex items-center justify-start gap-3">
-                                                    {files.map((file, i) => (
-                                                        <div key={i} className="relative group w-12 h-12">
-                                                            <div className="aspect-square w-full rounded-lg border-2 border-gray-200 overflow-hidden flex items-center justify-center hover:bg-white/30 duration-100">
-                                                                {file.type.startsWith("image/") ? (
-                                                                    <Zoom>
-                                                                        <Image
-                                                                            width={48}
-                                                                            height={48}
-                                                                            src={URL.createObjectURL(file)}
-                                                                            alt={file.name}
-                                                                            className="w-full h-full object-cover"
-                                                                        />
-                                                                    </Zoom>
-                                                                ) : (
-                                                                    <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                                                                        <div className="text-center p-4">
-                                                                            <FileText className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                                                                            <p className="text-xs text-gray-500 truncate max-w-[120px]">
-                                                                                {file.name}
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="sm"
-                                                                onClick={() => removeFile(i)}
-                                                                className="absolute -top-2 -right-4 bg-white/40 hover:bg-white/60 backdrop-blur-[2px] rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                                                            >
-                                                                <X className="text-red-500" />
-                                                            </Button>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )}
-                                        <form onSubmit={handleSendMessage} className="space-y-4">
-                                            <div className="relative">
-                                                <Textarea
-                                                    placeholder={t('symptomPlaceholder')}
-                                                    value={symptoms}
-                                                    onChange={(e) => setSymptoms(e.target.value)}
-                                                    className="min-h-5 md:min-h-8 text-sm bg-white/50 backdrop-blur-sm md:text-lg max-h-40 w-full pr-12 focus:border-blue-400 rounded-2xl border-none focus-visible:outline-none focus-visible:ring-offset-0"
-                                                    rows={1}
-                                                    style={{
-                                                        height: 'auto',
-                                                        overflow: 'auto'
-                                                    }}
-                                                    onInput={(e) => {
-                                                        const target = e.target as HTMLTextAreaElement;
-                                                        target.style.height = 'auto';
-                                                        target.style.height = `${target.scrollHeight}px`;
-                                                    }}
-                                                />
-                                                <div className="rounded-xl text-center transition-colors absolute bottom-2 md:bottom-3 right-11">
-                                                    <input
-                                                        type="file"
-                                                        multiple
-                                                        accept=".jpg,.jpeg,.png,.pdf"
-                                                        id="file-upload"
-                                                        className="hidden"
-                                                        onChange={handleFileUpload}
-                                                    />
-                                                    <label htmlFor="file-upload" className="cursor-pointer">
-                                                        <Paperclip className="h-4 w-4 md:h-5 md:w-5" />
-                                                    </label>
-                                                </div>
-                                                <div className="rounded-xl text-center transition-colors absolute -bottom-1 md:bottom-0 right-1">
-                                                    <Button
-                                                        size={"icon"}
-                                                        type="submit"
-                                                        title={analyzing ? "Analyzing..." : (!symptoms.trim() && !files?.length) ? "Type something please..." : "Send"}
-                                                        disabled={analyzing || (!symptoms.trim() && !files?.length)}
-                                                        className="text-blackshadow-lg rounded-full bg-transparent hover:bg-transparent hover:text-blue-500 hover:scale-105 duration-200"
-                                                    >
-                                                        {analyzing ? (
-                                                            <>
-                                                                <Loader2 className="animate-spin h-4 w-4 md:h-5 md:w-5" />
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <Send className="h-4 w-4 md:h-5 md:w-5 scale-125" />
-                                                            </>
-                                                        )}
-                                                    </Button>
-
-                                                </div>
-                                            </div>
-                                        </form>
+                                        <Form initialSelectedId={initialSelectedId}  />
                                     </CardContent>
                                 </Card>
                             </div>

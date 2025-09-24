@@ -36,3 +36,10 @@ export interface ChatApiResponse {
   message?: string
   doctors?: number[]
 }
+
+export interface DiagnosisClientProps {
+    initialChats: Chat[]
+    initialSelectedChat: Chat | null
+    initialDoctors: Doctor[]
+    initialSelectedId?: string
+}

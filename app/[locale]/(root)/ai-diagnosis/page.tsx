@@ -17,7 +17,7 @@ export default async function Page({
   let selectedChat: Chat | null = null;
 
   try {
-    const response = await serverFetch(`/chats`);
+    const response = await serverFetch(`/chats`, {next:{tags:["chats"]}});
     chats = response;
   } catch (e) {
     chats = [];
@@ -25,7 +25,7 @@ export default async function Page({
 
   if (id) {
     try {
-      const chat = await serverFetch(`/chats/${id}`);
+      const chat = await serverFetch(`/chats/${id}`, { next: { tags: ['chats-' + id], revalidate: 3600 } });
 
       if (chat) {
         selectedChat = {
@@ -60,7 +60,7 @@ export default async function Page({
       initialChats={chats}
       initialSelectedChat={selectedChat}
       initialDoctors={doctors}
-      initialSelectedId={id ?? null}
+      initialSelectedId={id ?? undefined}
     />
   );
 }

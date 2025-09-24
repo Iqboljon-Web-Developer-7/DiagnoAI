@@ -2,25 +2,54 @@
 
 import axios from "axios";
 import { cookies } from "next/headers";
+import { revalidateTag } from 'next/cache';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
 
 // Helper: server-side fetch with Authorization
-export const serverFetch = async (url: string) => {
+export const serverFetch = async (
+    url: string,
+    options: {
+        headers?: Record<string, string>,
+        method?: string,
+        body?: any,
+        cache?: RequestCache,
+        credentials?: RequestCredentials,
+        mode?: RequestMode,
+        redirect?: RequestRedirect,
+        next?: {
+            tags?: string[],
+            revalidate?: number,
+        },
+    } = {}
+) => {
     const cookieStore = await cookies();
     const token = cookieStore.get("access-token")?.value ?? null;
 
-    const headers: Record<string, string> = { "Content-Type": "application/json" };
-    if (token) headers["Authorization"] = `Bearer ${token}`;
-    const res = await fetch(`${API_BASE_URL}${url}`, { headers, cache: "no-store" });
-    if (!res.ok) {
+    const defaultHeaders: Record<string, string> = {
+        "Content-Type": "application/json",
+        ...(token && { "Authorization": `Bearer ${token}` }),
+        ...options.headers
+    };
 
+    const fetchOptions: RequestInit = {
+        method: options.method || 'GET',
+        headers: defaultHeaders,
+        cache: options.cache || "no-store",
+        ...(options.body && { body: JSON.stringify(options.body) }),
+        ...(options.credentials && { credentials: options.credentials }),
+        ...(options.mode && { mode: options.mode }),
+        ...(options.redirect && { redirect: options.redirect }),
+        ...(options.next && { next: options.next }),
+    };
+
+    const res = await fetch(`${API_BASE_URL}${url}`, fetchOptions);
+    if (!res.ok) {
         return null;
     }
     return res.json();
 };
-
 export const deleteChat = async (id: string) => {
     const cookieStore = await cookies();
     const token = cookieStore.get("access-token")?.value ?? null;
@@ -40,6 +69,8 @@ export const deleteChat = async (id: string) => {
         if (response.status !== 204) {
             throw new Error(`Failed to delete chat: ${response.statusText}`);
         }
+
+        revalidateTag('chats');
 
         return true;
     } catch (error) {
@@ -75,7 +106,7 @@ export const updateChat = async (chatId: string, form: FormData) => {
         throw error;
     }
 };
-  
+
 
 export const createChat = async (form: FormData) => {
     const cookieStore = await cookies();
@@ -94,7 +125,7 @@ export const createChat = async (form: FormData) => {
         });
 
         console.log(response);
-        
+
 
         if (!response.data) {
             throw new Error('Failed to create chat');
@@ -103,7 +134,7 @@ export const createChat = async (form: FormData) => {
         return response.data;
     } catch (error) {
         console.error('Error creating chat:', error);
-        throw error;    
+        throw error;
     }
 };
 
@@ -118,7 +149,7 @@ export const getDoctors = async (ids: number[]) => {
 
     try {
         const doctors = await Promise.all(
-            ids.map(id => 
+            ids.map(id =>
                 axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/en/doctors/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
