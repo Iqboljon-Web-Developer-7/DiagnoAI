@@ -126,7 +126,7 @@ export function useDoctorQuery(id: string, token: string | undefined) {
   });
 }
 
-export function useFreeTimes(doctorId: number, token: string | undefined, date: string) {
+export function useFreeTimes(doctorId: string, token: string | undefined, date: string) {
   return useQuery<{booked_times: string[]}>({
     queryKey: ['freeTimes', doctorId, date],
     queryFn: async () => {

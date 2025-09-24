@@ -2,7 +2,6 @@
 
 import { Booking } from '../types';
 import { useDoctorQuery, useFreeTimes, useCreateBookingMutation, useGetClinicBookings, useUpdateBookingMutation, useDeleteBookingMutation } from "../api";
-import { useAppStore } from '@/context/store';
 import React, { useState } from "react";
 import {
   MapPin,
@@ -20,6 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { use } from 'react';
 import { Circles } from 'react-loader-spinner';
+import { useAppStore } from '@/store/store';
 
 interface DoctorType {
   children: React.ReactNode;
@@ -38,7 +38,7 @@ function DoctorPage({ params }: DoctorType) {
   const formattedDate = format(selectedDate, 'yyyy-MM-dd');
   const { data: freeTimes, isLoading: freeTimesLoading, refetch: refetchFreeTimes } = useFreeTimes(id, token, formattedDate);
 
-  const createBooking = useCreateBookingMutation();
+  const createBooking = useCreateBookingMutation(token);
   const { data: clinicBookings, isLoading: clinicBookingsLoading } = useGetClinicBookings(token, role === 'clinic');
   const updateBooking = useUpdateBookingMutation(locale);
   const deleteBooking = useDeleteBookingMutation(locale);
@@ -52,27 +52,27 @@ function DoctorPage({ params }: DoctorType) {
     return null;
   }
 
-  const sortedFreeTimes = freeTimes?.booked_times?.sort((a, b) => a - b) || [];
-  const formatPrice = (price: number) => new Intl.NumberFormat('en-US').format(price);
+  // const sortedFreeTimes = freeTimes?.booked_times?.sort((a, b) => a - b) || [];
+  // const formatPrice = (price: number) => new Intl.NumberFormat('en-US').format(price);
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedDate(new Date(e.target.value));
-  };
+  // const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSelectedDate(new Date(e.target.value));
+  // };
 
-  const handleBookAppointment = (time: number) => {
-    const hour = time.toString().padStart(2, '0');
-    const appointmentDate = `${formattedDate}T${hour}:00:00Z`;
-    createBooking.mutate(
-      { doctor: parseInt(id), appointment_date: appointmentDate },
-      {
-        onSuccess: () => {
-          toast({ title: 'Booking created successfully!' });
-          refetchFreeTimes();
-        },
-        onError: () => toast({ title: 'Failed to create booking', variant: 'destructive' }),
-      }
-    );
-  };
+  // const handleBookAppointment = (time: number) => {
+  //   const hour = time.toString().padStart(2, '0');
+  //   const appointmentDate = `${formattedDate}T${hour}:00:00Z`;
+  //   createBooking.mutate(
+  //     { doctor: parseInt(id), appointment_date: appointmentDate },
+  //     {
+  //       onSuccess: () => {
+  //         toast({ title: 'Booking created successfully!' });
+  //         refetchFreeTimes();
+  //       },
+  //       onError: () => toast({ title: 'Failed to create booking', variant: 'destructive' }),
+  //     }
+  //   );
+  // };
   const filteredClinicBookings = clinicBookings?.filter((b: Booking) => b.doctor === parseInt(id)) || [];
 
   const handleUpdateStatus = (bookingId: number, newStatus: Booking['status']) => {
