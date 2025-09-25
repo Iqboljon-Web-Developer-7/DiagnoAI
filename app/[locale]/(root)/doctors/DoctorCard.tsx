@@ -2,7 +2,7 @@
 
 import React, { memo, useCallback, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Calendar, MapPin, Award, Clock, Star } from 'lucide-react';
+import { Calendar, MapPin, Award, Star } from 'lucide-react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Doctor } from './types';
@@ -10,6 +10,10 @@ import { useRouter } from 'next/navigation';
 import { User } from '../hospitals/types';
 import { BookingDialog } from './BookingDialog';
 import { motion } from 'framer-motion';
+import { Link } from '@/i18n/navigation';
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+
 
 interface DoctorCardProps {
     doctor: Doctor;
@@ -53,10 +57,8 @@ const DoctorCard = memo(({ doctor, user, index }: DoctorCardProps) => {
             animate="visible"
         >
             <Card className="group relative overflow-hidden backdrop-blur-sm bg-white/90 hover:bg-white hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 cursor-pointer border border-gray-200/50 hover:border-blue-200">
-                {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-transparent to-purple-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                {/* Premium badge for featured doctors */}
                 {doctor.prize && parseInt(doctor.prize.replace(/\D/g, '')) > 500000 && (
                     <div className="absolute top-4 right-4 z-10">
                         <div className="bg-gradient-to-r from-amber-400 to-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
@@ -75,20 +77,23 @@ const DoctorCard = memo(({ doctor, user, index }: DoctorCardProps) => {
                             transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         >
                             <div className="relative">
+                                <Zoom>
                                 <div className="absolute inset-0 bg-gradient-to-br from-green-100 to-green-500 rounded-2xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
-                                <Image
-                                    width={120}
-                                    height={120}
-                                    src={`https://api.diagnoai.uz${doctor.image}`}
-                                    alt={doctor.name}
-                                    onClick={handleDoctorClick}
-                                    className="relative w-28 h-28 lg:w-32 lg:h-32 rounded-2xl object-cover ring-4 ring-white shadow-lg group-hover:shadow-xl transition-all duration-300"
-                                    loading="lazy"
-                                />
+
+                                    <Image
+                                        width={500}
+                                        height={500}
+                                        src={`https://api.diagnoai.uz${doctor.image}`}
+                                        alt={doctor.name}
+                                        // onClick={handleDoctorClick}
+                                        className="relative w-28 h-28 lg:w-32 lg:h-32 rounded-2xl object-cover ring-4 ring-white shadow-lg group-hover:shadow-xl transition-all duration-300"
+                                        loading="lazy"
+                                    />
                                 {/* Online status indicator */}
                                 <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white flex items-center justify-center shadow-lg">
                                     <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
                                 </div>
+                                </Zoom>
                             </div>
                         </motion.div>
 
@@ -115,10 +120,10 @@ const DoctorCard = memo(({ doctor, user, index }: DoctorCardProps) => {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center justify-center lg:justify-start gap-2 text-gray-600 mb-4">
+                                <Link href={`/hospitals/${doctor?.hospital?.id}`} className="flex items-center justify-center lg:justify-start gap-2 text-gray-600 mb-4 hover:underline">
                                     <MapPin className="w-4 h-4 text-blue-500" />
                                     <span className="font-medium">{doctor.hospital.name}</span>
-                                </div>
+                                </Link>
                             </div>
 
                             <motion.p
@@ -130,10 +135,10 @@ const DoctorCard = memo(({ doctor, user, index }: DoctorCardProps) => {
                             </motion.p>
 
                             {/* Action Bar */}
-                            <div className="flex items-center justify-between flex-wrap gap-4 pt-6 border-t border-gray-100">
+                            <div className="flex items-center justify-between  gap-4 pt-6 border-t border-gray-100">
                                 <div className="flex items-center gap-2 mx-auto md:mx-0">
                                     <div className="text-center lg:text-left">
-                                        <span className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                                        <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
                                             {doctor.prize}
                                         </span>
                                         <p className="text-gray-500 text-sm">
@@ -145,7 +150,7 @@ const DoctorCard = memo(({ doctor, user, index }: DoctorCardProps) => {
                                 {user?.role !== 'clinic' && (
                                     <motion.button
                                         onClick={handleBookingClick}
-                                        className="mx-auto md:mx-0 relative overflow-hidden bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group/btn"
+                                        className="mx-auto shrink-0 md:mx-0 relative overflow-hidden bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group/btn"
                                         whileHover={{ scale: 1.05, y: -2 }}
                                         whileTap={{ scale: 0.98 }}
                                         transition={{ type: "spring", stiffness: 300, damping: 20 }}
