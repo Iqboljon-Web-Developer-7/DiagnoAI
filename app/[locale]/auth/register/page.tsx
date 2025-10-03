@@ -16,18 +16,23 @@ import { ErrorResponse } from "./types"
 import { toast } from "sonner"
 import { Link } from "@/i18n/navigation"
 import { useState } from "react"
-
 const formSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  phoneNumber: z.string().min(10, "Phone number must be at least 10 digits"),
+  email: z.string().email("Invalid email address").optional().or(z.literal("")),
+  phoneNumber: z.string().min(10, "Phone number must be at least 10 digits").optional().or(z.literal("")),
   password: z.string().min(8, "Password must be at least 8 characters"),
   confirmPassword: z.string()
-}).refine((data) => data.password === data.confirmPassword, {
+})
+.refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
 })
+.refine((data) => !!data.email || !!data.phoneNumber, {
+  message: "Either email or phone number is required",
+  path: ["email"], // You can also use ["phoneNumber"] or ["root"]
+})
+
 
 const RegisterPage = () => {
   const router = useRouter()
@@ -51,7 +56,13 @@ const RegisterPage = () => {
   const { mutate: registerMutate, isPending } = useRegisterMutation()
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    registerMutate(values, {
+    // Ensure email and phoneNumber are always strings
+    const payload = {
+      ...values,
+      email: values.email ?? "",
+      phoneNumber: values.phoneNumber ?? "",
+    }
+    registerMutate(payload, {
       onSuccess: (data) => {
         toast.success("Registration successful! Welcome aboard!")
         setUser({
@@ -90,17 +101,17 @@ const RegisterPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-blue-50 to-purple-200 flex justify-center pt-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-blue-50 to-purple-200 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 flex justify-center pt-8">
       <div className="w-full max-w-md m-4 overflow-auto">
-        <Card className="border-0 space-y-5 bg-white/80 backdrop-blur-sm animate-fade-in-down delay-200 opacity-0">
+        <Card className="border-0 space-y-5 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm animate-fade-in-down delay-200 opacity-0">
           <CardHeader className="text-center pb-2">
-            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mb-4 shadow-lg">
+            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-800 dark:to-purple-900 rounded-full flex items-center justify-center mb-4 shadow-lg">
               <UserIcon className="w-8 h-8 text-white" />
             </div>
-            <CardTitle className="text-3xl font-bold text-purple-900">
+            <CardTitle className="text-3xl font-bold text-purple-900 dark:text-purple-300">
               {t("register.title")}
             </CardTitle>
-            <CardDescription className="text-gray-600">{t("register.description")}</CardDescription>
+            <CardDescription className="text-gray-600 dark:text-gray-400">{t("register.description")}</CardDescription>
           </CardHeader>
 
           <CardContent>
@@ -112,11 +123,11 @@ const RegisterPage = () => {
                     name="firstName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>First Name</FormLabel>
+                        <FormLabel className="dark:text-gray-300">First Name</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                            <Input className="pl-10" {...field} />
+                            <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                            <Input className="pl-10 dark:bg-gray-800 dark:text-gray-100" {...field} />
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -128,11 +139,11 @@ const RegisterPage = () => {
                     name="lastName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Last Name</FormLabel>
+                        <FormLabel className="dark:text-gray-300">Last Name</FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                            <Input className="pl-10" {...field} />
+                            <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                            <Input className="pl-10 dark:bg-gray-800 dark:text-gray-100" {...field} />
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -146,11 +157,11 @@ const RegisterPage = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("register.email")}</FormLabel>
+                      <FormLabel className="dark:text-gray-300">{t("register.email")}</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                          <Input className="pl-10" {...field} />
+                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                          <Input className="pl-10 dark:bg-gray-800 dark:text-gray-100" {...field} />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -163,11 +174,11 @@ const RegisterPage = () => {
                   name="phoneNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
+                      <FormLabel className="dark:text-gray-300">Phone Number</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                          <Input className="pl-10" {...field} />
+                          <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                          <Input className="pl-10 dark:bg-gray-800 dark:text-gray-100" {...field} />
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -180,19 +191,19 @@ const RegisterPage = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("register.password")}</FormLabel>
+                      <FormLabel className="dark:text-gray-300">{t("register.password")}</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                          <Input 
-                            type={showPassword ? "text" : "password"} 
-                            className="pl-10 pr-10" 
-                            {...field} 
+                          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            className="pl-10 pr-10 dark:bg-gray-800 dark:text-gray-100"
+                            {...field}
                           />
                           <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                           >
                             {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                           </button>
@@ -208,19 +219,19 @@ const RegisterPage = () => {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("register.confirmPassword")}</FormLabel>
+                      <FormLabel className="dark:text-gray-300">{t("register.confirmPassword")}</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
                           <Input 
                             type={showConfirmPassword ? "text" : "password"} 
-                            className="pl-10 pr-10" 
+                            className="pl-10 pr-10 dark:bg-gray-800 dark:text-gray-100" 
                             {...field} 
                           />
                           <button
                             type="button"
                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                           >
                             {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                           </button>
@@ -232,16 +243,13 @@ const RegisterPage = () => {
                 />
 
                 {form.formState.errors.root && (
-                  <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
-                    <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
-                    <p className="text-sm text-red-700">{form.formState.errors.root.message}</p>
-                  </div>
+                  <><div className="flex items-center gap-2 p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg"></div><AlertCircle className="w-4 h-4 text-red-500 dark:text-red-400 flex-shrink-0" /><p className="text-sm text-red-700 dark:text-red-300">{form.formState.errors.root.message}</p></>
                 )}
 
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+                  className="dark:text-slate-100 w-full h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 dark:from-blue-800 dark:to-purple-900 dark:hover:from-blue-900 dark:hover:to-purple-950"
                 >
                   {isPending ? (
                     <>
@@ -255,10 +263,10 @@ const RegisterPage = () => {
               </form>
             </Form>
 
-            <div className="text-center pt-4 border-t border-gray-100 mt-6">
-              <p className="text-sm text-gray-600">
+            <div className="text-center pt-4 border-t border-gray-100 dark:border-gray-800 mt-6">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 <span>{t("register.haveAccount")}</span>{' '}
-                <Link href="/auth/login" className="text-blue-600 hover:underline">
+                <Link href="/auth/login" className="text-blue-600 dark:text-blue-400 hover:underline">
                   {t("register.loginLink")}
                 </Link>
               </p>

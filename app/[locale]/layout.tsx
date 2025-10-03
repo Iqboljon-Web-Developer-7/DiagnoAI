@@ -29,7 +29,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className='bg-worm-grey'>
+      <body className='bg-worm-grey dark:bg-worm-dark'>
         <NextTopLoader
           color="#2299DD" // Customize color
           height={3} // Bar thickness

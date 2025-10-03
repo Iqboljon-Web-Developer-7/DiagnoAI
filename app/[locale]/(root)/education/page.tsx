@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Play, Clock, BookOpen, GraduationCap, Search } from 'lucide-react';
+import { Play, Clock, GraduationCap, Search } from 'lucide-react';
 import Image from 'next/image';
 import heroImage from '@/assets/images/education/education-hero.jpg';
 import { VideoModal } from '../../components/VideoModal';
@@ -145,10 +145,9 @@ export default function Education() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
+      <section className="relative ">
         <div
-          className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 bg-black/40 bg-bottom bg-cover bg-no-repeat"
+          className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 bg-black/40 bg-bottom bg-cover bg-no-repeat dark:bg-black/60"
           style={{
             backgroundImage: `url(${heroImage.src})`,
             backgroundSize: 'cover',
@@ -159,23 +158,14 @@ export default function Education() {
         <div className="relative container mx-auto px-4 py-28">
           <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-in-down">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <GraduationCap className="h-8 w-8 text-primary" />
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <GraduationCap className="h-8 w-8 text-primary dark:text-accent" />
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent dark:from-blue-100 dark:to-primary">
                 {t('hero.title')}
               </h1>
             </div>
-            <p className="text-xl text-indigo-200 leading-relaxed">{t('hero.description')}</p>
-            <div className="flex items-center justify-center gap-6 text-sm text-gray-200">
-              <div className="flex items-center gap-2">
-                <BookOpen className="h-4 w-4" />
-                <span>
-                  {t('hero.videoCount', { count: mockVideos.length })}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                <span>{t('hero.expertContent')}</span>
-              </div>
+            <p className="text-xl text-indigo-200 leading-relaxed dark:text-indigo-400">{t('hero.description')}</p>
+            <div className="flex items-center justify-center gap-6 text-sm text-gray-200 dark:text-gray-400">
+              {/* ... */}
             </div>
           </div>
         </div>
@@ -183,7 +173,7 @@ export default function Education() {
 
       {/* Filter and Search Section */}
       <section className="container mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 flex-wrap">
-       
+
 
         <div className="flex flex-wrap items-center justify-center gap-2">
           {categories.map((category) => (
@@ -198,7 +188,7 @@ export default function Education() {
             </Button>
           ))}
         </div>
-         <div className="max-w-md w-full sm:w-auto mb-6 sm:mb-0">
+        <div className="max-w-md w-full sm:w-auto mb-6 sm:mb-0">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
@@ -269,7 +259,7 @@ export default function Education() {
         video={selectedVideo ? {
           ...selectedVideo,
           title: tVideos(selectedVideo.titleKey),
-          description: tVideos(selectedVideo.descriptionKey), 
+          description: tVideos(selectedVideo.descriptionKey),
           category: tCategories(selectedVideo.categoryKey)
         } : null}
       />

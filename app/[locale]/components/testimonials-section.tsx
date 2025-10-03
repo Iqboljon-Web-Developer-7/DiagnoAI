@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import dynamic from 'next/dynamic';
 
 const EmblaCarousel = dynamic(() => import('@/components/TestimoniolsCarousel/EmblaCarousel'), {
-  loading: () => <div className="h-[200px] bg-gray-200 animate-pulse">Loading carousel...</div>  // Placeholder to avoid white flash
+  loading: () => <div className="h-[200px] bg-gray-200 dark:bg-gray-800 animate-pulse">Loading carousel...</div>
 });
 
 const testimonialData = [
@@ -21,13 +21,13 @@ export async function TestimonialsSection() {
   const t = await getTranslations('Index');
 
   return (
-    <section className="py-8 ">
+    <section className="py-8">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
             {t('testimonials.title')}
           </h2>
-          <p className="text-base sm:text-lg text-gray-600">
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400">
             {t('testimonials.description')}
           </p>
         </div>

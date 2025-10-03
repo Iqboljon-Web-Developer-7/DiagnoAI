@@ -1,3 +1,13 @@
+// Add dark: classes to relevant elements for dark mode support
+
+// Example changes:
+// - bg-white/50 -> bg-white/50 dark:bg-gray-800/50
+// - text-gray-700 -> text-gray-700 dark:text-gray-200
+// - border-gray-200 -> border-gray-200 dark:border-gray-700
+// - bg-gray-50 -> bg-gray-50 dark:bg-gray-900
+// - text-gray-400 -> text-gray-400 dark:text-gray-500
+// - text-gray-500 -> text-gray-500 dark:text-gray-400
+
 'use client'
 
 import { useState } from 'react'
@@ -31,7 +41,6 @@ export default function Form({ initialSelectedId }: FormProps) {
     const [analyzing, setAnalyzing] = useState(false)
     const [symptoms, setSymptoms] = useState('')
     const [files, setFiles] = useState<File[]>([])
-
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -94,14 +103,14 @@ export default function Form({ initialSelectedId }: FormProps) {
     return (
         <>
             {analyzing &&
-                <AutoWrite speed={65} repeat={0} sequence={["ai-thinking.1", "ai-thinking.2", "ai-thinking.3", "ai-thinking.4"]} className='max-w-md text-center mx-auto text-gray-700' />
+                <AutoWrite speed={65} repeat={0} sequence={["ai-thinking.1", "ai-thinking.2", "ai-thinking.3", "ai-thinking.4"]} className='max-w-md text-center mx-auto text-gray-700 dark:text-gray-200' />
             }
             {files!?.length > 0 && (
                 <div className="py-2">
                     <div className="flex items-center justify-start gap-3">
                         {files!.map((file, i) => (
                             <div key={i} className="relative group w-12 h-12">
-                                <div className="aspect-square w-full rounded-lg border-2 border-gray-200 overflow-hidden flex items-center justify-center hover:bg-white/30 duration-100">
+                                <div className="aspect-square w-full rounded-lg border-2 border-gray-200 dark:border-gray-700 overflow-hidden flex items-center justify-center hover:bg-white/30 dark:hover:bg-gray-800/30 duration-100">
                                     {file.type.startsWith("image/") ? (
                                         <Zoom>
                                             <Image
@@ -113,10 +122,10 @@ export default function Form({ initialSelectedId }: FormProps) {
                                             />
                                         </Zoom>
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                                        <div className="w-full h-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
                                             <div className="text-center p-4">
-                                                <FileText className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                                                <p className="text-xs text-gray-500 truncate max-w-[120px]">
+                                                <FileText className="h-8 w-8 text-gray-400 dark:text-gray-500 mx-auto mb-2" />
+                                                <p className="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[120px]">
                                                     {file.name}
                                                 </p>
                                             </div>
@@ -131,7 +140,7 @@ export default function Form({ initialSelectedId }: FormProps) {
                                         newFiles.splice(i, 1);
                                         setFiles(newFiles);
                                     }}
-                                    className="absolute -top-2 -right-4 bg-white/40 hover:bg-white/60 backdrop-blur-[2px] rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                                    className="absolute -top-2 -right-4 bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-800/60 backdrop-blur-[2px] rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10"
                                 >
                                     <X className="text-red-500" />
                                 </Button>
@@ -146,7 +155,7 @@ export default function Form({ initialSelectedId }: FormProps) {
                         placeholder={t('symptomPlaceholder')}
                         value={symptoms}
                         onChange={(e) => setSymptoms(e.target.value)}
-                        className="min-h-5 md:min-h-8 text-sm bg-white/50 backdrop-blur-sm md:text-lg max-h-40 w-full pr-12 focus:border-blue-400 rounded-2xl border-none focus-visible:outline-none focus-visible:ring-offset-0"
+                        className="min-h-5 md:min-h-8 text-sm bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm md:text-lg max-h-40 w-full pr-12 focus:border-blue-400 dark:focus:border-blue-600 rounded-2xl border-none focus-visible:outline-none focus-visible:ring-offset-0 text-gray-700 dark:text-gray-200"
                         rows={1}
                         style={{
                             height: 'auto',
@@ -168,7 +177,7 @@ export default function Form({ initialSelectedId }: FormProps) {
                             onChange={handleFileUpload}
                         />
                         <label htmlFor="file-upload" className="cursor-pointer">
-                            <Paperclip className="h-4 w-4 md:h-5 md:w-5" />
+                            <Paperclip className="h-4 w-4 md:h-5 md:w-5 text-gray-700 dark:text-gray-200" />
                         </label>
                     </div>
                     <div className="rounded-xl text-center transition-colors absolute -bottom-1 md:bottom-0 right-1">
@@ -177,12 +186,12 @@ export default function Form({ initialSelectedId }: FormProps) {
                             type="submit"
                             title={analyzing ? "Analyzing..." : (!symptoms.trim() && !files?.length) ? "Type something please..." : "Send"}
                             disabled={analyzing || (!symptoms.trim() && !files?.length)}
-                            className="text-blackshadow-lg rounded-full bg-transparent hover:bg-transparent hover:text-blue-500 hover:scale-105 duration-200"
+                            className="text-black dark:text-gray-200 shadow-lg rounded-full bg-transparent hover:bg-transparent hover:text-blue-500 dark:hover:text-blue-400 hover:scale-105 duration-200"
                         >
                             {analyzing ? (
-                                <Loader2 className="animate-spin h-4 w-4 md:h-5 md:w-5" />
+                                <Loader2 className="animate-spin h-4 w-4 md:h-5 md:w-5 text-gray-700 dark:text-gray-200" />
                             ) : (
-                                <Send className="h-4 w-4 md:h-5 md:w-5 scale-125" />
+                                <Send className="h-4 w-4 md:h-5 md:w-5 scale-125 text-gray-700 dark:text-gray-200" />
                             )}
                         </Button>
                     </div>

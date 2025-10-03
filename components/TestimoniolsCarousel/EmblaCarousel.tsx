@@ -57,7 +57,10 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container gap-0">
           {type == 'partners' && slides.map((slide) => (
-            <div key={slide.id} className="border mx-2 shrink-0 max-w-80 bg-[#edf2f4] rounded-xl p-6 sm:p-8 mb-5  relative">
+            <div
+              key={slide.id}
+              className="border mx-2 shrink-0 max-w-80 bg-[#edf2f4] dark:bg-gray-800 dark:border-gray-700 rounded-xl p-6 sm:p-8 mb-5 relative"
+            >
               <div className="flex items-center justify-center h-full">
                 <Image
                   loading="lazy"
@@ -65,19 +68,22 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                   alt='slide-image'
                   width={250}
                   height={250}
-                  placeholder="blur"  // Adds blur placeholder to avoid blank/white during load
-                  sizes="(max-width: 768px) 100vw, 33vw"  // Optimize fetch based on viewport
+                  placeholder="blur"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
             </div>
           ))}
           {type == 'testimonials' && slides.map((slide) => (
-            <div key={slide.id} className="border mx-2 my-4 shrink-0 max-w-80 bg-gray-50 rounded-xl p-6 sm:p-8 pb-4 sm:pb-3 relative">
+            <div
+              key={slide.id}
+              className="border mx-2 my-4 shrink-0 max-w-80 bg-gray-50 dark:bg-gray-900 dark:border-gray-700 rounded-xl p-6 sm:p-8 pb-4 sm:pb-3 relative"
+            >
               <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
-                <Quote className="w-8 h-8 sm:w-10 sm:h-10 text-blue-200" />
+                <Quote className="w-8 h-8 sm:w-10 sm:h-10 text-blue-200 dark:text-blue-900" />
               </div>
               <div className="mb-6">
-                <p className="text-gray-600 text-sm sm:text-base italic">
+                <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base italic">
                   {slide.content}
                 </p>
               </div>
@@ -94,10 +100,10 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                   <AvatarFallback>{slide.fallback}</AvatarFallback>
                 </Avatar>
                 <div className="ml-3">
-                  <p className="text-sm sm:text-base font-semibold text-gray-900">
+                  <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-gray-100">
                     {slide.name}
                   </p>
-                  <p className="text-xs sm:text-sm text-gray-500">
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                     {slide.role}
                   </p>
                 </div>
@@ -112,7 +118,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         type="button"
         aria-label={autoplayIsPlaying ? "Stop auto-play slideshow" : "Start auto-play slideshow"}
       >
-        {autoplayIsPlaying ? <StopCircle /> : <PlayCircle />}
+        {autoplayIsPlaying ? <StopCircle className="dark:text-gray-200" /> : <PlayCircle className="dark:text-gray-200" />}
       </button>
     </div>
   )

@@ -20,7 +20,6 @@ const LoginPage: React.FC = () => {
   const router = useRouter()
   const t = useTranslations("Auth")
 
-
   // Form state
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
@@ -48,7 +47,6 @@ const LoginPage: React.FC = () => {
     mutate(formData, {
       onSuccess: (data) => {
         console.log(data);
-        
 
         setUser({
           id: `user-${Date.now()}`,
@@ -102,18 +100,18 @@ const LoginPage: React.FC = () => {
     Icon: React.ElementType
   ) => (
     <div className="space-y-2">
-      <Label htmlFor={id} className="text-sm font-medium text-gray-700">
+      <Label htmlFor={id} className="text-sm font-medium text-gray-700 dark:text-gray-200">
         {label}
       </Label>
       <div className="relative">
-        <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-950 w-5 h-5" />
+        <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-950 dark:text-indigo-300 w-5 h-5" />
         <Input
           id={id}
           type={type}
           placeholder={placeholder}
           value={formData[id]}
           onChange={handleInputChange}
-          className="pl-11 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500/20 rounded-xl bg-white/50 transition-all duration-200"
+          className="pl-11 h-12 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-blue-500/20 dark:bg-gray-900 bg-white/50 transition-all duration-200 rounded-xl dark:text-gray-100"
           required
         />
       </div>
@@ -121,23 +119,23 @@ const LoginPage: React.FC = () => {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-blue-50 to-purple-200 flex items-center justify-center p-4  animate-fade-in-down delay-200 opacity-0">
+    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-blue-50 to-purple-200 dark:from-gray-900 dark:via-gray-950 dark:to-indigo-950 flex items-center justify-center p-4 animate-fade-in-down delay-200 opacity-0">
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10" />
+      <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-slate-800 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10" />
 
       <div className="w-full max-w-md">
         {/* Main Card */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-8 space-y-8">
+        <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 dark:border-gray-800 p-8 space-y-8">
           {/* Header */}
           <div className="text-center space-y-4">
-            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-indigo-800 dark:to-indigo-900 rounded-2xl flex items-center justify-center shadow-lg">
               <Shield className="w-8 h-8 text-white" />
             </div>
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold text-indigo-900">
+              <h1 className="text-3xl font-bold text-indigo-900 dark:text-indigo-200">
                 {t("login.title")}
               </h1>
-              <p className="text-gray-600 text-sm leading-relaxed">{t("login.description")}</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{t("login.description")}</p>
             </div>
           </div>
 
@@ -149,23 +147,23 @@ const LoginPage: React.FC = () => {
 
               {/* Password Field */}
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-200">
                   {t("login.password")}
                 </Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-950 w-5 h-5" />
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-950 dark:text-indigo-300 w-5 h-5" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
                     value={formData.password}
                     onChange={handleInputChange}
-                    className="pl-11 pr-11 h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500/20 rounded-xl bg-white/50 transition-all duration-200"
+                    className="pl-11 pr-11 h-12 border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-blue-500/20 dark:bg-gray-900 bg-white/50 transition-all duration-200 rounded-xl dark:text-gray-100"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -174,8 +172,8 @@ const LoginPage: React.FC = () => {
 
               {/* Error Message */}
               {(error || loginError) && (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-3">
-                  <p className="text-sm text-red-600 text-center">{error || t("errors.general")}</p>
+                <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-xl p-3">
+                  <p className="text-sm text-red-600 dark:text-red-400 text-center">{error || t("errors.general")}</p>
                 </div>
               )}
             </div>
@@ -184,7 +182,7 @@ const LoginPage: React.FC = () => {
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-indigo-800 dark:to-indigo-900 hover:from-blue-700 hover:to-indigo-700 dark:hover:from-indigo-900 dark:hover:to-indigo-950 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isPending ? (
                 <div className="flex items-center justify-center space-x-2">
@@ -200,10 +198,10 @@ const LoginPage: React.FC = () => {
           </form>
 
           {/* Footer */}
-          <div className="text-center pt-4 border-t border-gray-100">
-            <p className="text-sm text-gray-600">
+          <div className="text-center pt-4 border-t border-gray-100 dark:border-gray-800">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               <span>{t("login.noAccount")}</span>{' '}
-              <Link href="/auth/register" className="text-blue-600 hover:underline">
+              <Link href="/auth/register" className="text-blue-600 dark:text-blue-400 hover:underline">
                 {t("login.registerLink")}
               </Link>
             </p>

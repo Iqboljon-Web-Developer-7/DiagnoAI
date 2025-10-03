@@ -1,3 +1,5 @@
+// Add `dark:` classes to support dark mode in Tailwind CSS
+
 'use client';
 
 import { Booking } from '../types';
@@ -40,7 +42,7 @@ export default function page({ params }: PageProps) {
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const formattedDate = format(selectedDate, 'yyyy-MM-dd');
-  const { data: freeTimes, isLoading: freeTimesLoading, refetch: refetchFreeTimes } = useFreeTimes(+id, token, formattedDate);
+  const { data: freeTimes, isLoading: freeTimesLoading, refetch: refetchFreeTimes } = useFreeTimes(id, token, formattedDate);
 
   const createBooking = useCreateBookingMutation(token);
   const { data: clinicBookings, isLoading: clinicBookingsLoading } = useGetClinicBookings(token, role === 'clinic');
@@ -101,7 +103,7 @@ export default function page({ params }: PageProps) {
 
   if (loading || isPending) {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-slate-200'>
+      <div className='min-h-screen flex items-center justify-center bg-slate-200 dark:bg-slate-900'>
         <div className="flex items-center justify-center p-10 mt-10">
           <Circles height="80" width="80" color="#2563eb" ariaLabel="circles-loading" visible={true} />
         </div>
@@ -112,12 +114,12 @@ export default function page({ params }: PageProps) {
   if (doctor == null) {
     toast.error(translations('doctorNotFound'));
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-100">
-        <div className="bg-white p-6 rounded-lg shadow-md text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+      <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-900">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md text-center">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
             {translations('doctorNotFound')}
           </h2>
-          <Link href="/doctors" className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+          <Link href="/doctors" className="inline-block bg-blue-600 dark:bg-blue-700 text-white px-6 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800 transition-colors">
             <Hospital />
           </Link>
         </div>
@@ -126,13 +128,13 @@ export default function page({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pt-12">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800 pt-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
-          <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-12">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden mb-8">
+          <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 px-8 py-12">
             <div className="flex flex-col lg:flex-row items-center lg:items-start space-y-6 lg:space-y-0 lg:space-x-8">
               <div className="relative">
-                <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-white p-1 shadow-2xl">
+                <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-white dark:bg-slate-700 p-1 shadow-2xl">
                   <Image
                     width={400}
                     height={400}
@@ -142,7 +144,7 @@ export default function page({ params }: PageProps) {
                   />
                 </div>
                 <div className="absolute -bottom-2 -right-2 bg-green-500 rounded-full p-2 shadow-lg">
-                  <div className="w-3 h-3 bg-white rounded-full"></div>
+                  <div className="w-3 h-3 bg-white dark:bg-slate-900 rounded-full"></div>
                 </div>
               </div>
 
@@ -151,45 +153,45 @@ export default function page({ params }: PageProps) {
                   {doctor.name}
                 </h1>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
-                  <Stethoscope className="h-5 w-5 text-blue-200" />
-                  <span className="text-xl text-blue-200">
+                  <Stethoscope className="h-5 w-5 text-blue-200 dark:text-blue-300" />
+                  <span className="text-xl text-blue-200 dark:text-blue-300">
                     {doctor.translations.field}
                   </span>
                 </div>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 mb-4">
-                  <Building2 className="h-5 w-5 text-blue-200" />
-                  <span className="text-blue-200">{doctor.hospital.name}</span>
+                  <Building2 className="h-5 w-5 text-blue-200 dark:text-blue-300" />
+                  <span className="text-blue-200 dark:text-blue-300">{doctor.hospital.name}</span>
                 </div>
 
                 <div className="flex items-center justify-center lg:justify-start space-x-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                   ))}
-                  <span className="text-blue-200 ml-2">4.9 (127 {translations('reviews')})</span>
+                  <span className="text-blue-200 dark:text-blue-300 ml-2">4.9 (127 {translations('reviews')})</span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
                   {user?.role !== 'clinic' && (
                     <Dialog>
-                      <DialogTrigger className='bg-blue-500 py-1 px-4 flex items-center justify-center gap-2 text-white border-none rounded-lg'>
+                      <DialogTrigger className='bg-blue-500 dark:bg-blue-700 py-1 px-4 flex items-center justify-center gap-2 text-white border-none rounded-lg'>
                         <Calendar className="w-4 h-4 mr-1" />
                         {translations('doctorCard.bookButton')}
                       </DialogTrigger>
                       <DialogContent onClick={(e) => e.stopPropagation()}>
                         <DialogHeader onClick={(e) => e.stopPropagation()}>
-                          <div className="bg-white rounded-xl">
-                            <h2 className="text-2xl text-center font-bold text-gray-900 mb-2">
+                          <div className="bg-white dark:bg-slate-800 rounded-xl">
+                            <h2 className="text-2xl text-center font-bold text-gray-900 dark:text-gray-100 mb-2">
                               <span className='text-lg md:text-3xl text-center'>{translations('availableTimeSlots')}</span>
                             </h2>
                             <div className="mb-4 flex items-center justify-center gap-3">
-                              <h2 className="text-2xl font-bold text-gray-900 flex items-center space-x-2">
+                              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center space-x-2">
                                 {selectedDate.toLocaleDateString()}
                               </h2>
                               <input
                                 width={36}
                                 type="date"
                                 onChange={handleDateChange}
-                                className="w-9 border rounded p-2"
+                                className="w-9 border rounded p-2 dark:bg-slate-700 dark:text-gray-100"
                               />
                             </div>
                             {freeTimesLoading ? (
@@ -201,7 +203,7 @@ export default function page({ params }: PageProps) {
                                 {sortedTimes.map((time: number) => (
                                   <button
                                     key={time}
-                                    className={`px-4 py-2 rounded-lg transition-colors ${bookedTimes.includes(time) ? 'bg-gray-300 cursor-not-allowed text-gray-600' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+                                    className={`px-4 py-2 rounded-lg transition-colors ${bookedTimes.includes(time) ? 'bg-gray-300 dark:bg-slate-700 cursor-not-allowed text-gray-600 dark:text-gray-400' : 'bg-blue-600 dark:bg-blue-700 text-white hover:bg-blue-700 dark:hover:bg-blue-800'}`}
                                     onClick={() => !bookedTimes.includes(time) && handleBookAppointment(time)}
                                   >
                                     {time.toString().padStart(2, '0')}:00 {bookedTimes.includes(time) ? '- ' + translations('booked') : '- ' + translations('book')}
@@ -209,7 +211,7 @@ export default function page({ params }: PageProps) {
                                 ))}
                               </div>
                             ) : (
-                              <p className="text-gray-600">{translations('noAvailableSlots')}</p>
+                              <p className="text-gray-600 dark:text-gray-400">{translations('noAvailableSlots')}</p>
                             )}
                           </div>
                         </DialogHeader>
@@ -219,7 +221,7 @@ export default function page({ params }: PageProps) {
                   {doctor.hospital.phone_number && (
                     <Link 
                       href={`tel:${doctor.hospital.phone_number}`}
-                      className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 flex items-center justify-center space-x-2"
+                      className="border-2 border-white dark:border-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 dark:hover:bg-blue-700 dark:hover:text-white transition-colors duration-200 flex items-center justify-center space-x-2"
                     >
                       <Phone className="h-5 w-5" />
                       <span>{translations('callNow')}</span>
@@ -233,67 +235,67 @@ export default function page({ params }: PageProps) {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
-                <User className="h-6 w-6 text-blue-600" />
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center space-x-2">
+                <User className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                 <span>{translations('aboutDoctor')} {doctor.name}</span>
               </h2>
-              <p className="text-gray-700 leading-relaxed text-lg">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
                 {doctor.translations.description}
               </p>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
-                <Stethoscope className="h-6 w-6 text-blue-600" />
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center space-x-2">
+                <Stethoscope className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                 <span>{translations('specialization')}</span>
               </h2>
-              <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
-                <h3 className="font-semibold text-blue-900 text-lg">{doctor.translations.field}</h3>
-                <p className="text-blue-800 mt-1">
+              <div className="bg-blue-50 dark:bg-blue-950 rounded-lg p-4 border-l-4 border-blue-500 dark:border-blue-700">
+                <h3 className="font-semibold text-blue-900 dark:text-blue-300 text-lg">{doctor.translations.field}</h3>
+                <p className="text-blue-800 dark:text-blue-400 mt-1">
                   {translations('specializationDescription')}
                 </p>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">{translations('servicesOffered')}</h2>
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">{translations('servicesOffered')}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {doctor.hospital.departments.map((service) => (
                   <div
                     key={service}
-                    className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                   >
                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-gray-700">{service}</span>
+                    <span className="text-gray-700 dark:text-gray-300">{service}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {role === 'client' && (
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
-                  <Clock className="h-6 w-6 text-blue-600" />
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center space-x-2">
+                  <Clock className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   <span>{translations('availableTimeSlotsWithDate')} ({selectedDate.toLocaleDateString()})</span>
                 </h2>
                 <div className="mb-4 flex items-center space-x-2">
-                  <Calendar className="h-5 w-5 text-gray-500" />
+                  <Calendar className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                   <input
                     type="date"
                     value={formattedDate}
                     onChange={handleDateChange}
-                    className="border rounded p-2"
+                    className="border rounded p-2 dark:bg-slate-700 dark:text-gray-100"
                   />
                 </div>
                 {freeTimesLoading ? (
-                  <p>Loading times...</p>
+                  <p className="dark:text-gray-400">Loading times...</p>
                 ) : sortedTimes.length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {sortedTimes.map((time: number) => (
                       <button
                         key={time}
-                        className={`px-4 py-2 rounded-lg transition-colors ${bookedTimes.includes(time) ? 'bg-gray-300 cursor-not-allowed text-gray-600' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+                        className={`px-4 py-2 rounded-lg transition-colors ${bookedTimes.includes(time) ? 'bg-gray-300 dark:bg-slate-700 cursor-not-allowed text-gray-600 dark:text-gray-400' : 'bg-blue-600 dark:bg-blue-700 text-white hover:bg-blue-700 dark:hover:bg-blue-800'}`}
                         onClick={() => !bookedTimes.includes(time) && handleBookAppointment(time)}
                       >
                         {time.toString().padStart(2, '0')}:00 {bookedTimes.includes(time) ? '- ' + translations('booked') : '- ' + translations('book')}
@@ -301,38 +303,38 @@ export default function page({ params }: PageProps) {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-600">{translations('noAvailableSlots')}</p>
+                  <p className="text-gray-600 dark:text-gray-400">{translations('noAvailableSlots')}</p>
                 )}
               </div>
             )}
 
             {role === 'clinic' && (
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
-                  <Clock className="h-6 w-6 text-blue-600" />
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center space-x-2">
+                  <Clock className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   <span>{translations('bookingsForDoctor')} {doctor.name}</span>
                 </h2>
                 {clinicBookingsLoading ? (
-                  <p>{translations('loadingBookings')}</p>
+                  <p className="dark:text-gray-400">{translations('loadingBookings')}</p>
                 ) : filteredClinicBookings.length > 0 ? (
                   <div className="space-y-4">
                     {filteredClinicBookings.map((booking: Booking) => (
-                      <div key={booking.id} className="border p-4 rounded-lg">
-                        <p><strong>{translations('id')}</strong> {booking.id}</p>
-                        <p><strong>{translations('user')}</strong> {booking.user}</p>
-                        <p><strong>{translations('date')}</strong> {new Date(booking.appointment_date).toLocaleString()}</p>
-                        <p><strong>{translations('status')}</strong> {booking.status}</p>
+                      <div key={booking.id} className="border p-4 rounded-lg dark:border-slate-700">
+                        <p className="dark:text-gray-300"><strong>{translations('id')}</strong> {booking.id}</p>
+                        <p className="dark:text-gray-300"><strong>{translations('user')}</strong> {booking.user}</p>
+                        <p className="dark:text-gray-300"><strong>{translations('date')}</strong> {new Date(booking.appointment_date).toLocaleString()}</p>
+                        <p className="dark:text-gray-300"><strong>{translations('status')}</strong> {booking.status}</p>
                         <div className="flex space-x-2 mt-2">
                           {booking.status === 'pending' && (
                             <>
                               <button
-                                className="bg-green-500 text-white px-3 py-1 rounded"
+                                className="bg-green-500 dark:bg-green-700 text-white px-3 py-1 rounded"
                                 onClick={() => handleUpdateStatus(booking.id, 'confirmed')}
                               >
                                 {translations('confirm')}
                               </button>
                               <button
-                                className="bg-yellow-500 text-white px-3 py-1 rounded"
+                                className="bg-yellow-500 dark:bg-yellow-700 text-white px-3 py-1 rounded"
                                 onClick={() => handleUpdateStatus(booking.id, 'cancelled')}
                               >
                                 {translations('cancel')}
@@ -340,7 +342,7 @@ export default function page({ params }: PageProps) {
                             </>
                           )}
                           <button
-                            className="bg-red-500 text-white px-3 py-1 rounded"
+                            className="bg-red-500 dark:bg-red-700 text-white px-3 py-1 rounded"
                             onClick={() => handleDelete(booking.id)}
                           >
                             {translations('delete')}
@@ -350,77 +352,77 @@ export default function page({ params }: PageProps) {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-600">{translations('noBookings')}</p>
+                  <p className="text-gray-600 dark:text-gray-400">{translations('noBookings')}</p>
                 )}
               </div>
             )}
           </div>
 
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
-                <DollarSign className="h-6 w-6 text-green-600" />
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center space-x-2">
+                <DollarSign className="h-6 w-6 text-green-600 dark:text-green-400" />
                 <span>{translations('consultationFee')}</span>
               </h3>
               <div className="text-center">
-                <div className="text-3xl font-bold text-green-600 mb-2">
+                <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
                   {doctor.prize}
                 </div>
-                <p className="text-gray-600">{translations('perConsultation')}</p>
+                <p className="text-gray-600 dark:text-gray-400">{translations('perConsultation')}</p>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">{translations('contactInformation')}</h3>
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">{translations('contactInformation')}</h3>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
-                  <Building2 className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
+                  <Building2 className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-gray-900">{translations('hospital')}</p>
-                    <p className="text-gray-600">{doctor.hospital.name}</p>
+                    <p className="font-medium text-gray-900 dark:text-gray-100">{translations('hospital')}</p>
+                    <p className="text-gray-600 dark:text-gray-400">{doctor.hospital.name}</p>
                   </div>
                 </div>
 
                 {doctor.hospital.phone_number && (
                   <div className="flex items-start space-x-3">
-                    <Phone className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
+                    <Phone className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 flex-shrink-0" />
                     <div>
-                      <p className="font-medium text-gray-900">{translations('phone')}</p>
-                      <p className="text-gray-600">{doctor.hospital.phone_number}</p>
+                      <p className="font-medium text-gray-900 dark:text-gray-100">{translations('phone')}</p>
+                      <p className="text-gray-600 dark:text-gray-400">{doctor.hospital.phone_number}</p>
                     </div>
                   </div>
                 )}
 
                 <div className="flex items-start space-x-3">
-                  <MapPin className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
+                  <MapPin className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-gray-900">{translations('location')}</p>
-                    <p className="text-gray-600">
+                    <p className="font-medium text-gray-900 dark:text-gray-100">{translations('location')}</p>
+                    <p className="text-gray-600 dark:text-gray-400">
                       {doctor.hospital.latitude}, {doctor.hospital.longitude}
                     </p>
-                    <p className="text-sm text-gray-500 mt-1">Tashkent, Uzbekistan</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Tashkent, Uzbekistan</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
-                <Clock className="h-6 w-6 text-blue-600" />
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center space-x-2">
+                <Clock className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                 <span>{translations('workingHours')}</span>
               </h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">{translations('mondayFriday')}</span>
-                  <span className="font-medium">9:00 AM - 6:00 PM</span>
+                  <span className="text-gray-600 dark:text-gray-400">{translations('mondayFriday')}</span>
+                  <span className="font-medium dark:text-gray-100">9:00 AM - 6:00 PM</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">{translations('saturday')}</span>
-                  <span className="font-medium">9:00 AM - 2:00 PM</span>
+                  <span className="text-gray-600 dark:text-gray-400">{translations('saturday')}</span>
+                  <span className="font-medium dark:text-gray-100">9:00 AM - 2:00 PM</span>
                 </div>
                 <div className="flex justify-between" >
-                  <span className="text-gray-600">{translations('sunday')}</span>
-                  <span className="font-medium text-red-600">{translations('closed')}</span>
+                  <span className="text-gray-600 dark:text-gray-400">{translations('sunday')}</span>
+                  <span className="font-medium text-red-600 dark:text-red-400">{translations('closed')}</span>
                 </div>
               </div>
             </div>

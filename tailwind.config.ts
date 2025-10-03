@@ -100,7 +100,11 @@ const config: Config = {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			},
-            'worm-grey': '#f8f9fa'
+            'worm-grey': '#f8f9fa',
+			'worm-dark': '#212529',
+				// Add dark mode colors here if needed, e.g.:
+				// 'background-dark': '#18181b',
+				// 'foreground-dark': '#f4f4f5',
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

@@ -86,7 +86,7 @@ const TimeSlotGrid = memo(({
             </div>
 
             <motion.div 
-                className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 max-h-80 overflow-auto"
+                className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 max-h-[22rem] overflow-y-auto overflow-x-hidden"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"

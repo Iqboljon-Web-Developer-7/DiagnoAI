@@ -2,7 +2,7 @@
 
 import React, { useState, useLayoutEffect, useRef, useCallback, useEffect } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Menu } from 'lucide-react';
+import { Menu, Star, StarIcon, Stars } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';
@@ -144,6 +144,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
     <div className={`relative flex w-full items-center z-30 ${className}`}>
       <div className="flex flex-1 overflow-hidden relative items-center" ref={containerRef}>
         <div className={`w-full hidden sm:flex items-center justify-center ${visibleTabs?.length && 'animate-fade-in-down'}`}>
+
           {visibleTabs.map((tab, index) => (
             <div
               key={tab.path}
@@ -154,9 +155,12 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
             >
               <Link
                 href={tab.path}
-                className={`transition-all p-2 text-xs sm:text-sm whitespace-nowrap hover:text-blue-400 ${tab.path === pathname ? 'font-semibold underline text-blue-400' : 'text-gray-800'}`}
+                className={`transition-all group p-2 text-xs sm:text-sm whitespace-nowrap hover:text-blue-400 dark:hover:text-blue-300 ${tab.path === pathname ? 'font-semibold underline text-blue-400 dark:text-blue-300' : 'text-gray-800 dark:text-gray-200'}`}
               >
                 {tab.label}
+                {tab.path === '/ai-diagnosis' && (
+                  <Stars className="inline-block ml-1 h-4 w-4 group-hover:text-blue-400 group-hover:scale-110" />
+                )}
               </Link>
             </div>
           ))}
@@ -168,20 +172,20 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
             <Button
               size={"sm"}
               variant={"default"}
-              className="animate-fade-in-down bg-transparent animation-delay-700 focus:outline-none hover:bg-sky-50 rounded-full hover:text-blue-400 ml-0 opacity-0 p-2 text-gray-800"
+              className="animate-fade-in-down bg-transparent animation-delay-700 focus:outline-none hover:bg-sky-50 dark:hover:bg-sky-900 rounded-full hover:text-blue-400 dark:hover:text-blue-300 ml-0 opacity-0 p-2 text-gray-800 dark:text-gray-200"
               aria-label="Show more navigation options"
             >
               <Menu className="h-5 w-5" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="center" className="min-w-[150px] bg-white/50 backdrop-blur-sm border-none">
+          <DropdownMenuContent align="center" className="min-w-[150px] bg-white/50 dark:bg-gray-900/70 backdrop-blur-sm border-none">
             <div className='hidden sm:block'>
               {hiddenTabs.map((tab) => (
                 <DropdownMenuItem key={tab.path} asChild className='bg-transparent'>
                   <Link
                     href={tab.path}
-                    className={`w-full px-4 py-2 text-sm  hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline text-blue-400' : 'text-gray-800'}`}
-                  > 
+                    className={`w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${tab.path === pathname ? 'font-semibold underline text-blue-400 dark:text-blue-300' : 'text-gray-800 dark:text-gray-200'}`}
+                  >
                     {tab.label}
                   </Link>
                 </DropdownMenuItem>
@@ -189,10 +193,10 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
             </div>
             <div className='block sm:hidden'>
               {tabs.map((tab) => (
-                <DropdownMenuItem key={tab.path} asChild className='hover:bg-white/30 duration-500 ease-in-out'>
+                <DropdownMenuItem key={tab.path} asChild className='hover:bg-white/30 dark:hover:bg-gray-800 duration-500 ease-in-out'>
                   <Link
                     href={tab.path}
-                    className={`w-full px-4 py-2 text-sm  hover:bg-gray-100 ${tab.path === pathname ? 'font-semibold underline text-blue-400' : 'text-gray-800'}`}
+                    className={`w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${tab.path === pathname ? 'font-semibold underline text-blue-400 dark:text-blue-300' : 'text-gray-800 dark:text-gray-200'}`}
                   >
                     {tab.label}
                   </Link>

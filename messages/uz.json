@@ -1,5 +1,15 @@
 {
   "Index": {
+    "carouselTitles": {
+      "neurology": "Nevrologiya",
+      "cardiology": "Kardiologiya",
+      "orthopedics": "Ortopediya",
+      "pediatrics": "Pediatriya",
+      "radiology": "Radiologiya",
+      "oncology": "Onkologiya",
+      "dermatology": "Dermatologiya",
+      "rheumatology": "Revmatologiya"
+    },
     "ai-thinking": {
       "1": "Aniq tashxis qo'yish uchun simptomlaringiz chuqur tahlil qilinmoqda.",
       "2": "Sizga mos tavsiyalar uchun keng tibbiy ma'lumotlar bazasidan foydalanilmoqda.",
@@ -767,6 +777,11 @@
           "name": "Shahobiddin",
           "role": "Sun'iy intellekt mutaxassisi",
           "description": "PDP universitetini tamomlagan, bakalavr. Tajriba: 2023-2027."
+        },
+        "member6": {
+          "name": "Sultonov Sanjarbek Mirzaboy o‘g‘li",
+          "role": "Graphic Designer",
+          "description": "O‘zbekiston jurnalistika va ommaviy kommunikatsiyalar universiteti 2022-2026. Najot ta'lim o‘quv markazi 2023-2024. Tajriba: 1 yil."
         }
       }
     },

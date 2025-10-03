@@ -1,5 +1,15 @@
 {
   "Index": {
+    "carouselTitles": {
+      "neurology": "Neurology",
+      "cardiology": "Cardiology",
+      "orthopedics": "Orthopedics",
+      "pediatrics": "Pediatrics",
+      "radiology": "Radiology",
+      "oncology": "Oncology",
+      "dermatology": "Dermatology",
+      "rheumatology": "Rheumatology"
+    },
     "ai-thinking": {
       "1": "Analyzing your symptoms with precision to provide the most accurate insights.",
       "2": " Consulting our vast medical knowledge base for tailored recommendations.",
@@ -654,31 +664,36 @@
       "title": "Our Team",
       "description": "Meet the passionate individuals driving Diagno AI’s mission to transform healthcare.",
       "members": {
-        "member1": {
-          "name": "Sunnat Panjiyev Sherzod o'g'li",
-          "role": "Co-Founder & Lawyer",
-          "description": "Graduated from Tashkent State Law University, Bachelor’s degree. Experience: 2022-2025."
-        },
-        "member2": {
-          "name": "Javohir Jahonov Jasur o'g'li",
-          "role": "Founder & Backend Developer",
-          "description": "Graduated from PDP University, Bachelor’s degree. Experience: 2023-2027."
-        },
-        "member3": {
-          "name": "Iqboljon Ummataliyev Kamoliddin o'g'li",
-          "role": "Frontend Developer",
-          "description": "Graduated from Najot Ta'lim, IT Park & SAMMI. Experience: 2022-2025."
-        },
-        "member4": {
-          "name": "Firdavs Safarmakhmadov",
-          "role": "Web Designer & Graphic Designer",
-          "description": "Graduated from ProWeb & Central Asian University, Bachelor’s degree. Experience: 2023-2027."
-        },
-        "member5": {
-          "name": "Shahobiddin",
-          "role": "AI Specialist",
-          "description": "Graduated from PDP University, Bachelor’s degree. Experience: 2023-2027."
-        }
+      "member1": {
+        "name": "Sunnat Panjiyev Sherzod o'g'li",
+        "role": "Co-Founder & Lawyer",
+        "description": "Graduated from Tashkent State Law University, Bachelor’s degree. Experience: 2022-2025."
+      },
+      "member2": {
+        "name": "Javohir Jahonov Jasur o'g'li",
+        "role": "Founder & Backend Developer",
+        "description": "Graduated from PDP University, Bachelor’s degree. Experience: 2023-2027."
+      },
+      "member3": {
+        "name": "Iqboljon Ummataliyev Kamoliddin o'g'li",
+        "role": "Frontend Developer",
+        "description": "Graduated from Najot Ta'lim, IT Park & SAMMI. Experience: 2022-2025."
+      },
+      "member4": {
+        "name": "Firdavs Safarmakhmadov",
+        "role": "Web Designer & Graphic Designer",
+        "description": "Graduated from ProWeb & Central Asian University, Bachelor’s degree. Experience: 2023-2027."
+      },
+      "member5": {
+        "name": "Shahobiddin",
+        "role": "AI Specialist",
+        "description": "Graduated from PDP University, Bachelor’s degree. Experience: 2023-2027."
+      },
+      "member6": {
+        "name": "Sanjarbek Mirzaboy Sultonov",
+        "role": "Graphic Designer",
+        "description": "Graduated from Uzbekistan University of Journalism and Mass Communications (2022-2026). Najot Ta'lim Training Center (2023-2024). Experience: 1 year."
+      }
       }
     },
     "timeline": {

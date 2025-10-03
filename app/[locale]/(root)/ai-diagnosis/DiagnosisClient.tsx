@@ -106,18 +106,18 @@ export default function DiagnosisClient({
 
     return (
         <div >
-            <SidebarProvider className="bg-cover  bg-no-repeat bg-center" defaultOpen={false} style={{ backgroundImage: `url(${bgWallpaper.src})` }}>
-                <Sidebar side="left" hidden={true} className="border-r-0 shadow-lg  bg-white/30 backdrop-blur-sm z-50">
-                    <SidebarHeader className="relative border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
+            <SidebarProvider className="bg-cover bg-no-repeat bg-center" defaultOpen={false} style={{ backgroundImage: `url(${bgWallpaper.src})` }}>
+                <Sidebar side="left" hidden={true} className="border-r-0 shadow-lg bg-white/30 dark:bg-black dark:bg-neutral-800/40 backdrop-blur-sm z-50">
+                    <SidebarHeader className="relative border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 dark:from-blue-900 dark:to-purple-900">
                         <Link href={'/'} className="flex items-center gap-3">
-                            <div className="p-2 bg-white/20 rounded-lg">
+                            <div className="p-2 bg-white/20 rounded-lg dark:bg-neutral-700/40">
                                 <Brain className="h-6 w-6" />
                             </div>
                             <div>
                                 <h2 className="font-bold text-lg">DiagnoAI</h2>
                             </div>
                         </Link>
-                        <SidebarTrigger className="absolute bottom-0 -translate-y-full -translate-x-full bg-neutral-200 z-10 -right-10 text-black" />
+                        <SidebarTrigger className="absolute bottom-0 -translate-y-full -translate-x-full bg-neutral-200 dark:bg-neutral-700 z-10 -right-10 text-black dark:text-white" />
                     </SidebarHeader>
 
                     <SidebarContent className="p-4">
@@ -125,7 +125,7 @@ export default function DiagnosisClient({
                             <SidebarGroupContent>
                                 <Button
                                     onClick={handleNewChat}
-                                    className="w-full mb-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md"
+                                    className="w-full mb-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md dark:from-blue-900 dark:to-purple-900 dark:hover:from-blue-950 dark:hover:to-purple-950"
                                 >
                                     <Plus className="h-4 w-4 mr-2" />
                                     {t('newConsultation')}
@@ -139,9 +139,9 @@ export default function DiagnosisClient({
                     </SidebarContent>
                 </Sidebar>
 
-                <SidebarInset className="bg-transparent backdrop-blur-md "  >
-                    <SidebarTrigger iconType="ai-diagnosis" className=" absolute top-4 left-4 z-10   duration-200 scale-125" />
-                    <main className={`flex-1 p-2 md:p-4 max-h-[100svh]  ${!initialSelectedChat && 'flex items-center justify-center'}`}>
+                <SidebarInset className="bg-transparent backdrop-blur-md dark:bg-black/80"  >
+                    <SidebarTrigger iconType="ai-diagnosis" className=" absolute top-4 left-4 z-10 duration-200 scale-125 dark:text-white" />
+                    <main className={`flex-1 p-2 md:p-4 max-h-[100svh] ${!initialSelectedChat && 'flex items-center justify-center'}`}>
                         <div className={`gap-8 max-w-7xl mx-auto ${initialSelectedChat && 'h-full'}`}>
                             <div className="flex flex-col relative max-h-[96svh] overflow-auto h-full">
                                 <Card className={`max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${!initialSelectedChat!?.messages!.length && 'flex items-center justify-center'}`}>
@@ -155,7 +155,7 @@ export default function DiagnosisClient({
 
                                 <Card className="bg-transparent border-none shadow-none animate-fade-in-down duration-200 opacity-0 delay-500">
                                     <CardContent className="p-2">
-                                        <Form initialSelectedId={initialSelectedId}  />
+                                        <Form initialSelectedId={initialSelectedId} />
                                     </CardContent>
                                 </Card>
                             </div>
@@ -163,42 +163,42 @@ export default function DiagnosisClient({
                     </main>
                 </SidebarInset>
             </SidebarProvider>
-            <SidebarProvider className="min-h-0 bg-transparent" defaultOpen={false} open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+            <SidebarProvider className="min-h-0 bg-transparent dark:bg-neutral-900/80" defaultOpen={false} open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
                 <div className={`absolute top-5 right-5 ${initialDoctors?.length && 'animate-pulse'}`}>
-                    <SidebarTrigger iconType="doctors" className="bg-purple-100 hover:bg-purple-200 hover:text-blue-600 duration-200 z-10 text-blue-500 scale-125" />
+                    <SidebarTrigger iconType="doctors" className="bg-purple-100 hover:bg-purple-200 hover:text-blue-600 duration-200 z-10 text-blue-500 scale-125 dark:bg-purple-900 dark:hover:bg-purple-800 dark:text-blue-300 dark:hover:text-blue-400" />
                     {initialDoctors?.length ?
                         <span className="inline-block w-2 h-2 bg-red-500 rounded-full absolute -top-1 -right-1"></span>
                         : ''
                     }
                 </div>
-                <Sidebar side="right" className="bg-white/30 backdrop-blur-sm" style={{ backgroundColor: 'transparent' }}>
-                    <SidebarInset className="relative bg-transparent" style={{ backgroundColor: 'transparent' }}>
+                <Sidebar side="right" className="bg-white/30 backdrop-blur-sm dark:bg-neutral-800/40" style={{ backgroundColor: 'transparent' }}>
+                    <SidebarInset className="relative bg-transparent dark:bg-neutral-900/80" style={{ backgroundColor: 'transparent' }}>
                         <div className="space-y-6">
-                            <Card className="h-[100svh] shadow-xl border-0  bg-transparent">
+                            <Card className="h-[100svh] overflow-auto shadow-xl border-0 bg-transparent dark:bg-neutral-900/80">
                                 <CardHeader className="p-4 relative">
                                     <div className="flex items-center gap-3">
                                         <div>
-                                            <CardTitle className="leading-7 text-blue-900">{t('specialists')}</CardTitle>
+                                            <CardTitle className="leading-7 text-blue-900 dark:text-blue-300">{t('specialists')}</CardTitle>
                                         </div>
                                     </div>
-                                    <SidebarTrigger className="absolute top-16 -translate-y-full -translate-x-full bg-neutral-200 z-10 left-4 text-black" />
+                                    <SidebarTrigger className="absolute top-16 -translate-y-full -translate-x-full bg-neutral-200 z-20 left-4 text-black dark:bg-neutral-700 dark:text-white" />
 
                                 </CardHeader>
-                                <CardContent className="h-full">
+                                <CardContent className="h-full  max-h-screen">
                                     {initialDoctors?.length > 0 ? (
-                                        <div className="space-y-4">
+                                        <div className="space-y-4 overflow-y-auto">
                                             {initialDoctors?.map((doc) => (
                                                 <div
                                                     onClick={() => router.push(`/doctors/${doc?.id}`)}
                                                     key={doc?.id}
-                                                    className="cursor-pointer p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-gradient-to-br from-white to-gray-50"
+                                                    className="cursor-pointer p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-gradient-to-br from-white to-gray-50 dark:from-neutral-900 dark:to-neutral-800 dark:border-neutral-700"
                                                 >
                                                     <div className="flex items-start gap-3">
-                                                        <Avatar className="h-12 w-12 border-2 border-green-200">
+                                                        <Avatar className="h-12 w-12 border-2 border-green-200 dark:border-green-700">
                                                             {doc?.image ? (
                                                                 <img src={`${process.env.NEXT_PUBLIC_API_URL}${doc.image}`} alt={doc.name} className="object-cover" />
                                                             ) : (
-                                                                <AvatarFallback className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
+                                                                <AvatarFallback className="bg-gradient-to-r from-green-500 to-emerald-500 text-white dark:from-green-900 dark:to-emerald-900">
                                                                     {doc?.name
                                                                         .split(" ")
                                                                         .map((n) => n[0])
@@ -207,12 +207,12 @@ export default function DiagnosisClient({
                                                             )}
                                                         </Avatar>
                                                         <div className="flex-1 min-w-0">
-                                                            <h4 className="font-semibold text-gray-900">{doc?.name}</h4>
-                                                            <Badge variant="secondary" className="mb-2 bg-green-100 text-green-800">
+                                                            <h4 className="font-semibold text-gray-900 dark:text-gray-100">{doc?.name}</h4>
+                                                            <Badge variant="secondary" className="mb-2 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
                                                                 {doc?.translations?.field}
                                                             </Badge>
-                                                            <p className="text-sm text-gray-600 line-clamp-2 mb-2">{doc?.translations?.description}</p>
-                                                            <div className="flex items-center gap-1 text-xs text-gray-500">
+                                                            <p className="text-sm text-gray-600 line-clamp-2 mb-2 dark:text-gray-400">{doc?.translations?.description}</p>
+                                                            <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                                                                 <MapPin className="h-3 w-3" />
                                                                 <span>{doc?.hospital?.name}</span>
                                                             </div>
@@ -223,15 +223,15 @@ export default function DiagnosisClient({
                                         </div>
                                     ) : (
                                         <div className="text-center py-8">
-                                            <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                                                <User className="h-8 w-8 text-gray-400" />
+                                            <div className="p-4 bg-gray-100 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center dark:bg-neutral-800">
+                                                <User className="h-8 w-8 text-gray-400 dark:text-gray-500" />
                                             </div>
-                                            <p className="text-gray-500 text-sm">{t('noDiagnosis')}</p>
+                                            <p className="text-gray-500 text-sm dark:text-gray-400">{t('noDiagnosis')}</p>
                                         </div>
                                     )}
 
                                     <Link href="/doctors" passHref>
-                                        <Button className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white">
+                                        <Button className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white dark:from-green-900 dark:to-emerald-900 dark:hover:from-green-950 dark:hover:to-emerald-950">
                                             {t('viewAllSpecialists')}
                                         </Button>
                                     </Link>
