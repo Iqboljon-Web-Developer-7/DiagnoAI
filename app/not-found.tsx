@@ -9,10 +9,6 @@ export default async function NotFound() {
   const cookieStore = await cookies();
   const locale = cookieStore.get('locale')?.value || 'en';
 
-  console.log(locale);
-  
-
-  // With next-intl (add translations in messages/[locale].json)
   const t = await getTranslations({ locale, namespace: 'notFound' });
 
   return (

@@ -26,8 +26,7 @@ const InfiniteCarousel =   () => {
   const trackSlides = [...slides, ...slides, ...slides]
 
   return (
-    <div className="relative flex items-center justify-center mx-auto overflow-hidden w-[99.4vw] py-8 bg-white dark:bg-gray-900 shadow-lg">
-      {/* Left gradient */}
+    <div className="relative flex items-center justify-center mx-auto overflow-hidden w-[99vw] py-8 bg-white dark:bg-gray-900 shadow-lg">
       <div
         className="absolute left-0 top-0 h-full w-52 z-10 pointer-events-none"
         style={{
@@ -35,7 +34,6 @@ const InfiniteCarousel =   () => {
             "linear-gradient(to right,var(--gradient-bg,rgba(255,255,255,1)),var(--gradient-bg-transparent,rgba(255,255,255,0)))"
         }}
       />
-      {/* Right gradient */}
       <div
         className="absolute right-0 top-0 h-full w-52 z-10 pointer-events-none"
         style={{
@@ -47,12 +45,8 @@ const InfiniteCarousel =   () => {
         className="flex gap-24 animate-[scroll_32s_linear_infinite]"
         style={{
           width: "calc(250px * 14)",
-          // CSS variables for gradient colors
-          // Light mode
           "--gradient-bg": "rgba(255,255,255,1)",
           "--gradient-bg-transparent": "rgba(255,255,255,0)",
-          // Dark mode override
-          // These will be overridden by dark mode below
         } as React.CSSProperties}
       >
         {trackSlides.map((item, idx) => (

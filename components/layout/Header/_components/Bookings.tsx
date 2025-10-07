@@ -1,4 +1,3 @@
-// app/bookings/page.tsx
 import { cookies } from "next/headers";
 import { Calendar, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";

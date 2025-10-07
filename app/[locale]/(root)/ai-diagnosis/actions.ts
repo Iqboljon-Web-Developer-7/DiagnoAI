@@ -21,6 +21,7 @@ export const serverFetch = async (
         next?: {
             tags?: string[],
             revalidate?: number,
+            revalidatePath?: string
         },
     } = {}
 ) => {
@@ -123,9 +124,6 @@ export const createChat = async (form: FormData) => {
                 'Content-Type': 'multipart/form-data'
             }
         });
-
-        console.log(response);
-
 
         if (!response.data) {
             throw new Error('Failed to create chat');

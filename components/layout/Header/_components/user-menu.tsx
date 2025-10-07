@@ -21,6 +21,8 @@ import { User, LogOut, LogIn, UserPlus, Hospital } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import axios from 'axios'
+import next from 'next'
+import { serverFetch } from '@/app/[locale]/(root)/ai-diagnosis/actions'
 
 export function UserMenu({ className }: { className?: string }) {
   const { user, isLoggedIn, logout } = useAppStore()
@@ -29,9 +31,12 @@ export function UserMenu({ className }: { className?: string }) {
 
   const handleLogout = async () => {
     logout()
-    await axios.post("/api/clear-auth",{},{
-      withCredentials: true
+    await axios.post("/api/clear-auth",{
+      next:{}
+    },{
+      withCredentials: true,
     })
+    await serverFetch("/api/clear-auth", { next: {revalidatePath:'/' } })
     router.push("/")
   }
 

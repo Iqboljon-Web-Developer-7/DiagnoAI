@@ -5,9 +5,7 @@ import { TestimonialsSection } from "@/app/[locale]/components/testimonials-sect
 import { CTASection } from "@/app/[locale]/components/cta-section";
 import { Partners } from "./components/partners";
 
-import bgSquares from "@/assets/images/useful/bg-square.webp"
 import { Suspense } from "react";
-import Image from "next/image";
 import InfiniteCarousel from "./components/InfiniteCarousel Types/InfiniteCarousel";
 
 export default async function HomePage() {

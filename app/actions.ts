@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
-// Helper: server-side fetch with authorization
 export const serverFetch = async (url: string) => {
     const cookieStore = await cookies();
     const token = cookieStore.get("access-token")?.value ?? null;
@@ -14,7 +13,6 @@ export const serverFetch = async (url: string) => {
     if (token) headers["Authorization"] = `Bearer ${token}`;
     const res = await fetch(`${API_BASE_URL}${url}`, { headers, cache: "no-store" });
     if (!res.ok) {
-
         return null;
     }
     return res.json();

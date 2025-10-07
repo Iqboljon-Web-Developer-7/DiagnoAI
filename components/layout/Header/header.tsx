@@ -3,8 +3,8 @@ import Image from 'next/image';
 import CollapsibleTabs from './_components/CollapsibleTabs';
 import { LanguageSwitcher } from './_components/language-switcher';
 import { UserMenu } from './_components/user-menu';
-import Bookings from './_components/Bookings';
 import ThemeToggle from '@/components/ThemeToggle';
+import Bookings from './_components/Bookings';
 
 export async function Header() {
   return (

@@ -2,13 +2,14 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Stethoscope } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { Chat } from "../../types";
+import { memo } from "react";
 
 interface ChatMessagesProps {
   initialSelectedChat: Chat | null
   t: (key: string) => string;
 }
 
-export const ChatMessages = ({ initialSelectedChat, t }: ChatMessagesProps) => {
+const ChatMessages = ({ initialSelectedChat, t }: ChatMessagesProps) => {
   if (!initialSelectedChat?.messages?.length) {
     return (
       <div className="flex flex-row gap-[5%] items-center justify-center flex-wrap text-center animate-fade-in-down duration-200 opacity-0 delay-300">
@@ -47,3 +48,6 @@ export const ChatMessages = ({ initialSelectedChat, t }: ChatMessagesProps) => {
     </>
   );
 };
+
+
+export default memo(ChatMessages)

@@ -60,8 +60,14 @@ const RegisterPage = () => {
     const payload = {
       ...values,
       email: values.email ?? "",
-      phoneNumber: values.phoneNumber ?? "",
     }
+
+    if(values.phoneNumber) {
+      payload.phoneNumber = values.phoneNumber
+    } else {
+      delete payload.phoneNumber
+    }
+
     registerMutate(payload, {
       onSuccess: (data) => {
         toast.success("Registration successful! Welcome aboard!")

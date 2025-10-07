@@ -1,6 +1,6 @@
 import { SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { memo } from 'react'
 import { MessageSquare, Trash } from 'lucide-react'
 
 interface Chat {
@@ -11,9 +11,10 @@ interface Chat {
 interface SideBarChatProps {
   initialChats: Chat[]
   handleDeleteChat: (id: string) => void
+  initialSelectedId:string | undefined
 }
 
-const SideBarChat = ({ initialChats, handleDeleteChat }: SideBarChatProps) => {
+const SideBarChat = ({ initialChats, handleDeleteChat,initialSelectedId }: SideBarChatProps) => {
   const router = useRouter()
 
   return (
@@ -23,7 +24,7 @@ const SideBarChat = ({ initialChats, handleDeleteChat }: SideBarChatProps) => {
           <SidebarMenuButton
             size={'lg'}
             onClick={() => router.push(`/ai-diagnosis?chatId=${chat.id}`)}
-            className="group relative p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900 transition-all duration-200"
+            className={`group relative p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900 transition-all duration-200 ${initialSelectedId == chat.id ? 'bg-blue-100 dark:bg-blue-950' : ''}`}
           >
             <div className="flex items-center gap-3 w-full">
               <div className="p-2 my-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 dark:bg-blue-950 dark:group-hover:bg-blue-900 transition-colors">
@@ -50,4 +51,4 @@ const SideBarChat = ({ initialChats, handleDeleteChat }: SideBarChatProps) => {
   )
 }
 
-export default SideBarChat
+export default memo(SideBarChat)

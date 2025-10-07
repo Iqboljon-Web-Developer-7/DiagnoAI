@@ -6,8 +6,8 @@ export default async function Page({
   params,
   searchParams,
 }: {
-  params: Promise<{ locale: string }>
-  searchParams: Promise<{ chatId?: string; doctorIds?: string }>
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ chatId?: string; doctorIds?: string }>;
 }) {
   const { locale } = await params;
   const { chatId: id, doctorIds } = await searchParams;
@@ -17,7 +17,7 @@ export default async function Page({
   let selectedChat: Chat | null = null;
 
   try {
-    const response = await serverFetch(`/chats`, {next:{tags:["chats"]}});
+    const response = await serverFetch(`/chats`, { next: { tags: ["chats"] } });
     chats = response;
   } catch (e) {
     chats = [];
@@ -25,7 +25,9 @@ export default async function Page({
 
   if (id) {
     try {
-      const chat = await serverFetch(`/chats/${id}`, { next: { tags: ['chats-' + id], revalidate: 3600 } });
+      const chat = await serverFetch(`/chats/${id}`, {
+        next: { tags: ["chats-" + id], revalidate: 3600 },
+      });
 
       if (chat) {
         selectedChat = {
@@ -42,8 +44,8 @@ export default async function Page({
 
   if (doctorIds) {
     try {
-      const ids = doctorIds.split(',').map(id => parseInt(id.trim()));
-      const doctorPromises = ids.map(docId =>
+      const ids = doctorIds.split(",").map((id) => parseInt(id.trim()));
+      const doctorPromises = ids.map((docId) =>
         serverFetch(`/api/${locale}/doctors/${docId}`)
       );
 
@@ -54,6 +56,8 @@ export default async function Page({
     }
   }
 
+  console.log(id);
+  
 
   return (
     <DiagnosisClient
