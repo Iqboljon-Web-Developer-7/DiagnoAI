@@ -6,6 +6,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { BookAppointmentData, Hospital } from "./types"
 import axios from "axios"
+import { serverFetch } from "@/app/actions"
 
 // Base API URL
 const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}`
@@ -56,11 +57,17 @@ export const useGetHospital = (id: string | undefined, token?: string) => {
   return useQuery({
     queryKey: ["hospital", id],
     queryFn: async () => {
-      if (!id) throw new Error("Invalid hospital id")
-      const response = await axios.get(`${API_BASE_URL}/api/hospitals/${id}/`, {
-        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-      })
-      return response.data
+      
+      const response = await serverFetch(`/api/hospitals/${id}/`)
+      // if (!id) throw new Error("Invalid hospital id")
+      // const response = await axios.get(`${API_BASE_URL}/api/hospitals/${id}/`, {
+      //   headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      // })
+
+      console.log(response);
+      
+
+      return response || {}
     },
     enabled: !!id,
   })

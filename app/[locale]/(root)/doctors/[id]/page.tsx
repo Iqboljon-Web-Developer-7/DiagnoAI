@@ -1,12 +1,9 @@
-// Add `dark:` classes to support dark mode in Tailwind CSS
-
 'use client';
 
 import { Booking } from '../types';
-import { useDoctorQuery, useFreeTimes, useCreateBookingMutation, useGetClinicBookings, useUpdateBookingMutation, useDeleteBookingMutation } from "../api";
 import React, { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { MapPin, Phone, DollarSign, Building2, Stethoscope, User, Clock, Star, Calendar, Home, Hospital } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog';
+import { MapPin, Phone, DollarSign, Building2, Stethoscope, User, Clock, Star, Calendar, Hospital } from "lucide-react";
 import Image from "next/image";
 import { format } from 'date-fns';
 import { use } from 'react';
@@ -15,6 +12,7 @@ import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useAppStore } from '@/store/store';
+import { useDoctorQuery, useFreeTimes, useCreateBookingMutation, useGetClinicBookings, useUpdateBookingMutation, useDeleteBookingMutation } from "../api";
 
 interface DoctorType {
   params: { id: string; locale: string };
@@ -25,7 +23,6 @@ type PageProps = {
     locale: string;
     id: string;
   }>;
-  // searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export default function page({ params }: PageProps) {

@@ -21,7 +21,6 @@ import { User, LogOut, LogIn, UserPlus, Hospital } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import axios from 'axios'
-import next from 'next'
 import { serverFetch } from '@/app/[locale]/(root)/ai-diagnosis/actions'
 
 export function UserMenu({ className }: { className?: string }) {

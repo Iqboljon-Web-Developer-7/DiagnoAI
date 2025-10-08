@@ -1,15 +1,18 @@
-// Changes: Added Tailwind CSS dark: classes to key UI elements
-
 'use client';
 
+import dynamic from 'next/dynamic';
 import React, { memo, useEffect, useMemo, useState } from 'react';
 import { Doctor } from './types';
-import { User } from '../hospitals/types';
 import { DoctorCard } from './DoctorCard';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '@/store/store';
 import { useBookAppointmentMutation } from './api';
-import { Filters } from './components/Filters';
+
+
+const Filters = dynamic(() => import('./components/Filters').then(mod => mod.default), {
+  ssr: false,
+  loading: () => <div className="w-full h-72 my-5 bg-gray-100 dark:bg-gray-800 animate-pulse rounded-lg" />
+});
 
 interface DoctorListProps {
   doctors: Doctor[];
@@ -74,8 +77,6 @@ const DoctorList = memo(({ doctors }: DoctorListProps) => {
       </div>
     );
   }
-
-  console.log(doctors);
 
   return (
     <div className="grid lg:grid-cols-4 gap-8 dark:bg-gray-900">

@@ -94,7 +94,7 @@ const DoctorCard = memo(({ doctor, user, index }: DoctorCardProps) => {
                         <div className="flex-1 space-y-2 sm:space-y-4 text-center lg:text-left w-full">
                             <div>
                                 <motion.h3
-                                    className="w-fit border-b-blue-200 border-b text-lg sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-100 dark:to-gray-400 bg-clip-text text-transparent hover:from-blue-600 hover:to-purple-600 dark:hover:from-blue-400 dark:hover:to-purple-400 transition-all duration-300 cursor-pointer mb-2"
+                                    className="mx-auto lg:mx-0 w-fit border-b-blue-200 border-b text-lg sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-100 dark:to-gray-400 bg-clip-text text-transparent hover:from-blue-600 hover:to-purple-600 dark:hover:from-blue-400 dark:hover:to-purple-400 transition-all duration-300 cursor-pointer mb-2"
                                     onClick={handleDoctorClick}
                                     whileHover={{ scale: 1.02 }}
                                 >
@@ -127,7 +127,7 @@ const DoctorCard = memo(({ doctor, user, index }: DoctorCardProps) => {
                                 {doctor.translations?.description}
                             </motion.p>
 
-                            <div className="flex items-center justify-between gap-2 sm:gap-4 pt-4 sm:pt-6 border-t border-gray-100 dark:border-gray-800 flex-wrap">
+                            <div className="flex items-center justify-between gap-2 sm:gap-4 border-t border-gray-100 dark:border-gray-800 flex-wrap">
                                 <div className="flex items-center gap-1 sm:gap-2 mx-auto md:mx-0">
                                     <span className="text-base sm:text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
                                         {doctor.prize}

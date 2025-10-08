@@ -391,6 +391,7 @@
     }
   },
   "doctors": {
+    "badgeTitle": "Best Doctors",
     "pageTitle": "Find Professional Doctors",
     "pageDescription": "Connect with experienced doctors and receive high-quality medical care",
     "specialtiesTitle": "Specialties",

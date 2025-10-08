@@ -5,6 +5,7 @@ import { useAppStore } from '@/store/store';
 import { useTranslations } from 'next-intl';
 import { Doctor, Booking } from './types';
 import { toast } from 'sonner';
+import { serverFetch } from '@/app/actions';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -110,14 +111,15 @@ export function useDoctorQuery(id: string, token: string | undefined) {
     queryKey: ['doctor', id],
     queryFn: async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/en/doctors/${id}/`, {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-        });
-        if (!res.ok) return null;
-        const data = await res.json();
+        const response = await serverFetch(`/api/en/doctors/${id}/`)
+        // const res = await fetch(`${API_BASE_URL}/api/en/doctors/${id}/`, {
+        //   headers: token ? { Authorization: `Bearer ${token}` } : {},
+        // });
+        // if (!res.ok) return null;
+        // const data = await res.json();
 
         // Transform API response to match Doctor interface
-        return data;
+        return response || {};
       } catch {
         return null;
       }

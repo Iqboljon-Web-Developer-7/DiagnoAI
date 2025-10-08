@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import type React from "react";
 import { useState, useEffect, useRef, useCallback } from "react";
 
@@ -29,10 +30,12 @@ import "react-medium-image-zoom/dist/styles.css";
 
 import { DiagnosisClientProps } from "./types";
 import { deleteChat } from "./actions";
-import SideBarChat from "./components/SideBarChat/SideBarChat";
+
 import ChatMessages from "./components/CurrentChat/CurrentChat";
-import Form from "./components/Form/Form";
-import Doctors from "./components/Doctors/Doctors";
+
+const Form = dynamic(() => import("./components/Form/Form"), { ssr: false, loading: () => <div className="h-[44px] bg-gray-200 dark:bg-gray-800 animate-pulse text-center">Loading form...</div> });
+const SideBarChat = dynamic(() => import("./components/SideBarChat/SideBarChat"), { ssr: false });
+const Doctors = dynamic(() => import("./components/Doctors/Doctors"), { ssr: false });
 
 export default function DiagnosisClient({
   initialChats,

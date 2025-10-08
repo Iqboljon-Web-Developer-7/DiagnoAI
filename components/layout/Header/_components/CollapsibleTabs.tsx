@@ -2,7 +2,7 @@
 
 import React, { useState, useLayoutEffect, useRef, useCallback, useEffect } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Menu, Star, StarIcon, Stars } from 'lucide-react';
+import { Menu, Stars } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from 'next-intl';

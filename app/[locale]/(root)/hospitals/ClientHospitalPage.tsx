@@ -5,12 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { MapPin, Phone, Filter, Search, HospitalIcon, Star, Clock, Users, Building2, Navigation, Heart, Award, ArrowRight, Stethoscope } from "lucide-react"
+import { MapPin, Phone, Filter as FilterIcon, Search, HospitalIcon, Star, Clock, Users, Building2, Navigation, Heart, Award, ArrowRight, Stethoscope } from "lucide-react"
 import { useAppStore } from "@/store/store"
 import { useTranslations } from "next-intl"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-// import { useBookAppointmentMutation } from "./api"
 import { Hospital } from "./types"
 import Link from "next/link"
 import { haversine } from "@/lib/utils"
@@ -19,6 +18,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import Image from "next/image"
 import { Circles } from "react-loader-spinner"
 
+import dynamic from "next/dynamic"
+
+const Filter = dynamic(() => import("./components/Filter"), { ssr: false,
+  loading: () => <div className="w-full h-72 my-5 bg-gray-100 dark:bg-gray-800 animate-pulse rounded-lg" />
+ })
+
 export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital[]}) {
   const t = useTranslations("hospitals")
   const { latitude, longitude, setLocation, addAppointment, user } = useAppStore()
@@ -26,10 +31,6 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
   const isMobile = useIsMobile()
 
   let isLoading, isPending = hospitals?.length == 0
-
-  // API Hooks
-  // const { data: hospitals = [], error, isLoading, isPending } = useGetHospitals()
-  // const bookAppointmentMutation = useBookAppointmentMutation(user?.token)
 
   // Filter & Sort States
   const [filters, setFilters] = useState({
@@ -154,14 +155,14 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="outline" className="fixed bottom-4 right-4 z-50 shadow-lg bg-white dark:bg-slate-900 hover:bg-blue-50 dark:hover:bg-blue-950 border-blue-200 dark:border-blue-900">
-                  <Filter className="w-4 h-4 mr-2" />
+                  <FilterIcon className="w-4 h-4 mr-2" />
                   {t('filters.title')}
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md dark:bg-slate-900">
                 <DialogHeader>
                   <DialogTitle className="flex items-center space-x-2">
-                    <Filter className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                    <FilterIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                     <span>{t('filters.title')}</span>
                   </DialogTitle>
                 </DialogHeader>
@@ -174,28 +175,13 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
               </DialogContent>
             </Dialog>
           )}
+          <Filter
+            filters={filters}
+            handleFilterChange={handleFilterChange}
+            clearFilters={clearFilters}
+            t={t}
+          />
 
-          {/* Desktop Filters */}
-          <div className="lg:col-span-1 relative hidden lg:block">
-            <Card className="sticky top-20 shadow-xl border-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center space-x-2 text-gray-900 dark:text-white">
-                  <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-900 dark:to-blue-800 rounded-lg">
-                    <Filter className="w-4 h-4 text-white" />
-                  </div>
-                  <span>{t("filters.title") || "Filters"}</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <FilterControls
-                  filters={filters}
-                  onChange={handleFilterChange}
-                  onClear={clearFilters}
-                  t={t}
-                />
-              </CardContent>
-            </Card>
-          </div>
 
           {/* Hospitals List */}
           <div className="lg:col-span-3">
@@ -249,7 +235,7 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
 }
 
 // Helper Components
-const FilterControls = ({
+export const FilterControls = ({
   filters,
   onChange,
   onClear,
@@ -269,13 +255,13 @@ const FilterControls = ({
   <div className="space-y-6">
     <div>
       <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3 block">
-        {t("filters.searchLabel") || "Search Hospitals"}
+        {t ? t("filters.searchLabel") || "Search Hospitals" : ""}
       </label>
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
         <Input
-          placeholder={t("filters.searchPlaceholder") || "Search by name or specialty..."}
-          value={filters.search}
+          placeholder={t ? t("filters.searchPlaceholder") || "Search by name or specialty..." : ""}
+          value={filters?.search}
           onChange={(e) => onChange("search", e.target.value)}
           className="pl-10 border-gray-200 dark:border-gray-800 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:text-white"
         />
@@ -285,11 +271,11 @@ const FilterControls = ({
     {/* Rating Filter */}
     <div>
       <label className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3 block">
-        {t("filters.ratingLabel") || "Minimum Rating"}
+        {t ? t("filters.ratingLabel") || "Minimum Rating" : ""}
       </label>
-      <Select value={filters.rating} onValueChange={(value) => onChange("rating", value)}>
+      <Select value={filters?.rating} onValueChange={(value) => onChange("rating", value)}>
         <SelectTrigger className="border-gray-200 dark:border-gray-800 focus:border-blue-500 dark:bg-slate-900 dark:text-white">
-          <SelectValue placeholder={t("filters.ratingPlaceholder") || "Any rating"} />
+          <SelectValue placeholder={t ? t("filters.ratingPlaceholder") || "Any rating" : ""} />
         </SelectTrigger>
         <SelectContent className="dark:bg-slate-900">
           <SelectItem value="4.5">
@@ -335,8 +321,8 @@ const FilterControls = ({
       className="w-full border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-slate-800 hover:border-gray-300 dark:hover:border-gray-700"
       onClick={onClear}
     >
-      <Filter className="w-4 h-4 mr-2" />
-      {t("filters.clearFiltersButton") || "Clear Filters"}
+      <FilterIcon className="w-4 h-4 mr-2" />
+      {t ? t("filters.clearFiltersButton") || "Clear Filters" : ""}
     </Button>
   </div>
 )

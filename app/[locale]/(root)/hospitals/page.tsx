@@ -9,7 +9,6 @@ export default async function HospitalsPage() {
   const hospitals = await serverFetch(`/api/hospitals`)
 
   return (
-
     <ClientHospitalsPage hospitals={hospitals} />
   )
 }

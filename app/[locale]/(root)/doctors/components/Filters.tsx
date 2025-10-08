@@ -7,6 +7,7 @@ import { Filter, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import useIsMobile from '@/components/useIsMobile';
+import { memo } from 'react';
 
 interface FiltersProps {
     searchTerm: string;
@@ -64,7 +65,7 @@ const FilterContent = ({
     </div>
 );
 
-export function Filters(props: FiltersProps) {
+function Filters(props: FiltersProps) {
     const translations = useTranslations('doctors');
     const isMobile = useIsMobile()
 
@@ -101,3 +102,5 @@ export function Filters(props: FiltersProps) {
         </Card>
     );
 }
+
+export default memo(Filters);

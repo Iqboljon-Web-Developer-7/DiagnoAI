@@ -3,14 +3,13 @@
 import { memo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Paperclip, Send } from "lucide-react";
+import { Loader2, Paperclip, Send, FileText, X  } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { useRouter } from "@/i18n/navigation";
 import { ChatApiResponse } from "../../types";
 import { createChat, updateChat } from "../../actions";
 
-import { FileText, X } from "lucide-react";
 import Image from "next/image";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
@@ -160,7 +159,7 @@ function Form({ initialSelectedId }: FormProps) {
             placeholder={t("symptomPlaceholder")}
             value={symptoms}
             onChange={(e) => setSymptoms(e.target.value)}
-            className="min-h-5 md:min-h-8 text-sm bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm md:text-lg max-h-40 w-full pr-12 focus:border-blue-400 dark:focus:border-blue-600 rounded-2xl border-none focus-visible:outline-none focus-visible:ring-offset-0 text-gray-700 dark:text-gray-200"
+            className="min-h-5 md:min-h-8 resize-none text-sm bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm md:text-lg max-h-40 w-full pr-12 focus:border-blue-400 dark:focus:border-blue-600 rounded-2xl border-none focus-visible:outline-none focus-visible:ring-offset-0 text-gray-700 dark:text-gray-200"
             rows={1}
             style={{
               height: "auto",
@@ -197,7 +196,7 @@ function Form({ initialSelectedId }: FormProps) {
                   : "Send"
               }
               disabled={analyzing || (!symptoms.trim() && !files?.length)}
-              className="text-black dark:text-gray-200 shadow-lg rounded-full bg-transparent hover:bg-transparent hover:text-blue-500 dark:hover:text-blue-400 hover:scale-105 duration-200"
+              className="text-black dark:text-gray-200 rounded-full bg-transparent  hover:bg-transparent shado-none hover:text-blue-500 dark:hover:text-blue-400 hover:scale-105 duration-200"
             >
               {analyzing ? (
                 <Loader2 className="animate-spin h-4 w-4 md:h-5 md:w-5 text-gray-700 dark:text-gray-200" />

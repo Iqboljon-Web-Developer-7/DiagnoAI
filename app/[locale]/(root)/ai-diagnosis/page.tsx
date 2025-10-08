@@ -1,6 +1,6 @@
 import { serverFetch } from "./actions";
-import DiagnosisClient from "./DiagnosisClient";
 import { Chat, Doctor } from "./types";
+import DiagnosisClient from "./DiagnosisClient";
 
 export default async function Page({
   params,
