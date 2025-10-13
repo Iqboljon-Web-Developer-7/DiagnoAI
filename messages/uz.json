@@ -828,69 +828,198 @@
   "legal": {
     "privacy": {
       "title": "Maxfiylik siyosati",
-      "intro": "DiagnoAI'da sizning maxfiyligingiz muhim. Ushbu maxfiylik siyosati xizmatlarimizdan foydalanganingizda shaxsiy ma'lumotlaringizni qanday to'plash, foydalanish va himoya qilishimizni tushuntiradi.",
+      "intro": "DiagnoAI O‘zbekiston Respublikasining qonunchiligi asosida faoliyat yurituvchi sun’iy intellektga asoslangan elektron platformadir. U O‘zbekiston hududida amaliyot yurituvchi klinika va shifokorlarga tibbiy jarayonlarni samarali boshqarish, bemorni kuzatish, tashxis va davolash tavsiyalarini ishlab chiqish imkonini beradi. Ushbu Maxfiylik siyosati DiagnoAI veb-sayti va barcha xizmatlaridan foydalanishda shaxsiy ma’lumotlaringiz qanday yig‘ilishini, qayta ishlashini va himoya qilinishini belgilaydi. Qayta ishlash O‘zbekiston Respublikasining shaxsiy ma’lumotlar to‘g‘risidagi qonuni, “Shaxsiy ma’lumotlar to‘g‘risida”gi qonun, Shaxsiy ma’lumotlar sohasidagi me’yoriy-huquqiy hujjatlar to‘plamini tasdiqlovchi Vazirlar Mahkamasining qarori, “Informatizatsiya to‘g‘risida”gi qonun va boshqa amaldagi me’yoriy hujjatlarga to‘liq rioya qilinib amalga oshiriladi. Platformadan foydalanganingiz bilan siz ushbu Maxfiylik siyosatining qoidalariga rozilik bildirasiz. “Informatizatsiya to‘g‘risida”gi qonunga binoan shaxslar to‘g‘risidagi ma’lumotlar maxfiy deb hisoblanadi. Bu yerda bevosita tartibga solinmagan holatlar yuzaga kelganda tomonlar O‘zbekiston Respublikasining qonunchiligi va biznes etikasiga amal qiladilar. 4-bo‘lim (“Huquqlar va tanlovlar”) foydalanuvchilarning maxfiylik huquqlarini va ulardan foydalanish tartibini batafsil bayon etadi.",
+      "definitions": {
+        "title": "Ta’riflar",
+        "user": "Foydalanuvchi - DiagnoAI platformasida ro‘yxatdan o‘tgan va uning imkoniyatlaridan foydalanuvchi jismoniy yoki yuridik shaxs.",
+        "personalData": "Shaxsiy ma'lumotlar - Muayyan jismoniy shaxsni aniqlash mumkin bo‘lgan yoki unga bog‘liq bo‘lgan elektron, qog‘oz yoki boshqa tashuvchiga yozilgan ma’lumot.",
+        "confidentiality": "Shaxsiy ma'lumotlarning maxfiyligi - Shaxsiy ma’lumotlar bilan ishlash huquqiga ega bo‘lgan shaxslar uchun ma’lumot sub’yektining roziligi yoki boshqa huquqiy asossiz ularni ochiq qilish yoki qayta ishlash taqiqlanishi majburiy talabidir.",
+        "anonymization": "Shaxsiy ma'lumotlarning shaxssizlantirilishi - Shaxsiy ma’lumotlar qaysi sub’yektga tegishli ekanligini aniqlab bo‘lmaslikka olib keladigan harakatlar.",
+        "specialCategories": "Shaxsiy ma'lumotlarning maxsus toifalari - Irqi yoki etnik kelib chiqish, siyosiy nuqtai-nazarlar, diniy yoki falsafiy e’tiqodlar, sog‘liq holati yoki shaxsiy hayot haqidagi ma’lumotlar."
+      },
       "collect": {
-        "title": "Biz to'playdigan ma'lumotlar",
-        "body": "Aniq AI tashxisi va shifokor tavsiyalarini taqdim etish uchun ismingiz, elektron pochtangiz, sog'liq ma'lumotlaringiz, yuklangan fayllar va joylashuv ma'lumotlari kabi shaxsiy ma'lumotlarni to'plashimiz mumkin."
+        "title": "Yig‘iladigan ma’lumotlar",
+        "body": "Quyidagi toifadagi shaxsiy ma’lumotlarni yig‘amiz:",
+        "userProvided": "To‘g‘ridan-to‘g‘ri taqdim etgan ma’lumotlaringiz",
+        "identification": "Hisob yaratish yoki xizmat so‘rovlarida ism, elektron pochta, telefon raqami kabi identifikatorlar. Taxallusli identifikatorlar (masalan, “Foydalanuvchi 00000”) ham yaratilishi mumkin.",
+        "contact": "Chat-bot yoki qo‘llab-quvvatlash kanallari orqali yuborgan barcha xabarlaringiz mazmuni.",
+        "feedback": "Shaxsiy kabinetingizdagi “fikr-mulohaza” funksiyasi orqali yuborgan baho, taklif yoki g‘oyalar.",
+        "usage": "Foydalanilgan xizmat turi, kirish sanasi va vaqti.",
+        "cookies": "Foydalanuvchi tajribasini yaxshilash uchun cookie-fayllar va Google Analytics dan foydalanamiz. Google Analytics sahifalar ko‘rilishi, sarflangan vaqt, qurilma/brauzer turi, taxminiy shahar darajadagi joylashuv, trafik manbai va o‘zaro harakatlar kabi anonim umumlashtirilgan ma’lumotlarni yig‘adi. U sizning ismingiz, elektron pochtangiz, telefon raqamingiz, to‘lov ma’lumotlaringiz, aniq IP manzilingiz yoki sizni shaxsan aniqlab beradigan boshqa ma’lumotlarni YIG‘IMAYDI."
       },
       "use": {
-        "title": "Biz sizning ma'lumotlaringizdan qanday foydalanamiz",
-        "item1": "AI asosidagi diagnostika natijalarini taqdim etish uchun.",
-        "item2": "Sizni tegishli tibbiyot mutaxassislari bilan bog'lash uchun.",
-        "item3": "Platformamiz va AI modellarini takomillashtirish uchun."
+        "title": "Ma’lumotlaringizdan qanday foydalanamiz",
+        "purposes": "Shaxsiy ma’lumotlar quyidagi maqsadlarda qayta ishlanadi:",
+        "p1": "Ushbu Maxfiylik siyosati va DiagnoAI Foydalanish shartlariga muvofiq siz bilan to‘g‘ridan-to‘g‘ri aloqa o‘rnatish;",
+        "p2": "Xizmatga doir yoki tadbir haqidagi ma’lumotlarini yuborish;",
+        "p3": "DiagnoAI hisobingizni yaratish va boshqarish;",
+        "p4": "Falsafa, sui-qasd yoki noqonuniy faoliyatni oldini olish va korxonaning hamda foydalanuvchilar huquqlarini himoya qilish;",
+        "p5": "Xavfsizlik tekshiruvlari va nosozliklarni bartaraf etish.",
+        "note": "Biz shaxsiy ma’lumotlarni modellarni o‘qitish yoki “Shaxsiy ma’lumotlar to‘g‘risida”gi qonunda ko‘zda tutilmagan boshqa maqsadlarda FOYDALANMAYMIZ."
       },
-      "security": {
-        "title": "Ma'lumotlar xavfsizligi",
-        "body": "Ma'lumotlaringizni himoya qilish uchun sanoat standartlaridagi xavfsizlik choralarini qo'llaymiz. Ammo, uzatishning hech qanday usuli 100% xavfsiz emas va biz mutlaq himoyani kafolatlay olmaymiz."
+      "disclosure": {
+        "title": "Ma’lumotlar ochiq qilinishi mumkin bo‘lgan hollar",
+        "body": "Shaxsiy ma’lumotlar faqat O‘zbekiston qonun hujjatlarida nazarda tutilgan hollarda yoki sizning aniq roziligingiz bilan ochiq qilinadi. Xizmatlardan foydalanishda hech qanday maxfiy ma’lumot yubormasligingiz maslahat beriladi; agar yuborsangiz, DiagnoAI bunday maxfiy ma’lumotni himoya qilish uchun javobgar emas. Siz taqdim etgan uchinchi shaxslarning shaxsiy ma’lumotlarini ochiq qilish uchun javobgarlik bormiz deb QABUL QILINMAYDI."
       },
       "rights": {
-        "title": "Sizning huquqlaringiz",
-        "body": "Siz istalgan vaqtda biz bilan bog'lanib, ma'lumotlaringizga kirish, tuzatish yoki o'chirish so'rovini yuborishingiz mumkin."
+        "title": "Sizning huquqlaringiz va tanlovlaringiz",
+        "body": "“Shaxsiy ma’lumotlar to‘g‘risida”gi qonunning 30-moddasiga binoan quyidagi huquqlarga egasiz:",
+        "r1": "Shaxsiy ma’lumotlaringiz mavjudligini tasdiqlash va ularning mazmuniga kirish;",
+        "r2": "Ma’lumotlaringiz qanday qayta ishlanishi to‘g‘risida ma’lumot olish;",
+        "r3": "Ma’lumotlaringizga kirish shartlari to‘g‘risida ma’lumot olish;",
+        "r4": "Huquqlaringizni himoya qilish uchun vakolatli davlat organlariga yoki sudga murojaat qilish;",
+        "r5": "Qayta ishlashga rozilik berish yoki rozilikni qaytarish (qonun boshqa tartbda ko‘rsatmaganda);",
+        "r6": "Ma’lumotlaringiz umumiy kirish uchun tarqatilishiga rozilik berish;",
+        "r7": "Ma’lumotlar to‘liq emas, eskirgan, noqonuniy olingan yoki ko‘zlangan maqsad uchun zarur bo‘lmasa, qayta ishlashni vaqtincha to‘xtatishni talab qilish.",
+        "exercise": "Ushbu huquqlardan foydalanish uchun so‘rovingizni diagnoaiuz@gmail.com manziliga yuboring. Sizni tasdiqlash uchun qo‘shimcha ma’lumot so‘rashimiz mumkin. So‘rovingiz rad etilsa, shu e-mailga shikoyat yuborishingiz mumkin. DiagnoAI maxfiylik huquqlaringizdan foydalanishingizga nisbatan diskriminasiya qilmaydi.",
+        "automation": "Bizning sun’iy intellekt xizmatlarimiz (chat-bot, hujjat generatori, huquqiy tahlilchi) maxsus toifadagi ma’lumotlar YIG‘IMAYDI. Kiritgan har qanday ma’lumot uchun mas’uliyat sizga yuklatiladi."
+      },
+      "crossBorder": {
+        "title": "Xududdan tashqari uzatish",
+        "body": "Biz shaxsiy ma’lumotlarni O‘zbekiston Respublikasining “Shaxsiy ma’lumotlar to‘g‘risida”gi qonunda ruxsat etilgan hollarda (masalan, konstitutsiyaviy tartibni, jamoat axloqini himoya qilish yoki O‘zbekiston qatnashgan xalqaro shartnomalar) bundan tashqari O‘zbekiston hududidan tashqariga KO‘CHIRMAYMIZ."
+      },
+      "retention": {
+        "title": "Ma’lumot saqlash muddati va xavfsizligi",
+        "body": "Shaxsiy ma’lumotlar hisobingiz mavjud bo‘lguncha saqlanadi. O‘chirilgandan so‘ng qonunda ko‘rsatilgan tartibda yo‘q qilinadi. Ma’lumotlarni yo‘qotish, sui-qasd ishlatish yoki ruxsatsiz kirishdan himoya qilish uchun texnik va tashkiliy choralarni (muntazam xavfsizlik yangilanishlari, jismoniy kirishni nazorat qilish, rollarga asoslangan kirish, xodimlarni o‘qitish, zaifliklarni sinash) qo‘llaymiz. Boshqaruv organlari harakatlari, tabiiy ofatlar, uzilishlar kabi biz nazorat qila olmaydigan kuch majburiyatlari holatida foydalanuvchilarni xabardor qilamiz va ma’lumotlar xavfsizligini tiklash mumkin bo‘lgan barcha amaliy chorani ko‘ramiz."
+      },
+      "changes": {
+        "title": "Ushbu siyosatga o‘zgartirishlar",
+        "body": "Ushbu Maxfiylik siyosatini yangilash huquqiga egamiz. Muhim o‘zgarishlar saytda va/yoki elektron pochta orqali kamida 15 kun oldin xabar qilinadi."
+      },
+      "contact": {
+        "title": "Biz bilan bog‘laning",
+        "company": "DiagnoAI",
+        "email": "diagnoaiuz@gmail.com",
+        "phone": "+998 88 300 03 11",
+        "dpo": "Ma’lumotlar himoya mas’ulchisi: Panjiyev Sunnat, diagnoaiuz@gmail.com"
+      },
+      "dispute": {
+        "title": "Nizolarni hal etish",
+        "body": "Shaxsiy ma’lumotlar qayta ishlashiga oid nizolar O‘zbekiston Respublikasining qonunchiligiga binoan hal etiladi. Shikoyat bilan Vazirlar Mahkamasi huzuridagi Shaxslashtirish markaziga yoki sudga murojaat qilishingiz mumkin."
       }
     },
     "terms": {
-      "title": "Foydalanish shartlari",
-      "accept": {
-        "title": "Shartlarni qabul qilish",
-        "body": "DiagnoAI'dan foydalanib, siz ushbu Foydalanish shartlariga rozilik bildirasiz. Agar rozi bo'lmasangiz, xizmatlarimizdan foydalanishni to'xtatishingiz kerak."
+      "title": "Ommaviy oferta shartnomasi",
+      "subtitle": "\"Diagno AI\" tomonidan onlayn tibbiy xizmatlarini ko‘rsatish bo‘yicha",
+      "intro": "O‘zbekiston Respublikasi Fuqarolik kodeksining 369-moddasiga muvofiq, ushbu hujjat jismoniy shaxslar (bundan buyon “foydalanuvchi” va/yoki “bemor” deb yuritiladi) bilan shartnoma tuzish uchun mo‘ljallangan va \"Diagno AI\" (bundan buyon “Platforma” deb ataladi) tomonidan taklif qilinadi. Bundan buyon birgalikda \"Tomonlar\" deb ataladi. Ushbu shartnoma quyidagi shartlar asosida tuziladi:",
+      "public_offer": "Ushbu hujjat Diagno AI platformasida e’lon qilingan bo‘lib, axborot stendida tanishish uchun taqdim etilgan va platformaning har bir foydalanuvchisi (bemor) uchun ommaviy oferta hisoblanadi. Ushbu foydalanuvchi platformaning tibbiy xizmatlaridan foydalanishga rozilik bildirgan hisoblanadi.",
+      "acceptance": "Ushbu ofertani to‘liq va so‘zsiz qabul qilish DiagnoAI platformasida ro‘yxatdan o‘tish va undan foydalanish jarayonida namoyon bo‘ladi (O‘zbekiston Respublikasi Fuqarolik kodeksining 370-moddasiga muvofiq).",
+      "agreement": "Foydalanuvchi (bemor) tomonidan taklifni qabul qilish, mazkur shartnomaning barcha qoidalariga rozilik bildirilganini anglatadi va bu tibbiy xizmatlar ko‘rsatish bo‘yicha shartnoma tuzilganiga tenglashtiriladi.",
+      "validity": "Ushbu ofertaning amal qilish muddati foydalanuvchining DiagnoAI platformasida ro‘yxatdan o‘tgan paytdan boshlanadi va ro‘yxatdan o‘tish davri davomida amal qiladi.",
+      "terms_and_definitions": {
+        "title": "1. ATAMA VA TA’RIFLAR",
+        "1-1": "\"Diagno AI jamoasi\" - Diagno AI platformasining egasi.",
+        "1-2": "Foydalanuvchi - Diagno AI platformasida ro‘yxatdan o‘tgan jismoniy shaxs bo‘lib, unga Tibbiy sun’iy intellektdan foydalanish, tibbiyot mutaxassisi bilan bog‘lanish, ilovadagi mavjud klinikalar bilan bog‘lanish xizmatlari ko‘rsatiladi.",
+        "1-3": "Bemor va/yoki foydalanuvchi - tibbiy xizmat ko‘rsatilayotgan shaxs.",
+        "1-4": "Tibbiyot mutaxassisi - Diagno AI platformasi orqali foydalanuvchiga (bemorga) tibbiy yordam ko‘rsatuvchi oliy tibbiy ma’lumotga ega bo‘lgan jismoniy shaxs.",
+        "1-5": "Platforma - quyidagi veb-saytda joylashgan: https://diagnoai.uz, barcha huquqlar \"DiagnoAI\" jamoasiga tegishli.",
+        "1-5-1": "Sunʼiy intellekt (AI) - insonning bilim va koʻnikmalariga taqlid qilish, shu jumladan mustaqil ravishda oʻrganish va yechimlarni izlash hamda aniq vazifalarni bajarishda inson aqliy faoliyati natijalari bilan taqqoslanadigan natijalarni olish imkonini beradigan texnologik yechimlar majmui.",
+        "1-6": "Buyurtma - tibbiy mutaxassis bilan uchrashish uchun belgilangan vaqt tanlash bilan platforma orqali amalga oshiriladigan harakat.",
+        "1-6-1": "Bron (booking) — foydalanuvchi tomonidan Diagno AI platformasi orqali shifokor yoki tibbiyot muassasasi xizmatidan foydalanish maqsadida aniq vaqt, joy va xizmat turini oldindan belgilash hamda uni rezerv qilishga doir elektron buyurtmani anglatadi. Bron qilish foydalanuvchi uchun mazkur xizmatni ko‘rsatish majburiyatini, shifokor (yoki klinika) uchun esa bron qilingan vaqt davomida ushbu xizmatni taqdim etish majburiyatini yuzaga keltiradi.",
+        "1-7": "Prays-list - tibbiy mutaxassis tomonidan foydalanuvchiga (bemorga) ko‘rsatiladigan xizmatlarning platforma tomonidan belgilangan narxi.",
+        "1-8": "Tibbiy xizmat - foydalanuvchiga (bemorga) tibbiy yordam ko‘rsatish uchun tibbiyot mutaxassisi tomonidan amalga oshiriladigan harakatlar.",
+        "1-9": "Klinika — O‘zbekiston Respublikasi qonunchiligiga muvofiq tashkil etilgan va tegishli litsenziyaga ega bo‘lgan yuridik shaxs bo‘lib, tibbiy xizmatlar ko‘rsatish faoliyatini amalga oshiruvchi davolash-profilaktika muassasasi (shu jumladan, xususiy tibbiyot markazi, shifoxona, poliklinika yoki boshqa turdagi sog‘liqni saqlash tashkiloti)."
       },
-      "disclaimer": {
-        "title": "Tibbiy ma'lumotnoma",
-        "body": "Bizning AI faqat ma'lumot berish yordamini ko'rsatadi va professional tibbiy maslahatning o'rnini bosa olmaydi. Tibbiy muammolar bo'yicha doimo litsenziyalangan shifokor bilan maslahatlashing."
+      "contract_subject": {
+        "title": "2. SHARTNOMA PREDMETI",
+        "2-1": "Ushbu ofertaga ko‘ra, Diagno AI platformasi O‘zbekiston Respublikasi qonunchiligiga muvofiq oliy tibbiy ma’lumotga ega bo‘lgan shifokor xizmatlarini taqdim etadi va tibbiyot mutaxassislari va foydalanuvchilar (bemorlar) o‘rtasidagi o‘zaro aloqani, shuningdek, foydalanuvchi (bemor) va boshqalar o‘rtasida aloqa o‘rnatishni ta’minlaydi. Foydalanuvchi (bemor), o‘z navbatida, ko‘rsatilgan xizmatlar uchun to‘lovni platformaning narxlar ro‘yxatiga muvofiq amalga oshirish, tibbiy mutaxassis talablariga rioya qilish majburiyatini oladi. Platformada shuningdek, sun’iy intellekt (AI) texnologiyalari asosida ishlab chiqilgan yordamchi vositalardan foydalaniladi. AI tizimi foydalanuvchining kiritgan ma’lumotlari asosida dastlabki tavsiyalar, tahlillar va ogohlantirishlarni taqdim etishi mumkin, biroq ushbu ma’lumotlar shifokor konsultatsiyasini almashtirmaydi va faqat tibbiy mutaxassis qarorlarini qo‘llab-quvvatlash vositasi sifatida xizmat qiladi.",
+        "2-2": "Ushbu shartnomaga ko‘ra, foydalanuvchi (bemor) shartnomaning mohiyatini va o‘z harakatlarini tushunadi va platforma rahbariyati tibbiy mutaxassisning noqonuniy harakatlari (harakatsizligi), noxush hodisalar, bemorning sog‘lig‘iga yetkazilgan zarar uchun javobgar emasligiga rozilik beradi.",
+        "2-3": "Ommaviy taklifni tasdiqlash orqali foydalanuvchi (mijoz) ushbu shartnomaning barcha shartlariga rozilik bildiradi.",
+        "2-4": "Foydalanuvchi (Bemor) tibbiy mutaxassis bilan tibbiy xizmat ko‘rsatish jarayonida nizoli vaziyatlar yuzaga kelgan taqdirda, platforma rahbariyatiga e’tiroz va da’volar bilan murojaat qilmaslikka rozilik beradi. Bemor va tibbiyot mutaxassisi o‘rtasidagi barcha nizoli vaziyatlar foydalanuvchi (bemor) tomonidan bevosita tibbiyot mutaxassisiga yuboriladi."
       },
-      "responsibility": {
-        "title": "Foydalanuvchi majburiyatlari",
-        "item1": "Aniq va haqiqiy ma'lumotlarni taqdim etish.",
-        "item2": "Platformamizdan noto'g'ri foydalanmaslik yoki zarar yetkazishga urinmaslik.",
-        "item3": "Xizmatlarimizdan foydalanganda mahalliy qonun va qoidalarga rioya qilish."
+      "service_and_payment_terms": {
+        "title": "3. XIZMAT KO‘RSATISH SHARTLARI VA TO‘LOV TARTIBI",
+        "3-1": "Tibbiyot mutaxassisi olingan buyurtmaga muvofiq o’zi (klinika) joylashgan joyda xizmat ko‘rsatadi.",
+        "3-2": "Tibbiyot mutaxassisi o‘z materiallaridan (shprislar, tizimlar, bog‘lov materiallari va antiseptiklar va boshqalar) foydalangan holda xizmatlar ko‘rsatganda, foydalanuvchi (bemor) ushbu materiallar qiymatini darhol tibbiyot mutaxassisiga to‘lashi shart.",
+        "3-3": "Foydalanuvchi (bemor) taqdim etilgan muolajalar uchun to‘lovni platformaning narxlar ro‘yxatiga muvofiq va/yoki klinikada belgilangan narxlar ro’yxatiga muvofiq amalga oshiradi.",
+        "3-4": "Tibbiy xizmatlar uchun to‘lov foydalanuvchi (bemor) tomonidan xizmatlar ko‘rsatilgandan so‘ng darhol yoki tomonlarning kelishuviga ko‘ra xizmatlar ko‘rsatish boshlanishidan oldin amalga oshiriladi. Hisob-kitob birligi - O‘zbekiston Respublikasining milliy valyutasi (so‘m)."
       },
-      "liability": {
-        "title": "Javobgarlikni cheklash",
-        "body": "DiagnoAI AI yoki platformamizga ishonch natijasida yuzaga kelgan har qanday zarar, noto'g'ri tashxis yoki oqibatlar uchun javobgar emas."
+      "rights_and_obligations": {
+        "title": "4. TOMONLARNING HUQUQ VA MAJBURIYATLARI",
+        "user_rights": {
+          "title": "4.1. Foydalanuvchi (bemor) quyidagi huquqlarga ega:",
+          "4-1-1": "Platformadan kunning istalgan vaqtida foydalanish.",
+          "4-1-2": "Platforma orqali zarur tibbiyot mutaxassislari bilan bog’lanish.",
+          "4-1-3": "Platformada faqat bir marta ro‘yxatdan o‘tish va faqat bitta shaxsiy sahifaga ega bo‘lish."
+        },
+        "user_obligations": {
+          "title": "4.2. Foydalanuvchi quyidagilarga majbur:",
+          "4-2-1": "Platforma tomonidan hisoblangan summani o‘z vaqtida to‘lash.",
+          "4-2-2": "Buyurtma berishda tibbiy xizmatning qaysi turi uchun tibbiyot mutaxassisi tanlanayotganligini va qaysi vaqt uchun tanlanayotganligini ko‘rsatish.",
+          "4-2-3": "Tanlangan vaqtdan kamida 15 (o’n besh) daqiqa oldin tibbiy mutaxassis faoliyat yuritayotgan klinikada hozir bo’lish va buyurtmani bekor qilish istagi bo‘lsa, buni tibbiy mutaxassis qabul qilishidan kamida 3 (uch) soat oldin amalga oshirish.",
+          "4-2-4": "Buyurtma tibbiyot mutaxassisi va/yoki klinika tomonidan qabul qilingandan keyin belgilangan vaqtdan kech qolib bekor qilingan taqdirda _________________ so‘m miqdorida kompensatsiya to‘lash.",
+          "4-2-5": "Tibbiy yordam ko‘rsatishdan oldin tibbiyot mutaxassisiga boshqa kasalliklar mavjudligi, har qanday dori yoki muolajalardan foydalanishga qarshi ko‘rsatmalar to‘g‘risida barcha ma’lumotlarni taqdim etish.",
+          "4-2-6": "Davolovchi shifokorlar ro‘yxatini taqdim etish.",
+          "4-2-7": "Tibbiyot mutaxassisi tomonidan tibbiy yordam ko‘rsatish uchun shart-sharoitlar yaratish va tibbiy yordam ko‘rsatishga xalaqit bermaslik.",
+          "4-2-8": "Tibbiy xizmat ko‘rsatish vaqtida va undan keyin tibbiyot xodimlariga nisbatan o‘zini hurmat bilan tutish.",
+          "4-2-9": "Tibbiy mutaxassis ko‘rsatmalariga amal qilish.",
+          "4-2-10": "Foydalanuvchi platforma orqali shifokor xizmatiga bron (booking) qilganda yolg‘on ma’lumot kiritish yoki asossiz ravishda bron qilish kabi harakatlarni amalga oshirmaslik.",
+          "4-2-11": "Buyurtma turini tanlashda to‘g‘ri tibbiy mutaxassisni ko‘rsatish.",
+          "4-2-12": "Tibbiyot xodimidan belgilangan vaqtda tibbiy muolajalarni olishga tayyor bo‘lish.",
+          "4-2-13": "Tibbiy mutaxassis qabuliga qayta borishda faqat platforma orqali qo‘ng‘iroq qilish va/yoki buyurtma berish."
+        },
+        "platform_rights": {
+          "title": "4.3. Platforma quyidagi huquqlarga ega:",
+          "4-3-1": "Foydalanuvchi (bemor) ning shaxsiy ma’lumotlaridan tibbiyot mutaxassislariga va zarur hollarda O‘zbekiston Respublikasi huquqni muhofaza qilish organlari xodimlariga ularning asosli talablariga muvofiq taqdim etish.",
+          "4-3-2": "Platformadan foydalanish qoidalari yoki ushbu ommaviy oferta shartlari buzilgan taqdirda, foydalanuvchining platformaga kirishini bloklash yoki cheklash.",
+          "4-3-3": "Istalgan vaqtda ushbu shartnomani bir tomonlama bekor qilish."
+        }
+      },
+      "responsibilities": {
+        "title": "5. TOMONLAR JAVOBGARLIGI",
+        "5-1": "Platforma (platforma rahbariyati) tekshiruvdan o‘tish vaqtida tibbiyot mutaxassisi tomonidan noto‘g‘ri kiritilgan ma’lumotlar uchun javobgar emas.",
+        "5-2": "Foydalanuvchi tibbiy mutaxassis ma’lumotlarini uning roziligisiz uchinchi shaxslarga tarqatganligi uchun O‘zbekiston Respublikasi qonunchiligiga muvofiq javobgar bo‘ladi.",
+        "5-3": "Platforma va tibbiyot mutaxassisi tibbiy ko‘rsatmalarni amalga oshirish paytida yuzaga kelishi mumkin bo‘lgan yoki kutilmagan asoratlar (allergik reaksiyalar, anafilaktik shok va boshqalar) uchun javobgar emas.",
+        "5-4": "Foydalanuvchi (bemor) jiddiy kasalliklar (saraton, hayot uchun xavfli bo‘lgan jiddiy jarohatlar va boshqalar) natijasida vafot etgan taqdirda platforma va tibbiyot mutaxassislariga e’tiroz bildirmaydi.",
+        "5-5": "Platforma va tibbiyot mutaxassisi bemorni ilgari davolagan boshqa tibbiyot xodimlarining xatti-harakatlari uchun javobgar emas.",
+        "5-6": "Platforma va tibbiyot xodimi shartnomaga muvofiq xizmatlarni ko‘rsatmaganlik uchun, agar bu fors-major holatlari (yong‘in, tabiiy ofatlar, tibbiyot xodimi avtomobilining buzilishi, tibbiyot xodimi avtomobili bilan bog‘liq yo‘l-transport hodisasi) tufayli yuz bergan bo‘lsa, javobgarlikdan ozod qilinadi.",
+        "5-7": "Foydalanuvchiga (bemorga) sifatsiz tibbiy xizmat ko‘rsatilgan taqdirda, da’volar va e’tirozlar O‘zbekiston Respublikasi qonunchiligiga muvofiq tibbiyot mutaxassisiga nisbatan qo‘llaniladi.",
+        "5-8": "Foydalanuvchi yoki bemor tomonidan ushbu shartnoma shartlari buzilgan taqdirda, agar ular turli shaxslar bo‘lsa, ular platforma va tibbiyot xodimi oldida solidar javobgar bo‘ladilar."
+      },
+      "force_majeure": {
+        "title": "6. FORS-MAJOR HOLATLAR",
+        "6-1": "Tomonlar majburiyatlarni qisman yoki to‘liq bajarmaganlik uchun javobgarlikdan ozod qilinadilar, agar bunday vaziyatlar yengib bo‘lmaydigan kuch, ya’ni tabiiy ofatlar, tabiiy va texnogen xususiyatli favqulodda vaziyatlar bo‘lib, davlatning tegishli organlari tomonidan tasdiqlangan muayyan davrning oqibatlari bo‘lsa, javobgarlikdan ozod qilinadilar. Bu holda mazkur shartnoma bo‘yicha majburiyatlarni bajarish muddati tegishli ravishda ushbu hodisalar amal qiladigan davrga kechiktiriladi.",
+        "6-2": "Ishbilarmonlik faolligining pasayishi, iqtisodiy ko‘rsatkichlar, bozordagi noqulay sharoitlar, zarur mablag‘larning yetishmasligi, narxlarning o‘zgarishi, kontragentlar tomonidan majburiyatlarning bajarilmasligi, tuzilmaning, huquqiy shaklning, ish tartibining o‘zgarishi, bozorda zarur tovarlarning mavjudligi va boshqa holatlar tufayli yuzaga kelgan tijorat tavakkalchiliklari, shuningdek da’volar miqdori va (yoki) boy berilgan foyda fors-major holatlari hisoblanmaydi."
+      },
+      "final_provisions": {
+        "title": "7. YAKUNIY QOIDALAR",
+        "7-1": "Ushbu oferta shartnomasi O‘zbekiston Respublikasining fuqarolik qonunchiligiga muvofiq tuziladi va tomonlar uchun u tuzilgan paytdan boshlab foydalanuvchi shaxsiy sahifasini o‘chirib tashlagunga qadar amal qiladi.",
+        "7-2": "Ushbu shartnoma bilan tartibga solinmagan masalalar O‘zbekiston Respublikasi qonun hujjatlariga muvofiq hal etiladi.",
+        "7-3": "Tomonlar o‘rtasidagi nizolar ular o‘rtasidagi muzokaralar yo‘li bilan hal etiladi.",
+        "7-4": "Agar muzokaralar kelishuvga olib kelmasa, nizolar O‘zbekiston Respublikasi qonunchiligiga muvofiq sud tartibida hal etiladi.",
+        "7-5": "Ushbu oferta shartnomasi foydalanuvchi tomonidan istalgan vaqtda bekor qilinishi mumkin, biroq bu avval ko‘rsatilgan xizmatlar natijasida yuzaga kelgan majburiyatlarning bajarilmagan qismiga ta’sir qilmaydi."
       }
     },
     "faq": {
-      "title": "Ko'p so'raladigan savollar",
+      "title": "Ko‘p so‘raladigan savollar",
       "questions": {
         "q1": {
-          "question": "DiagnoAI shifokormi?",
-          "answer": "Yo'q. DiagnoAI tibbiy tushunchalarni qo'llab-quvvatlovchi AI-yordamchi. U professional tibbiy maslahatning o'rnini bosa olmaydi."
+          "question": "DiagnoAI litsenziyalangan tibbiy xizmat ko‘rsatuvchimi?",
+          "answer": "Yo‘q. DiagnoAI sun’iy intellekt yordamida ma’lumot beruvchi vosita bo‘lib, litsenziyalangan shifokorni almashtirib bo‘lmaydi. Tibbiy qarorlar qabul qilishda har doim malakali shifokor bilan maslahatlashing."
         },
         "q2": {
-          "question": "Natijalar qanchalik aniq?",
-          "answer": "Bizning AI keng qamrovli tibbiy ma'lumotlar asosida o'qitilgan, lekin aniqlik kiritilgan ma'lumotlar sifatiga bog'liq. Doimo shifokor bilan tasdiqlang."
+          "question": "Sun’iy intellekt natijalari qanchalik aniq?",
+          "answer": "Aniqlik siz taqdim etgan ma’lumotlar sifatiga va to‘liqligiga bog‘liq. Bizning modellarimiz turli ma’lumotlar to‘plami asosida o‘qitilgan, ammo natijalar ehtimoliy bo‘lib, tibbiy xizmat ko‘rsatuvchi tomonidan tasdiqlanishi shart."
         },
         "q3": {
-          "question": "Mening ma'lumotlarim xavfsizmi?",
-          "answer": "Ha. Ma'lumotlaringizni xavfsiz saqlash uchun shifrlash va sanoat standartlaridagi amaliyotlardan foydalanamiz."
+          "question": "Mening shaxsiy va sog‘liq ma’lumotlarim xavfsizmi?",
+          "answer": "Ha. Biz ma’lumotlarni uzatishda va saqlashda shifrlaymiz, rollarga asoslangan kirishni qo‘llaymiz va O‘zbekistonning “Shaxsiy ma’lumotlar to‘g‘risida”gi qonunga rioya qilamiz. Hech qanday usul 100% kafolat bermaydi, ammo soha standartlariga amal qilamiz."
         },
         "q4": {
           "question": "Pulni qaytarib olish mumkinmi?",
-          "answer": "Pulni qaytarish faqat ma'lum shartlar asosida mavjud. Batafsil ma'lumot uchun qo'llab-quvvatlash xizmatimiz bilan bog'laning."
+          "answer": "Pullik xizmatlar faqat ular va’dalangan funksiyani bajarmagan va bu oqibat bizga yuklatilgan taqdirda qaytariladi. So‘rovingiz va to‘lov dalilini support@diagnoai.uz ga yuboring."
         },
         "q5": {
-          "question": "DiagnoAI'dan foydalanish uchun hisob kerakmi?",
-          "answer": "Ha, AI bilan o'zaro aloqalar, yuklangan fayllar va shifokor tavsiyalarini kuzatib borish uchun hisob talab qilinadi."
+          "question": "Hisob yaratish shartmi?",
+          "answer": "Ha. Tahlillaringizni saqlash, tavsiyalarni kuzatish va shifokorlar bilan maslahatlashish uchun hisob talab qilinadi."
+        },
+        "q6": {
+          "question": "Hisobim va ma’lumotlarimni qanday o‘chirib tashlash mumkin?",
+          "answer": "Tizimga kiring, Sozlamalar → Maxfiylik bo‘limiga o‘ting va “Hisobni o‘chirish” tugmasini bosing. Ma’lumotlaringiz 30 kun ichida qonunda ko‘rsatilgan muddatdan ortiqroq saqlanishi talab qilinmasa, o‘chiriladi."
+        },
+        "q7": {
+          "question": "Huquqiy yoki maxfiylik savollari bilan kimga murojaat qilish kerak?",
+          "answer": "Ma’lumotlar himoya organiga diagnoaiuz@gmail.com elektron pochtasi orqali yoki quyidagi manzilga yozing: Balcomsoft MCHJ, Maxtumquli ko‘chasi 81, Toshkent, O‘zbekiston."
         }
       }
     }

@@ -7,14 +7,13 @@ import { Partners } from "./components/partners";
 
 import { Suspense } from "react";
 import InfiniteCarousel from "./components/InfiniteCarousel Types/InfiniteCarousel";
+import HowItWork from "./components/HowItWork";
 
 export default async function HomePage() {
   return (
     <>
-      <Suspense fallback={<div>Loading hero...</div>}>
-        {/* @ts-expect-error Async Server Component */}
-        <HeroSection />
-      </Suspense>
+      {/* @ts-expect-error Async Server Component */}
+      <HeroSection />
       <Suspense fallback={<div>Loading how it works...</div>}>
         {/* @ts-expect-error Async Server Component */}
         <HowItWorksSection />
@@ -24,6 +23,9 @@ export default async function HomePage() {
         {/* @ts-expect-error Async Server Component */}
         <FeaturesSection />
       </Suspense>
+      {/* <Suspense fallback={<div>Loading how it works...</div>}>
+        <HowItWork />
+      </Suspense> */}
       <Suspense fallback={<div>Loading partners...</div>}>
         {/* @ts-expect-error Async Server Component */}
         <Partners />

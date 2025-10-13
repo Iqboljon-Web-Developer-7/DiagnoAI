@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type React from "react";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useTransition } from "react";
 
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -33,9 +33,21 @@ import { deleteChat } from "./actions";
 
 import ChatMessages from "./components/CurrentChat/CurrentChat";
 
-const Form = dynamic(() => import("./components/Form/Form"), { ssr: false, loading: () => <div className="h-[44px] bg-gray-200 dark:bg-gray-800 animate-pulse text-center">Loading form...</div> });
-const SideBarChat = dynamic(() => import("./components/SideBarChat/SideBarChat"), { ssr: false });
-const Doctors = dynamic(() => import("./components/Doctors/Doctors"), { ssr: false });
+const Form = dynamic(() => import("./components/Form/Form"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[44px] bg-gray-200 dark:bg-gray-800 animate-pulse text-center">
+      Loading form...
+    </div>
+  ),
+});
+const SideBarChat = dynamic(
+  () => import("./components/SideBarChat/SideBarChat"),
+  { ssr: false }
+);
+const Doctors = dynamic(() => import("./components/Doctors/Doctors"), {
+  ssr: false,
+});
 
 export default function DiagnosisClient({
   initialChats,
@@ -51,6 +63,7 @@ export default function DiagnosisClient({
     initialDoctors?.length > 0
   );
   const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -60,17 +73,18 @@ export default function DiagnosisClient({
     router.push("/ai-diagnosis");
   };
 
-  const handleDeleteChat = useCallback(() => {
-    return async (id: string) => {
+  const handleDeleteChat = async (id: string) => {
+    startTransition(async () => {
       try {
         await deleteChat(id);
+
         if (initialSelectedChat?.id === id) handleNewChat();
         toast.success(t("deleteSuccess") ?? "Chat deleted");
       } catch {
         toast.error(t("deleteFail") ?? "Failed to delete");
       }
-    };
-  }, [initialSelectedChat]);
+    });
+  };
 
   useEffect(() => {
     const container = chatContainerRef.current;
@@ -149,6 +163,7 @@ export default function DiagnosisClient({
 
                 <SidebarMenu className="sticky top-16 h-full overflow-auto">
                   <SideBarChat
+                    isPending={isPending}
                     initialSelectedId={initialSelectedId}
                     initialChats={initialChats}
                     handleDeleteChat={handleDeleteChat}

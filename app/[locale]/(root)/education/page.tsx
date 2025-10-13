@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Play, Clock, GraduationCap, Search } from 'lucide-react';
 import Image from 'next/image';
 import heroImage from '@/assets/images/education/education-hero.jpg';
-import { VideoModal } from '../../components/VideoModal';
+import { VideoModal } from '../../../../components/shared/VideoModal';
 
 // Define the Video interface
 interface Video {

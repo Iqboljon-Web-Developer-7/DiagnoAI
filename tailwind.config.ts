@@ -27,15 +27,15 @@ const config: Config = {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			primary: {
-  				DEFAULT: '#2374AB',
+  				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
   			secondary: {
-  				DEFAULT: '#28A745',
+  				DEFAULT: 'hsl(var(--secondary))',
   				foreground: 'hsl(var(--secondary-foreground))'
   			},
   			destructive: {
-  				DEFAULT: '#DC3545',
+  				DEFAULT: 'hsl(var(--destructive))',
   				foreground: 'hsl(var(--destructive-foreground))'
   			},
   			muted: {
@@ -100,11 +100,15 @@ const config: Config = {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			},
-            'worm-grey': '#f8f9fa',
-			'worm-dark': '#212529',
-				// Add dark mode colors here if needed, e.g.:
-				// 'background-dark': '#18181b',
-				// 'foreground-dark': '#f4f4f5',
+  			'worm-grey': '#f8f9fa',
+  			'worm-dark': '#212529',
+  			chart: {
+  				'1': 'hsl(var(--chart-1))',
+  				'2': 'hsl(var(--chart-2))',
+  				'3': 'hsl(var(--chart-3))',
+  				'4': 'hsl(var(--chart-4))',
+  				'5': 'hsl(var(--chart-5))'
+  			}
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -139,7 +143,7 @@ const config: Config = {
   		}
   	}
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [tailwindcssAnimate, require("tailwindcss-animate")],
 } satisfies Config
 
 export default config

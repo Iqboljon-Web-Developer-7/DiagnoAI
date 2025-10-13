@@ -14,7 +14,7 @@ import Image from "next/image";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { useAppStore } from "@/store/store";
-import AutoWrite from "@/app/[locale]/components/AutoWritten";
+import AutoWrite from "@/components/shared/AutoWritten";
 
 interface FormProps {
   initialSelectedId?: string;

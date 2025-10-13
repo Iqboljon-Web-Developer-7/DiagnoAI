@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
 import { StarsIcon } from "lucide-react"
-import AutoWrite from './AutoWritten';
+import AutoWrite from '../../../components/shared/AutoWritten';
 
 export async function HeroSection() {
   const t = await getTranslations('Index');

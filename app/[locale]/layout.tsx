@@ -31,10 +31,10 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body className='bg-worm-grey dark:bg-worm-dark'>
         <NextTopLoader
-          color="#2299DD" // Customize color
-          height={3} // Bar thickness
-          showSpinner={false} // No spinner for clean UX
-          zIndex={1600} // Ensure it’s above other elements
+          color="#2299DD"  
+          height={3}
+          showSpinner={false} 
+          zIndex={1600}
         />
         <NextIntlClientProvider locale={locale} messages={messages}>
             {/* @ts-expect-error Async Server Component */}

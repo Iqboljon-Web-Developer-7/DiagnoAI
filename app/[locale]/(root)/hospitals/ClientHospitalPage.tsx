@@ -32,6 +32,9 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
 
   let isLoading, isPending = hospitals?.length == 0
 
+  console.log(hospitals);
+  
+
   // Filter & Sort States
   const [filters, setFilters] = useState({
     search: "",
@@ -53,7 +56,7 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
   // Memoized data transformations
   const enrichedHospitals = useMemo(() => {
     if (!latitude || !longitude) return hospitals
-    return hospitals.map((h: Hospital) => ({
+    return hospitals?.map((h: Hospital) => ({
       ...h,
       distance: haversine(latitude, longitude, h.latitude, h.longitude),
       rating: h.rating || 4.2 + Math.random() * 0.8, // Generate realistic ratings
@@ -66,7 +69,7 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
     const { search, city, type, rating, sortBy } = filters
 
     return enrichedHospitals
-      .filter(h => {
+      ?.filter(h => {
         const matchSearch = !search ||
           h.name.toLowerCase().includes(search.toLowerCase()) ||
           (h.type || "").toLowerCase().includes(search.toLowerCase())
@@ -188,7 +191,7 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
             <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                  {t("hospitalsListTitle", { count: filteredHospitals.length }) || `${filteredHospitals.length} Hospitals Found`}
+                  {t("hospitalsListTitle", { count: filteredHospitals?.length || 0 }) || `${filteredHospitals?.length || 0} Hospitals Found`}
                 </h2>
               </div>
               <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange("sortBy", value)}>
@@ -204,7 +207,7 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
             </div>
 
             <div className="space-y-6">
-              {filteredHospitals.length === 0 ? (
+              {filteredHospitals?.length === 0 ? (
                 <div className="text-center py-16">
                   <div className="w-24 h-24 bg-gray-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Search className="w-12 h-12 text-gray-400 dark:text-gray-500" />
@@ -216,7 +219,7 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
                   </Button>
                 </div>
               ) : (
-                filteredHospitals.map((hospital, index) => (
+                filteredHospitals?.map((hospital, index) => (
                   <HospitalCard
                     key={hospital.id}
                     hospital={hospital}

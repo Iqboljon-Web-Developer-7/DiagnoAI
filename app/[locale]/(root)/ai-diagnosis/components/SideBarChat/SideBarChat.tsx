@@ -2,6 +2,7 @@ import { SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
 import { useRouter } from 'next/navigation'
 import React, { memo } from 'react'
 import { MessageSquare, Trash } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 interface Chat {
   id: string
@@ -11,10 +12,11 @@ interface Chat {
 interface SideBarChatProps {
   initialChats: Chat[]
   handleDeleteChat: (id: string) => void
-  initialSelectedId:string | undefined
+  initialSelectedId: string | undefined
+  isPending?: boolean
 }
 
-const SideBarChat = ({ initialChats, handleDeleteChat,initialSelectedId }: SideBarChatProps) => {
+const SideBarChat = ({ initialChats, handleDeleteChat, initialSelectedId, isPending }: SideBarChatProps) => {
   const router = useRouter()
 
   return (
@@ -34,15 +36,16 @@ const SideBarChat = ({ initialChats, handleDeleteChat,initialSelectedId }: SideB
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">Session {i + 1}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">{new Date(chat.created_at).toLocaleDateString()}</p>
               </div>
-              <span
+              <Button
+                disabled={isPending}
                 onClick={(e) => {
                   e.stopPropagation()
                   handleDeleteChat(chat.id)
                 }}
-                className="md:opacity-0 group-hover:opacity-100 text-red-500 bg-red-50 dark:text-red-400 dark:bg-red-950 p-3 rounded-full duration-200 transition-all hover:text-red-100 hover:bg-red-500 dark:hover:text-red-900 dark:hover:bg-red-700"
+                className={`md:opacity-0 group-hover:opacity-100 text-red-500 bg-red-50 dark:text-red-400 dark:bg-red-950 p-3 rounded-full  transition-all hover:text-red-100 hover:bg-red-500 dark:hover:text-red-900 dark:hover:bg-red-700 ${isPending ? 'animate-pulse duration-300!' : ''}`}
               >
                 <Trash className="h-4 w-4" />
-              </span>
+              </Button>
             </div>
           </SidebarMenuButton>
         </SidebarMenuItem>
