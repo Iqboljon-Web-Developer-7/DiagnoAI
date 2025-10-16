@@ -14,10 +14,6 @@ import { Link } from '@/i18n/navigation';
 import { useAppStore } from '@/store/store';
 import { useDoctorQuery, useFreeTimes, useCreateBookingMutation, useGetClinicBookings, useUpdateBookingMutation, useDeleteBookingMutation } from "../api";
 
-interface DoctorType {
-  params: { id: string; locale: string };
-}
-
 type PageProps = {
   params: Promise<{
     locale: string;

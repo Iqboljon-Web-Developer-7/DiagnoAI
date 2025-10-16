@@ -23,9 +23,9 @@ export default async function HomePage() {
         {/* @ts-expect-error Async Server Component */}
         <FeaturesSection />
       </Suspense>
-      {/* <Suspense fallback={<div>Loading how it works...</div>}>
+      <Suspense fallback={<div>Loading how it works...</div>}>
         <HowItWork />
-      </Suspense> */}
+      </Suspense>
       <Suspense fallback={<div>Loading partners...</div>}>
         {/* @ts-expect-error Async Server Component */}
         <Partners />

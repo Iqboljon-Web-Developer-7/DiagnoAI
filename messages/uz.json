@@ -248,6 +248,10 @@
       "email": "Elektron pochta",
       "emailPlaceholder": "email@example.com",
       "password": "Parol",
+      "phoneNumber": "Telefon raqami",
+      "acceptTerms": "Men roziman",
+      "privacyPolicy": "Maxfiylik siyosati",
+      "termsOfUse": "Foydalanish shartlari",
       "confirmPassword": "Parolni tasdiqlang",
       "submit": "Ro'yxatdan o'tish",
       "cancel": "Bekor qilish",
@@ -481,7 +485,6 @@
   },
   "doctors": {
     "badgeTitle": "Eng yaxshi shifokorlar",
-
     "pageTitle": "Professional Shifokorlar",
     "pageDescription": "Tajribali mutaxassislar bilan bog'laning va sifatli tibbiy yordam oling",
     "specialtiesTitle": "Mutaxassisliklar",

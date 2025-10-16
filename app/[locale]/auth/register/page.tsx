@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useAppStore } from "@/store/store";
 import {
   Loader2,
@@ -38,6 +39,7 @@ import { ErrorResponse } from "./types";
 import { toast } from "sonner";
 import { Link } from "@/i18n/navigation";
 import { useState } from "react";
+
 const formSchema = z
   .object({
     firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -54,6 +56,12 @@ const formSchema = z
       .or(z.literal("")),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
+    acceptPrivacyPolicy: z.boolean().refine((val) => val === true, {
+      message: "You must accept the Privacy Policy",
+    }),
+    acceptTermsOfUse: z.boolean().refine((val) => val === true, {
+      message: "You must accept the Terms of Use",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -61,7 +69,7 @@ const formSchema = z
   })
   .refine((data) => !!data.email || !!data.phoneNumber, {
     message: "Either email or phone number is required",
-    path: ["email"], // You can also use ["phoneNumber"] or ["root"]
+    path: ["email"],
   });
 
 const RegisterPage = () => {
@@ -80,13 +88,14 @@ const RegisterPage = () => {
       phoneNumber: "",
       password: "",
       confirmPassword: "",
+      acceptPrivacyPolicy: false,
+      acceptTermsOfUse: false,
     },
   });
 
   const { mutate: registerMutate, isPending } = useRegisterMutation();
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Ensure email and phoneNumber are always strings
     const payload = {
       ...values,
       email: values.email ?? "",
@@ -97,6 +106,10 @@ const RegisterPage = () => {
     } else {
       delete payload.phoneNumber;
     }
+
+    // Remove checkbox values before sending to API
+    delete payload.acceptPrivacyPolicy;
+    delete payload.acceptTermsOfUse;
 
     registerMutate(payload, {
       onSuccess: (data) => {
@@ -139,8 +152,8 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-blue-50 to-purple-200 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 flex justify-center pt-8">
-      <div className="w-full max-w-md m-4 overflow-auto">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-blue-50 to-purple-200 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
+      <div className="max-w-md overflow-auto">
         <Card className="relative  overflow-hidden space-y-5 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm animate-fade-in-down delay-200 opacity-0">
           <CardHeader className="text-center pb-2">
             <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-800 dark:to-purple-900 rounded-full flex items-center justify-center mb-4 shadow-lg">
@@ -233,7 +246,7 @@ const RegisterPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="dark:text-gray-300">
-                        Phone Number
+                        {t("register.phoneNumber")}
                       </FormLabel>
                       <FormControl>
                         <div className="relative">
@@ -319,6 +332,61 @@ const RegisterPage = () => {
                   )}
                 />
 
+                <div className="flex gap-2 flex-wrap justify-between py-2">
+                  <FormField
+                    control={form.control}
+                    name="acceptPrivacyPolicy"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-2 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm dark:text-gray-300">
+                            {t("register.acceptTerms")}{" "}
+                            <Link
+                              href="/privacy-policy"
+                              className="text-blue-600 dark:text-blue-400 hover:underline"
+                            >
+                              {t("register.privacyPolicy")}
+                            </Link>
+                          </FormLabel>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="acceptTermsOfUse"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-2 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm dark:text-gray-300">
+                            {t("register.acceptTerms")}{" "}
+                            <Link
+                              href="/terms-of-use"
+                              className="text-blue-600 dark:text-blue-400 hover:underline"
+                            >
+                              {t("register.termsOfUse")}
+                            </Link>
+                          </FormLabel>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 {form.formState.errors.root && (
                   <>
                     <div className="flex items-center gap-2 p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg"></div>
@@ -358,7 +426,6 @@ const RegisterPage = () => {
               </p>
             </div>
           </CardContent>
-         
         </Card>
       </div>
     </div>

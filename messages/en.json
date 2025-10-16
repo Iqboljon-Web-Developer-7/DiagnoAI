@@ -159,6 +159,10 @@
       "email": "Email",
       "emailPlaceholder": "email@example.com",
       "password": "Password",
+      "phoneNumber": "Phone Number",
+      "acceptTerms": "I accept the",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfUse": "Terms of Use",
       "confirmPassword": "Confirm Password",
       "submit": "Register",
       "cancel": "Cancel",
@@ -665,36 +669,36 @@
       "title": "Our Team",
       "description": "Meet the passionate individuals driving Diagno AI’s mission to transform healthcare.",
       "members": {
-      "member1": {
-        "name": "Sunnat Panjiyev Sherzod o'g'li",
-        "role": "Co-Founder & Lawyer",
-        "description": "Graduated from Tashkent State Law University, Bachelor’s degree. Experience: 2022-2025."
-      },
-      "member2": {
-        "name": "Javohir Jahonov Jasur o'g'li",
-        "role": "Founder & Backend Developer",
-        "description": "Graduated from PDP University, Bachelor’s degree. Experience: 2023-2027."
-      },
-      "member3": {
-        "name": "Iqboljon Ummataliyev Kamoliddin o'g'li",
-        "role": "Frontend Developer",
-        "description": "Graduated from Najot Ta'lim, IT Park & SAMMI. Experience: 2022-2025."
-      },
-      "member4": {
-        "name": "Firdavs Safarmakhmadov",
-        "role": "Web Designer & Graphic Designer",
-        "description": "Graduated from ProWeb & Central Asian University, Bachelor’s degree. Experience: 2023-2027."
-      },
-      "member5": {
-        "name": "Shahobiddin",
-        "role": "AI Specialist",
-        "description": "Graduated from PDP University, Bachelor’s degree. Experience: 2023-2027."
-      },
-      "member6": {
-        "name": "Sanjarbek Mirzaboy Sultonov",
-        "role": "Graphic Designer",
-        "description": "Graduated from Uzbekistan University of Journalism and Mass Communications (2022-2026). Najot Ta'lim Training Center (2023-2024). Experience: 1 year."
-      }
+        "member1": {
+          "name": "Sunnat Panjiyev Sherzod o'g'li",
+          "role": "Co-Founder & Lawyer",
+          "description": "Graduated from Tashkent State Law University, Bachelor’s degree. Experience: 2022-2025."
+        },
+        "member2": {
+          "name": "Javohir Jahonov Jasur o'g'li",
+          "role": "Founder & Backend Developer",
+          "description": "Graduated from PDP University, Bachelor’s degree. Experience: 2023-2027."
+        },
+        "member3": {
+          "name": "Iqboljon Ummataliyev Kamoliddin o'g'li",
+          "role": "Frontend Developer",
+          "description": "Graduated from Najot Ta'lim, IT Park & SAMMI. Experience: 2022-2025."
+        },
+        "member4": {
+          "name": "Firdavs Safarmakhmadov",
+          "role": "Web Designer & Graphic Designer",
+          "description": "Graduated from ProWeb & Central Asian University, Bachelor’s degree. Experience: 2023-2027."
+        },
+        "member5": {
+          "name": "Shahobiddin",
+          "role": "AI Specialist",
+          "description": "Graduated from PDP University, Bachelor’s degree. Experience: 2023-2027."
+        },
+        "member6": {
+          "name": "Sanjarbek Mirzaboy Sultonov",
+          "role": "Graphic Designer",
+          "description": "Graduated from Uzbekistan University of Journalism and Mass Communications (2022-2026). Najot Ta'lim Training Center (2023-2024). Experience: 1 year."
+        }
       }
     },
     "timeline": {
@@ -964,97 +968,97 @@
       }
     },
     "terms": {
-    "title": "Public Offer Agreement",
-    "subtitle": "For the provision of online medical services by \"Diagno AI\"",
-    "intro": "In accordance with Article 369 of the Civil Code of the Republic of Uzbekistan, this document is intended for entering into an agreement with individuals (hereinafter referred to as the “user” and/or “patient”) and is offered by \"Diagno AI\" (hereinafter referred to as the “Platform”). Hereinafter collectively referred to as the “Parties”. This agreement is concluded on the following terms:",
-    "public_offer": "This document is published on the Diagno AI platform, presented for review on the information board, and constitutes a public offer for each user (patient) of the platform. The user is deemed to have agreed to use the medical services of the platform.",
-    "acceptance": "Full and unconditional acceptance of this offer is manifested through the registration and use of the Diagno AI platform (in accordance with Article 370 of the Civil Code of the Republic of Uzbekistan).",
-    "agreement": "Acceptance of the offer by the user (patient) signifies agreement with all the terms of this agreement and is equivalent to entering into a contract for the provision of medical services.",
-    "validity": "The validity period of this offer begins from the moment the user registers on the Diagno AI platform and remains in effect for the duration of the registration period.",
-    "terms_and_definitions": {
-      "title": "1. TERMS AND DEFINITIONS",
-      "1-1": "\"Diagno AI team\" - the owner of the Diagno AI platform.",
-      "1-2": "User - an individual registered on the Diagno AI platform, provided with services such as using medical artificial intelligence, contacting a medical specialist, and connecting with available clinics on the application.",
-      "1-3": "Patient and/or user - the person receiving medical services.",
-      "1-4": "Medical specialist - an individual with higher medical education providing medical assistance to the user (patient) through the Diagno AI platform.",
-      "1-5": "Platform - located at the following website: https://diagnoai.uz, all rights belong to the \"Diagno AI\" team.",
-      "1-5-1": "Artificial Intelligence (AI) - a set of technological solutions that mimic human knowledge and skills, including independent learning and problem-solving, enabling results comparable to human intellectual activity in performing specific tasks.",
-      "1-6": "Order - an action performed through the platform to select a specific time for an appointment with a medical specialist.",
-      "1-6-1": "Booking - an electronic order made by the user through the Diagno AI platform to pre-select a specific time, place, and type of service for using the services of a doctor or medical institution. Booking creates an obligation for the user to receive the specified service and for the doctor (or clinic) to provide the service during the reserved time.",
-      "1-7": "Price list - the cost of services provided by a medical specialist to the user (patient), as determined by the platform.",
-      "1-8": "Medical service - actions performed by a medical specialist to provide medical assistance to the user (patient).",
-      "1-9": "Clinic - a legal entity established in accordance with the legislation of the Republic of Uzbekistan and holding the appropriate license, engaged in providing medical services (including private medical centers, hospitals, polyclinics, or other types of healthcare organizations)."
-    },
-    "contract_subject": {
-      "title": "2. SUBJECT OF THE AGREEMENT",
-      "2-1": "Under this offer, the Diagno AI platform provides services of doctors with higher medical education in accordance with the legislation of the Republic of Uzbekistan and facilitates interaction between medical specialists and users (patients), as well as communication between the user (patient) and others. The user (patient), in turn, undertakes to pay for the provided services in accordance with the platform’s price list and comply with the requirements of the medical specialist. The platform also utilizes auxiliary tools developed based on artificial intelligence (AI) technologies. The AI system may provide preliminary recommendations, analyses, and alerts based on the user’s input data, but this information does not replace a doctor’s consultation and serves only as a tool to support medical specialist decisions.",
-      "2-2": "Under this agreement, the user (patient) understands the essence of the agreement and their actions and agrees that the platform management is not responsible for illegal actions (or inaction) of the medical specialist, adverse events, or harm caused to the patient’s health.",
-      "2-3": "By confirming the public offer, the user (client) agrees to all the terms of this agreement.",
-      "2-4": "The user (patient) agrees not to address complaints or claims to the platform management in case of disputes arising during the provision of medical services with a medical specialist. All disputes between the patient and the medical specialist are directed by the user (patient) directly to the medical specialist."
-    },
-    "service_and_payment_terms": {
-      "title": "3. SERVICE AND PAYMENT TERMS",
-      "3-1": "The medical specialist provides services at the location of the clinic in accordance with the received order.",
-      "3-2": "When the medical specialist uses their materials (syringes, systems, bandages, antiseptics, etc.) to provide services, the user (patient) must immediately pay the cost of these materials to the medical specialist.",
-      "3-3": "The user (patient) makes payments for the provided treatments in accordance with the platform’s price list and/or the price list established by the clinic.",
-      "3-4": "Payment for medical services is made by the user (patient) immediately after the services are provided or, by agreement of the parties, before the provision of services begins. The unit of payment is the national currency of the Republic of Uzbekistan (sum)."
-    },
-    "rights_and_obligations": {
-      "title": "4. RIGHTS AND OBLIGATIONS OF THE PARTIES",
-      "user_rights": {
-        "title": "4.1. The user (patient) has the following rights:",
-        "4-1-1": "Use the platform at any time of the day.",
-        "4-1-2": "Connect with necessary medical specialists through the platform.",
-        "4-1-3": "Register on the platform only once and have only one personal account."
+      "title": "Public Offer Agreement",
+      "subtitle": "For the provision of online medical services by \"Diagno AI\"",
+      "intro": "In accordance with Article 369 of the Civil Code of the Republic of Uzbekistan, this document is intended for entering into an agreement with individuals (hereinafter referred to as the “user” and/or “patient”) and is offered by \"Diagno AI\" (hereinafter referred to as the “Platform”). Hereinafter collectively referred to as the “Parties”. This agreement is concluded on the following terms:",
+      "public_offer": "This document is published on the Diagno AI platform, presented for review on the information board, and constitutes a public offer for each user (patient) of the platform. The user is deemed to have agreed to use the medical services of the platform.",
+      "acceptance": "Full and unconditional acceptance of this offer is manifested through the registration and use of the Diagno AI platform (in accordance with Article 370 of the Civil Code of the Republic of Uzbekistan).",
+      "agreement": "Acceptance of the offer by the user (patient) signifies agreement with all the terms of this agreement and is equivalent to entering into a contract for the provision of medical services.",
+      "validity": "The validity period of this offer begins from the moment the user registers on the Diagno AI platform and remains in effect for the duration of the registration period.",
+      "terms_and_definitions": {
+        "title": "1. TERMS AND DEFINITIONS",
+        "1-1": "\"Diagno AI team\" - the owner of the Diagno AI platform.",
+        "1-2": "User - an individual registered on the Diagno AI platform, provided with services such as using medical artificial intelligence, contacting a medical specialist, and connecting with available clinics on the application.",
+        "1-3": "Patient and/or user - the person receiving medical services.",
+        "1-4": "Medical specialist - an individual with higher medical education providing medical assistance to the user (patient) through the Diagno AI platform.",
+        "1-5": "Platform - located at the following website: https://diagnoai.uz, all rights belong to the \"Diagno AI\" team.",
+        "1-5-1": "Artificial Intelligence (AI) - a set of technological solutions that mimic human knowledge and skills, including independent learning and problem-solving, enabling results comparable to human intellectual activity in performing specific tasks.",
+        "1-6": "Order - an action performed through the platform to select a specific time for an appointment with a medical specialist.",
+        "1-6-1": "Booking - an electronic order made by the user through the Diagno AI platform to pre-select a specific time, place, and type of service for using the services of a doctor or medical institution. Booking creates an obligation for the user to receive the specified service and for the doctor (or clinic) to provide the service during the reserved time.",
+        "1-7": "Price list - the cost of services provided by a medical specialist to the user (patient), as determined by the platform.",
+        "1-8": "Medical service - actions performed by a medical specialist to provide medical assistance to the user (patient).",
+        "1-9": "Clinic - a legal entity established in accordance with the legislation of the Republic of Uzbekistan and holding the appropriate license, engaged in providing medical services (including private medical centers, hospitals, polyclinics, or other types of healthcare organizations)."
       },
-      "user_obligations": {
-        "title": "4.2. The user is obliged to:",
-        "4-2-1": "Timely pay the amount calculated by the platform.",
-        "4-2-2": "Indicate the type of medical service and the time for which the medical specialist is selected when placing an order.",
-        "4-2-3": "Be present at the clinic where the medical specialist operates at least 15 (fifteen) minutes before the scheduled time and, if intending to cancel the order, do so at least 3 (three) hours before the appointment with the medical specialist.",
-        "4-2-4": "Pay a compensation of _________________ sum in case the order is canceled after being accepted by the medical specialist and/or clinic and after the scheduled time.",
-        "4-2-5": "Provide the medical specialist with all information about other illnesses, contraindications to any medications or treatments before receiving medical assistance.",
-        "4-2-6": "Provide a list of treating doctors.",
-        "4-2-7": "Create conditions for the medical specialist to provide medical assistance and not interfere with the provision of medical assistance.",
-        "4-2-8": "Behave respectfully towards medical staff during and after the provision of medical services.",
-        "4-2-9": "Follow the instructions of the medical specialist.",
-        "4-2-10": "Not provide false information or make unjustified bookings when reserving a doctor’s service through the platform.",
-        "4-2-11": "Indicate the correct medical specialist when selecting the type of order.",
-        "4-2-12": "Be ready to receive medical procedures from the medical specialist at the scheduled time.",
-        "4-2-13": "Contact or place an order through the platform only for follow-up appointments with the medical specialist."
+      "contract_subject": {
+        "title": "2. SUBJECT OF THE AGREEMENT",
+        "2-1": "Under this offer, the Diagno AI platform provides services of doctors with higher medical education in accordance with the legislation of the Republic of Uzbekistan and facilitates interaction between medical specialists and users (patients), as well as communication between the user (patient) and others. The user (patient), in turn, undertakes to pay for the provided services in accordance with the platform’s price list and comply with the requirements of the medical specialist. The platform also utilizes auxiliary tools developed based on artificial intelligence (AI) technologies. The AI system may provide preliminary recommendations, analyses, and alerts based on the user’s input data, but this information does not replace a doctor’s consultation and serves only as a tool to support medical specialist decisions.",
+        "2-2": "Under this agreement, the user (patient) understands the essence of the agreement and their actions and agrees that the platform management is not responsible for illegal actions (or inaction) of the medical specialist, adverse events, or harm caused to the patient’s health.",
+        "2-3": "By confirming the public offer, the user (client) agrees to all the terms of this agreement.",
+        "2-4": "The user (patient) agrees not to address complaints or claims to the platform management in case of disputes arising during the provision of medical services with a medical specialist. All disputes between the patient and the medical specialist are directed by the user (patient) directly to the medical specialist."
       },
-      "platform_rights": {
-        "title": "4.3. The platform has the following rights:",
-        "4-3-1": "Provide the user’s (patient’s) personal information to medical specialists and, if necessary, to law enforcement authorities of the Republic of Uzbekistan upon their justified requests.",
-        "4-3-2": "Block or restrict the user’s access to the platform in case of violation of the platform’s usage rules or the terms of this public offer.",
-        "4-3-3": "Unilaterally terminate this agreement at any time."
+      "service_and_payment_terms": {
+        "title": "3. SERVICE AND PAYMENT TERMS",
+        "3-1": "The medical specialist provides services at the location of the clinic in accordance with the received order.",
+        "3-2": "When the medical specialist uses their materials (syringes, systems, bandages, antiseptics, etc.) to provide services, the user (patient) must immediately pay the cost of these materials to the medical specialist.",
+        "3-3": "The user (patient) makes payments for the provided treatments in accordance with the platform’s price list and/or the price list established by the clinic.",
+        "3-4": "Payment for medical services is made by the user (patient) immediately after the services are provided or, by agreement of the parties, before the provision of services begins. The unit of payment is the national currency of the Republic of Uzbekistan (sum)."
+      },
+      "rights_and_obligations": {
+        "title": "4. RIGHTS AND OBLIGATIONS OF THE PARTIES",
+        "user_rights": {
+          "title": "4.1. The user (patient) has the following rights:",
+          "4-1-1": "Use the platform at any time of the day.",
+          "4-1-2": "Connect with necessary medical specialists through the platform.",
+          "4-1-3": "Register on the platform only once and have only one personal account."
+        },
+        "user_obligations": {
+          "title": "4.2. The user is obliged to:",
+          "4-2-1": "Timely pay the amount calculated by the platform.",
+          "4-2-2": "Indicate the type of medical service and the time for which the medical specialist is selected when placing an order.",
+          "4-2-3": "Be present at the clinic where the medical specialist operates at least 15 (fifteen) minutes before the scheduled time and, if intending to cancel the order, do so at least 3 (three) hours before the appointment with the medical specialist.",
+          "4-2-4": "Pay a compensation of _________________ sum in case the order is canceled after being accepted by the medical specialist and/or clinic and after the scheduled time.",
+          "4-2-5": "Provide the medical specialist with all information about other illnesses, contraindications to any medications or treatments before receiving medical assistance.",
+          "4-2-6": "Provide a list of treating doctors.",
+          "4-2-7": "Create conditions for the medical specialist to provide medical assistance and not interfere with the provision of medical assistance.",
+          "4-2-8": "Behave respectfully towards medical staff during and after the provision of medical services.",
+          "4-2-9": "Follow the instructions of the medical specialist.",
+          "4-2-10": "Not provide false information or make unjustified bookings when reserving a doctor’s service through the platform.",
+          "4-2-11": "Indicate the correct medical specialist when selecting the type of order.",
+          "4-2-12": "Be ready to receive medical procedures from the medical specialist at the scheduled time.",
+          "4-2-13": "Contact or place an order through the platform only for follow-up appointments with the medical specialist."
+        },
+        "platform_rights": {
+          "title": "4.3. The platform has the following rights:",
+          "4-3-1": "Provide the user’s (patient’s) personal information to medical specialists and, if necessary, to law enforcement authorities of the Republic of Uzbekistan upon their justified requests.",
+          "4-3-2": "Block or restrict the user’s access to the platform in case of violation of the platform’s usage rules or the terms of this public offer.",
+          "4-3-3": "Unilaterally terminate this agreement at any time."
+        }
+      },
+      "responsibilities": {
+        "title": "5. RESPONSIBILITIES OF THE PARTIES",
+        "5-1": "The platform (platform management) is not responsible for incorrect information entered by the medical specialist during the examination.",
+        "5-2": "The user is responsible under the legislation of the Republic of Uzbekistan for distributing the medical specialist’s information to third parties without their consent.",
+        "5-3": "The platform and the medical specialist are not responsible for possible or unforeseen complications (allergic reactions, anaphylactic shock, etc.) that may arise during the implementation of medical instructions.",
+        "5-4": "The user (patient) does not make claims against the platform and medical specialists in case of death resulting from serious illnesses (cancer, life-threatening injuries, etc.).",
+        "5-5": "The platform and the medical specialist are not responsible for the actions of other medical personnel who previously treated the patient.",
+        "5-6": "The platform and the medical specialist are exempt from liability for failure to provide services under the agreement if this was due to force majeure circumstances (fire, natural disasters, vehicle breakdown of the medical specialist, road accidents involving the medical specialist’s vehicle).",
+        "5-7": "In case of poor-quality medical services provided to the user (patient), claims and objections are addressed to the medical specialist in accordance with the legislation of the Republic of Uzbekistan.",
+        "5-8": "In case of violation of the terms of this agreement by the user or patient, if they are different persons, they are jointly and severally liable to the platform and the medical specialist."
+      },
+      "force_majeure": {
+        "title": "6. FORCE MAJEURE",
+        "6-1": "The parties are exempt from liability for partial or complete failure to fulfill obligations if such circumstances are caused by force majeure, i.e., natural disasters, natural or man-made emergencies, confirmed by the relevant state authorities for a specific period. In this case, the deadline for fulfilling obligations under this agreement is postponed accordingly for the duration of such events.",
+        "6-2": "Commercial risks arising from a decline in business activity, economic indicators, unfavorable market conditions, lack of necessary funds, price changes, failure of counterparties to fulfill obligations, changes in structure, legal form, work schedule, availability of necessary goods in the market, and other circumstances, as well as the amount of claims and/or lost profits, are not considered force majeure."
+      },
+      "final_provisions": {
+        "title": "7. FINAL PROVISIONS",
+        "7-1": "This offer agreement is concluded in accordance with the civil legislation of the Republic of Uzbekistan and remains in effect for the parties from the moment of its conclusion until the user deletes their personal account.",
+        "7-2": "Matters not regulated by this agreement are resolved in accordance with the legislation of the Republic of Uzbekistan.",
+        "7-3": "Disputes between the parties are resolved through negotiations between them.",
+        "7-4": "If negotiations do not lead to an agreement, disputes are resolved in court in accordance with the legislation of the Republic of Uzbekistan.",
+        "7-5": "This offer agreement may be terminated by the user at any time, but this does not affect the fulfillment of obligations arising from previously provided services."
       }
     },
-    "responsibilities": {
-      "title": "5. RESPONSIBILITIES OF THE PARTIES",
-      "5-1": "The platform (platform management) is not responsible for incorrect information entered by the medical specialist during the examination.",
-      "5-2": "The user is responsible under the legislation of the Republic of Uzbekistan for distributing the medical specialist’s information to third parties without their consent.",
-      "5-3": "The platform and the medical specialist are not responsible for possible or unforeseen complications (allergic reactions, anaphylactic shock, etc.) that may arise during the implementation of medical instructions.",
-      "5-4": "The user (patient) does not make claims against the platform and medical specialists in case of death resulting from serious illnesses (cancer, life-threatening injuries, etc.).",
-      "5-5": "The platform and the medical specialist are not responsible for the actions of other medical personnel who previously treated the patient.",
-      "5-6": "The platform and the medical specialist are exempt from liability for failure to provide services under the agreement if this was due to force majeure circumstances (fire, natural disasters, vehicle breakdown of the medical specialist, road accidents involving the medical specialist’s vehicle).",
-      "5-7": "In case of poor-quality medical services provided to the user (patient), claims and objections are addressed to the medical specialist in accordance with the legislation of the Republic of Uzbekistan.",
-      "5-8": "In case of violation of the terms of this agreement by the user or patient, if they are different persons, they are jointly and severally liable to the platform and the medical specialist."
-    },
-    "force_majeure": {
-      "title": "6. FORCE MAJEURE",
-      "6-1": "The parties are exempt from liability for partial or complete failure to fulfill obligations if such circumstances are caused by force majeure, i.e., natural disasters, natural or man-made emergencies, confirmed by the relevant state authorities for a specific period. In this case, the deadline for fulfilling obligations under this agreement is postponed accordingly for the duration of such events.",
-      "6-2": "Commercial risks arising from a decline in business activity, economic indicators, unfavorable market conditions, lack of necessary funds, price changes, failure of counterparties to fulfill obligations, changes in structure, legal form, work schedule, availability of necessary goods in the market, and other circumstances, as well as the amount of claims and/or lost profits, are not considered force majeure."
-    },
-    "final_provisions": {
-      "title": "7. FINAL PROVISIONS",
-      "7-1": "This offer agreement is concluded in accordance with the civil legislation of the Republic of Uzbekistan and remains in effect for the parties from the moment of its conclusion until the user deletes their personal account.",
-      "7-2": "Matters not regulated by this agreement are resolved in accordance with the legislation of the Republic of Uzbekistan.",
-      "7-3": "Disputes between the parties are resolved through negotiations between them.",
-      "7-4": "If negotiations do not lead to an agreement, disputes are resolved in court in accordance with the legislation of the Republic of Uzbekistan.",
-      "7-5": "This offer agreement may be terminated by the user at any time, but this does not affect the fulfillment of obligations arising from previously provided services."
-    }
-  },
     "faq": {
       "title": "Frequently Asked Questions",
       "questions": {

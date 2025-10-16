@@ -31,9 +31,7 @@ const ChatMessages = ({ initialSelectedChat, t }: ChatMessagesProps) => {
           <div key={m?.id} className="flex justify-end">
             <div className="max-w-[80%] bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-900 dark:to-purple-900 text-white p-4 rounded-2xl rounded-br-md shadow-lg">
               <p className="text-sm leading-relaxed">
-            {/* <TextAnimate> */}
                 {m.content}
-            {/* </TextAnimate> */}
               </p>
             </div>
           </div>

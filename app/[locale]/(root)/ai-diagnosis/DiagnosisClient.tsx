@@ -22,7 +22,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Brain, Plus } from "lucide-react";
+import { Brain, Mic, Plus } from "lucide-react";
 
 import { toast } from "sonner";
 
@@ -32,6 +32,7 @@ import { DiagnosisClientProps } from "./types";
 import { deleteChat } from "./actions";
 
 import ChatMessages from "./components/CurrentChat/CurrentChat";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
 
 const Form = dynamic(() => import("./components/Form/Form"), {
   ssr: false,
@@ -215,8 +216,9 @@ export default function DiagnosisClient({
                 </Card>
 
                 <Card className="bg-transparent border-none shadow-none animate-fade-in-down duration-200 opacity-0 delay-500">
-                  <CardContent className="p-2">
+                  <CardContent className="p-2 flex items-center justify-center gap-2">
                     <Form initialSelectedId={initialSelectedId} />
+                    <ShimmerButton ><Mic  /></ShimmerButton>
                   </CardContent>
                 </Card>
               </div>

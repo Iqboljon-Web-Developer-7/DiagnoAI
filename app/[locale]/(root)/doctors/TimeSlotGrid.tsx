@@ -4,6 +4,7 @@ import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Clock, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
 
 interface TimeSlotGridProps {
     isLoading: boolean;
@@ -20,6 +21,8 @@ const TimeSlotGrid = memo(({
     onBookAppointment,
     isBookingPending 
 }: TimeSlotGridProps) => {
+  const translations = useTranslations('doctors');
+
     const allTimes: number[] = Array.from({ length: 13 }, (_, i) => i + 8);
     const sortedTimes = allTimes.sort((a, b) => a - b);
 
@@ -82,7 +85,7 @@ const TimeSlotGrid = memo(({
         <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
             <div className="flex items-center gap-2 mb-6">
                 <Clock className="w-5 h-5 text-green-600" />
-                <h3 className="text-lg font-semibold text-gray-800">Available Time Slots</h3>
+                <h3 className="text-lg font-semibold text-gray-800">{translations('noAvailableSlots')}</h3>
             </div>
 
             <motion.div 
@@ -116,12 +119,12 @@ const TimeSlotGrid = memo(({
                                         {isBooked ? (
                                             <>
                                                 <CheckCircle2 className="w-3 h-3" />
-                                                Booked
+                                                 {translations('booked')}
                                             </>
                                         ) : (
                                             <>
                                                 <Clock className="w-3 h-3" />
-                                                Available
+                                                {translations('book')}
                                             </>
                                         )}
                                     </div>

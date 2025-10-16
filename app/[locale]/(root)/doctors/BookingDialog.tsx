@@ -3,7 +3,7 @@
 import React, { memo, useCallback, useState, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { Calendar, CheckCircle, AlertCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
 import { useCreateBookingMutation, useFreeTimes } from './api';
@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import { Doctor } from './types';
 import { User } from '../hospitals/types';
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { TimeSlotGrid } from './TimeSlotGrid';
 
 interface BookingDialogProps {
@@ -123,13 +123,14 @@ const BookingDialog = memo(({ isOpen, onClose, doctor, user }: BookingDialogProp
                                     <Calendar className="w-8 h-8 text-white" />
                                 </div>
                                 
-                                <motion.h2 
+                                <div className="flex items-center justify-center gap-3 flex-wrap">
+                                                                    <motion.h2 
                                     className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent"
                                     initial={{ y: -10, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.1 }}
                                 >
-                                    Book Appointment
+                                    {translations('doctorCard.bookButton')}
                                 </motion.h2>
                                 
                                 <motion.p 
@@ -138,17 +139,18 @@ const BookingDialog = memo(({ isOpen, onClose, doctor, user }: BookingDialogProp
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.2 }}
                                 >
-                                    with <span className="font-semibold text-blue-600">{doctor.name}</span>
+                                 <span className="font-semibold text-blue-600">{doctor.name}</span>
                                 </motion.p>
+                                </div>
                             </div>
 
                             <motion.div 
-                                className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50"
+                                className="bg-white/80 backdrop-blur-sm rounded-xl border-gray-200/50"
                                 initial={{ y: 20, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ delay: 0.3 }}
                             >
-                                <div className="flex items-center justify-center gap-4 mb-4">
+                                {/* <div className="flex items-center justify-center gap-4 mb-4">
                                     <div className="flex items-center gap-2 text-lg font-semibold text-gray-700">
                                         <Calendar className="w-5 h-5 text-blue-500" />
                                         {selectedDate.toLocaleDateString('en-US', { 
@@ -158,7 +160,7 @@ const BookingDialog = memo(({ isOpen, onClose, doctor, user }: BookingDialogProp
                                             day: 'numeric'
                                         })}
                                     </div>
-                                </div>
+                                </div> */}
                                 
                                 <div className="flex justify-center">
                                     <input
@@ -193,11 +195,11 @@ const BookingDialog = memo(({ isOpen, onClose, doctor, user }: BookingDialogProp
                             >
                                 <div className="flex items-center gap-2">
                                     <CheckCircle className="w-4 h-4 text-green-500" />
-                                    <span>{availableSlots.length} Available</span>
+                                    <span>{availableSlots.length} {translations('booked')}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <AlertCircle className="w-4 h-4 text-red-500" />
-                                    <span>{bookedTimes.length} Booked</span>
+                                    <span>{bookedTimes.length}  {translations('book')}</span>
                                 </div>
                             </motion.div>
                         </div>
