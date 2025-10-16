@@ -1,16 +1,37 @@
+"use client";
+import { useEffect, useState } from "react";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { StarsIcon } from "lucide-react";
 import AutoWrite from "../../../components/shared/AutoWritten";
+import { useTranslations } from "next-intl";
 
-export async function HeroSection() {
-  const t = await getTranslations("Index");
+export function HeroSection() {
+  const t = useTranslations("Index");
+  const [videoSrc, setVideoSrc] = useState("/0904(6).mp4");
+
+  useEffect(() => {
+    const updateVideoSrc = () => {
+      if (window.innerWidth < 768) {
+        setVideoSrc("/0904(5).mp4");
+      } else {
+        setVideoSrc("/0904(6).mp4");
+      }
+    };
+
+    updateVideoSrc();
+    window.addEventListener("resize", updateVideoSrc);
+
+    return () => {
+      window.removeEventListener("resize", updateVideoSrc);
+    };
+  }, []);
 
   return (
     <section className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-sky-800 bg-no-repeat min-h-[38rem] h-[100svh] flex items-center ">
       <video
-        src="/0904(6).mp4"
+        src={videoSrc}
         autoPlay
         loop
         muted
