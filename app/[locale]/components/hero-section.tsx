@@ -8,14 +8,14 @@ import { useTranslations } from "next-intl";
 
 export function HeroSection() {
   const t = useTranslations("Index");
-  const [videoSrc, setVideoSrc] = useState("/0904(6).mp4");
+  const [videoSrc, setVideoSrc] = useState("/hero-desktop.webm");
 
   useEffect(() => {
     const updateVideoSrc = () => {
       if (window.innerWidth < 768) {
-        setVideoSrc("/0904(5).mp4");
+        setVideoSrc("/hero-mobile.webm");
       } else {
-        setVideoSrc("/0904(6).mp4");
+        setVideoSrc("/hero-desktop.webm");
       }
     };
 
