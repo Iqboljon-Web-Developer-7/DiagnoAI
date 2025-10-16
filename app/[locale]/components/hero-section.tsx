@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { StarsIcon } from "lucide-react";
