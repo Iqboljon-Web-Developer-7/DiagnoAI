@@ -12,7 +12,6 @@ import HowItWork from "./components/HowItWork";
 export default async function HomePage() {
   return (
     <>
-      {/* @ts-expect-error Async Server Component */}
       <HeroSection />
       <Suspense fallback={<div>Loading how it works...</div>}>
         {/* @ts-expect-error Async Server Component */}
