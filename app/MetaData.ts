@@ -5,6 +5,7 @@ export const MetaData: Metadata = {
         default: "Diagno AI",
         template: "%s | Diagno AI"
     },
+    manifest: "/site.webmanifest",
     description: "Diagno AI - sun'iy intellekt yordamida tibbiy tashxis, shoshilinch yordam va sog'liqni saqlash xizmatlarini taqdim etadi. 24/7 tezkor, ishonchli va xavfsiz tibbiy yordam oling.",
     keywords: [
         "sun'iy intellekt tashxisi",

@@ -153,13 +153,13 @@ function Form({ initialSelectedId }: FormProps) {
           </div>
         </div>
       )}
-      <form onSubmit={handleSendMessage} className="space-y-4">
+      <form onSubmit={handleSendMessage} className="space-y-4 w-full">
         <div className="relative">
           <Textarea
             placeholder={t("symptomPlaceholder")}
             value={symptoms}
             onChange={(e) => setSymptoms(e.target.value)}
-            className="min-h-5 md:min-h-8 resize-none text-sm bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm md:text-lg max-h-40 w-full pr-12 focus:border-blue-400 dark:focus:border-blue-600 rounded-2xl border-none focus-visible:outline-none focus-visible:ring-offset-0 text-gray-700 dark:text-gray-200"
+            className="min-h-5 md:min-h-8 resize-none text-sm bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm md:text-lg max-h-40 w-full pr-16 sm:pr-14 focus:border-blue-400 dark:focus:border-blue-600 rounded-2xl border-none focus-visible:outline-none focus-visible:ring-offset-0 text-gray-700 dark:text-gray-200"
             rows={1}
             style={{
               height: "auto",

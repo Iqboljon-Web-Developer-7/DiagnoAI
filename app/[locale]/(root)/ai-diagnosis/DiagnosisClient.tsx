@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import type React from "react";
-import { useState, useEffect, useRef, useCallback, useTransition } from "react";
+import { useState, useEffect, useRef, useTransition } from "react";
 
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -11,18 +11,18 @@ import bgWallpaper from "@/assets/images/useful/bg-wallpaper-line.webp";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarHeader,
-  SidebarInset,
-  SidebarMenu,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { Brain, Mic, Plus } from "lucide-react";
+const SidebarContent = dynamic(() => import("@/components/ui/sidebar").then(mod => ({ default: mod.SidebarContent })), { ssr: false });
+const SidebarGroup = dynamic(() => import("@/components/ui/sidebar").then(mod => ({ default: mod.SidebarGroup })), { ssr: false });
+const SidebarGroupContent = dynamic(() => import("@/components/ui/sidebar").then(mod => ({ default: mod.SidebarGroupContent })), { ssr: false });
+const SidebarHeader = dynamic(() => import("@/components/ui/sidebar").then(mod => ({ default: mod.SidebarHeader })), { ssr: false });
+const SidebarMenu = dynamic(() => import("@/components/ui/sidebar").then(mod => ({ default: mod.SidebarMenu })), { ssr: false });
+const SidebarTrigger = dynamic(() => import("@/components/ui/sidebar").then(mod => ({ default: mod.SidebarTrigger })), { ssr: false });
+
+
+// const SidebarInset = dynamic(() => import("@/components/ui/sidebar").then(mod => ({ default: mod.SidebarInset })), { ssr: false });
+const Sidebar = dynamic(() => import("@/components/ui/sidebar").then(mod => ({ default: mod.Sidebar })), { ssr: false });
+const SidebarProvider = dynamic(() => import("@/components/ui/sidebar").then(mod => ({ default: mod.SidebarProvider })), { ssr: false });
+import { Brain, Plus } from "lucide-react";
 
 import { toast } from "sonner";
 
@@ -32,7 +32,8 @@ import { DiagnosisClientProps } from "./types";
 import { deleteChat } from "./actions";
 
 import ChatMessages from "./components/CurrentChat/CurrentChat";
-import { ShimmerButton } from "@/components/ui/shimmer-button";
+import VoiceButton from "./components/VoiceModeBtn";
+import { SidebarInset } from "@/components/ui/sidebar";
 
 const Form = dynamic(() => import("./components/Form/Form"), {
   ssr: false,
@@ -190,7 +191,7 @@ export default function DiagnosisClient({
                 initialSelectedChat && "h-full"
               }`}
             >
-              <div className="flex flex-col relative max-h-[96svh] overflow-auto h-full">
+              <div className={`flex flex-col relative max-h-[96svh] overflow-auto h-full  `}>
                 <Card
                   className={`max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${
                     !initialSelectedChat!?.messages!.length &&
@@ -215,12 +216,15 @@ export default function DiagnosisClient({
                   </CardContent>
                 </Card>
 
-                <Card className="bg-transparent border-none shadow-none animate-fade-in-down duration-200 opacity-0 delay-500">
-                  <CardContent className="p-2 flex items-center justify-center gap-2">
+              <span className="flex items-center justify-center">
+                  <Card className="bg-transparent border-none shadow-none animate-fade-in-down duration-200 opacity-0 delay-500 p-0">
+                  <CardContent className="flex items-center justify-center gap-2 p-2">
                     <Form initialSelectedId={initialSelectedId} />
-                    <ShimmerButton ><Mic  /></ShimmerButton>
+
                   </CardContent>
                 </Card>
+      <VoiceButton />
+              </span>
               </div>
             </div>
           </main>
