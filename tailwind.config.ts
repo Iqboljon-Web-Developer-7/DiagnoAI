@@ -139,7 +139,7 @@ const config: Config = {
   		},
   		animation: {
   			'fade-in-down': 'fade-in-down 0.3s ease-in-out forwards',
-  			'fade-out-up': 'fade-out-up 0.3s ease-in-out'
+  			'fade-out-up': 'fade-out-up 0.3s ease-in-out forwards'
   		}
   	}
   },

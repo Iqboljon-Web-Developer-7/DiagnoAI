@@ -94,9 +94,9 @@ export default function VoiceChatButton() {
       setButtonPosition(null);
       setIsActive(false);
 
-      if(buttonRef.current){
-        buttonRef.current.style.display = "flex"
-      }
+    //   if(buttonRef.current){
+    //     buttonRef.current.classList.add("animate-fade-in-down delay-200 opacity-0")
+    //   }
       if (recognitionRef.current) {
         recognitionRef.current.stop();
       }
@@ -122,7 +122,7 @@ export default function VoiceChatButton() {
     if(isListening){
         setTimeout(() => {
                 if (buttonRef.current) {
-                  buttonRef.current.style.display = 'none';
+                  buttonRef.current.classList.add("animate-fade-out-up");
                 }
         }, 200);
     }
