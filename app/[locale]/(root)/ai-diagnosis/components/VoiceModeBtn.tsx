@@ -143,7 +143,6 @@ export default function VoiceChatButton() {
           flex items-center justify-center
           shadow-lg hover:shadow-xl
           active:scale-95
-          ${!isActive ? 'hover:scale-105' : ''}
         `}
         style={getButtonStyle()}
       >

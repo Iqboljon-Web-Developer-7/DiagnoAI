@@ -71,7 +71,7 @@ export function HeroSection() {
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start flex-wrap">
           <Link href="/ai-diagnosis">
-            <Button variant="outline" className="button hover:bg-transparent">
+            <Button variant="ghost" className="button hover:bg-transparent">
               <StarsIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               {t("hero.getDiagnosis")}
             </Button>

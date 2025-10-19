@@ -243,7 +243,7 @@ export default function DiagnosisClient({
               }`}
             >
               <div
-                className={`flex flex-col relative max-h-[98svh] overflow-auto h-full  `}
+                className={`flex flex-col relative max-h-[98svh] overflow-y-auto h-full  `}
               >
                 <Card
                   className={`max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${
