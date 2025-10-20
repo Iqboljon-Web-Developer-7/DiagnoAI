@@ -10,63 +10,7 @@ import { Link, useRouter } from "@/i18n/navigation";
 import bgWallpaper from "@/assets/images/useful/bg-wallpaper-line.webp";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-const SidebarContent = dynamic(
-  () =>
-    import("@/components/ui/sidebar").then((mod) => ({
-      default: mod.SidebarContent,
-    })),
-  { ssr: false }
-);
-const SidebarGroup = dynamic(
-  () =>
-    import("@/components/ui/sidebar").then((mod) => ({
-      default: mod.SidebarGroup,
-    })),
-  { ssr: false }
-);
-const SidebarGroupContent = dynamic(
-  () =>
-    import("@/components/ui/sidebar").then((mod) => ({
-      default: mod.SidebarGroupContent,
-    })),
-  { ssr: false }
-);
-const SidebarHeader = dynamic(
-  () =>
-    import("@/components/ui/sidebar").then((mod) => ({
-      default: mod.SidebarHeader,
-    })),
-  { ssr: false }
-);
-const SidebarMenu = dynamic(
-  () =>
-    import("@/components/ui/sidebar").then((mod) => ({
-      default: mod.SidebarMenu,
-    })),
-  { ssr: false }
-);
-const SidebarTrigger = dynamic(
-  () =>
-    import("@/components/ui/sidebar").then((mod) => ({
-      default: mod.SidebarTrigger,
-    })),
-  { ssr: false }
-);
-
-// const SidebarInset = dynamic(() => import("@/components/ui/sidebar").then(mod => ({ default: mod.SidebarInset })), { ssr: false });
-const Sidebar = dynamic(
-  () =>
-    import("@/components/ui/sidebar").then((mod) => ({ default: mod.Sidebar })),
-  { ssr: false }
-);
-const SidebarProvider = dynamic(
-  () =>
-    import("@/components/ui/sidebar").then((mod) => ({
-      default: mod.SidebarProvider,
-    })),
-  { ssr: false }
-);
+import { Card, CardContent } from "@/components/ui/card"; 
 import { Brain, Plus } from "lucide-react";
 
 import { toast } from "sonner";
@@ -78,6 +22,7 @@ import { deleteChat } from "./actions";
 
 import ChatMessages from "./components/CurrentChat/CurrentChat";
 import VoiceButton from "./components/VoiceModeBtn";
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 const SidebarInset = dynamic(
   () =>
     import("@/components/ui/sidebar").then((mod) => ({
@@ -179,16 +124,18 @@ export default function DiagnosisClient({
   return (
     <div>
       <SidebarProvider
-        className="bg-cover bg-no-repeat bg-center"
+        className="bg-cover bg-no-repeat bg-center bg-red-50"
         defaultOpen={false}
         style={{ backgroundImage: `url(${bgWallpaper.src})` }}
       >
         <Sidebar
+
           side="left"
-          hidden={true}
-          className="border-r-0 shadow-lg bg-white/30 dark:bg-black dark:bg-neutral-800/40 backdrop-blur-sm z-50"
+          variant="sidebar"
+          hidden={false}
+          className="border-none shadow-lg backdrop-blur-sm z-50 dark:bg-blue-950/80"
         >
-          <SidebarHeader className="relative border-b bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 dark:from-blue-900 dark:to-purple-900">
+          <SidebarHeader className="relative border-b bg-linear-to-r from-blue-600 to-purple-600 text-white p-4 dark:from-blue-900 dark:to-purple-900">
             <Link
               href={"/"}
               className="flex items-center gap-2 hover:text-green-300 duration-200 w-fit"
@@ -208,7 +155,7 @@ export default function DiagnosisClient({
               <SidebarGroupContent className="relative overflow-hidden">
                 <Button
                   onClick={handleNewChat}
-                  className="sticky top-0 w-full mb-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md dark:from-blue-900 dark:to-purple-900 dark:hover:from-blue-950 dark:hover:to-purple-950"
+                  className="sticky top-0 w-full mb-4 bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-md dark:from-blue-900 dark:to-purple-900 dark:hover:from-blue-950 dark:hover:to-purple-950"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   {t("newConsultation")}
@@ -227,13 +174,13 @@ export default function DiagnosisClient({
           </SidebarContent>
         </Sidebar>
 
-        <SidebarInset className="bg-transparent backdrop-blur-md dark:bg-black/80">
+        <SidebarInset className="backdrop-blur-md dark:bg-blue-950/80">
           <SidebarTrigger
             iconType="ai-diagnosis"
             className="absolute top-2 sm:top-4 left-2 sm:left-4 z-10 duration-200 scale-125 dark:text-white"
           />
           <main
-            className={`flex-1 p-2 md:p-4 max-h-[100svh] ${
+            className={`flex-1 overflow-hidden max-h-svh ${
               !initialSelectedChat && "flex items-center justify-center"
             }`}
           >
@@ -243,10 +190,10 @@ export default function DiagnosisClient({
               }`}
             >
               <div
-                className={`flex flex-col relative max-h-[98svh] overflow-y-auto h-full  `}
+                className={`flex flex-col relative max-h-[98svh] overflow-hidden h-full  `}
               >
                 <Card
-                  className={`max-h-[96svh] overflow-auto flex-grow shadow-none border-0 bg-transparent ${
+                  className={`max-h-[96svh] overflow-auto grow shadow-none border-0 bg-transparent ${
                     !initialSelectedChat!?.messages!.length &&
                     "flex items-center justify-center"
                   }`}
@@ -269,9 +216,9 @@ export default function DiagnosisClient({
                   </CardContent>
                 </Card>
 
-                <span className="flex items-center justify-center pt-1">
-                  <Card className="flex-1 bg-transparent border-none shadow-none animate-fade-in-down duration-200 opacity-0 delay-500 p-0">
-                    <CardContent className="flex items-center justify-center gap-2 p-2">
+                <span className="flex items-end justify-center p-1 gap-2">
+                  <Card className="flex-1 grow bg-transparent border-none shadow-none animate-fade-in-down duration-200 opacity-0 delay-500 p-0">
+                    <CardContent className="flex items-start justify-center flex-col p-0">
                       <Form initialSelectedId={initialSelectedId} />
                     </CardContent>
                   </Card>
@@ -305,7 +252,7 @@ export default function DiagnosisClient({
         </div>
         <Sidebar
           side="right"
-          className="bg-white/30 backdrop-blur-sm dark:bg-neutral-800/40"
+          className="bg-white/30 border-none transition-all backdrop-blur-xs dark:bg-neutral-800/40"
           style={{ backgroundColor: "transparent" }}
         >
           <Doctors initialDoctors={initialDoctors} t={t} />

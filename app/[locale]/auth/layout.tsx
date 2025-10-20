@@ -10,7 +10,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
       {/* Back button fixed to top-right */}
       <Link
         href="/"
-        className="fixed top-4 left-4 z-50 inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-gray-800/80 dark:text-gray-200 px-3 py-2 text-sm font-medium text-gray-800 shadow hover:bg-white dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500"
+        className="fixed top-4 left-4 z-50 inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-gray-800/80 dark:text-gray-200 px-3 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-white dark:hover:bg-gray-700 focus:outline-hidden focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500"
       >
         <ChevronLeft className="h-4 w-2 scale-[2.22]" />
       </Link>

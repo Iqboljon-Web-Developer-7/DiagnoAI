@@ -19,7 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { deleteBooking, serverFetch } from "@/app/actions"; // Import the Server Action
+import { deleteBooking, serverFetch } from "@/app/actions";
 
 interface Booking {
   id: number;
@@ -60,15 +60,16 @@ const StatusIndicator = ({ status }: { status: Booking["status"] }) => {
 };
 const BookingCard = ({ booking }: { booking: Booking }) => {
   return (
-    <div className="p-4 border rounded-lg bg-white shadow-sm hover:shadow-md transition space-y-3">
+    <div className="p-4 border rounded-lg bg-neutral-100 dark:bg-zinc-800 border-none
+     shadow-xs hover:shadow-md transition space-y-3">
       <div className="flex justify-between items-center text-sm">
-        <span className="font-medium text-gray-600">Appointment Date:</span>
-        <span className="text-gray-800">
+        <span className="font-medium text-gray-600 dark:text-neutral-200">Appointment Date:</span>
+        <span className="text-gray-800 dark:text-neutral-200">
           {formatDate(booking.appointment_date)}
         </span>
       </div>
       <div className="flex justify-between items-center">
-        <span className="font-medium text-gray-600">Status:</span>
+        <span className="font-medium text-gray-600 dark:text-neutral-200">Status:</span>
         <div className="flex items-center gap-2">
           <StatusIndicator status={booking.status} />
           <form action={deleteBooking}>
@@ -81,7 +82,7 @@ const BookingCard = ({ booking }: { booking: Booking }) => {
             >
               <Trash2 className="h-4 w-4 text-red-500" />
             </Button>
-            <AlertDialog>
+            {/* <AlertDialog>
               <AlertDialogTrigger asChild>
               </AlertDialogTrigger>
               <AlertDialogContent>
@@ -98,7 +99,7 @@ const BookingCard = ({ booking }: { booking: Booking }) => {
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
-            </AlertDialog>
+            </AlertDialog> */}
           </form>
         </div>
       </div>
@@ -106,10 +107,11 @@ const BookingCard = ({ booking }: { booking: Booking }) => {
         {["Pending", "Approved", "Rejected"].map((status) => (
           <div
             key={status}
-            className="rounded-lg border p-2 text-center bg-gray-50"
+            className="rounded-lg border p-2 text-center bg-gray-100 dark:bg-neutral-900 border-neutral-400 dark:border-neutral-700"
           >
-            <div className="text-xs text-gray-500">{status}</div>
-            <div className="font-semibold text-gray-800">
+            <div className="text-xs text-gray-500 dark:text-neutral-200
+            ">{status}</div>
+            <div className="font-semibold text-gray-800 dark:text-neutral-300">
               {booking[`number_of_${status.toLowerCase()}` as keyof Booking]}
             </div>
           </div>
@@ -136,7 +138,7 @@ export default async function Bookings() {
   const role = cookieStore.get("role")?.value ?? null;
   const token = cookieStore.get("access-token")?.value ?? null;
 
-  const bookings = await serverFetch(`/bookings/user/bookings/`)
+  const bookings = await serverFetch(`/bookings/user/bookings/`, { next: { revalidate: 100, tags: ['bookings'], revalidatePath: '/' } })
 
   if (role !== "client" || !token) {
     return null;
@@ -145,11 +147,12 @@ export default async function Bookings() {
   return (
     <Dialog defaultOpen={false}>
       <DialogTrigger asChild>
-        <Button variant="link" size="sm" className="hover:bg-sky-50 rounded-full">
+        <Button variant="link" size="sm" className="hover:bg-sky-50 dark:!text-neutral-200 hover:dark:!text-black rounded-full">
           <Calendar />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px]">
+      <DialogContent className="sm:max-w-[625px] bg-neutral-200 dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200
+      border-none">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5" />
@@ -162,7 +165,7 @@ export default async function Bookings() {
           bookings.length > 0 ? (
             <div className="grid gap-4 mt-4 max-h-96 overflow-y-auto pr-2">
               {bookings.map((booking: Booking) => (
-                <BookingCard key={booking.id} booking={booking} />
+                <BookingCard  key={booking.id} booking={booking} />
               ))}
             </div>
           ) : (

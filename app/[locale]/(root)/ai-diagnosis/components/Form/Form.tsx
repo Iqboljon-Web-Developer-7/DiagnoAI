@@ -3,7 +3,7 @@
 import { memo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Paperclip, Send, FileText, X  } from "lucide-react";
+import { Loader2, Paperclip, Send, FileText, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { useRouter } from "@/i18n/navigation";
@@ -109,57 +109,63 @@ function Form({ initialSelectedId }: FormProps) {
           className="max-w-md text-center mx-auto text-gray-700 dark:text-gray-200"
         />
       )}
-      {files!?.length > 0 && (
-        <div className="py-2">
-          <div className="flex items-center justify-start gap-3">
-            {files!.map((file, i) => (
-              <div key={i} className="relative group w-12 h-12">
-                <div className="aspect-square w-full rounded-lg border-2 border-gray-200 dark:border-gray-700 overflow-hidden flex items-center justify-center hover:bg-white/30 dark:hover:bg-gray-800/30 duration-100">
-                  {file.type.startsWith("image/") ? (
-                    <Zoom>
-                      <Image
-                        width={48}
-                        height={48}
-                        src={URL.createObjectURL(file)}
-                        alt={file.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </Zoom>
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-                      <div className="text-center p-4">
-                        <FileText className="h-8 w-8 text-gray-400 dark:text-gray-500 mx-auto mb-2" />
-                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[120px]">
-                          {file.name}
-                        </p>
+      <div
+        className="
+        w-[-webkit-fill-available] max-w-[70vw] sm:max-w-screen overflow-x-auto overflow-y-hidden flex items-center justify-start"
+      >
+        {files!?.length > 0 && (
+          <div className="py-2">
+            <div className="flex items-center justify-start gap-3">
+              {files!.map((file, i) => (
+                <div key={i} className="relative group w-12 h-12">
+                  <div className="aspect-square w-full rounded-lg border-2 border-gray-200 dark:border-gray-700 overflow-hidden flex items-center justify-center hover:bg-white/30 dark:hover:bg-gray-800/30 duration-100">
+                    {file.type.startsWith("image/") ? (
+                      <Zoom>
+                        <Image
+                          width={48}
+                          height={48}
+                          src={URL.createObjectURL(file)}
+                          alt={file.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </Zoom>
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+                        <div className="text-center p-4">
+                          <FileText className="h-8 w-8 text-gray-400 dark:text-gray-500 mx-auto mb-2" />
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[120px]">
+                            {file.name}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      const newFiles = [...files];
+                      newFiles.splice(i, 1);
+                      setFiles(newFiles);
+                    }}
+                    className="absolute -top-2 -right-4 bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-800/60 backdrop-blur-[2px] rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                  >
+                    <X className="text-red-500" />
+                  </Button>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    const newFiles = [...files];
-                    newFiles.splice(i, 1);
-                    setFiles(newFiles);
-                  }}
-                  className="absolute -top-2 -right-4 bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-800/60 backdrop-blur-[2px] rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                >
-                  <X className="text-red-500" />
-                </Button>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
       <form onSubmit={handleSendMessage} className="space-y-4 w-full">
         <div className="relative">
           <Textarea
+            disabled={analyzing}
             placeholder={t("symptomPlaceholder")}
             value={symptoms}
             onChange={(e) => setSymptoms(e.target.value)}
-            className="min-h-5 md:min-h-8 resize-none text-sm bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm md:text-lg max-h-40 w-full pr-16 sm:pr-14 focus:border-blue-400 dark:focus:border-blue-600 rounded-2xl border-none focus-visible:outline-none focus-visible:ring-offset-0 text-gray-700 dark:text-gray-200"
+            className="min-h-5 md:min-h-8 resize-none text-sm bg-white/50 dark:bg-gray-800/50 backdrop-blur-xs md:text-lg max-h-40 w-full pr-16 sm:pr-14 focus:border-blue-400 dark:focus:border-blue-600 rounded-2xl border-none focus-visible:outline-hidden focus-visible:ring-offset-0 text-gray-700 dark:text-gray-200"
             rows={1}
             style={{
               height: "auto",
@@ -173,6 +179,7 @@ function Form({ initialSelectedId }: FormProps) {
           />
           <div className="rounded-xl text-center transition-colors absolute bottom-2 md:bottom-3 right-11">
             <input
+              disabled={analyzing}
               type="file"
               multiple
               accept=".jpg,.jpeg,.png,.pdf"
@@ -211,4 +218,4 @@ function Form({ initialSelectedId }: FormProps) {
   );
 }
 
-export default memo(Form)
+export default memo(Form);

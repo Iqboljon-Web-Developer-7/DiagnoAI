@@ -8,11 +8,11 @@ import { useTranslations } from "next-intl";
 
 export function HeroSection() {
   const t = useTranslations("Index");
-  const [videoSrc, setVideoSrc] = useState("/hero-desktop.webm");
+  const [videoSrc, setVideoSrc] = useState("");
 
   useEffect(() => {
     const updateVideoSrc = () => {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 600) {
         setVideoSrc("/hero-mobile.webm");
       } else {
         setVideoSrc("/hero-desktop.webm");
@@ -28,7 +28,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative bg-gradient-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-sky-800 bg-no-repeat min-h-[38rem] h-[100svh] flex items-center ">
+    <section className="relative bg-linear-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-sky-800 bg-no-repeat min-h-152 h-svh flex items-center ">
       <video
         src={videoSrc}
         autoPlay
@@ -38,29 +38,8 @@ export function HeroSection() {
         preload="metadata"
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover"
       />
-      {/* <source
-          src="/hero-mobile.webm"
-          type="video/webm"
-          media="(max-width: 767px)"
-        />
-        <source
-          src="/hero-desktop.webm"
-          type="video/webm"
-          media="(min-width: 768px)"
-        /> */}
-      {/* <source
-          src="/0904(5)mp4"
-          type="video/mp4"
-          media="(max-width: 767px)"
-        />
-        <source
-          src="/0904(6).mp4"
-          type="video/mp4"
-          media="(min-width: 768px)"
-        /> */}
-      {/* </video> */}
       <span className="absolute inset-0 bg-black/20 z-10"></span>
-      <span className="absolute inset-0 bg-gradient-to-r from-[#FFFFFF33] to-[#2B6A73B2] z-10"></span>
+      {/* <span className="absolute inset-0 bg-linear-to-r from-[#FFFFFF33] to-[#2B6A73B2] z-10"></span> */}
       <div className="flex items-center justify-center flex-col mx-auto animate-fade-in-down delay-300 opacity-0 duration-500 py-60 z-20 gap-14">
         <div className="text-center flex items-center justify-center flex-col min-h-64">
           <AutoWrite

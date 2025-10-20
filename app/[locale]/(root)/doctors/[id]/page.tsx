@@ -121,10 +121,10 @@ export default function page({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800 pt-12">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800 pt-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden mb-8">
-          <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 px-8 py-12">
+          <div className="relative bg-linear-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 px-8 py-12">
             <div className="flex flex-col lg:flex-row items-center lg:items-start space-y-6 lg:space-y-0 lg:space-x-8">
               <div className="relative">
                 <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-white dark:bg-slate-700 p-1 shadow-2xl">
@@ -369,7 +369,7 @@ export default function page({ params }: PageProps) {
               <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">{translations('contactInformation')}</h3>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
-                  <Building2 className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 flex-shrink-0" />
+                  <Building2 className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900 dark:text-gray-100">{translations('hospital')}</p>
                     <p className="text-gray-600 dark:text-gray-400">{doctor.hospital.name}</p>
@@ -378,7 +378,7 @@ export default function page({ params }: PageProps) {
 
                 {doctor.hospital.phone_number && (
                   <div className="flex items-start space-x-3">
-                    <Phone className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 flex-shrink-0" />
+                    <Phone className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 shrink-0" />
                     <div>
                       <p className="font-medium text-gray-900 dark:text-gray-100">{translations('phone')}</p>
                       <p className="text-gray-600 dark:text-gray-400">{doctor.hospital.phone_number}</p>
@@ -387,7 +387,7 @@ export default function page({ params }: PageProps) {
                 )}
 
                 <div className="flex items-start space-x-3">
-                  <MapPin className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 flex-shrink-0" />
+                  <MapPin className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900 dark:text-gray-100">{translations('location')}</p>
                     <p className="text-gray-600 dark:text-gray-400">

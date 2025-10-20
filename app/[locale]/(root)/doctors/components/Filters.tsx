@@ -33,12 +33,12 @@ const FilterContent = ({
                 {translations('filters.searchLabel') || 'Search'}
             </label>
             <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
                 <Input
                     placeholder={translations('filters.searchPlaceholder') || 'Search doctors or specialties'}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 dark:bg-gray-900 dark:text-gray-100"
+                    className="pl-10 dark:bg-gray-900 dark:text-gray-100 border-neutral-300 dark:border-neutral-700"
                 />
             </div>
         </div>
@@ -48,7 +48,7 @@ const FilterContent = ({
                 {translations('filters.ratingLabel') || 'Rating'}
             </label>
             <Select value={selectedRating} onValueChange={setSelectedRating}>
-                <SelectTrigger className="dark:bg-gray-900 dark:text-gray-100">
+                <SelectTrigger className="dark:bg-gray-900 dark:text-gray-100 border-neutral-300 dark:border-neutral-700">
                     <SelectValue placeholder={translations('filters.ratingPlaceholder') || 'Select a rating'} />
                 </SelectTrigger>
                 <SelectContent className="dark:bg-gray-900 dark:text-gray-100">
@@ -59,7 +59,7 @@ const FilterContent = ({
             </Select>
         </div>
 
-        <Button variant="outline" className="w-full dark:bg-gray-900 dark:text-gray-100" onClick={onClearFilters}>
+        <Button variant="outline" className="w-full dark:bg-gray-900 dark:text-gray-100 border-neutral-300 dark:border-neutral-700" onClick={onClearFilters}>
             {translations('filters.clearFiltersButton') || 'Clear Filters'}
         </Button>
     </div>
@@ -69,7 +69,7 @@ function Filters(props: FiltersProps) {
     const translations = useTranslations('doctors');
     const isMobile = useIsMobile()
 
-    if (isMobile) {
+    if (true) {
         return (
             <Dialog>
                 <DialogTrigger asChild>
@@ -89,9 +89,9 @@ function Filters(props: FiltersProps) {
     }
 
     return (
-        <Card className="sticky top-20 dark:bg-gray-900 dark:text-gray-100">
+        <Card className="sticky top-20 dark:bg-gray-900 dark:text-gray-100 animate-fade-in-down opacity-0 delay-200 border-neutral-300 dark:border-neutral-700 bg-neutral-100">
             <CardHeader className="p-4 pb-0 sm:pb-0 sm:p-6">
-                <CardTitle className="flex items-center space-x-2">
+                <CardTitle className="flex items-center gap-2">
                     <Filter className="w-5 h-5" />
                     <span>{translations('filters.title') || 'Filters'}</span>
                 </CardTitle>

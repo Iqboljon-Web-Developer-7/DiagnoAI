@@ -55,7 +55,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800 pt-12">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-slate-800 pt-12">
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="dark:bg-slate-800 dark:text-white">
           <DialogHeader>
@@ -86,7 +86,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden mb-8">
           <div className="relative">
             {/* Hospital Image */}
-            <div className="h-96 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 relative overflow-hidden">
+            <div className="h-96 bg-linear-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 relative overflow-hidden">
               <Image
                 width={1200}
                 height={400}
@@ -95,7 +95,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
                 className="w-full h-full object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-blue-800/50"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-blue-900/50 to-blue-800/50"></div>
               {/* Hospital Info Overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
                 <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-4">
@@ -109,7 +109,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
                     </div>
                   </div>
 
-                  <div className="flex flex-col xs:flex-row gap-2 sm:gap-3 w-full lg:w-auto flex-shrink-0">
+                  <div className="flex flex-col xs:flex-row gap-2 sm:gap-3 w-full lg:w-auto shrink-0">
                     <button
                       onClick={() => setIsDialogOpen(true)}
                       className="w-full xs:w-auto bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors duration-200 flex items-center justify-center space-x-2 text-sm sm:text-base"
@@ -190,7 +190,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t('contactInformation')}</h3>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
-                  <MapPin className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 flex-shrink-0" />
+                  <MapPin className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900 dark:text-white">{t('address')}</p>
                     <p className="text-gray-600 dark:text-gray-300">{t('location')}</p>
@@ -201,7 +201,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
                 </div>
 
                 <div className="flex items-start space-x-3">
-                  <Phone className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 flex-shrink-0" />
+                  <Phone className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900 dark:text-white">{t('phone')}</p>
                     <p className="text-gray-600 dark:text-gray-300">{hospital?.phone_number}</p>
@@ -209,7 +209,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
                 </div>
 
                 <div className="flex items-start space-x-3">
-                  <Clock className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 flex-shrink-0" />
+                  <Clock className="h-5 w-5 text-gray-500 dark:text-gray-400 mt-1 shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900 dark:text-white">{t('emergency')}</p>
                     <p className="text-green-600 dark:text-green-400 font-medium">{t('available247')}</p>
@@ -228,7 +228,7 @@ function Page({ params }: { params: Promise<{ id: string; locale: string }> }) {
             />
 
             {/* Quick Actions */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 rounded-xl shadow-lg p-6 text-white">
+            <div className="bg-linear-to-r from-blue-600 to-blue-800 dark:from-blue-900 dark:to-blue-950 rounded-xl shadow-lg p-6 text-white">
               <h3 className="text-xl font-bold mb-4">{t('needImmediateCare')}</h3>
               <p className="text-blue-100 dark:text-blue-300 mb-4">{t('emergencyDepartmentAvailable')}</p>
               <button

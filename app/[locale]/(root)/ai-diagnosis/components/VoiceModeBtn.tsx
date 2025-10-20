@@ -134,10 +134,11 @@ export default function VoiceChatButton() {
         ref={buttonRef}
         onClick={handleClick}
         className={`
+          shrink-0
           z-50
           transition-all duration-700 ease-in-out
-          ${isActive ? 'w-20 h-20' : 'w-14 h-14'}
-          bg-gradient-to-br from-blue-500 to-blue-600
+          ${isActive ? 'w-20 h-20' : 'w-10 h-10 sm:w-14 sm:h-14'}
+          bg-linear-to-br from-blue-500 to-blue-600
           hover:from-blue-600 hover:to-blue-700
           rounded-full
           flex items-center justify-center
@@ -157,7 +158,7 @@ export default function VoiceChatButton() {
       <div
         className={`
           fixed inset-0 z-40
-          bg-gradient-to-br from-blue-500 to-blue-600
+          bg-linear-to-br from-blue-500 to-blue-600
           transition-all duration-700 ease-in-out
           ${isActive ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}
           flex items-center justify-center

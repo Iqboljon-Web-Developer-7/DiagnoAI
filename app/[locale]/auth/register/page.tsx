@@ -152,11 +152,11 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-blue-50 to-purple-200 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-200 via-blue-50 to-purple-200 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
       <div className="max-w-md overflow-auto">
-        <Card className="relative  overflow-hidden space-y-5 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm animate-fade-in-down delay-200 opacity-0">
+        <Card className="relative  overflow-hidden space-y-5 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xs animate-fade-in-down delay-200 opacity-0">
           <CardHeader className="text-center pb-2">
-            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-800 dark:to-purple-900 rounded-full flex items-center justify-center mb-4 shadow-lg">
+            <div className="mx-auto w-16 h-16 bg-linear-to-r from-blue-500 to-purple-600 dark:from-blue-800 dark:to-purple-900 rounded-full flex items-center justify-center mb-4 shadow-lg">
               <UserIcon className="w-8 h-8 text-white" />
             </div>
             <CardTitle className="text-3xl font-bold text-purple-900 dark:text-purple-300">
@@ -390,7 +390,7 @@ const RegisterPage = () => {
                 {form.formState.errors.root && (
                   <>
                     <div className="flex items-center gap-2 p-3 bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg"></div>
-                    <AlertCircle className="w-4 h-4 text-red-500 dark:text-red-400 flex-shrink-0" />
+                    <AlertCircle className="w-4 h-4 text-red-500 dark:text-red-400 shrink-0" />
                     <p className="text-sm text-red-700 dark:text-red-300">
                       {form.formState.errors.root.message}
                     </p>
@@ -400,7 +400,7 @@ const RegisterPage = () => {
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className="dark:text-slate-100 w-full h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 dark:from-blue-800 dark:to-purple-900 dark:hover:from-blue-900 dark:hover:to-purple-950"
+                  className="dark:text-slate-100 w-full h-12 bg-linear-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 dark:from-blue-800 dark:to-purple-900 dark:hover:from-blue-900 dark:hover:to-purple-950"
                 >
                   {isPending ? (
                     <>

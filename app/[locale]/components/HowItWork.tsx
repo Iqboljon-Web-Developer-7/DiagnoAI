@@ -1,70 +1,95 @@
+"use client"
+
 import { Iphone } from '@/components/ui/iphone';
-import React from 'react';
+import { Link } from '@/i18n/navigation';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function HowItWork() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="w-full py-20 md:py-28 px-4 bg-gradient-to-b from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div className="max-w-6xl mx-auto">
+    <section ref={sectionRef} className="w-full py-12 sm:py-16 md:py-20 lg:py-28 px-4 bg-linear-to-b from-white via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="max-w-6xl mx-auto px-2 sm:px-4">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-gray-100 mb-4 tracking-tight">
+        <div className="text-center mb-10 sm:mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4 tracking-tight">
             How It Works
           </h2>
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-xl sm:max-w-2xl mx-auto leading-relaxed px-2">
             Experience seamless diagnostics with our cutting-edge AI technology.
           </p>
         </div>
 
         {/* Content Grid */}
-        <div className="grid md:grid-cols-2 gap-8 md:gap-10 items-center">
-          <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shadow-md">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-10 items-center">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6">
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className="shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shadow-md text-sm sm:text-base">
                 1
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
                   Visit AI Diagnosis Page
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
                   Navigate to our AI diagnosis page and start your health assessment instantly—no installation needed.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shadow-md">
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className="shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shadow-md text-sm sm:text-base">
                 2
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
                   Describe Your Symptoms
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
                   Answer a few quick questions about how you feel—our AI analyzes your responses in real time.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shadow-md">
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className="shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold shadow-md text-sm sm:text-base">
                 3
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-1">
                   Get AI Insights
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
                   Receive personalized guidance and next-step recommendations powered by advanced AI within moments.
                 </p>
               </div>
             </div>
 
-            <div className="pt-4">
-              <button className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 text-white font-semibold shadow-lg hover:bg-indigo-700 transition-all duration-200 hover:scale-105">
+            <div className="pt-3 sm:pt-4">
+            <Link href={"/ai-diagnosis"}>
+              <button className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl bg-indigo-600 text-white font-semibold shadow-lg hover:bg-indigo-700 transition-all duration-200 hover:scale-105 text-sm sm:text-base">
                 Try AI Diagnosis
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4 sm:w-5 sm:h-5"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
@@ -77,15 +102,16 @@ export default function HowItWork() {
                   />
                 </svg>
               </button>
+            </Link>
             </div>
           </div>
 
-          <div className="flex justify-center">
-            <div className="relative">
-              <div className="absolute -inset-4 bg-indigo-200 dark:bg-indigo-900 rounded-3xl blur-xl opacity-30" />
+          <div className="flex justify-center mt-8 md:mt-0">
+            <div className="relative w-full max-w-[280px] sm:max-w-xs md:max-w-sm">
+              <div className="absolute -inset-3 sm:-inset-4 bg-indigo-200 dark:bg-indigo-900 rounded-3xl blur-xl opacity-30" />
               <Iphone
-                className="w-full max-w-sm md:max-w-sm min-w-60"
-                videoSrc="https://videos.pexels.com/video-files/4250244/4250244-uhd_1440_2160_30fps.mp4"
+                className="w-full min-w-[240px]"
+                videoSrc={inView ? "/how-to-use.webm" : undefined}
               />
             </div>
           </div>

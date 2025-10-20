@@ -27,7 +27,7 @@ const Doctors = ({
     >
       <div className="relative">
         <SidebarTrigger className="absolute top-16 -translate-y-full -translate-x-full bg-neutral-200 z-50 left-4 text-black dark:bg-neutral-700 dark:text-white" />
-        <Card className="relative h-[100svh] overflow-y-auto shadow-xl border-0 bg-transparent dark:bg-neutral-900/80">
+        <Card className="relative h-svh overflow-y-auto shadow-xl border-0 bg-transparent dark:bg-neutral-900/80">
           <CardHeader className="p-4 relative">
             <div className="flex items-center gap-3 py-2 px-2">
               <div>
@@ -44,7 +44,7 @@ const Doctors = ({
                   <div
                     onClick={() => router.push(`/doctors/${doc?.id}`)}
                     key={doc?.id}
-                    className="cursor-pointer p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-gradient-to-br from-white to-gray-50 dark:from-neutral-900 dark:to-neutral-800 dark:border-neutral-700"
+                    className="cursor-pointer p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-linear-to-br from-white to-gray-50 dark:from-neutral-900 dark:to-neutral-800 dark:border-neutral-700"
                   >
                     <div className="flex items-start gap-3">
                       <Avatar className="h-14 w-14 border-2 border-green-200 dark:border-green-700 rounded-full">
@@ -57,7 +57,7 @@ const Doctors = ({
                             className="object-cover rounded-full"
                           />
                         ) : (
-                          <AvatarFallback className="bg-gradient-to-r from-green-500 to-emerald-500 text-white dark:from-green-900 dark:to-emerald-900">
+                          <AvatarFallback className="bg-linear-to-r from-green-500 to-emerald-500 text-white dark:from-green-900 dark:to-emerald-900">
                             {doc?.name
                               .split(" ")
                               .map((n) => n[0])
@@ -103,7 +103,7 @@ const Doctors = ({
             )}
 
             <Link href="/doctors" passHref className="fixed bottom-[1%] right-[3%]">
-              <Button className="w-full mt-4 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white dark:from-green-900 dark:to-emerald-900 dark:hover:from-green-950 dark:hover:to-emerald-950">
+              <Button className="w-full mt-4 bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white dark:from-green-900 dark:to-emerald-900 dark:hover:from-green-950 dark:hover:to-emerald-950">
                 {t("viewAllSpecialists")} 
               </Button>
             </Link>

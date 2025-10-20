@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation"
 import axios from 'axios'
 import { serverFetch } from '@/app/[locale]/(root)/ai-diagnosis/actions'
 
-export function UserMenu({ className }: { className?: string }) {
+export default function UserMenu({ className }: { className?: string }) {
   const { user, isLoggedIn, logout } = useAppStore()
   const t = useTranslations('UserMenu')
   const router = useRouter()
@@ -61,7 +61,7 @@ export function UserMenu({ className }: { className?: string }) {
               </div>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-white/50 dark:bg-slate-800/80 backdrop-blur-sm border-none" align="end" forceMount>
+          <DropdownMenuContent className="bg-white/50 dark:bg-slate-800/80 backdrop-blur-xs border-none" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="font-medium leading-none dark:text-white">{user.name}</p>

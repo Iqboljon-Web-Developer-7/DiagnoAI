@@ -147,7 +147,7 @@ export default function Education() {
     <div className="min-h-screen bg-background">
       <section className="relative ">
         <div
-          className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 bg-black/40 bg-bottom bg-cover bg-no-repeat dark:bg-black/60"
+          className="absolute inset-0 bg-linear-to-br from-primary/20 to-accent/20 bg-black/40 bg-bottom bg-cover bg-no-repeat dark:bg-black/60"
           style={{
             backgroundImage: `url(${heroImage.src})`,
             backgroundSize: 'cover',
@@ -159,7 +159,7 @@ export default function Education() {
           <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-in-down">
             <div className="flex items-center justify-center gap-2 mb-4">
               <GraduationCap className="h-8 w-8 text-primary dark:text-accent" />
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent dark:from-blue-100 dark:to-primary">
+              <h1 className="text-5xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent dark:from-blue-100 dark:to-primary">
                 {t('hero.title')}
               </h1>
             </div>
@@ -179,7 +179,7 @@ export default function Education() {
           {categories.map((category) => (
             <Button
               key={category}
-              variant={selectedCategory === category ? 'default' : 'outline'}
+              variant={selectedCategory === category ? 'default' : 'outline-solid'}
               size="sm"
               onClick={() => setSelectedCategory(category)}
               className="transition-all duration-200"

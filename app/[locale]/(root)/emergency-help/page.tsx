@@ -93,12 +93,12 @@ export default function EmergencyHelpPage() {
   }, [showSuccessToast, toast, toastMessage]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-50 to-red-100 flex flex-col pt-12">
-      <main className="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+    <div className="min-h-screen bg-linear-to-b from-red-50 to-red-100 flex flex-col pt-12">
+      <main className="grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
         {/* Emergency Alert */}
         <div className="bg-red-100 border-2 border-red-400 rounded-xl p-4 sm:p-6 mb-6 md:mb-8 shadow-md transition-all hover:shadow-lg">
           <div className="flex items-center space-x-3">
-            <AlertTriangle className="w-6 h-6 sm:w-8 sm:h-8 text-red-600 flex-shrink-0" />
+            <AlertTriangle className="w-6 h-6 sm:w-8 sm:h-8 text-red-600 shrink-0" />
             <div>
               <h2 className="text-base sm:text-lg md:text-xl font-bold text-red-800">{translations("alertTitle")}</h2>
               <p className="text-sm sm:text-base text-red-700 mt-1">{translations("alertDescription")}</p>
@@ -151,7 +151,7 @@ export default function EmergencyHelpPage() {
                 />
 
                 {imagePreview && (
-                  <div className="relative border border-red-200 rounded-lg p-2 bg-white shadow-sm">
+                  <div className="relative border border-red-200 rounded-lg p-2 bg-white shadow-xs">
                     <Image src={imagePreview} alt="Uploaded" className="max-h-40 sm:max-h-48 w-full object-contain rounded" />
                     <Button
                       variant="outline"
@@ -274,7 +274,7 @@ export default function EmergencyHelpPage() {
                     <ol className="space-y-3 text-sm sm:text-base">
                       {immediateActions.map((action, index) => (
                         <li key={action} className="flex items-start space-x-2">
-                          <span className="bg-red-600 text-white rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center text-xs sm:text-sm font-bold flex-shrink-0">
+                          <span className="bg-red-600 text-white rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center text-xs sm:text-sm font-bold shrink-0">
                             {index + 1}
                           </span>
                           <span>{translations(`immediateActions.${action}`)}</span>
@@ -341,7 +341,7 @@ export default function EmergencyHelpPage() {
                           ? "bg-red-600 hover:bg-red-700 text-white"
                           : "border-red-300 text-red-700 hover:bg-red-50"
                           } text-sm sm:text-base transition-all`}
-                        variant={contact === "ambulance" ? "default" : "outline"}
+                        variant={contact === "ambulance" ? "default" : "outline-solid"}
                         onClick={() => handleEmergencyCall(index === 0 ? "103" : index === 1 ? "101" : "102")}
                         aria-label={`Call ${translations(`emergencyContacts.${contact}`)}`}
                       >

@@ -120,16 +120,16 @@ const LoginPage: React.FC = () => {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-200 via-blue-50 to-purple-200 dark:from-gray-900 dark:via-gray-950 dark:to-indigo-950 flex items-center justify-center p-4 animate-fade-in-down delay-200 opacity-0">
+    <div className="min-h-screen bg-linear-to-br from-blue-200 via-blue-50 to-purple-200 dark:from-gray-900 dark:via-gray-950 dark:to-indigo-950 flex items-center justify-center p-4 animate-fade-in-down delay-200 opacity-0">
       {/* Background Pattern */}
-      <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-slate-800 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10" />
+      <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-slate-800 mask-[linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10" />
 
       <div className="w-full max-w-md">
         {/* Main Card */}
         <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 dark:border-gray-800 p-8 space-y-8">
           {/* Header */}
           <div className="text-center space-y-4">
-            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-indigo-800 dark:to-indigo-900 rounded-2xl flex items-center justify-center shadow-lg">
+            <div className="mx-auto w-16 h-16 bg-linear-to-r from-blue-600 to-indigo-600 dark:from-indigo-800 dark:to-indigo-900 rounded-2xl flex items-center justify-center shadow-lg">
               <Shield className="w-8 h-8 text-white" />
             </div>
             <div className="space-y-2">
@@ -183,7 +183,7 @@ const LoginPage: React.FC = () => {
             <Button
               type="submit"
               disabled={isPending}
-              className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-indigo-800 dark:to-indigo-900 hover:from-blue-700 hover:to-indigo-700 dark:hover:from-indigo-900 dark:hover:to-indigo-950 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full h-12 bg-linear-to-r from-blue-600 to-indigo-600 dark:from-indigo-800 dark:to-indigo-900 hover:from-blue-700 hover:to-indigo-700 dark:hover:from-indigo-900 dark:hover:to-indigo-950 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isPending ? (
                 <div className="flex items-center justify-center space-x-2">

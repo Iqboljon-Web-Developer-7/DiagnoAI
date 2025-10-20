@@ -12,7 +12,7 @@ interface StatCardProps {
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, color = "text-blue-500", className }) => {
   return (
-    <div className={cn("bg-white p-6 rounded-xl shadow-sm border border-gray-100", className)}>
+    <div className={cn("bg-white p-6 rounded-xl shadow-xs border border-gray-100", className)}>
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-600">{title}</p>

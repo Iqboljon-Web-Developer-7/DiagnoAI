@@ -13,10 +13,10 @@ const Filter: React.FC<{
 }> = ({ filters, handleFilterChange, clearFilters, t }) => {
   return (
     <div className="lg:col-span-1 relative hidden md:block">
-            <Card className="sticky top-20 shadow-xl border-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
+            <Card className="sticky top-20 shadow-xl border-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xs">
               <CardHeader className="pb-4">
                 <CardTitle className="flex items-center space-x-2 text-gray-900 dark:text-white">
-                  <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-900 dark:to-blue-800 rounded-lg">
+                  <div className="p-2 bg-linear-to-r from-blue-500 to-blue-600 dark:from-blue-900 dark:to-blue-800 rounded-lg">
                     <FilterIcon className="w-4 h-4 text-white" />
                   </div>
                   <span>{t ? t("filters.title") || "Filters" : ""}</span>

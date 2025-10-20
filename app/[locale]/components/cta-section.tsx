@@ -6,7 +6,7 @@ export async function CTASection() {
   const t = await getTranslations('Index');
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-blue-600 to-blue-800 text-white dark:from-blue-900 dark:to-gray-900 dark:text-gray-100">
+    <section className="py-12 sm:py-16 md:py-20 bg-linear-to-br from-blue-600 to-blue-800 text-white dark:from-blue-900 dark:to-gray-900 dark:text-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">

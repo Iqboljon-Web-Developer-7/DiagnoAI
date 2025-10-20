@@ -107,7 +107,7 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
   // Loading state
   if (isLoading || isPending) {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-900'>
+      <div className='min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-900'>
         <div className="flex flex-col items-center justify-center p-10">
           <div className="relative">
             <Circles
@@ -134,7 +134,7 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-900 pt-12">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-900 pt-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="text-center mb-12">
@@ -143,7 +143,7 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
             <span>{t("badgeTitle")}</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               {t("pageTitle")}
             </span>
           </h1>
@@ -195,7 +195,7 @@ export default function ClientHospitalsPage({hospitals = []}:{hospitals:Hospital
                 </h2>
               </div>
               <Select value={filters.sortBy} onValueChange={(value) => handleFilterChange("sortBy", value)}>
-                <SelectTrigger className="w-48 bg-white dark:bg-slate-900 shadow-sm border-gray-200 dark:border-gray-800">
+                <SelectTrigger className="w-48 bg-white dark:bg-slate-900 shadow-xs border-gray-200 dark:border-gray-800">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="dark:bg-slate-900">
@@ -357,11 +357,11 @@ const HospitalCard = ({
             alt={hospital.name}
             className="w-full h-full object-contain transition-transform duration-700"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-black/20"></div>
+          <div className="absolute inset-0 bg-linear-to-t from-black/10 via-transparent to-transparent lg:bg-linear-to-r lg:from-transparent lg:via-transparent lg:to-black/20"></div>
 
           {/* Rating Badge */}
           <div className="absolute top-4 left-4">
-            <div className="flex items-center space-x-1 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-full px-3 py-1.5">
+            <div className="flex items-center space-x-1 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs rounded-full px-3 py-1.5">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               <span className="text-sm font-semibold text-gray-900 dark:text-white">
                 {hospital.rating?.toFixed(1) || "4.5"}
@@ -372,7 +372,7 @@ const HospitalCard = ({
           {/* Distance Badge */}
           {hospital.distance && (
             <div className="absolute top-4 right-4">
-              <div className="flex items-center space-x-1 bg-blue-600/90 dark:bg-blue-800/90 backdrop-blur-sm rounded-full px-3 py-1.5">
+              <div className="flex items-center space-x-1 bg-blue-600/90 dark:bg-blue-800/90 backdrop-blur-xs rounded-full px-3 py-1.5">
                 <MapPin className="w-3 h-3 text-white" />
                 <span className="text-sm font-medium text-white">
                   {hospital.distance.toFixed(1)} km
@@ -385,7 +385,7 @@ const HospitalCard = ({
           <div className="absolute bottom-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <Link
               onClick={(e) => e.stopPropagation()}
-              className="p-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-full hover:bg-white dark:hover:bg-slate-800 transition-colors duration-200"
+              className="p-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs rounded-full hover:bg-white dark:hover:bg-slate-800 transition-colors duration-200"
               href={`tel:${hospital.phone_number}`}
             >
               <Phone className="w-4 h-4 text-blue-600 dark:text-blue-400" />
@@ -395,7 +395,7 @@ const HospitalCard = ({
               href={`https://yandex.com/maps/?ll=${hospital?.longitude},${hospital?.latitude}&z=15&pt=${hospital?.longitude},${hospital?.latitude}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-full hover:bg-white dark:hover:bg-slate-800 transition-colors duration-200"
+              className="p-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs rounded-full hover:bg-white dark:hover:bg-slate-800 transition-colors duration-200"
             >
               <Navigation className="w-4 h-4 text-blue-600 dark:text-blue-400" />
             </Link>
@@ -474,7 +474,7 @@ const HospitalCard = ({
                     e.stopPropagation()
                     onClick()
                   }}
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-900 dark:to-blue-800 hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-800 dark:hover:to-blue-900 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                  className="flex-1 bg-linear-to-r from-blue-600 to-blue-700 dark:from-blue-900 dark:to-blue-800 hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-800 dark:hover:to-blue-900 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
                 >
                   <span>View Details</span>
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />

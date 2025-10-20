@@ -14,7 +14,7 @@ export default async function NotFound() {
   return (
     <html>
       <body>
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 flex items-center justify-center p-6">
+        <div className="min-h-screen bg-linear-to-br from-slate-50 to-gray-100 flex items-center justify-center p-6">
           <div className="text-center max-w-lg mx-auto">
             <div className="mb-8">
               <h1 className="text-9xl md:text-[12rem] font-light text-gray-200 leading-none select-none">
@@ -39,7 +39,7 @@ export default async function NotFound() {
               <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4">
                 <Link
                   href={'/uz'}
-                  className="group flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-all duration-200 font-medium shadow-sm hover:shadow-md"
+                  className="group flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-xl hover:bg-gray-800 transition-all duration-200 font-medium shadow-xs hover:shadow-md"
                 >
                   <Home className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
                   {t('actions.home')}
@@ -49,7 +49,7 @@ export default async function NotFound() {
 
             {/* Subtle decorative element */}
             <div className="mt-16 flex justify-center">
-              <div className="w-px h-12 bg-gradient-to-b from-gray-200 to-transparent"></div>
+              <div className="w-px h-12 bg-linear-to-b from-gray-200 to-transparent"></div>
             </div>
           </div>
         </div>

@@ -33,9 +33,9 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-xs border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center space-x-2">
             <Stethoscope className="h-6 w-6 text-blue-600" />
@@ -47,7 +47,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
-          <div className="relative bg-gradient-to-r from-blue-600 to-blue-800 px-8 py-12">
+          <div className="relative bg-linear-to-r from-blue-600 to-blue-800 px-8 py-12">
             <div className="flex flex-col lg:flex-row items-center lg:items-start space-y-6 lg:space-y-0 lg:space-x-8">
               {/* Doctor Image */}
               <div className="relative">
@@ -211,7 +211,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
               <h3 className="text-xl font-bold text-gray-900 mb-4">{translations("doctorDetails.contactInformation")}</h3>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
-                  <Building2 className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
+                  <Building2 className="h-5 w-5 text-gray-500 mt-1 shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900">{translations("doctorDetails.hospital")}</p>
                     <p className="text-gray-600">{doctor.hospital}</p>
@@ -220,7 +220,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
 
                 {doctor.phone_number && (
                   <div className="flex items-start space-x-3">
-                    <Phone className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
+                    <Phone className="h-5 w-5 text-gray-500 mt-1 shrink-0" />
                     <div>
                       <p className="font-medium text-gray-900">{translations("doctorDetails.phone")}</p>
                       <p className="text-gray-600">{doctor.phone_number}</p>
@@ -229,7 +229,7 @@ export default function DoctorMain({ doctor, doctorId, freeTimes }: Props) {
                 )}
 
                 <div className="flex items-start space-x-3">
-                  <MapPin className="h-5 w-5 text-gray-500 mt-1 flex-shrink-0" />
+                  <MapPin className="h-5 w-5 text-gray-500 mt-1 shrink-0" />
                   <div>
                     <p className="font-medium text-gray-900">{translations("doctorDetails.location")}</p>
                     <p className="text-gray-600">

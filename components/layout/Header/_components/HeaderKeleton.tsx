@@ -9,7 +9,7 @@ export function HeaderSkeleton() {
         <div className="flex h-16 items-center justify-between">
           
           {/* Logo skeleton */}
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <Skeleton className="h-8 w-32 rounded-lg" />
           </div>
 

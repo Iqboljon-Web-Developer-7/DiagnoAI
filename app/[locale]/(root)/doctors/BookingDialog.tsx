@@ -107,7 +107,7 @@ const BookingDialog = memo(({ isOpen, onClose, doctor, user }: BookingDialogProp
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent 
-                className="max-w-2xl max-h-[90vh] overflow-x-hidden overflow-y-auto bg-gradient-to-br from-white to-blue-50/30 border-0 shadow-2xl"
+                className="max-w-2xl max-h-[90vh] overflow-x-hidden overflow-y-auto bg-linear-to-br from-white to-blue-50/30 border-0 shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
             >
                 <motion.div
@@ -119,13 +119,13 @@ const BookingDialog = memo(({ isOpen, onClose, doctor, user }: BookingDialogProp
                     <DialogHeader onClick={(e) => e.stopPropagation()}>
                         <div className="space-y-6">
                             <div className="text-center space-y-4">
-                                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <div className="w-16 h-16 bg-linear-to-br from-blue-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                                     <Calendar className="w-8 h-8 text-white" />
                                 </div>
                                 
                                 <div className="flex items-center justify-center gap-3 flex-wrap">
                                                                     <motion.h2 
-                                    className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent"
+                                    className="text-2xl font-bold bg-linear-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent"
                                     initial={{ y: -10, opacity: 0 }}
                                     animate={{ y: 0, opacity: 1 }}
                                     transition={{ delay: 0.1 }}
@@ -145,7 +145,7 @@ const BookingDialog = memo(({ isOpen, onClose, doctor, user }: BookingDialogProp
                             </div>
 
                             <motion.div 
-                                className="bg-white/80 backdrop-blur-sm rounded-xl border-gray-200/50"
+                                className="bg-white/80 backdrop-blur-xs rounded-xl border-gray-200/50"
                                 initial={{ y: 20, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ delay: 0.3 }}

@@ -1,11 +1,22 @@
 "use client";
 
-import React, { useState, useLayoutEffect, useRef, useCallback, useEffect } from 'react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Menu, Stars } from 'lucide-react';
-import { Link, usePathname } from '@/i18n/navigation';
-import { Button } from '@/components/ui/button';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
+import React, {
+  useState,
+  useLayoutEffect,
+  useRef,
+  useCallback,
+  useEffect,
+} from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Menu, Stars } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link, usePathname } from "@/i18n/navigation";
 
 interface DebouncedFunction<T extends unknown[]> {
   (...args: T): void;
@@ -17,10 +28,13 @@ interface Tab {
 }
 
 interface CollapsibleTabsProps {
-  className?: string
+  className?: string;
 }
 
-const debounce = <T extends unknown[]>(func: DebouncedFunction<T>, wait: number) => {
+const debounce = <T extends unknown[]>(
+  func: DebouncedFunction<T>,
+  wait: number
+) => {
   let timeout: ReturnType<typeof setTimeout>;
   return (...args: T) => {
     clearTimeout(timeout);
@@ -28,43 +42,24 @@ const debounce = <T extends unknown[]>(func: DebouncedFunction<T>, wait: number)
   };
 };
 
-
-
 const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
-  const [visibleTabs, setVisibleTabs] = useState<Tab[]>([]);
+  const t = useTranslations("navigation");
   const containerRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<(HTMLDivElement | null)[]>([]);
   const lastContainerWidth = useRef<number>(0);
 
-  const t = useTranslations('navigation');
-
-  const tabs = [
-    { path: '/ai-diagnosis', label: t('aiDiagnosis') },
-    { path: '/doctors', label: t('doctors') },
-    { path: '/hospitals', label: t('hospitals') },
-    // { path: '/emergency-help', label: t('emergencyHelp') },
-    // { path: '/recommended-providers', label: t('recommendedProviders') },
-    { path: '/education', label: t('education') },
-    { path: '/about-us', label: t('about') },
-  ];
-
-  const [hiddenTabs, setHiddenTabs] = useState<Tab[]>(tabs);
-
-
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const header = document.querySelector("header");
-    const footer = document.querySelector("footer")
-    if (pathname === '/ai-medic' || pathname === '/auth/register' || pathname === '/auth/login' || pathname === '/ai-diagnosis') {
-      header?.classList.add("hidden");
-      footer?.classList.add("hidden");
-    } else {
-      header?.classList.remove("hidden");
-      footer?.classList.remove("hidden");
-    }
-  }, [pathname]);
+  const tabs = [
+    { path: "/ai-diagnosis", label: t("aiDiagnosis") },
+    { path: "/doctors", label: t("doctors") },
+    { path: "/hospitals", label: t("hospitals") },
+    { path: "/education", label: t("education") },
+    { path: "/about-us", label: t("about") },
+  ];
+
+  const [visibleTabs, setVisibleTabs] = useState<Tab[]>([]);
+  const [hiddenTabs, setHiddenTabs] = useState<Tab[]>(tabs);
 
   const calculateVisibleTabs = useCallback(() => {
     if (!containerRef.current || !tabs?.length) {
@@ -75,11 +70,16 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
 
     const updateTabs = () => {
       const containerWidth = Math.max(
-        containerRef.current?.offsetWidth ? containerRef.current.offsetWidth - 40 : 0,
+        containerRef.current?.offsetWidth
+          ? containerRef.current.offsetWidth - 40
+          : 0,
         100
       );
 
-      if (Math.abs(containerWidth - lastContainerWidth.current) < 20 && lastContainerWidth.current !== 0) {
+      if (
+        Math.abs(containerWidth - lastContainerWidth.current) < 20 &&
+        lastContainerWidth.current !== 0
+      ) {
         return;
       }
       lastContainerWidth.current = containerWidth;
@@ -89,7 +89,11 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
       const hidden: Tab[] = [];
 
       const firstTabWidth = tabsRef.current[0]?.offsetWidth || 100;
-      if (tabs?.length > 0 && firstTabWidth > containerWidth && containerWidth !== 0) {
+      if (
+        tabs?.length > 0 &&
+        firstTabWidth > containerWidth &&
+        containerWidth !== 0
+      ) {
         hidden.push(...tabs);
       } else {
         tabs.forEach((tab, index) => {
@@ -109,6 +113,8 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
     };
 
     requestAnimationFrame(updateTabs);
+    
+   tabsRef.current = tabs.map((_, i) => tabsRef.current[i] || null);
   }, [tabs]);
 
   const debouncedCalculateVisibleTabs = useCallback(() => {
@@ -126,26 +132,47 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
       resizeObserver.observe(currentContainer);
     }
 
-    window.addEventListener('resize', debouncedCalculateVisibleTabs);
+    window.addEventListener("resize", debouncedCalculateVisibleTabs);
 
     return () => {
       if (currentContainer) {
         resizeObserver.unobserve(currentContainer);
       }
-      window.removeEventListener('resize', debouncedCalculateVisibleTabs);
+      window.removeEventListener("resize", debouncedCalculateVisibleTabs);
     };
   }, [debouncedCalculateVisibleTabs, calculateVisibleTabs]);
 
-  useLayoutEffect(() => {
-    tabsRef.current = tabs.map((_, i) => tabsRef.current[i] || null);
-  }, [tabs]);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const header = document.querySelector("header");
+    const footer = document.querySelector("footer");
+    switch (pathname) {
+      case "/ai-medic":
+      case "/auth/register":
+      case "/auth/login":
+      case "/ai-diagnosis":
+        header?.classList.add("hidden");
+        footer?.classList.add("hidden");
+        break;
+      default:
+        header?.classList.remove("hidden");
+        footer?.classList.remove("hidden");
+    }
+  }, [pathname]);
+
 
   return (
     <div className={`relative flex w-full items-center z-30 ${className}`}>
-      <div className="flex flex-1 overflow-hidden relative items-center" ref={containerRef}>
-        <div className={`w-full hidden sm:flex items-center justify-center ${visibleTabs?.length && 'animate-fade-in-down'}`}>
-
-          {visibleTabs.map((tab, index) => (
+      <div
+        className="flex flex-1 overflow-hidden relative items-center"
+        ref={containerRef}
+      >
+        <div
+          className={`w-full hidden sm:flex items-center justify-center ${
+            visibleTabs?.length && "animate-fade-in-down"
+          }`}
+        >
+          {visibleTabs?.map((tab, index) => (
             <div
               key={tab.path}
               ref={(el: HTMLDivElement | null) => {
@@ -155,10 +182,14 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
             >
               <Link
                 href={tab.path}
-                className={`transition-all group p-2 text-xs sm:text-sm whitespace-nowrap hover:text-blue-400 dark:hover:text-blue-300 ${tab.path === pathname ? 'font-semibold underline text-blue-400 dark:text-blue-300' : 'text-gray-800 dark:text-gray-200'}`}
+                className={`transition-all group p-2 text-xs sm:text-sm whitespace-nowrap hover:text-blue-600 dark:hover:text-blue-300 ${
+                  tab.path === pathname
+                    ? "underline text-blue-600 dark:text-blue-300"
+                    : "text-gray-800 dark:text-gray-200"
+                }`}
               >
                 {tab.label}
-                {tab.path === '/ai-diagnosis' && (
+                {tab.path === "/ai-diagnosis" && (
                   <Stars className="inline-block ml-1 h-4 w-4 group-hover:text-blue-400 group-hover:scale-110" />
                 )}
               </Link>
@@ -172,31 +203,50 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
             <Button
               size={"sm"}
               variant={"default"}
-              className="animate-fade-in-down bg-transparent animation-delay-700 focus:outline-none hover:bg-sky-50 dark:hover:bg-sky-900 rounded-full hover:text-blue-400 dark:hover:text-blue-300 ml-0 opacity-0 p-2 text-gray-800 dark:text-gray-200"
+              className="animate-fade-in-down bg-transparent animation-delay-700 focus:outline-hidden hover:bg-sky-50 dark:hover:bg-sky-900 rounded-full hover:text-blue-400 dark:hover:text-blue-300 ml-0 opacity-0 p-2 text-gray-800 dark:text-gray-200"
               aria-label="Show more navigation options"
             >
               <Menu className="h-5 w-5" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="center" className="min-w-[150px] bg-white/50 dark:bg-gray-900/70 backdrop-blur-sm border-none">
-            <div className='hidden sm:block'>
+          <DropdownMenuContent
+            align="center"
+            className="min-w-[150px] bg-white/50 dark:bg-gray-900/70 backdrop-blur-xs border-none"
+          >
+            <div className="hidden sm:block">
               {hiddenTabs.map((tab) => (
-                <DropdownMenuItem key={tab.path} asChild className='bg-transparent'>
+                <DropdownMenuItem
+                  key={tab.path}
+                  asChild
+                  className="bg-transparent"
+                >
                   <Link
                     href={tab.path}
-                    className={`w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${tab.path === pathname ? 'font-semibold underline text-blue-400 dark:text-blue-300' : 'text-gray-800 dark:text-gray-200'}`}
+                    className={`w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${
+                      tab.path === pathname
+                        ? "underline text-blue-400 dark:text-blue-300"
+                        : "text-gray-800 dark:text-gray-200"
+                    }`}
                   >
                     {tab.label}
                   </Link>
                 </DropdownMenuItem>
               ))}
             </div>
-            <div className='block sm:hidden'>
+            <div className="block sm:hidden">
               {tabs.map((tab) => (
-                <DropdownMenuItem key={tab.path} asChild className='hover:bg-white/30 dark:hover:bg-gray-800 duration-500 ease-in-out'>
+                <DropdownMenuItem
+                  key={tab.path}
+                  asChild
+                  className="hover:bg-white/30 dark:hover:bg-gray-800 duration-500 ease-in-out"
+                >
                   <Link
                     href={tab.path}
-                    className={`w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${tab.path === pathname ? 'font-semibold underline text-blue-400 dark:text-blue-300' : 'text-gray-800 dark:text-gray-200'}`}
+                    className={`w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${
+                      tab.path === pathname
+                        ? "underline text-blue-400 dark:text-blue-300"
+                        : "text-gray-800 dark:text-gray-200"
+                    }`}
                   >
                     {tab.label}
                   </Link>

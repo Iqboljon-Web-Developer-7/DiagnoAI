@@ -53,7 +53,7 @@ const TimeSlotGrid = memo(({
 
     if (isLoading) {
         return (
-            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+            <div className="bg-white/80 backdrop-blur-xs rounded-xl p-6 border border-gray-200/50">
                 <div className="flex flex-col items-center justify-center py-12">
                     <div className="relative">
                         <div className="w-12 h-12 border-4 border-green-300 border-t-green-700 rounded-full animate-spin"></div>
@@ -67,7 +67,7 @@ const TimeSlotGrid = memo(({
 
     if (availableSlots.length === 0) {
         return (
-            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+            <div className="bg-white/80 backdrop-blur-xs rounded-xl p-6 border border-gray-200/50">
                 <div className="flex flex-col items-center justify-center py-12">
                     <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                         <Clock className="w-8 h-8 text-green-600" />
@@ -82,14 +82,14 @@ const TimeSlotGrid = memo(({
     }
 
     return (
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+        <div className="bg-white/80 backdrop-blur-xs rounded-xl p-6 border border-gray-200/50">
             <div className="flex items-center gap-2 mb-6">
                 <Clock className="w-5 h-5 text-green-600" />
                 <h3 className="text-lg font-semibold text-gray-800">{translations('noAvailableSlots')}</h3>
             </div>
 
             <motion.div 
-                className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 max-h-[22rem] overflow-y-auto overflow-x-hidden"
+                className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 max-h-88 overflow-y-auto overflow-x-hidden"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
@@ -107,7 +107,7 @@ const TimeSlotGrid = memo(({
                                     relative h-14 w-full text-sm font-semibold rounded-xl transition-all duration-300 overflow-hidden
                                     ${isBooked 
                                         ? 'bg-gray-100 text-gray-500 cursor-not-allowed border-2 border-gray-200' 
-                                        : 'bg-gradient-to-br from-green-600 to-green-800 hover:from-green-700 hover:to-green-900 text-white shadow-lg hover:shadow-xl border-2 border-transparent hover:border-green-500 transform'
+                                        : 'bg-linear-to-br from-green-600 to-green-800 hover:from-green-700 hover:to-green-900 text-white shadow-lg hover:shadow-xl border-2 border-transparent hover:border-green-500 transform'
                                     }
                                 `}
                                 // whileHover={!isBooked ? { y: -2 } : undefined}
@@ -132,7 +132,7 @@ const TimeSlotGrid = memo(({
                                 
                                 {/* Hover effect */}
                                 {!isBooked && (
-                                    <div className="absolute inset-0 bg-gradient-to-br from-green-700/20 to-green-800/20 opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                                    <div className="absolute inset-0 bg-linear-to-br from-green-700/20 to-green-800/20 opacity-0 hover:opacity-100 transition-opacity duration-300" />
                                 )}
                             </Button>
                         </motion.div>

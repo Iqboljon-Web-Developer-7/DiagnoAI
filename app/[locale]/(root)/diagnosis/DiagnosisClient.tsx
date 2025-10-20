@@ -264,7 +264,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
                       <div key={idx}>
                         {m.user && (
                           <div className="flex justify-end">
-                            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-2xl max-w-[80%]">{m.user}</div>
+                            <div className="bg-linear-to-r from-blue-600 to-purple-600 text-white p-3 rounded-2xl max-w-[80%]">{m.user}</div>
                           </div>
                         )}
                         {m.ai && (

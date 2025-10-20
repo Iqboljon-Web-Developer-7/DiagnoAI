@@ -113,7 +113,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
         </div>
       </div>
       <button
-        className="embla__play !p-0 !justify-end"
+        className="embla__play p-0! justify-end!"
         onClick={toggleAutoplay}
         type="button"
         aria-label={autoplayIsPlaying ? "Stop auto-play slideshow" : "Start auto-play slideshow"}

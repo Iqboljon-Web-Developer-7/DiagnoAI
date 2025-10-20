@@ -363,7 +363,7 @@ export default function App() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your message..."
-              className="flex-1 p-2 border rounded-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="flex-1 p-2 border rounded-lg text-sm sm:text-base focus:outline-hidden focus:ring-2 focus:ring-blue-600"
               aria-label="Message input"
             />
             {/* <label className="flex items-center cursor-pointer">
