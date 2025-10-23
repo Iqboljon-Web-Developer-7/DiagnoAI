@@ -19,7 +19,7 @@ export const VideoModal = ({ isOpen, onClose, video }: VideoModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-hidden bg-card">
+      <DialogContent className="max-w-4xl w-full max-h-[90vh] overflow-hidden bg-neutral-200 dark:bg-neutral-900 dark:text-neutral-200 border-0">
         <DialogHeader className="flex flex-row items-center justify-between p-0">
           <DialogTitle className="text-xl font-semibold text-foreground">
             {video.title}

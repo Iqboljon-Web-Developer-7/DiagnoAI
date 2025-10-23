@@ -144,7 +144,7 @@ export default function Education() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background dark:text-neutral-200">
       <section className="relative ">
         <div
           className="absolute inset-0 bg-linear-to-br from-primary/20 to-accent/20 bg-black/40 bg-bottom bg-cover bg-no-repeat dark:bg-black/60"
@@ -208,7 +208,7 @@ export default function Education() {
           {filteredVideos.map((video) => (
             <Card
               key={video.id}
-              className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 animate-fade-in-down"
+              className="bg-neutral-300 dark:bg-neutral-900 border-0 group cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-1 animate-fade-in-down"
               onClick={() => handleVideoSelect(video)}
             >
               <CardContent className="p-0">

@@ -53,13 +53,13 @@ const TimeSlotGrid = memo(({
 
     if (isLoading) {
         return (
-            <div className="bg-white/80 backdrop-blur-xs rounded-xl p-6 border border-gray-200/50">
+            <div className="bg-gray-800/80 backdrop-blur-xs rounded-xl p-6 border border-gray-700/50">
                 <div className="flex flex-col items-center justify-center py-12">
                     <div className="relative">
                         <div className="w-12 h-12 border-4 border-green-300 border-t-green-700 rounded-full animate-spin"></div>
-                        <Clock className="absolute inset-0 m-auto w-6 h-6 text-green-600" />
+                        <Clock className="absolute inset-0 m-auto w-6 h-6 text-green-400" />
                     </div>
-                    <p className="text-gray-600 mt-4 font-medium">Loading available time slots...</p>
+                    <p className="text-gray-300 mt-4 font-medium">Loading available time slots...</p>
                 </div>
             </div>
         );
@@ -67,13 +67,13 @@ const TimeSlotGrid = memo(({
 
     if (availableSlots.length === 0) {
         return (
-            <div className="bg-white/80 backdrop-blur-xs rounded-xl p-6 border border-gray-200/50">
+            <div className="bg-gray-800/80 backdrop-blur-xs rounded-xl p-6 border border-gray-700/50">
                 <div className="flex flex-col items-center justify-center py-12">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                        <Clock className="w-8 h-8 text-green-600" />
+                    <div className="w-16 h-16 bg-green-900/30 rounded-full flex items-center justify-center mb-4">
+                        <Clock className="w-8 h-8 text-green-400" />
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">No Available Slots</h3>
-                    <p className="text-gray-600 text-center max-w-sm">
+                    <h3 className="text-lg font-semibold text-gray-200 mb-2">No Available Slots</h3>
+                    <p className="text-gray-400 text-center max-w-sm">
                         All time slots for this date are fully booked. Please select a different date.
                     </p>
                 </div>
@@ -82,10 +82,10 @@ const TimeSlotGrid = memo(({
     }
 
     return (
-        <div className="bg-white/80 backdrop-blur-xs rounded-xl p-6 border border-gray-200/50">
+        <div className="bg-gray-800/80 backdrop-blur-xs rounded-xl p-6 border border-gray-700/50">
             <div className="flex items-center gap-2 mb-6">
-                <Clock className="w-5 h-5 text-green-600" />
-                <h3 className="text-lg font-semibold text-gray-800">{translations('noAvailableSlots')}</h3>
+                <Clock className="w-5 h-5 text-green-400" />
+                <h3 className="text-lg font-semibold text-gray-200">{translations('noAvailableSlots')}</h3>
             </div>
 
             <motion.div 
@@ -106,7 +106,7 @@ const TimeSlotGrid = memo(({
                                 className={`
                                     relative h-14 w-full text-sm font-semibold rounded-xl transition-all duration-300 overflow-hidden
                                     ${isBooked 
-                                        ? 'bg-gray-100 text-gray-500 cursor-not-allowed border-2 border-gray-200' 
+                                        ? 'bg-gray-700 text-gray-400 cursor-not-allowed border-2 border-gray-600' 
                                         : 'bg-linear-to-br from-green-600 to-green-800 hover:from-green-700 hover:to-green-900 text-white shadow-lg hover:shadow-xl border-2 border-transparent hover:border-green-500 transform'
                                     }
                                 `}
@@ -144,5 +144,5 @@ const TimeSlotGrid = memo(({
 });
 
 TimeSlotGrid.displayName = 'TimeSlotGrid';
-
+    
 export { TimeSlotGrid };
