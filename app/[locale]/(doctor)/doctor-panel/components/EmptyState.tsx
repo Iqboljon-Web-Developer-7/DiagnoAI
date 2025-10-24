@@ -8,7 +8,7 @@ const EmptyState: React.FC = () => {
   return (
     <div className="p-8 text-center">
       <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-      <h3 className="text-lg font-medium text-gray-900 mb-2">{t("noAppointmentsFound")}</h3>
+      <h3 className="text-lg font-medium text-gray-900 mb-2 dark:text-neutral-300">{t("noAppointmentsFound")}</h3>
       <p className="text-gray-600">{t("noBookingsMatchFilters")}</p>
     </div>
   );

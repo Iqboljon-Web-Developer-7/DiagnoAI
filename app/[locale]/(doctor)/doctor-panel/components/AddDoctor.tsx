@@ -82,19 +82,19 @@ export default function AddDoctorDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">{t('addNewDoctor')}</Button>
+        <Button className='bg-white dark:bg-black/50 dark:text-indigo-100 border-none' variant="outline">{t('addNewDoctor')}</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
         <DialogHeader>
-          <DialogTitle>{t('addNewDoctor')}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-gray-900 dark:text-gray-100">{t('addNewDoctor')}</DialogTitle>
+          <DialogDescription className="text-gray-600 dark:text-gray-400">
             {t('fillDoctorDetails')}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
+              <Label htmlFor="name" className="text-right text-gray-900 dark:text-gray-100">
                 {t('name')}
               </Label>
               <Input
@@ -102,12 +102,12 @@ export default function AddDoctorDialog() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="col-span-3"
+                className="col-span-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
                 required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="prize" className="text-right">
+              <Label htmlFor="prize" className="text-right text-gray-900 dark:text-gray-100">
                 {t('prize')}
               </Label>
               <Input
@@ -116,12 +116,12 @@ export default function AddDoctorDialog() {
                 type="number"
                 value={formData.prize}
                 onChange={handleChange}
-                className="col-span-3"
+                className="col-span-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
                 required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="tags" className="text-right">
+              <Label htmlFor="tags" className="text-right text-gray-900 dark:text-gray-100">
                 {t('tags')}
               </Label>
               <Input
@@ -130,11 +130,11 @@ export default function AddDoctorDialog() {
                 value={formData.tags}
                 onChange={handleChange}
                 placeholder={t('commaSeparated')}
-                className="col-span-3"
+                className="col-span-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="field" className="text-right">
+              <Label htmlFor="field" className="text-right text-gray-900 dark:text-gray-100">
                 {t('field')}
               </Label>
               <Input
@@ -142,12 +142,12 @@ export default function AddDoctorDialog() {
                 name="field"
                 value={formData.field}
                 onChange={handleChange}
-                className="col-span-3"
+                className="col-span-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
                 required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="description" className="text-right">
+              <Label htmlFor="description" className="text-right text-gray-900 dark:text-gray-100">
                 {t('description')}
               </Label>
               <Textarea
@@ -155,24 +155,24 @@ export default function AddDoctorDialog() {
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                className="col-span-3"
+                className="col-span-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="image" className="text-right">
+              <Label htmlFor="image" className="text-right text-gray-900 dark:text-gray-100">
                 {t('image')}
               </Label>
               <Input
                 id="image"
                 type="file"
                 onChange={handleImageChange}
-                className="col-span-3"
+                className="col-span-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
                 accept="image/*"
               />
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit" disabled={loading}>
+            <Button className='dark:text-neutral-200 dark:bg-black/30 dark:hover:bg-black' type="submit" variant={'ghost'} disabled={loading}>
               {loading ? t('saving') : t('saveDoctor')}
             </Button>
           </DialogFooter>

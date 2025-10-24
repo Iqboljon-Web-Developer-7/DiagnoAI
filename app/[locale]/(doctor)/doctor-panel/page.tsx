@@ -33,10 +33,10 @@ interface Doctor {
 }
 
 const statusConfig: Record<Booking['status'], { color: string; icon: React.ComponentType<{ className?: string }>; labelKey: string }> = {
-  pending: { color: 'bg-yellow-100 text-yellow-800 border-yellow-200', icon: Clock, labelKey: 'pending' },
-  confirmed: { color: 'bg-blue-100 text-blue-800 border-blue-200', icon: Check, labelKey: 'confirmed' },
-  canceled: { color: 'bg-red-100 text-red-800 border-red-200', icon: X, labelKey: 'canceled' },
-  completed: { color: 'bg-green-100 text-green-800 border-green-200', icon: Check, labelKey: 'completed' }
+  pending: { color: 'bg-yellow-100/80 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300 border-yellow-300 dark:border-yellow-800/30', icon: Clock, labelKey: 'pending' },
+  confirmed: { color: 'bg-blue-100/80 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300 border-blue-300 dark:border-blue-800/30', icon: Check, labelKey: 'confirmed' },
+  canceled: { color: 'bg-red-100/80 text-red-800 dark:bg-red-900/20 dark:text-red-300 border-red-300 dark:border-red-800/30', icon: X, labelKey: 'canceled' },
+  completed: { color: 'bg-green-100/80 text-green-800 dark:bg-green-900/20 dark:text-green-300 border-green-300 dark:border-green-800/30', icon: Check, labelKey: 'completed' }
 };
 
 const API_BASE_URL = "https://api.diagnoai.uz";
@@ -194,30 +194,30 @@ function DoctorDashboard() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">{t('authenticationRequired')}</h2>
-          <p className="text-gray-600">{t('pleaseLogIn')}</p>
+          <AlertCircle className="h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{t('authenticationRequired')}</h2>
+          <p className="text-gray-600 dark:text-gray-400">{t('pleaseLogIn')}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-12">
       {/* Header */}
-      <div className="border-b border-gray-200">
+      <div className="border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{t('doctorDashboard')}</h1>
-              <p className="text-gray-600 mt-1">{t('manageAppointments')}</p>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('doctorDashboard')}</h1>
+              <p className="text-gray-600 dark:text-gray-400 mt-1">{t('manageAppointments')}</p>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="bg-blue-50 px-4 py-2 rounded-lg">
+              <div className="bg-blue-100/80 dark:bg-blue-900/30 rounded-lg">
                 <AddDoctorDialog />
-                {/* <p className="text-sm text-blue-600 font-medium">{t('welcomeBack')}, Dr. {user?.name || t('doctor')}</p> */}
+                {/* <p className="text-sm text-blue-800 dark:text-blue-300 font-medium">{t('welcomeBack')}, Dr. {user?.name || t('doctor')}</p> */}
               </div>
             </div>
           </div>
@@ -227,23 +227,23 @@ function DoctorDashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-          <StatCard title={t('totalBookings')} value={stats.total} icon={Calendar} color="text-blue-500" />
-          <StatCard title={t('pending')} value={stats.pending} icon={Clock} color="text-yellow-500" />
-          <StatCard title={t('confirmed')} value={stats.confirmed} icon={Check} color="text-blue-500" />
-          <StatCard title={t('completed')} value={stats.completed} icon={Check} color="text-green-500" />
-          <StatCard title={t('canceled')} value={stats.canceled} icon={X} color="text-red-500" />
+          <StatCard title={t('totalBookings')} value={stats.total} icon={Calendar} color="text-blue-600 dark:text-blue-400" />
+          <StatCard title={t('pending')} value={stats.pending} icon={Clock} color="text-yellow-600 dark:text-yellow-400" />
+          <StatCard title={t('confirmed')} value={stats.confirmed} icon={Check} color="text-blue-600 dark:text-blue-400" />
+          <StatCard title={t('completed')} value={stats.completed} icon={Check} color="text-green-600 dark:text-green-400" />
+          <StatCard title={t('canceled')} value={stats.canceled} icon={X} color="text-red-600 dark:text-red-400" />
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-xl shadow-xs border border-gray-100 p-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-200 dark:border-gray-700 p-6 mb-8">
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
             {/* Status Filter */}
             <div className="flex items-center space-x-2">
-              <Filter className="h-4 w-4 text-gray-500" />
+              <Filter className="h-4 w-4 text-gray-500 dark:text-gray-400" />
               <select
                 value={filter.status}
                 onChange={(e) => setFilter(prev => ({ ...prev, status: e.target.value }))}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                 aria-label={'status filter'}
               >
                 <option value="">{t('allStatus')}</option>
@@ -259,19 +259,19 @@ function DoctorDashboard() {
                 type="checkbox"
                 checked={filter.today}
                 onChange={(e) => setFilter(prev => ({ ...prev, today: e.target.checked }))}
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-blue-600 focus:ring-blue-500"
               />
-              <span className="text-sm font-medium text-gray-700">{t('todaysBookings')}</span>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{t('todaysBookings')}</span>
             </label>
 
             {/* Search Input */}
             <div className="relative flex-1 w-full sm:w-auto">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 dark:text-gray-400" />
               <input
                 type="text"
                 placeholder={t('searchBookings')}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                 aria-label={t('searchBookings')}
               />
             </div>
@@ -279,9 +279,9 @@ function DoctorDashboard() {
         </div>
 
         {/* Bookings List */}
-        <div className="bg-white rounded-xl shadow-xs border border-gray-100">
-          <div className="px-6 py-4 border-b border-gray-100">
-            <h2 className="text-lg font-semibold text-gray-900">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-200 dark:border-gray-700">
+          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               {t('appointments')} ({bookings.length})
             </h2>
           </div>
@@ -291,7 +291,7 @@ function DoctorDashboard() {
           ) : bookings.length === 0 ? (
             <EmptyState />
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-gray-200 dark:divide-gray-700">
               {bookings.map((booking) => (
                 <BookingItem
                   key={booking.id}
@@ -322,11 +322,11 @@ function DoctorDashboard() {
 // }
 
 // const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, color }) => (
-//   <div className="bg-white p-6 rounded-xl shadow-xs border border-gray-100">
+//   <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700">
 //     <div className="flex items-center justify-between">
 //       <div>
-//         <p className="text-sm font-medium text-gray-600">{title}</p>
-//         <p className="text-2xl font-bold text-gray-900 mt-2">{value}</p>
+//         <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
+//         <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-2">{value}</p>
 //       </div>
 //       <Icon className={`h-8 w-8 ${color}`} />
 //     </div>
@@ -335,7 +335,7 @@ function DoctorDashboard() {
 
 // const LoadingState: React.FC = () => (
 //   <div className="p-8 text-center">
-//     <div className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-6 font-medium rounded-md text-gray-500">
+//     <div className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-6 font-medium rounded-md text-gray-600 dark:text-gray-400">
 //       <svg className="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 //         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
 //         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -349,9 +349,9 @@ function DoctorDashboard() {
 //   const t = useTranslations("doctorPanel");
 //   return (
 //     <div className="p-8 text-center">
-//       <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-//       <h3 className="text-lg font-medium text-gray-900 mb-2">{t('noAppointmentsFound')}</h3>
-//       <p className="text-gray-600">{t('noBookingsMatchFilters')}</p>
+//       <Calendar className="h-12 w-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+//       <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">{t('noAppointmentsFound')}</h3>
+//       <p className="text-gray-600 dark:text-gray-400">{t('noBookingsMatchFilters')}</p>
 //     </div>
 //   );
 // };
@@ -384,18 +384,18 @@ function DoctorDashboard() {
 //   const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
 //   return (
-//     <div className="p-6 hover:bg-gray-50 transition-colors">
+//     <div className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
 //       <div className="flex items-start justify-between">
 //         <div className="flex-1 min-w-0">
 //           <div className="flex items-center space-x-3 mb-3">
 //             <div className="shrink-0">
-//               <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-//                 <User className="h-5 w-5 text-blue-600" />
+//               <div className="w-10 h-10 bg-blue-100/80 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+//                 <User className="h-5 w-5 text-blue-800 dark:text-blue-300" />
 //               </div>
 //             </div>
 //             <div className="flex-1 min-w-0">
-//               <p className="text-sm font-medium text-gray-900">{t('doctor')}: {doctorName}</p>
-//               <div className="flex items-center text-sm text-gray-500 mt-1">
+//               <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('doctor')}: {doctorName}</p>
+//               <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mt-1">
 //                 <Calendar className="h-4 w-4 mr-1" />
 //                 <span>{formattedDate} at {formattedTime}</span>
 //               </div>
@@ -404,24 +404,24 @@ function DoctorDashboard() {
 
 //           {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
 //             <div className="text-sm">
-//               <span className="text-gray-500">{t('totalBooks')}:</span>
-//               <span className="ml-2 text-gray-900">{booking.books}</span>
+//               <span className="text-gray-600 dark:text-gray-400">{t('totalBooks')}:</span>
+//               <span className="ml-2 text-gray-900 dark:text-gray-100">{booking.books}</span>
 //             </div>
 //             <div className="text-sm">
-//               <span className="text-gray-500">{t('todaysAppointments')}:</span>
-//               <span className="ml-2 text-gray-900">{booking.todays_appointments}</span>
+//               <span className="text-gray-600 dark:text-gray-400">{t('todaysAppointments')}:</span>
+//               <span className="ml-2 text-gray-900 dark:text-gray-100">{booking.todays_appointments}</span>
 //             </div>
 //             <div className="text-sm">
-//               <span className="text-gray-500">{t('approved')}:</span>
-//               <span className="ml-2 text-gray-900">{booking.number_of_approved}</span>
+//               <span className="text-gray-600 dark:text-gray-400">{t('approved')}:</span>
+//               <span className="ml-2 text-gray-900 dark:text-gray-100">{booking.number_of_approved}</span>
 //             </div>
 //             <div className="text-sm">
-//               <span className="text-gray-500">{t('pending')}:</span>
-//               <span className="ml-2 text-gray-900">{booking.number_of_pending}</span>
+//               <span className="text-gray-600 dark:text-gray-400">{t('pending')}:</span>
+//               <span className="ml-2 text-gray-900 dark:text-gray-100">{booking.number_of_pending}</span>
 //             </div>
 //             <div className="text-sm">
-//               <span className="text-gray-500">{t('rejected')}:</span>
-//               <span className="ml-2 text-gray-900">{booking.number_of_rejected}</span>
+//               <span className="text-gray-600 dark:text-gray-400">{t('rejected')}:</span>
+//               <span className="ml-2 text-gray-900 dark:text-gray-100">{booking.number_of_rejected}</span>
 //             </div>
 //           </div> */}
 //         </div>
@@ -439,7 +439,7 @@ function DoctorDashboard() {
 //           <div className="relative">
 //             <button
 //               onClick={() => setShowActions(showActions === booking.id ? null : booking.id)}
-//               className="p-2 text-gray-400 hover:text-gray-600 transition-colors rounded-lg hover:bg-gray-100"
+//               className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
 //               disabled={updating === booking.id}
 //               aria-label={t('actionsForBooking')}
 //             >
@@ -454,9 +454,9 @@ function DoctorDashboard() {
 //             </button>
 
 //             {showActions === booking.id && (
-//               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-30">
+//               <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-30">
 //                 <div className="py-1">
-//                   <div className="px-3 py-2 text-xs font-medium text-gray-500 border-b border-gray-100">
+//                   <div className="px-3 py-2 text-xs font-medium text-gray-600 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
 //                     {t('updateStatus')}
 //                   </div>
 //                   {Object.entries(statusConfig).map(([status, config]) => {
@@ -465,7 +465,7 @@ function DoctorDashboard() {
 //                       <button
 //                         key={status}
 //                         onClick={() => updateBookingStatus(booking.id, status as Booking['status'])}
-//                         className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
+//                         className="w-full px-3 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center space-x-2"
 //                       >
 //                         {React.createElement(config.icon, { className: "h-4 w-4" })}
 //                         <span>{t('markAs')} {t(config.labelKey)}</span>
@@ -473,10 +473,10 @@ function DoctorDashboard() {
 //                     )
 //                   })}
 
-//                   <div className="border-t border-gray-100 mt-1 pt-1">
+//                   <div className="border-t border-gray-200 dark:border-gray-700 mt-1 pt-1">
 //                     <button
 //                       onClick={() => deleteBooking(booking.id)}
-//                       className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center space-x-2"
+//                       className="w-full px-3 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center space-x-2"
 //                     >
 //                       <Trash2 className="h-4 w-4" />
 //                       <span>{t('deleteBooking')}</span>
