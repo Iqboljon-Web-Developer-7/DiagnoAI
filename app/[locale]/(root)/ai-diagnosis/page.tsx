@@ -56,6 +56,9 @@ export default async function Page({
     }
   }
 
+console.log(chats);
+
+
   return (
     <DiagnosisClient
       initialChats={chats}

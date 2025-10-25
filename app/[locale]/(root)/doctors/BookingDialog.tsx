@@ -13,7 +13,7 @@ import { User } from "../hospitals/types";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { TimeSlotGrid } from "./TimeSlotGrid";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface BookingDialogProps {
   isOpen: boolean;
@@ -24,7 +24,7 @@ interface BookingDialogProps {
 
 const BookingDialog = memo(
   ({ isOpen, onClose, doctor, user }: BookingDialogProps) => {
-              const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
     const translations = useTranslations("doctors");
     const router = useRouter();
@@ -74,7 +74,6 @@ const BookingDialog = memo(
           { doctor: doctor.id, appointment_date: appointmentDate },
           {
             onSuccess: () => {
-
               toast.success("Booking created successfully!", {
                 description: `Your appointment is confirmed for ${hour}:00 on ${selectedDate.toLocaleDateString()}`,
                 action: {
@@ -143,7 +142,7 @@ const BookingDialog = memo(
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent
-          className="max-w-2xl max-h-[90vh] overflow-x-hidden overflow-y-auto bg-gradient-to-br from-gray-900 to-gray-800 border-0 shadow-2xl"
+          className="max-w-2xl max-h-[90vh] overflow-x-hidden overflow-y-auto bg-white dark:bg-gradient-to-r  dark:from-gray-900 dark:to-gray-800 shadow-xl"
           onClick={(e) => e.stopPropagation()}
         >
           <motion.div
@@ -161,7 +160,7 @@ const BookingDialog = memo(
 
                   <div className="flex items-center justify-center gap-3 flex-wrap">
                     <motion.h2
-                      className="text-2xl font-bold bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent"
+                      className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent"
                       initial={{ y: -10, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.1 }}
@@ -170,12 +169,12 @@ const BookingDialog = memo(
                     </motion.h2>
 
                     <motion.p
-                      className="text-gray-400"
+                      className="text-gray-600 dark:text-gray-400"
                       initial={{ y: 10, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.2 }}
                     >
-                      <span className="font-semibold text-blue-400">
+                      <span className="font-semibold text-blue-600 dark:text-blue-400">
                         {doctor.name}
                       </span>
                     </motion.p>
@@ -183,7 +182,7 @@ const BookingDialog = memo(
                 </div>
 
                 <motion.div
-                  className="bg-gray-800/80 backdrop-blur-xs rounded-xl border-gray-700/50"
+                  className="bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-xs rounded-xl border border-gray-300 dark:border-gray-700/50"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.3 }}
@@ -193,7 +192,7 @@ const BookingDialog = memo(
                       type="date"
                       onChange={handleDateChange}
                       min={new Date().toISOString().split("T")[0]}
-                      className="px-4 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-700 text-gray-100"
+                      className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                       defaultValue={format(selectedDate, "yyyy-MM-dd")}
                     />
                   </div>
@@ -214,19 +213,19 @@ const BookingDialog = memo(
                 </motion.div>
 
                 <motion.div
-                  className="flex justify-center gap-8 text-sm text-gray-400"
+                  className="flex justify-center gap-8 text-sm text-gray-600 dark:text-gray-400"
                   initial={{ y: 10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.5 }}
                 >
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-400" />
+                    <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
                     <span>
                       {availableSlots.length} {translations("booked")}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <AlertCircle className="w-4 h-4 text-red-400" />
+                    <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400" />
                     <span>
                       {bookedTimes.length} {translations("book")}
                     </span>
