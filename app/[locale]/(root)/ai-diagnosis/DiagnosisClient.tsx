@@ -148,18 +148,18 @@ export default function DiagnosisClient({
               href={"/"}
               className="flex items-center gap-2 hover:text-green-300 duration-200 w-fit"
             >
-              <div className="p-2 bg-white/20 rounded-lg dark:bg-neutral-700/40">
+              <div className="p-2 bg-white/20 rounded-lg dark:bg-neutral-700/40 text-neutral-900 dark:text-neutral-200">
                 <Brain className="h-6 w-6" />
               </div>
               <div>
-                <h2 className="font-bold text-xl">DiagnoAI</h2>
+                <h2 className="font-bold text-xl text-neutral-900 dark:text-neutral-200">DiagnoAI</h2>
               </div>
             </Link>
             <Button
               size={"sm"}
               onClick={handleNewChat}
               className="flex shrink mr-1
-                   bg-linear-to-r text-neutral-300 shadow-md bg-black/30"
+                   bg-linear-to-r text-neutral-900 dark:text-neutral-200 hover:bg-black/20 shadow-md bg-black/30"
             >
               <Plus/>
               {t("newConsultation")}
