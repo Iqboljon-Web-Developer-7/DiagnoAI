@@ -28,7 +28,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative bg-linear-to-br from-blue-600 text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-black bg-no-repeat min-h-152 h-svh flex items-center ">
+    <section className="relative text-white py-12 sm:py-16 bg-cover md:py-20 px-[3%] md:px-[8%] bg-black bg-no-repeat min-h-152 h-svh flex items-center ">
       <video
         src={videoSrc}
         autoPlay

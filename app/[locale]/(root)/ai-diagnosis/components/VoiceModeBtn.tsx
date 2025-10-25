@@ -169,7 +169,7 @@ export default function VoiceChatButton() {
             : 'center'
         }}
       >
-        <Button onClick={handleClick} variant={'ghost'} className='fixed top-3 left-3 rounded-full'>X</Button>
+        <Button onClick={handleClick} variant={'default'} className='hover:bg-blue-600 fixed top-3 left-3 rounded-full'>X</Button>
         {isListening && (
           <div className="flex flex-col items-center gap-8">
             <SoundWave />

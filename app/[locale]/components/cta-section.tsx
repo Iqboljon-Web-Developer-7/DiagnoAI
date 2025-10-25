@@ -28,8 +28,8 @@ export async function CTASection() {
             <Link href="/about-us" className="w-full sm:w-auto">
               <Button
                 size="lg"
-                variant="outline"
-                className="w-full dark:border-none border-white text-black hover:bg-white hover:text-blue-600 text-sm sm:text-base px-8 dark:border-gray-300 dark:text-gray-100 dark:hover:bg-gray-800 dark:hover:text-blue-400"
+                variant="default"
+                className="w-full bg-blue-400 dark:border-none border-white text-black hover:bg-white hover:text-blue-600 text-sm sm:text-base px-8 dark:border-gray-300 dark:text-gray-100 dark:hover:bg-gray-800 dark:hover:text-blue-400"
               >
                 {t('cta.secondaryButton')}
               </Button>

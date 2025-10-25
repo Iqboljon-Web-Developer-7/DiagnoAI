@@ -13,6 +13,7 @@ import { User } from "../hospitals/types";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { TimeSlotGrid } from "./TimeSlotGrid";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 
 interface BookingDialogProps {
   isOpen: boolean;
@@ -23,6 +24,8 @@ interface BookingDialogProps {
 
 const BookingDialog = memo(
   ({ isOpen, onClose, doctor, user }: BookingDialogProps) => {
+              const queryClient = useQueryClient();
+
     const translations = useTranslations("doctors");
     const router = useRouter();
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -71,6 +74,7 @@ const BookingDialog = memo(
           { doctor: doctor.id, appointment_date: appointmentDate },
           {
             onSuccess: () => {
+
               toast.success("Booking created successfully!", {
                 description: `Your appointment is confirmed for ${hour}:00 on ${selectedDate.toLocaleDateString()}`,
                 action: {
@@ -80,6 +84,8 @@ const BookingDialog = memo(
               });
               refetchFreeTimes();
               onClose();
+              // invalidate bookings list after successful creation
+              queryClient.invalidateQueries({ queryKey: ["bookings"] });
             },
             onError: (error: any) => {
               toast.error("Failed to create booking", {
@@ -135,102 +141,102 @@ const BookingDialog = memo(
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={onClose}>
-          <DialogContent
-            className="max-w-2xl max-h-[90vh] overflow-x-hidden overflow-y-auto bg-gradient-to-br from-gray-900 to-gray-800 border-0 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent
+          className="max-w-2xl max-h-[90vh] overflow-x-hidden overflow-y-auto bg-gradient-to-br from-gray-900 to-gray-800 border-0 shadow-2xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <motion.div
+            variants={dialogVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
           >
-            <motion.div
-              variants={dialogVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-            >
-              <DialogHeader onClick={(e) => e.stopPropagation()}>
-                <div className="space-y-6">
-                  <div className="text-center space-y-4">
-                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-                      <Calendar className="w-8 h-8 text-white" />
-                    </div>
-
-                    <div className="flex items-center justify-center gap-3 flex-wrap">
-                      <motion.h2
-                        className="text-2xl font-bold bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent"
-                        initial={{ y: -10, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.1 }}
-                      >
-                        {translations("doctorCard.bookButton")}
-                      </motion.h2>
-
-                      <motion.p
-                        className="text-gray-400"
-                        initial={{ y: 10, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                      >
-                        <span className="font-semibold text-blue-400">
-                          {doctor.name}
-                        </span>
-                      </motion.p>
-                    </div>
+            <DialogHeader onClick={(e) => e.stopPropagation()}>
+              <div className="space-y-6">
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <Calendar className="w-8 h-8 text-white" />
                   </div>
 
-                  <motion.div
-                    className="bg-gray-800/80 backdrop-blur-xs rounded-xl border-gray-700/50"
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    <div className="flex justify-center">
-                      <input
-                        type="date"
-                        onChange={handleDateChange}
-                        min={new Date().toISOString().split("T")[0]}
-                        className="px-4 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-700 text-gray-100"
-                        defaultValue={format(selectedDate, "yyyy-MM-dd")}
-                      />
-                    </div>
-                  </motion.div>
+                  <div className="flex items-center justify-center gap-3 flex-wrap">
+                    <motion.h2
+                      className="text-2xl font-bold bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent"
+                      initial={{ y: -10, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.1 }}
+                    >
+                      {translations("doctorCard.bookButton")}
+                    </motion.h2>
 
-                  <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                  >
-                    <TimeSlotGrid
-                      isLoading={freeTimesLoading}
-                      bookedTimes={bookedTimes}
-                      availableSlots={availableSlots}
-                      onBookAppointment={handleBookAppointment}
-                      isBookingPending={createBooking.isPending}
-                    />
-                  </motion.div>
-
-                  <motion.div
-                    className="flex justify-center gap-8 text-sm text-gray-400"
-                    initial={{ y: 10, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                  >
-                    <div className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span>
-                        {availableSlots.length} {translations("booked")}
+                    <motion.p
+                      className="text-gray-400"
+                      initial={{ y: 10, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      <span className="font-semibold text-blue-400">
+                        {doctor.name}
                       </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 text-red-400" />
-                      <span>
-                        {bookedTimes.length} {translations("book")}
-                      </span>
-                    </div>
-                  </motion.div>
+                    </motion.p>
+                  </div>
                 </div>
-              </DialogHeader>
-            </motion.div>
-          </DialogContent>
-        </Dialog>
+
+                <motion.div
+                  className="bg-gray-800/80 backdrop-blur-xs rounded-xl border-gray-700/50"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <div className="flex justify-center">
+                    <input
+                      type="date"
+                      onChange={handleDateChange}
+                      min={new Date().toISOString().split("T")[0]}
+                      className="px-4 py-2 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-700 text-gray-100"
+                      defaultValue={format(selectedDate, "yyyy-MM-dd")}
+                    />
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <TimeSlotGrid
+                    isLoading={freeTimesLoading}
+                    bookedTimes={bookedTimes}
+                    availableSlots={availableSlots}
+                    onBookAppointment={handleBookAppointment}
+                    isBookingPending={createBooking.isPending}
+                  />
+                </motion.div>
+
+                <motion.div
+                  className="flex justify-center gap-8 text-sm text-gray-400"
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-400" />
+                    <span>
+                      {availableSlots.length} {translations("booked")}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 text-red-400" />
+                    <span>
+                      {bookedTimes.length} {translations("book")}
+                    </span>
+                  </div>
+                </motion.div>
+              </div>
+            </DialogHeader>
+          </motion.div>
+        </DialogContent>
+      </Dialog>
     );
   }
 );
