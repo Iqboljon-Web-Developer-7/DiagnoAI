@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Paperclip, Send, FileText, X } from "lucide-react";
@@ -32,6 +32,24 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
   const [symptoms, setSymptoms] = useState("");
   const [files, setFiles] = useState<File[]>([]);
 
+  // Track sent messages count from localStorage
+  const [sentCount, setSentCount] = useState(0);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const count = Number(localStorage.getItem("sentMessagesCount") || "0");
+      setSentCount(count);
+    }
+  }, []);
+
+  const incrementSentCount = () => {
+    if (typeof window !== "undefined") {
+      const newCount = sentCount + 1;
+      localStorage.setItem("sentMessagesCount", String(newCount));
+      setSentCount(newCount);
+    }
+  };
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFiles(Array.from(e.target.files));
@@ -52,10 +70,14 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (sentCount >= 3) {
+      toast("You have reached the maximum number of messages.");
+      return;
+    }
+
     setSymptoms("");
     setFiles([]);
 
-    e.preventDefault();
     if (!isLoggedIn) {
       toast(t("notLoggedIn"));
       router.push(`/auth/login${isOpenedInOtherWeb === 'true' ? '?isOpenedInOtherWeb=true' : ''}`);
@@ -86,6 +108,7 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
       router.push(url);
       setAnalyzing(false);
       setFiles([]);
+      incrementSentCount();
     } catch (err) {
       console.error("Error sending message:", err);
       toast(t("failedToSendMessage"));
@@ -160,8 +183,8 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
       <form onSubmit={handleSendMessage} className="space-y-4 w-full">
         <div className="relative">
           <Textarea
-            disabled={analyzing}
-            placeholder={t("symptomPlaceholder")}
+            disabled={analyzing || sentCount >= 3}
+            placeholder={sentCount >= 3 ? "Message limit reached" : t("symptomPlaceholder")}
             value={symptoms}
             onChange={(e) => setSymptoms(e.target.value)}
             className="min-h-5 md:min-h-8 resize-none text-sm bg-white/50 dark:bg-gray-800/50 backdrop-blur-xs md:text-lg max-h-40 w-full pr-16 sm:pr-14 focus:border-blue-400 dark:focus:border-blue-600 rounded-2xl border-none focus-visible:outline-hidden focus-visible:ring-offset-0 text-gray-700 dark:text-gray-200"
@@ -178,7 +201,7 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
           />
           <div className="rounded-xl text-center transition-colors absolute bottom-2 md:bottom-3 right-11">
             <input
-              disabled={analyzing}
+              disabled={analyzing || sentCount >= 3}
               type="file"
               multiple
               accept=".jpg,.jpeg,.png,.pdf"
@@ -197,11 +220,13 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
               title={
                 analyzing
                   ? "Analyzing..."
+                  : sentCount >= 3
+                  ? "Message limit reached"
                   : !symptoms.trim() && !files?.length
                   ? "Type something please..."
                   : "Send"
               }
-              disabled={analyzing || (!symptoms.trim() && !files?.length)}
+              disabled={analyzing || (!symptoms.trim() && !files?.length) || sentCount >= 3}
               className="text-black dark:text-gray-200 rounded-full bg-transparent  hover:bg-transparent shado-none hover:text-blue-500 dark:hover:text-blue-400 hover:scale-105 duration-200"
             >
               {analyzing ? (
