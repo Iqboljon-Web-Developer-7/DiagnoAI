@@ -1,21 +1,21 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useAppStore } from "@/store/store"
 import { Loader2, Mail, Lock, Eye, EyeOff, Shield } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Link } from "@/i18n/navigation"
 import { useLoginMutation } from "./api"
 import { LoginFormData, ErrorResponse } from "./types"
 import { toast } from "sonner"
 import axios from "axios"
 
-// Main login page component
-const LoginPage: React.FC = () => {
+const page = () => {
+  const  isOpenedInOtherWeb  = useSearchParams()?.get("isOpenedInOtherWeb");
   const { setUser } = useAppStore()
   const router = useRouter()
   const t = useTranslations("Auth")
@@ -57,18 +57,18 @@ const LoginPage: React.FC = () => {
         const res = axios.post("/api/set-auth", {
           token: data.token,
           role: data.role
-        } 
+        }
         ).then((res) => {
           console.log(res.data);
         })
 
         toast.success("Login successful!")
-        router.push("/")
+        router.push(`/${isOpenedInOtherWeb && 'ai-diagnosis?isOpenedInOtherWeb=true'}`)
       },
       onError: (error: Error) => {
         try {
           console.log(error);
-          
+
           const parsedError = JSON.parse(error.message)
           handleErrorResponse(parsedError.data as ErrorResponse)
         } catch {
@@ -214,4 +214,4 @@ const LoginPage: React.FC = () => {
   )
 }
 
-export default LoginPage
+export default page

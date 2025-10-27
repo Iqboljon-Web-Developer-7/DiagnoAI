@@ -1,13 +1,7 @@
 "use client";
 
 import { Booking } from "../types";
-import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import React, { useEffect, useState } from "react";
 import {
   MapPin,
   Phone,
@@ -37,6 +31,7 @@ import {
   useDeleteBookingMutation,
 } from "../api";
 import { BookingDialog } from "../BookingDialog";
+import { useSearchParams } from "next/navigation";
 
 type PageProps = {
   params: Promise<{
@@ -47,6 +42,21 @@ type PageProps = {
 
 export default function page({ params }: PageProps) {
   const resolvedParams = use(params);
+  const searchParams = useSearchParams();
+  const isOpenedInOtherWeb = searchParams.get("isOpenedInOtherWeb");
+  console.log(isOpenedInOtherWeb);
+
+  useEffect(() => {
+    if(isOpenedInOtherWeb == 'true'){
+      const showElement = document.querySelector(".showWhenOpenInOtherWeb")
+      const hideElements = document.querySelectorAll(".hideWhenOpenInOtherWeb")
+      hideElements[0]?.classList.add("hidden")
+      hideElements[1]?.classList.add("hidden")
+      showElement?.classList.remove("hidden")
+    }
+  },[isOpenedInOtherWeb])
+  
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const { id, locale } = resolvedParams;
@@ -61,7 +71,6 @@ export default function page({ params }: PageProps) {
     data: doctor,
     isLoading: loading,
     isPending,
-    error,
   } = useDoctorQuery(id, token);
 
   const [selectedDate, setSelectedDate] = useState(new Date());

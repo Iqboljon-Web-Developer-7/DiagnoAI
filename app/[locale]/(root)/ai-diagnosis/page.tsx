@@ -7,10 +7,10 @@ export default async function Page({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ chatId?: string; doctorIds?: string }>;
+  searchParams: Promise<{ chatId?: string; doctorIds?: string, isOpenedInOtherWeb?: string }>;
 }) {
   const { locale } = await params;
-  const { chatId: id, doctorIds } = await searchParams;
+  const { chatId: id, doctorIds, isOpenedInOtherWeb } = await searchParams;
 
   let chats: Chat[] = [];
   let doctors: Doctor[] = [];
@@ -62,6 +62,7 @@ export default async function Page({
       initialSelectedChat={selectedChat}
       initialDoctors={doctors}
       initialSelectedId={id ?? undefined}
+      isOpenedInOtherWeb={isOpenedInOtherWeb!}
     />
   );
 }

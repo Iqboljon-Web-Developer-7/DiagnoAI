@@ -18,9 +18,10 @@ import AutoWrite from "@/components/shared/AutoWritten";
 
 interface FormProps {
   initialSelectedId?: string;
+  isOpenedInOtherWeb?:string
 }
 
-function Form({ initialSelectedId }: FormProps) {
+function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
   const { isLoggedIn, user } = useAppStore();
   const t = useTranslations("diagnosis");
 
@@ -57,7 +58,7 @@ function Form({ initialSelectedId }: FormProps) {
     e.preventDefault();
     if (!isLoggedIn) {
       toast(t("notLoggedIn"));
-      router.push("/auth/login");
+      router.push(`/auth/login${isOpenedInOtherWeb === 'true' ? '?isOpenedInOtherWeb=true' : ''}`);
       return;
     }
 
@@ -80,10 +81,8 @@ function Form({ initialSelectedId }: FormProps) {
       initialSelectedId = resp.id || initialSelectedId;
 
       const url = resp.doctors?.length
-        ? `/ai-diagnosis?chatId=${initialSelectedId}&doctorIds=${resp.doctors.join(
-            ","
-          )}`
-        : `/ai-diagnosis?chatId=${initialSelectedId}`;
+        ? `/ai-diagnosis?chatId=${initialSelectedId}&doctorIds=${resp.doctors.join(",")}${isOpenedInOtherWeb && '&isOpenedInOtherWeb=true'}`
+        : `/ai-diagnosis?chatId=${initialSelectedId}${isOpenedInOtherWeb && '&isOpenedInOtherWeb=true'}`;
       router.push(url);
       setAnalyzing(false);
       setFiles([]);
