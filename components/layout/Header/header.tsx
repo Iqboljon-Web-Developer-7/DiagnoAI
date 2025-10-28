@@ -9,13 +9,16 @@ import ThemeToggle from '@/components/ThemeToggle';
 export async function Header() {
   return (
     <header className="fixed left-2 right-2 top-3 bg-white/50 dark:bg-black/50 rounded-3xl backdrop-blur-[2px] shadow-md max-w-7xl mx-auto p-1 ps-3 flex justify-between items-center z-30">
-      <div className="hover:scale-105 transition-transform duration-200 animate-fade-in-down opacity-0">
+      <div className="hover:scale-105 transition-transform duration-200 animate-fade-in-down opacity-0 hideWhenOpenInOtherWeb">
         <Link href="/" className="flex items-center space-x-2 shrink-0">
           <Image loading='lazy' className="dark:brightness-150 min-w-8.5 max-w-24 hover:scale-105 hover:-rotate-1  duration-300" src="/logo.svg" width={120} height={44} alt="Logo" />
         </Link>
       </div>
 
-      <CollapsibleTabs />
+      <span className='hideWhenOpenInOtherWeb w-full'>
+        <CollapsibleTabs />
+      </span>
+      <Link className='hidden showWhenOpenInOtherWeb text-neutral-900 dark:text-neutral-200' href={'/ai-diagnosis?isOpenedInOtherWeb=true'}>AI Diagnosis</Link>
 
       <div className="flex items-center animate-fade-in-down opacity-0">
         <LanguageSwitcher />

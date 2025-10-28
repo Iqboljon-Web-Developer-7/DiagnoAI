@@ -42,4 +42,5 @@ export interface DiagnosisClientProps {
     initialSelectedChat: Chat | null
     initialDoctors: Doctor[]
     initialSelectedId?: string
+    isOpenedInOtherWeb:string
 }

@@ -14,9 +14,11 @@ import Image from "next/image";
 const Doctors = ({
   initialDoctors,
   t,
+  isOpenedInOtherWeb
 }: {
   initialDoctors: Doctor[];
   t: (key: string) => string;
+  isOpenedInOtherWeb: string
 }) => {
   const router = useRouter();
 
@@ -42,7 +44,7 @@ const Doctors = ({
               <div className="space-y-4 overflow-y-auto">
                 {initialDoctors?.map((doc) => (
                   <div
-                    onClick={() => router.push(`/doctors/${doc?.id}`)}
+                    onClick={() => router.push(`/doctors/${doc?.id}${isOpenedInOtherWeb == 'true' && '?isOpenedInOtherWeb=true'}`)}
                     key={doc?.id}
                     className="cursor-pointer p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-linear-to-br from-white to-gray-50 dark:from-neutral-900 dark:to-neutral-800 dark:border-neutral-700"
                   >
@@ -104,7 +106,7 @@ const Doctors = ({
 
             <Link href="/doctors" passHref className="fixed bottom-[1%] right-[3%]">
               <Button className="w-full mt-4 bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white dark:from-green-900 dark:to-emerald-900 dark:hover:from-green-950 dark:hover:to-emerald-950">
-                {t("viewAllSpecialists")} 
+                {t("viewAllSpecialists")}
               </Button>
             </Link>
           </CardContent>
