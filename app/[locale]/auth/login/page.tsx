@@ -63,7 +63,7 @@ const page = () => {
         })
 
         toast.success("Login successful!")
-        router.push(`/${isOpenedInOtherWeb && 'ai-diagnosis?isOpenedInOtherWeb=true'}`)
+        router.push(`/${isOpenedInOtherWeb ? 'ai-diagnosis?isOpenedInOtherWeb=true' : ''}`)
       },
       onError: (error: Error) => {
         try {

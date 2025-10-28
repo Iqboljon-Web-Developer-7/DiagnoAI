@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 
 export function HeroSection() {
   const t = useTranslations("Index");
-  const [videoSrc, setVideoSrc] = useState("hero-desktop.webm");
+  const [videoSrc, setVideoSrc] = useState("");
 
   useEffect(() => {
     const updateVideoSrc = () => {
