@@ -1217,5 +1217,22 @@
     "actions": {
       "home": "Home"
     }
+  },
+  "how-it-works": {
+    "title": "How It Works",
+    "subtitle": "Experience seamless diagnostics with our cutting-edge AI technology.",
+    "step1": {
+      "title": "Visit AI Diagnosis Page",
+      "desc": "Navigate to our AI diagnosis page and start your health assessment instantly—no installation needed."
+    },
+    "step2": {
+      "title": "Describe Your Symptoms",
+      "desc": "Answer a few quick questions about how you feel—our AI analyzes your responses in real time."
+    },
+    "step3": {
+      "title": "Get AI Insights",
+      "desc": "Receive personalized guidance and next-step recommendations powered by advanced AI within moments."
+    },
+    "cta": "Try AI Diagnosis"
   }
 }

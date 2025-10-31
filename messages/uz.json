@@ -1151,5 +1151,22 @@
     "actions": {
       "home": "Bosh sahifa"
     }
+  },
+  "how-it-works": {
+    "title": "Bu qanday ishlaydi",
+    "subtitle": "Ilg‘or AI texnologiyasi bilan silliq diagnostika tajribasini boshdan kechiring.",
+    "step1": {
+      "title": "AI diagnostika sahifasiga o‘ting",
+      "desc": "Bizning AI diagnostika sahifamizga o‘ting va sog‘lig‘ingizni baholashni darhol boshlang—o‘rnatish shart emas."
+    },
+    "step2": {
+      "title": "Alomatlaringizni tasvirlang",
+      "desc": "O‘zingizni qanday his qilayotganingiz haqida bir necha tez savolga javob bering—AI javoblaringizni real vaqtda tahlil qiladi."
+    },
+    "step3": {
+      "title": "AI tushunchalarini oling",
+      "desc": "Bir necha soniya ichida ilg‘or AI tomonidan taqdim etilgan shaxsiy yo‘l-yo‘riq va keyingi qadamlar bo‘yicha tavsiyalarni oling."
+    },
+    "cta": "AI diagnostikasini sinab ko‘ring"
   }
 }
