@@ -7,7 +7,7 @@ import { useAutoplay } from './EmblaCarouselAutoPlay'
 import { useInView } from 'react-intersection-observer'
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { PlayCircle, Quote, StopCircle } from 'lucide-react'
+import { PlayCircle, Quote, StopCircle, User } from 'lucide-react'
 import Image from 'next/image'
 
 type EmblaOptionsType = {
@@ -88,17 +88,19 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                 </p>
               </div>
               <div className="flex items-center">
-                <Avatar className="h-10 w-10 sm:h-12 sm:w-12">
-                  <AvatarImage
+                {/* <Avatar className="h-10 w-10 sm:h-12 sm:w-12"> */}
+                  {/* <AvatarImage
                     loading="lazy"
                     className='object-cover'
                     src={slide?.imageSrc}
                     alt={slide.name}
                     width={50}
                     height={50}
-                  />
-                  <AvatarFallback>{slide.fallback}</AvatarFallback>
-                </Avatar>
+                  /> */}
+                  {/* <AvatarFallback> */}
+                    <User className='dark:text-neutral-200' />
+                    {/* </AvatarFallback> */}
+                {/* </Avatar> */}
                 <div className="ml-3">
                   <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-gray-100">
                     {slide.name}
