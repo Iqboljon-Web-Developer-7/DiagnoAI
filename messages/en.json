@@ -1234,5 +1234,224 @@
       "desc": "Receive personalized guidance and next-step recommendations powered by advanced AI within moments."
     },
     "cta": "Try AI Diagnosis"
+  },
+  "packages": {
+    "title": "Health Checkup Packages",
+    "description": "Choose from our comprehensive health checkup packages designed to keep you healthy and informed about your wellbeing.",
+    "duration": "days",
+    "tests": "tests",
+    "learnMore": "Learn More",
+    "keyExaminations": "Key Examinations",
+    "healthBenefits": "Health Benefits",
+    "packageIncludes": "Package Includes",
+    "programPrice": "Program Price",
+    "bookNow": "Book Now"
+  },
+  "packageNames": {
+    "basic": "Basic",
+    "silver": "Silver",
+    "gold": "Gold",
+    "platinum": "Platinum",
+    "light": "Light",
+    "full": "Full",
+    "cardio": "Cardio"
+  },
+  "packageSubtitles": {
+    "womenCheckup": "Women's Health Checkup",
+    "cardioCheckup": "Cardiovascular Checkup"
+  },
+  "packageDetails": {
+    "1": {
+      "description": "The Basic package offers essential health screenings suitable for routine checkups. This comprehensive package includes fundamental tests to assess your overall health status and identify potential health concerns early.",
+      "examinations": [
+        "Complete Blood Count (CBC)",
+        "Blood Glucose (Fasting)",
+        "Liver Function Tests",
+        "Kidney Function Tests",
+        "Cholesterol Profile",
+        "Urine Analysis",
+        "Basic Thyroid Function"
+      ],
+      "benefits": [
+        "Early detection of common health issues",
+        "Assessment of metabolic health",
+        "Basic organ function evaluation",
+        "Cost-effective health screening"
+      ],
+      "includes": [
+        "Blood Tests",
+        "Urine Tests",
+        "Basic Consultation",
+        "Health Report"
+      ]
+    },
+    "2": {
+      "description": "The Silver package provides a more comprehensive health assessment with additional screenings. Ideal for those who want a thorough evaluation of their health status with enhanced diagnostic capabilities.",
+      "examinations": [
+        "Complete Blood Count (CBC)",
+        "Comprehensive Metabolic Panel",
+        "Lipid Profile (Extended)",
+        "Liver Function Panel",
+        "Kidney Function Panel",
+        "Thyroid Function Tests",
+        "Vitamin D Level",
+        "Urine Complete Analysis"
+      ],
+      "benefits": [
+        "Comprehensive metabolic assessment",
+        "Detailed organ function analysis",
+        "Vitamin deficiency detection",
+        "Enhanced preventive care"
+      ],
+      "includes": [
+        "Extended Blood Panel",
+        "Advanced Tests",
+        "Doctor Consultation",
+        "Detailed Report"
+      ]
+    },
+    "3": {
+      "description": "The Gold package offers premium comprehensive health screening with advanced diagnostics. Perfect for individuals who prioritize thorough health monitoring and early disease detection.",
+      "examinations": [
+        "Complete Blood Count (CBC)",
+        "Comprehensive Metabolic Panel",
+        "Advanced Lipid Profile",
+        "Complete Liver Function Panel",
+        "Kidney Function Comprehensive",
+        "Full Thyroid Panel",
+        "Vitamin Panel (D, B12, Folate)",
+        "Hormone Screening",
+        "Cardiac Markers",
+        "Complete Urine Analysis"
+      ],
+      "benefits": [
+        "Premium health assessment",
+        "Advanced disease detection",
+        "Hormonal balance evaluation",
+        "Cardiac health screening",
+        "Comprehensive wellness check"
+      ],
+      "includes": [
+        "Premium Test Panel",
+        "Specialist Consultation",
+        "Comprehensive Report",
+        "Follow-up Recommendations"
+      ]
+    },
+    "4": {
+      "description": "The Platinum package is our most comprehensive health checkup, offering extensive screening and advanced diagnostics. Designed for those seeking the most thorough health evaluation available.",
+      "examinations": [
+        "Complete Blood Count (CBC)",
+        "Comprehensive Metabolic Panel",
+        "Advanced Lipid Profile",
+        "Complete Liver Function Panel",
+        "Kidney Function Comprehensive",
+        "Full Thyroid Panel",
+        "Complete Vitamin Panel",
+        "Full Hormone Profile",
+        "Advanced Cardiac Markers",
+        "Cancer Markers Screening",
+        "Complete Urine Analysis",
+        "ECG (Electrocardiogram)"
+      ],
+      "benefits": [
+        "Most comprehensive health assessment",
+        "Early cancer detection screening",
+        "Complete hormonal evaluation",
+        "Advanced cardiac assessment",
+        "Premium wellness program"
+      ],
+      "includes": [
+        "Premium Test Suite",
+        "Multi-specialist Consultation",
+        "Comprehensive Health Report",
+        "Personalized Recommendations",
+        "Follow-up Plan"
+      ]
+    },
+    "5": {
+      "description": "The Light Women's Health Checkup package is specifically designed for women, focusing on essential female health screenings. This package helps monitor women's health and detect common issues early.",
+      "examinations": [
+        "Complete Blood Count (CBC)",
+        "Blood Glucose",
+        "Complete Metabolic Panel",
+        "Thyroid Function Tests",
+        "Vitamin D & B12",
+        "Urine Analysis",
+        "Pap Smear",
+        "Breast Health Screening"
+      ],
+      "benefits": [
+        "Women-specific health screening",
+        "Reproductive health assessment",
+        "Hormonal balance evaluation",
+        "Early detection of women's health issues"
+      ],
+      "includes": [
+        "Women's Health Tests",
+        "Gynecological Screening",
+        "Doctor Consultation",
+        "Health Report"
+      ]
+    },
+    "6": {
+      "description": "The Full Women's Health Checkup package provides comprehensive screening tailored specifically for women. This extensive package covers all aspects of women's health with advanced diagnostic capabilities.",
+      "examinations": [
+        "Complete Blood Count (CBC)",
+        "Comprehensive Metabolic Panel",
+        "Complete Lipid Profile",
+        "Full Thyroid Panel",
+        "Complete Vitamin Panel",
+        "Full Hormone Profile (FSH, LH, Estrogen, Progesterone)",
+        "CA-125 (Ovarian Cancer Marker)",
+        "CA 15-3 (Breast Cancer Marker)",
+        "Pap Smear & HPV Test",
+        "Breast Ultrasound",
+        "Pelvic Ultrasound",
+        "Complete Urine Analysis"
+      ],
+      "benefits": [
+        "Comprehensive women's health assessment",
+        "Reproductive health evaluation",
+        "Cancer screening markers",
+        "Complete hormonal profile",
+        "Advanced gynecological assessment"
+      ],
+      "includes": [
+        "Full Women's Health Panel",
+        "Gynecological Specialist Consultation",
+        "Ultrasound Imaging",
+        "Comprehensive Report",
+        "Personalized Recommendations"
+      ]
+    },
+    "7": {
+      "description": "The Cardio Checkup package focuses specifically on cardiovascular health. This targeted screening helps assess heart health, detect potential cardiac issues, and provides recommendations for maintaining a healthy cardiovascular system.",
+      "examinations": [
+        "Complete Blood Count (CBC)",
+        "Lipid Profile (Complete)",
+        "Cardiac Enzymes (CK-MB, Troponin)",
+        "BNP (Brain Natriuretic Peptide)",
+        "Homocysteine",
+        "CRP (C-Reactive Protein)",
+        "ECG (Electrocardiogram)",
+        "Echocardiogram",
+        "Stress Test"
+      ],
+      "benefits": [
+        "Comprehensive cardiac assessment",
+        "Early detection of heart disease",
+        "Risk factor evaluation",
+        "Prevention-focused screening",
+        "Cardiac function analysis"
+      ],
+      "includes": [
+        "Cardiac Tests",
+        "ECG & Echocardiogram",
+        "Cardiologist Consultation",
+        "Cardiac Health Report",
+        "Prevention Plan"
+      ]
+    }
   }
 }
