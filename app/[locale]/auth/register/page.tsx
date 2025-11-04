@@ -1,4 +1,4 @@
-"use client";
+i"use client";
 
 import { useTranslations } from "next-intl";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -348,8 +348,8 @@ const RegisterPage = () => {
                           <FormLabel className="text-sm dark:text-gray-300">
                             {t("register.acceptTerms")}{" "}
                             <Link
-                              href="/privacy-policy"
-                              className="text-blue-600 dark:text-blue-400 hover:underline"
+                              href="privacy"
+ className="text-blue-600 dark:text-blue-400 hover:underline"
                             >
                               {t("register.privacyPolicy")}
                             </Link>
@@ -375,7 +375,7 @@ const RegisterPage = () => {
                           <FormLabel className="text-sm dark:text-gray-300">
                             {t("register.acceptTerms")}{" "}
                             <Link
-                              href="/terms-of-use"
+                              href="/terms"
                               className="text-blue-600 dark:text-blue-400 hover:underline"
                             >
                               {t("register.termsOfUse")}
