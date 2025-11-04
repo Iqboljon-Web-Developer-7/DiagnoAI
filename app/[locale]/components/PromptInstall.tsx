@@ -8,7 +8,7 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-export default function PwaInstall() {
+export default function PomptInstall() {
   // ----------------------------------------------------------------------
   // 1. State
   // ----------------------------------------------------------------------
