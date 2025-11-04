@@ -55,6 +55,7 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
     { path: "/doctors", label: t("doctors") },
     { path: "/hospitals", label: t("hospitals") },
     { path: "/education", label: t("education") },
+    { path: "/pakets", label: t("checkup") },
     { path: "/about-us", label: t("about") },
   ];
 

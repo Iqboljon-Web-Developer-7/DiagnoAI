@@ -26,7 +26,6 @@ import { useAppStore } from "@/store/store";
 import {
   Loader2,
   User as UserIcon,
-  Mail,
   Lock,
   Eye,
   EyeOff,
@@ -42,13 +41,7 @@ import { useState } from "react";
 
 const formSchema = z
   .object({
-    firstName: z.string().min(2, "First name must be at least 2 characters"),
-    lastName: z.string().min(2, "Last name must be at least 2 characters"),
-    email: z
-      .string()
-      .email("Invalid email address")
-      .optional()
-      .or(z.literal("")),
+    first_name: z.string().min(2, "First name must be at least 2 characters"),
     phoneNumber: z
       .string()
       .min(10, "Phone number must be at least 10 digits")
@@ -67,10 +60,6 @@ const formSchema = z
     message: "Passwords don't match",
     path: ["confirmPassword"],
   })
-  .refine((data) => !!data.email || !!data.phoneNumber, {
-    message: "Either email or phone number is required",
-    path: ["email"],
-  });
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -82,9 +71,7 @@ const RegisterPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
+      first_name: "",
       phoneNumber: "",
       password: "",
       confirmPassword: "",
@@ -98,7 +85,6 @@ const RegisterPage = () => {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const payload = {
       ...values,
-      email: values.email ?? "",
     };
 
     if (values.phoneNumber) {
@@ -141,9 +127,8 @@ const RegisterPage = () => {
   const handleErrorResponse = (data: ErrorResponse) => {
     if (data.phone_number) {
       form.setError("phoneNumber", { message: data.phone_number[0] });
-    } else if (data.email) {
-      form.setError("email", { message: data.email[0] });
-    } else if (typeof data === "object") {
+    }  
+     else if (typeof data === "object") {
       const firstError = Object.values(data)[0];
       form.setError("root", {
         message: Array.isArray(firstError) ? firstError[0] : String(firstError),
@@ -154,7 +139,7 @@ const RegisterPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-200 via-blue-50 to-purple-200 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
       <div className="max-w-md overflow-auto">
-        <Card className="relative  overflow-hidden space-y-5 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xs animate-fade-in-down delay-200 opacity-0">
+        <Card className="relative  overflow-hidden space-y-5 border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xs animate-fade-in-down delay-200 opacity-0">
           <CardHeader className="text-center pb-2">
             <div className="mx-auto w-16 h-16 bg-linear-to-r from-blue-500 to-purple-600 dark:from-blue-800 dark:to-purple-900 rounded-full flex items-center justify-center mb-4 shadow-lg">
               <UserIcon className="w-8 h-8 text-white" />
@@ -173,20 +158,19 @@ const RegisterPage = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-4"
               >
-                <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="firstName"
+                    name="first_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="dark:text-gray-300">
-                          First Name
+                        <FormLabel className="dark:text-gray-100">
+                          {t("register.username")}
                         </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
                             <Input
-                              className="pl-10 dark:bg-gray-800 dark:text-gray-100"
+                              className="border-neutral-300 dark:border-neutral-700 pl-10 dark:bg-gray-800 dark:text-gray-100"
                               {...field}
                             />
                           </div>
@@ -195,64 +179,20 @@ const RegisterPage = () => {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="lastName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="dark:text-gray-300">
-                          Last Name
-                        </FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
-                            <Input
-                              className="pl-10 dark:bg-gray-800 dark:text-gray-100"
-                              {...field}
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="dark:text-gray-300">
-                        {t("register.email")}
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
-                          <Input
-                            className="pl-10 dark:bg-gray-800 dark:text-gray-100"
-                            {...field}
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
+                
                 <FormField
                   control={form.control}
                   name="phoneNumber"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="dark:text-gray-300">
+                      <FormLabel className="dark:text-gray-100">
                         {t("register.phoneNumber")}
                       </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
                           <Input
-                            className="pl-10 dark:bg-gray-800 dark:text-gray-100"
+                            className="border-neutral-300 dark:border-neutral-700 pl-10 dark:bg-gray-800 dark:text-gray-100"
                             {...field}
                           />
                         </div>
@@ -267,7 +207,7 @@ const RegisterPage = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="dark:text-gray-300">
+                      <FormLabel className="dark:text-gray-100">
                         {t("register.password")}
                       </FormLabel>
                       <FormControl>
@@ -275,7 +215,7 @@ const RegisterPage = () => {
                           <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
                           <Input
                             type={showPassword ? "text" : "password"}
-                            className="pl-10 pr-10 dark:bg-gray-800 dark:text-gray-100"
+                            className="pl-10 pr-10 dark:bg-gray-800 dark:text-gray-100 border-neutral-300 dark:border-neutral-700"
                             {...field}
                           />
                           <button
@@ -301,7 +241,7 @@ const RegisterPage = () => {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="dark:text-gray-300">
+                      <FormLabel className="dark:text-gray-100">
                         {t("register.confirmPassword")}
                       </FormLabel>
                       <FormControl>
@@ -309,7 +249,7 @@ const RegisterPage = () => {
                           <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
                           <Input
                             type={showConfirmPassword ? "text" : "password"}
-                            className="pl-10 pr-10 dark:bg-gray-800 dark:text-gray-100"
+                            className="pl-10 pr-10 dark:bg-gray-800 dark:text-gray-100 border-neutral-300 dark:border-neutral-700"
                             {...field}
                           />
                           <button
@@ -340,12 +280,13 @@ const RegisterPage = () => {
                       <FormItem className="flex flex-row items-start space-x-2 space-y-0">
                         <FormControl>
                           <Checkbox
+                          className="dark:text-white"
                             checked={field.value}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel className="text-sm dark:text-gray-300">
+                          <FormLabel className="text-sm dark:text-gray-100">
                             {t("register.acceptTerms")}{" "}
                             <Link
                               href="/privacy-policy"
@@ -367,12 +308,13 @@ const RegisterPage = () => {
                       <FormItem className="flex flex-row items-start space-x-2 space-y-0">
                         <FormControl>
                           <Checkbox
+                            className="dark:text-white"
                             checked={field.value}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
                         <div className="space-y-1 leading-none">
-                          <FormLabel className="text-sm dark:text-gray-300">
+                          <FormLabel className="text-sm dark:text-gray-100">
                             {t("register.acceptTerms")}{" "}
                             <Link
                               href="/terms-of-use"
@@ -400,7 +342,7 @@ const RegisterPage = () => {
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className="dark:text-slate-100 w-full h-12 bg-linear-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 dark:from-blue-800 dark:to-purple-900 dark:hover:from-blue-900 dark:hover:to-purple-950"
+                  className="text-slate-100 w-full h-12 bg-linear-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 dark:from-blue-800 dark:to-purple-900 dark:hover:from-blue-900 dark:hover:to-purple-950"
                 >
                   {isPending ? (
                     <>

@@ -126,6 +126,7 @@
     "success": "Успех"
   },
   "navigation": {
+    "checkup": "Проверка",
     "home": "Главная",
     "about": "О нас",
     "aiDiagnosis": "Диагностика ИИ",
@@ -152,6 +153,7 @@
       "registerLink": "Зарегистрироваться"
     },
     "register": {
+      "username":"имя пользователя",
       "title": "Регистрация",
       "description": "Создайте учетную запись для использования платформы Diagno AI",
       "fullName": "Полное имя",

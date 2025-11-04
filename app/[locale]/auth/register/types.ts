@@ -3,9 +3,7 @@
 
 // Form data structure for registration
 export interface RegisterFormData {
-  firstName: string
-  lastName: string
-  email: string
+  first_name: string
   phoneNumber?: string
   password: string
   confirmPassword: string

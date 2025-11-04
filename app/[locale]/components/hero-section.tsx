@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 
 export function HeroSection() {
   const t = useTranslations("Index");
-  const [videoSrc, setVideoSrc] = useState("");
+  const [videoSrc, setVideoSrc] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const updateVideoSrc = () => {
@@ -42,6 +42,7 @@ export function HeroSection() {
       <div className="flex items-center justify-center flex-col mx-auto animate-fade-in-down delay-300 opacity-0 duration-500 py-60 z-20 gap-14">
         <div className="text-center flex items-center justify-center flex-col min-h-64">
           <AutoWrite
+            speed={68}
             sequence={["hero.1", "hero.2", "hero.3", "hero.4", "hero.5"]}
             className="text-4xl sm:text-4xl md:text-5xl lg:text-7xl max-w-5xl"
           />

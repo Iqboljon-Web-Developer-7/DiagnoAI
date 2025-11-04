@@ -10,9 +10,7 @@ export const useRegisterMutation = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          first_name: data.firstName,
-          last_name: data.lastName,
-          email: data.email,
+          first_name: data.first_name,
           phone_number: data.phoneNumber,
           password: data.password,
         }),

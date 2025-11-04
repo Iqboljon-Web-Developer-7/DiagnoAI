@@ -7,10 +7,12 @@ import { Partners } from "./components/partners";
 import { Suspense } from "react";
 import InfiniteCarousel from "./components/InfiniteCarousel Types/InfiniteCarousel";
 import HowItWork from "./components/HowItWork";
+import PromptInstall from "./components/PromptInstall";
 
 export default async function HomePage() {
   return (
     <>
+      <PromptInstall />
       <HeroSection />
       <Suspense fallback={<div>Loading features...</div>}>
         {/* @ts-expect-error Async Server Component */}

@@ -186,7 +186,7 @@ export default function DiagnosisClient({
           </SidebarContent>
         </Sidebar>
 
-        <SidebarInset className="backdrop-blur-md dark:bg-cyan-950/70">
+        <SidebarInset className="backdrop-blur-md dark:bg-cyan-950/50">
           <SidebarTrigger
             iconType="ai-diagnosis"
             className="absolute top-2 sm:top-4 left-2 sm:left-4 z-10 duration-200 scale-125 dark:text-white"

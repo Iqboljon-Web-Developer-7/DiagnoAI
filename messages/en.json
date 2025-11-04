@@ -126,6 +126,7 @@
     "success": "Success"
   },
   "navigation": {
+    "checkup": "Checkup",
     "home": "Home",
     "about": "About",
     "aiDiagnosis": "AI Diagnosis",
@@ -152,6 +153,7 @@
       "registerLink": "Register here"
     },
     "register": {
+      "username":"Username",
       "title": "Register",
       "description": "Create an account to use Diagno AI platform",
       "fullName": "Full Name",

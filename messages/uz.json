@@ -128,6 +128,7 @@
     "success": "Muvaffaqiyatli"
   },
   "navigation": {
+    "checkup": "Ko'rik",
     "home": "Bosh sahifa",
     "about": "Biz haqimizda",
     "aiDiagnosis": "AI tashxis",
@@ -241,6 +242,7 @@
       "registerLink": "Bu yerda ro'yxatdan o'ting"
     },
     "register": {
+      "username":"Foydalanuvchi nomi",
       "title": "Ro'yxatdan o'tish",
       "description": "Diagno AI platformasidan foydalanish uchun hisob yarating",
       "fullName": "To'liq ism",
