@@ -8,7 +8,7 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-export default function PomptInstall() {
+export default function PromptInstall() {
   // ----------------------------------------------------------------------
   // 1. State
   // ----------------------------------------------------------------------
