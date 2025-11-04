@@ -1,4 +1,4 @@
-i"use client";
+"use client";
 
 import { useTranslations } from "next-intl";
 import { zodResolver } from "@hookform/resolvers/zod";
