@@ -1389,5 +1389,12 @@
         "Profilaktika rejasi"
       ]
     }
+  },
+  "PromptInstall": {
+    "title": "DiagnoAI",
+    "description": "DiagnoAI-ni qurilmangizga o'rnating va to'liq tajribadan bahramand bo'ling.",
+    "installed": "DiagnoAI allaqachon o'rnatilgan!",
+    "install": "O'rnatish",
+    "close": "Bannerni yopish"
   }
 }

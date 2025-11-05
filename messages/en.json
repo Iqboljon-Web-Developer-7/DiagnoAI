@@ -1455,5 +1455,12 @@
         "Prevention Plan"
       ]
     }
+  },
+    "PromptInstall": {
+    "title": "DiagnoAI",
+    "description": "Install DiagnoAI on your device for the full experience.",
+    "installed": "DiagnoAI is already installed!",
+    "install": "Install",
+    "close": "Close banner"
   }
 }

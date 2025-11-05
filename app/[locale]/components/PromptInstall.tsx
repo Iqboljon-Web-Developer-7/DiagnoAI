@@ -1,5 +1,6 @@
 'use client'; // <-- remove if you are not using Next.js App Router
 
+import { useTranslations } from 'next-intl';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { X, Download } from 'lucide-react'; // optional icons
 
@@ -9,26 +10,19 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export default function PromptInstall() {
-  // ----------------------------------------------------------------------
-  // 1. State
-  // ----------------------------------------------------------------------
+  const t = useTranslations('PromptInstall');
   const [deferredEvt, setDeferredEvt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [isInstalled, setIsInstalled] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // ----------------------------------------------------------------------
-  // 2. Detect if we are already running as a PWA
-  // ----------------------------------------------------------------------
   const checkInstalled = useCallback(() => {
-    const standalone = (window.matchMedia('(display-mode: standalone)').matches ||
-      (window.navigator as any).standalone === true);
+    const standalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as any).standalone === true;
     setIsInstalled(standalone);
   }, []);
 
-  // ----------------------------------------------------------------------
-  // 3. Capture the native beforeinstallprompt
-  // ----------------------------------------------------------------------
   useEffect(() => {
     const handler = (e: Event) => {
       e.preventDefault();
@@ -38,12 +32,9 @@ export default function PromptInstall() {
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
 
-  // ----------------------------------------------------------------------
-  // 4. Auto-hide logic (10 s inactivity)
-  // ----------------------------------------------------------------------
   const resetTimer = useCallback(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => setIsVisible(false), 10_000);
+    timeoutRef.current = setTimeout(() => setIsVisible(false), 5_000);
   }, []);
 
   const handleMouseEnter = () => {
@@ -53,7 +44,6 @@ export default function PromptInstall() {
 
   const handleMouseLeave = () => resetTimer();
 
-  // start timer on mount
   useEffect(() => {
     checkInstalled();
     resetTimer();
@@ -62,9 +52,6 @@ export default function PromptInstall() {
     };
   }, [checkInstalled, resetTimer]);
 
-  // ----------------------------------------------------------------------
-  // 5. Install handler
-  // ----------------------------------------------------------------------
   const handleInstall = async () => {
     if (!deferredEvt) return;
 
@@ -79,34 +66,31 @@ export default function PromptInstall() {
 
   const handleClose = () => setIsVisible(false);
 
-  // ----------------------------------------------------------------------
-  // 6. Render
-  // ----------------------------------------------------------------------
   if (!isVisible) return null;
 
   return (
     <div
-      className="fixed bottom-4 right-4 z-50 flex max-w-xs flex-col gap-3 rounded-lg bg-white p-4 shadow-xl ring-1 ring-gray-200 transition-all hover:shadow-2xl"
+      className="fixed bottom-4 right-4 z-50 flex max-w-xs flex-col gap-3 rounded-lg bg-white p-4 shadow-xl ring-1 ring-gray-200 transition-all hover:shadow-2xl dark:bg-gray-800 dark:ring-gray-700"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">DiagnoAI</h3>
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          {t('title')}
+        </h3>
         <button
           onClick={handleClose}
-          className="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
-          aria-label="Close banner"
+          className="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+          aria-label={t('close')}
         >
           <X className="h-5 w-5" />
         </button>
       </div>
 
       {/* Body */}
-      <p className="text-sm text-gray-600">
-        {isInstalled
-          ? 'You already have DiagnoAI installed!'
-          : 'Install DiagnoAI on your device for a native-like experience.'}
+      <p className="text-sm text-gray-600 dark:text-gray-300">
+        {isInstalled ? t('installed') : t('description')}
       </p>
 
       {/* Buttons */}
@@ -117,16 +101,9 @@ export default function PromptInstall() {
             className="flex items-center gap-1.5 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-indigo-700"
           >
             <Download className="h-4 w-4" />
-            Install
+            {t('install')}
           </button>
         )}
-
-        <button
-          onClick={handleClose}
-          className="rounded-md border border-gray-300 px-3 py-1.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-        >
-          {isInstalled ? 'Close' : 'Later'}
-        </button>
       </div>
     </div>
   );
