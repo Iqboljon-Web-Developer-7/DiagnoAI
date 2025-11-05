@@ -92,7 +92,7 @@ export default function PromptInstall() {
     >
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">Des</h3>
+        <h3 className="text-lg font-semibold text-gray-900">DiagnoAI</h3>
         <button
           onClick={handleClose}
           className="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600"
@@ -105,8 +105,8 @@ export default function PromptInstall() {
       {/* Body */}
       <p className="text-sm text-gray-600">
         {isInstalled
-          ? 'You already have Des installed!'
-          : 'Install Des on your device for a native-like experience.'}
+          ? 'You already have DiagnoAI installed!'
+          : 'Install DiagnoAI on your device for a native-like experience.'}
       </p>
 
       {/* Buttons */}
