@@ -38,7 +38,7 @@ interface FiltersProps {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Re-usable filter UI – uses slate-200 / slate-900 (or any colour you want) */
+/*  Re-usable filter UI – slate colors + white-ish text in dark mode          */
 /* -------------------------------------------------------------------------- */
 const FilterContent = ({
   searchTerm,
@@ -51,11 +51,11 @@ const FilterContent = ({
   <div className="space-y-4">
     {/* ---- Search ---- */}
     <div>
-      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-slate-200">
         {translations('filters.searchLabel') || 'Search'}
       </label>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-slate-400" />
         <Input
           placeholder={
             translations('filters.searchPlaceholder') ||
@@ -63,25 +63,25 @@ const FilterContent = ({
           }
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10 bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-700"
+          className="pl-10 bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-gray-900 dark:text-slate-200 placeholder:text-gray-500 dark:placeholder:text-slate-400"
         />
       </div>
     </div>
 
     {/* ---- Rating ---- */}
     <div>
-      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+      <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-slate-200">
         {translations('filters.ratingLabel') || 'Rating'}
       </label>
       <Select value={selectedRating} onValueChange={setSelectedRating}>
-        <SelectTrigger className="bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-700">
+        <SelectTrigger className="bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-gray-900 dark:text-slate-200">
           <SelectValue
             placeholder={
               translations('filters.ratingPlaceholder') || 'Select a rating'
             }
           />
         </SelectTrigger>
-        <SelectContent className="bg-slate-100 dark:bg-slate-900">
+        <SelectContent className="bg-slate-100 dark:bg-slate-900 text-gray-900 dark:text-slate-200">
           <SelectItem value="4.5">4.5</SelectItem>
           <SelectItem value="4.0">4.0</SelectItem>
           <SelectItem value="3.5">3.5</SelectItem>
@@ -92,7 +92,7 @@ const FilterContent = ({
     {/* ---- Clear ---- */}
     <Button
       variant="outline"
-      className="w-full bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-700"
+      className="w-full bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-gray-900 dark:text-slate-200"
       onClick={onClearFilters}
     >
       {translations('filters.clearFiltersButton') || 'Clear Filters'}
@@ -101,7 +101,7 @@ const FilterContent = ({
 );
 
 /* -------------------------------------------------------------------------- */
-/*  Main component – decides between Dialog (mobile) and Card (desktop)      */
+/*  Main component – mobile Dialog vs desktop Card                           */
 /* -------------------------------------------------------------------------- */
 function Filters(props: FiltersProps) {
   const t = useTranslations('doctors');
@@ -114,14 +114,14 @@ function Filters(props: FiltersProps) {
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="fixed bottom-4 right-4 z-50 bg-slate-200 dark:bg-slate-800"
+            className="fixed bottom-4 right-4 z-50 bg-slate-200 dark:bg-slate-800 text-gray-900 dark:text-slate-200"
           >
             <Filter className="w-4 h-4 mr-2" />
             {t('filters.title') || 'Filters'}
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="bg-slate-50 dark:bg-slate-900">
+        <DialogContent className="bg-slate-50 dark:bg-slate-900 text-gray-900 dark:text-slate-200">
           <DialogHeader>
             <DialogTitle>{t('filters.title') || 'Filters'}</DialogTitle>
           </DialogHeader>
@@ -133,7 +133,7 @@ function Filters(props: FiltersProps) {
 
   /* ---- Desktop: Card ---- */
   return (
-    <Card className="sticky top-20 bg-slate-50 dark:bg-slate-900 animate-fade-in-down opacity-0 delay-200 border-slate-300 dark:border-slate-700">
+    <Card className="sticky top-20 bg-slate-50 dark:bg-slate-900 animate-fade-in-down opacity-0 delay-200 border-slate-300 dark:border-slate-700 text-gray-900 dark:text-slate-200">
       <CardHeader className="p-4 pb-0 sm:p-6 sm:pb-0">
         <CardTitle className="flex items-center gap-2">
           <Filter className="w-5 h-5" />
