@@ -1,6 +1,5 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Filter, Search } from 'lucide-react';
@@ -87,20 +86,6 @@ function Filters(props: FiltersProps) {
             </Dialog>
         );
     }
-
-    return (
-        <Card className="sticky top-20 dark:bg-gray-900 dark:text-gray-100 animate-fade-in-down opacity-0 delay-200 border-neutral-300 dark:border-neutral-700 bg-neutral-100">
-            <CardHeader className="p-4 pb-0 sm:pb-0 sm:p-6">
-                <CardTitle className="flex items-center gap-2">
-                    <Filter className="w-5 h-5" />
-                    <span>{translations('filters.title') || 'Filters'}</span>
-                </CardTitle>
-            </CardHeader>
-            <CardContent className="p-4 sm:p-6">
-                <FilterContent {...props} translations={translations} />
-            </CardContent>
-        </Card>
-    );
 }
 
 export default memo(Filters);
