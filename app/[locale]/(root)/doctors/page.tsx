@@ -11,6 +11,8 @@ export default async function Page({params}: {params:Promise<{ locale: string }>
 
   const doctors:Doctor[] = await serverFetch(`/api/${locale}/doctors/`)
 
+  console.log(doctors);
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-12">
       <div className="max-w-400 mx-auto px-2 py-4 sm:py-6 sm:px-6 lg:px-8 lg:py-8 mt-2">
