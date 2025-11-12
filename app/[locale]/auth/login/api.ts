@@ -14,7 +14,7 @@ export const useLoginMutation = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email_or_phone: data.email,
+          email_or_phone: data.text || "",
           password: data.password,
         }),
       })

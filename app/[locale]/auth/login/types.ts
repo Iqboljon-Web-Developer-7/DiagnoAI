@@ -3,7 +3,8 @@
 
 // Form data structure for login
 export interface LoginFormData {
-  email: string
+  email?: string
+  text?: string
   password: string
 }
 

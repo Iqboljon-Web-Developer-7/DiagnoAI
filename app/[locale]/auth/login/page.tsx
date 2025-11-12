@@ -22,7 +22,7 @@ const page = () => {
 
   // Form state
   const [formData, setFormData] = useState<LoginFormData>({
-    email: "",
+    text: "",
     password: "",
   })
 
@@ -48,7 +48,7 @@ const page = () => {
       onSuccess: (data) => {
         setUser({
           id: `user-${Date.now()}`,
-          email: formData.email,
+          email: formData.text || "",
           avatar: "/placeholder.svg?height=32&width=32",
           role: data.role,
           token: data.token,
@@ -144,7 +144,7 @@ const page = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-5">
               {/* Email Field */}
-              {renderInputField("email", t("login.email"), "email", t("login.emailPlaceholder"), Mail)}
+              {renderInputField("text", t("login.email"), "text", t("login.emailPlaceholder"), Mail)}
 
               {/* Password Field */}
               <div className="space-y-2">
