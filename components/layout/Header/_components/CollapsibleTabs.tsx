@@ -143,25 +143,6 @@ const CollapsibleTabs: React.FC<CollapsibleTabsProps> = ({ className }) => {
     };
   }, [debouncedCalculateVisibleTabs, calculateVisibleTabs]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const header = document.querySelector("header");
-    const footer = document.querySelector("footer");
-    switch (pathname) {
-      case "/ai-medic":
-      case "/auth/register":
-      case "/auth/login":
-      case "/ai-diagnosis":
-        header?.classList.add("hidden");
-        footer?.classList.add("hidden");
-        break;
-      default:
-        header?.classList.remove("hidden");
-        footer?.classList.remove("hidden");
-    }
-  }, [pathname]);
-
-
   return (
     <div className={`relative flex w-full items-center z-30 ${className}`}>
       <div

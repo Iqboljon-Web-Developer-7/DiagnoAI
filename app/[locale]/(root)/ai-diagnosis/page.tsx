@@ -26,7 +26,7 @@ export default async function Page({
   if (id) {
     try {
       const chat = await serverFetch(`/chats/${id}`, {
-        next: { tags: ["chats-" + id], revalidate: 3600 },
+        next: { tags: ["chats-" + id] },
       });
 
       if (chat) {

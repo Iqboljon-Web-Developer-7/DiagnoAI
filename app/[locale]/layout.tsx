@@ -37,12 +37,7 @@ export default async function LocaleLayout({
           zIndex={1600}
         />
         <NextIntlClientProvider locale={locale} messages={messages}>
-            {/* @ts-expect-error Async Server Component */}
-            <Header />
-
             {children}
-
-            <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

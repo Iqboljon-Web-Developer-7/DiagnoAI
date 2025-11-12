@@ -1,8 +1,8 @@
-'use client'; // <-- remove if you are not using Next.js App Router
+'use client'; 
 
 import { useTranslations } from 'next-intl';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { X, Download } from 'lucide-react'; // optional icons
+import { X, Download } from 'lucide-react'; 
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;

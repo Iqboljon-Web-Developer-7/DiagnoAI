@@ -2,17 +2,16 @@ import { HeroSection } from "@/app/[locale]/components/hero-section";
 import { FeaturesSection } from "@/app/[locale]/components/features-section";
 import { TestimonialsSection } from "@/app/[locale]/components/testimonials-section";
 import { CTASection } from "@/app/[locale]/components/cta-section";
-import { Partners } from "./components/partners";
+import { Partners } from "../components/partners";
 
 import { Suspense } from "react";
-import InfiniteCarousel from "./components/InfiniteCarousel Types/InfiniteCarousel";
-import HowItWork from "./components/HowItWork";
-import PromptInstall from "./components/PromptInstall";
+import InfiniteCarousel from "../components/InfiniteCarousel Types/InfiniteCarousel";
+import HowItWork from "../components/HowItWork";
+import PromptInstall from "../components/PromptInstall";
 
 export default async function HomePage() {
   return (
     <>
-      <PromptInstall />
       <HeroSection />
       <Suspense fallback={<div>Loading features...</div>}>
         {/* @ts-expect-error Async Server Component */}
@@ -34,6 +33,7 @@ export default async function HomePage() {
         {/* @ts-expect-error Async Server Component */}
         <CTASection />
       </Suspense>
+      <PromptInstall />
     </>
   );
 }
