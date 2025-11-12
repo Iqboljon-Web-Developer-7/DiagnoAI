@@ -1,6 +1,3 @@
-# Filter Component – Dark / Light Mode Ready (Slate + White Text in Dark)
-
-```tsx
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
