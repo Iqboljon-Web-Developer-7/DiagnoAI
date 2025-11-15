@@ -57,6 +57,9 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
 
     if (!isLoggedIn) {
       toast(t("notLoggedIn"));
+      if(typeof window != undefined){
+        localStorage.setItem("returnPage", "/ai-diagnosis")
+      }
       router.push(`/auth/login${isOpenedInOtherWeb === 'true' ? '?isOpenedInOtherWeb=true' : ''}`);
       return;
     }
@@ -146,7 +149,7 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
                       newFiles.splice(i, 1);
                       setFiles(newFiles);
                     }}
-                    className="absolute -top-2 -right-4 bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-800/60 backdrop-blur-[2px] rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                    className="absolute -top-4 -right-4 bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-800/60 backdrop-blur-[2px] rounded-full shadow-md md:opacity-0 group-hover:opacity-100 transition-opacity z-10"
                   >
                     <X className="text-red-500" />
                   </Button>

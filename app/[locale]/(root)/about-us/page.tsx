@@ -180,15 +180,6 @@ export default function AboutPage() {
               <p className="text-xl md:text-2xl mb-12 text-blue-100 max-w-4xl mx-auto leading-relaxed dark:text-blue-200">
                 {t("hero.description")}
               </p>
-              {/* <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 text-lg px-8 py-4 dark:bg-blue-950 dark:text-white dark:hover:bg-blue-900">
-                  {t("learnMore")} <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-                <Button size="lg" variant="outline" className="border-white text-black hover:bg-white hover:text-blue-900 transition-all duration-300 text-lg px-8 py-4 dark:border-blue-900 dark:text-white dark:hover:bg-blue-900 dark:hover:text-white">
-                  <Eye className="mr-2 w-5 h-5" />
-                  {t("watchDemo")}
-                </Button>
-              </div> */}
             </div>
           </div>
         </div>
@@ -225,17 +216,17 @@ export default function AboutPage() {
             </div>
 
             <div className="animate-on-scroll">
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-2 md:gap-6">
                 {statsData.map((stat, index) => (
                   <Card key={index} className="bg-white border-0 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 overflow-hidden group dark:bg-blue-950">
-                    <CardContent className="pt-8 pb-6 relative">
+                    <CardContent className="p-4 md:p-6 relative">
                       <div className={`absolute inset-0 bg-linear-to-br ${stat.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
                       <div className="relative z-10">
-                        <div className={`w-16 h-16 rounded-2xl bg-linear-to-br ${stat.bgColor} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                          <stat.icon className={`w-8 h-8 ${stat.color}`} />
+                        <div className={`w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-linear-to-br ${stat.bgColor} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                          <stat.icon className={`w-6 h-6 md:w-8 md:h-8 ${stat.color}`} />
                         </div>
-                        <h3 className="text-3xl font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors dark:text-white dark:group-hover:text-blue-200">{stat.value}</h3>
-                        <p className="text-gray-600 text-lg group-hover:text-gray-700 transition-colors dark:text-gray-300 dark:group-hover:text-white">{stat.label}</p>
+                        <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors dark:text-white dark:group-hover:text-blue-200">{stat.value}</h3>
+                        <p className="text-gray-600 md:text-lg group-hover:text-gray-700 transition-colors dark:text-gray-300 dark:group-hover:text-white">{stat.label}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -324,8 +315,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="w-full py-16 px-4 bg-[rgb(239,247,246)] dark:bg-blue-950">
-        <div className="container">
+      <section className="w-full py-16 md:px-4 bg-[rgb(239,247,246)] dark:bg-blue-950">
+        <div className="max-w-[90vw] mx-auto">
           <div className="mb-12">
             <h1 className="font-medium text-3xl text-[#1e1e1e] dark:text-white">
               {t("timeline.title")}
@@ -337,7 +328,7 @@ export default function AboutPage() {
 
           <div className="relative">
             <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-dashed border-[#2b6a73]"></div>
-            <div className="relative flex flex-col">
+            <div className="relative flex flex-col gap-4">
               <span className="top-[50%] sticky left-1/2 transform -translate-x-1/2 bg-[#2b6a73] w-4 h-4 inline-block rounded-full z-20"></span>
               <span className="top-[52%] sticky left-1/2 transform -translate-x-1/2 bg-[#eff7f6]  w-4 h-4 z-10 flex justify-center">
                 <div className="w-104 sm:w-120 h-[712px] shrink-0 bg-[#eff7f6] dark:bg-blue-950 z-10"></div>
@@ -387,12 +378,12 @@ export default function AboutPage() {
         <div className="absolute top-1/2 right-1/4 w-24 h-24 bg-linear-to-br from-purple-400 to-pink-400 rounded-full opacity-10 animate-pulse delay-500 dark:from-purple-800 dark:to-pink-800"></div>
 
         <div className="relative max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 animate-on-scroll">
-          <h2 className="text-4xl lg:text-6xl font-bold mb-8 leading-tight">
+          <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-8 leading-tight">
             <span className="bg-linear-to-r from-blue-200 via-cyan-200 to-purple-200 bg-clip-text text-transparent dark:from-blue-400 dark:via-cyan-400 dark:to-purple-400">
               {t("cta.title")}
             </span>
           </h2>
-          <p className="text-xl text-blue-100 mb-12 leading-relaxed max-w-2xl mx-auto dark:text-blue-200">
+          <p className="text-md md:text-xl text-blue-100 mb-12 leading-relaxed max-w-2xl mx-auto dark:text-blue-200">
             {t("cta.description")}
           </p>
 
@@ -402,15 +393,6 @@ export default function AboutPage() {
                 {t("cta.contactButton")} <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
-            {/* <Link href="/careers">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-black hover:bg-white hover:text-blue-600 transition-all duration-300 transform hover:scale-105 text-lg px-8 py-4 shadow-xl hover:shadow-2xl dark:border-blue-900 dark:text-white dark:hover:bg-blue-900 dark:hover:text-white"
-              >
-                {t("cta.careersButton")}
-              </Button>
-            </Link> */}
           </div>
         </div>
       </section>

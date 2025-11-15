@@ -32,7 +32,7 @@ const mockVideos: Video[] = [
     videoUrl: 'https://www.youtube.com/embed/uXdGHzguoeA?si=VHuMYeHP2csZPWA4',
     thumbnail: 'https://i.ytimg.com/vi/uXdGHzguoeA/maxresdefault.jpg',
     duration: '45 min',
-    categoryKey: 'categories.advertisement',
+    categoryKey: 'advertisement',
   },
   {
     id: '2',
@@ -42,7 +42,7 @@ const mockVideos: Video[] = [
     thumbnail:
       'https://i.ytimg.com/vi/6Js5kSVYA1Q/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGH8gMigpMA8=&rs=AOn4CLA59cetPQJpkmzhAWnSe2JulO94zg',
     duration: '32 min',
-    categoryKey: 'categories.podcast',
+    categoryKey: 'podcast',
   },
   {
     id: '3',
@@ -51,7 +51,7 @@ const mockVideos: Video[] = [
     videoUrl: 'https://www.youtube.com/embed/OTJzNqgQo3Y?si=wkpLyI6OpTGSYIPp',
     thumbnail: 'https://i.ytimg.com/vi/OTJzNqgQo3Y/maxresdefault.jpg',
     duration: '28 min',
-    categoryKey: 'categories.advertisement',
+    categoryKey: 'advertisement',
   },
   {
     id: '4',
@@ -60,7 +60,7 @@ const mockVideos: Video[] = [
     videoUrl: 'https://www.youtube.com/embed/HBJ9O64xUYM?si=dUQAT3h64nPE1-JU',
     thumbnail: 'https://i.ytimg.com/vi/HBJ9O64xUYM/maxresdefault.jpg',
     duration: '52 min',
-    categoryKey: 'categories.education',
+    categoryKey: 'education',
   },
   {
     id: '5',
@@ -69,7 +69,7 @@ const mockVideos: Video[] = [
     videoUrl: 'https://www.youtube.com/embed/bbDdp3z3uTw?si=fGUMfSJ6qdNmhNgG',
     thumbnail: 'https://i.ytimg.com/vi/bbDdp3z3uTw/maxresdefault.jpg',
     duration: '38 min',
-    categoryKey: 'categories.explainer',
+    categoryKey: 'explainer',
   },
   {
     id: '6',
@@ -78,7 +78,7 @@ const mockVideos: Video[] = [
     videoUrl: 'https://www.youtube.com/embed/OQPaN911LEA?si=6x93e6xDj3NAAskc',
     thumbnail: 'https://i.ytimg.com/vi/OQPaN911LEA/maxresdefault.jpg',
     duration: '41 min',
-    categoryKey: 'categories.education',
+    categoryKey: 'education',
   },
   {
     id: '7',
@@ -88,7 +88,7 @@ const mockVideos: Video[] = [
     thumbnail:
       'https://i.ytimg.com/vi/OubN6MI9iHY/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGDYgYShyMA8=&rs=AOn4CLBdTzaWrEHRLps61gkG6JWqwBdETg',
     duration: '41 min',
-    categoryKey: 'categories.using_diagno_ai',
+    categoryKey: 'using_diagno_ai',
   },
   {
     id: '8',
@@ -98,7 +98,7 @@ const mockVideos: Video[] = [
     thumbnail:
       'https://i.ytimg.com/vi/OubN6MI9iHY/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGDYgYShyMA8=&rs=AOn4CLBdTzaWrEHRLps61gkG6JWqwBdETg',
     duration: '41 min',
-    categoryKey: 'categories.using_diagno_ai',
+    categoryKey: 'using_diagno_ai',
   },
 ];
 
@@ -158,8 +158,8 @@ export default function Education() {
         <div className="relative container mx-auto px-4 py-28">
           <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-in-down">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <GraduationCap className="h-8 w-8 text-primary dark:text-accent" />
-              <h1 className="text-5xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent dark:from-blue-100 dark:to-primary">
+              <GraduationCap className="h-8 w-8 text-slate-200 dark:text-accent" />
+              <h1 className="text-5xl font-bold bg-linear-to-r from-blue-200 to-accent bg-clip-text text-transparent dark:from-blue-100 dark:to-primary">
                 {t('hero.title')}
               </h1>
             </div>
@@ -179,7 +179,7 @@ export default function Education() {
           {categories.map((category) => (
             <Button
               key={category}
-              variant={selectedCategory === category ? 'default' : 'outline-solid'}
+              variant={selectedCategory === category ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedCategory(category)}
               className="transition-all duration-200"

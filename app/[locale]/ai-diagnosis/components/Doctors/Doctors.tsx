@@ -44,7 +44,7 @@ const Doctors = ({
               <div className="space-y-4 overflow-y-auto">
                 {initialDoctors?.map((doc) => (
                   <div
-                    onClick={() => router.push(`/doctors/${doc?.id}${isOpenedInOtherWeb == 'true' && '?isOpenedInOtherWeb=true'}`)}
+                    onClick={() => router.push(`/doctors/${doc?.id}${isOpenedInOtherWeb == 'true' ? '?isOpenedInOtherWeb=true' : ''}`)}
                     key={doc?.id}
                     className="cursor-pointer p-4 border border-gray-200 rounded-xl hover:shadow-md transition-shadow bg-linear-to-br from-white to-gray-50 dark:from-neutral-900 dark:to-neutral-800 dark:border-neutral-700"
                   >

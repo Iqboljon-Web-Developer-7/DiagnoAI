@@ -238,7 +238,7 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
                             <div className="text-sm">Session {i + 1}</div>
                             <div className="text-xs text-gray-500">{new Date(c.created_at).toLocaleString()}</div>
                           </div>
-                          <div onClick={(e) => { e.stopPropagation(); handleDeleteChat(c.id!); }}>
+                          <div className="z-50" onClick={(e) => { e.stopPropagation(); handleDeleteChat(c.id!); }}>
                             <Trash className="h-4 w-4 text-red-500" />
                           </div>
                         </div>

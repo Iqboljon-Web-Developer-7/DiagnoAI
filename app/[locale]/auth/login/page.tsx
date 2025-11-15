@@ -1,48 +1,50 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useAppStore } from "@/store/store"
-import { Loader2, Mail, Lock, Eye, EyeOff, Shield, User } from "lucide-react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { Link } from "@/i18n/navigation"
-import { useLoginMutation } from "./api"
-import { LoginFormData, ErrorResponse } from "./types"
-import { toast } from "sonner"
-import axios from "axios"
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useAppStore } from "@/store/store";
+import { Loader2, Mail, Lock, Eye, EyeOff, Shield, User } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Link } from "@/i18n/navigation";
+import { useLoginMutation } from "./api";
+import { LoginFormData, ErrorResponse } from "./types";
+import { toast } from "sonner";
+import axios from "axios";
 
 const page = () => {
-  const  isOpenedInOtherWeb  = useSearchParams()?.get("isOpenedInOtherWeb");
-  const { setUser } = useAppStore()
-  const router = useRouter()
-  const t = useTranslations("Auth")
+  const isOpenedInOtherWeb = useSearchParams()?.get("isOpenedInOtherWeb");
+  const { setUser } = useAppStore();
+  const router = useRouter();
+  const t = useTranslations("Auth");
 
   // Form state
   const [formData, setFormData] = useState<LoginFormData>({
     text: "",
     password: "",
-  })
+  });
 
   // UI state
-  const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [error, setError] = useState<string>("")
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   // TanStack Query mutation for login
-  const { mutate, error: loginError, isPending } = useLoginMutation()
+  const { mutate, error: loginError, isPending } = useLoginMutation();
 
   // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { id, value } = e.target
-    setFormData((prev) => ({ ...prev, [id]: value }))
-  }
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
 
   // Handle form submission
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault()
-    setError("")
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault();
+    setError("");
 
     mutate(formData, {
       onSuccess: (data) => {
@@ -52,45 +54,55 @@ const page = () => {
           avatar: "/placeholder.svg?height=32&width=32",
           role: data.role,
           token: data.token,
-        })
+        });
 
-        const res = axios.post("/api/set-auth", {
-          token: data.token,
-          role: data.role
+        const res = axios
+          .post("/api/set-auth", {
+            token: data.token,
+            role: data.role,
+          })
+          .then((res) => {
+            console.log(res.data);
+          });
+
+        toast.success("Login successful!");
+        if (typeof window != undefined) {
+          const returnPage = localStorage.getItem("returnPage") || "/";
+          localStorage.removeItem("returnPage");
+
+          router.push(
+            `${returnPage}${
+              isOpenedInOtherWeb ? "ai-diagnosis?isOpenedInOtherWeb=true" : ""
+            }`
+          );
         }
-        ).then((res) => {
-          console.log(res.data);
-        })
-
-        toast.success("Login successful!")
-        router.push(`/${isOpenedInOtherWeb ? 'ai-diagnosis?isOpenedInOtherWeb=true' : ''}`)
       },
       onError: (error: Error) => {
         try {
           console.log(error);
 
-          const parsedError = JSON.parse(error.message)
-          handleErrorResponse(parsedError.data as ErrorResponse)
+          const parsedError = JSON.parse(error.message);
+          handleErrorResponse(parsedError.data as ErrorResponse);
         } catch {
-          setError(t("errors.general"))
+          setError(t("errors.general"));
         }
       },
-    })
-  }
+    });
+  };
 
   // Handle API error responses
   const handleErrorResponse = (data: ErrorResponse): void => {
     console.log(data);
 
     if (data.detail) {
-      setError(data.detail)
+      setError(data.detail);
     } else if (typeof data === "object") {
-      const firstError = Object.values(data)[0]
-      setError(Array.isArray(firstError) ? firstError[0] : String(firstError))
+      const firstError = Object.values(data)[0];
+      setError(Array.isArray(firstError) ? firstError[0] : String(firstError));
     } else {
-      setError(t("errors.loginFailed"))
+      setError(t("errors.loginFailed"));
     }
-  }
+  };
 
   // Render input field with icon
   const renderInputField = (
@@ -101,7 +113,10 @@ const page = () => {
     Icon: React.ElementType
   ) => (
     <div className="space-y-2">
-      <Label htmlFor={id} className="text-sm font-medium text-gray-700 dark:text-gray-200">
+      <Label
+        htmlFor={id}
+        className="text-sm font-medium text-gray-700 dark:text-gray-200"
+      >
         {label}
       </Label>
       <div className="relative">
@@ -117,7 +132,7 @@ const page = () => {
         />
       </div>
     </div>
-  )
+  );
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-200 via-blue-50 to-purple-200 dark:from-gray-900 dark:via-gray-950 dark:to-indigo-950 flex items-center justify-center p-4 animate-fade-in-down delay-200 opacity-0">
@@ -136,7 +151,9 @@ const page = () => {
               <h1 className="text-3xl font-bold text-indigo-900 dark:text-indigo-200">
                 {t("login.title")}
               </h1>
-              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{t("login.description")}</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                {t("login.description")}
+              </p>
             </div>
           </div>
 
@@ -144,11 +161,20 @@ const page = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-5">
               {/* Email Field */}
-              {renderInputField("text", t("login.email_or_phone"), "text", '', User)}
+              {renderInputField(
+                "text",
+                t("login.email_or_phone"),
+                "text",
+                "",
+                User
+              )}
 
               {/* Password Field */}
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                <Label
+                  htmlFor="password"
+                  className="text-sm font-medium text-gray-700 dark:text-gray-200"
+                >
                   {t("login.password")}
                 </Label>
                 <div className="relative">
@@ -166,7 +192,11 @@ const page = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                   >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -174,7 +204,9 @@ const page = () => {
               {/* Error Message */}
               {(error || loginError) && (
                 <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-xl p-3">
-                  <p className="text-sm text-red-600 dark:text-red-400 text-center">{error || t("errors.general")}</p>
+                  <p className="text-sm text-red-600 dark:text-red-400 text-center">
+                    {error || t("errors.general")}
+                  </p>
                 </div>
               )}
             </div>
@@ -201,17 +233,19 @@ const page = () => {
           {/* Footer */}
           <div className="text-center pt-4 border-t border-gray-100 dark:border-gray-800">
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              <span>{t("login.noAccount")}</span>{' '}
-              <Link href="/auth/register" className="text-blue-600 dark:text-blue-400 hover:underline">
+              <span>{t("login.noAccount")}</span>{" "}
+              <Link
+                href="/auth/register"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
                 {t("login.registerLink")}
               </Link>
             </p>
           </div>
         </div>
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
