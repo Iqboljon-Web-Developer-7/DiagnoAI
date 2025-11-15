@@ -61,7 +61,7 @@ export default function DiagnosisClient({
   initialSelectedChat,
   initialDoctors,
   initialSelectedId,
-  isOpenedInOtherWeb
+  isOpenedInOtherWeb,
 }: DiagnosisClientProps) {
   const t = useTranslations("diagnosis");
 
@@ -145,7 +145,7 @@ export default function DiagnosisClient({
           className="border-none shadow-lg backdrop-blur-sm z-50 dark:bg-black/30"
         >
           <SidebarHeader className="relative text-white p-4 gap-3 dark:from-blue-900 dark:to-purple-900 flex flex-row items-center justify-between flex-wrap">
-            {isOpenedInOtherWeb != 'true' && (
+            {isOpenedInOtherWeb != "true" && (
               <Link
                 href={"/"}
                 className="flex items-center gap-2 hover:text-green-300 duration-200 w-fit"
@@ -154,7 +154,9 @@ export default function DiagnosisClient({
                   <Brain className="h-6 w-6" />
                 </div>
                 <div>
-                  <h2 className="font-bold text-xl text-neutral-900 dark:text-neutral-200">DiagnoAI</h2>
+                  <h2 className="font-bold text-xl text-neutral-900 dark:text-neutral-200">
+                    DiagnoAI
+                  </h2>
                 </div>
               </Link>
             )}
@@ -173,7 +175,7 @@ export default function DiagnosisClient({
           <SidebarContent className="pt-2 px-2">
             <SidebarGroup className="overflow-hidden">
               <SidebarGroupContent className="relative overflow-hidden">
-                <SidebarMenu className="sticky top-16 h-full overflow-auto">
+                <SidebarMenu className="sticky top-16 h-full overflow-auto min-h-screen">
                   <SideBarChat
                     isPending={isPending}
                     initialSelectedId={initialSelectedId}
@@ -186,33 +188,37 @@ export default function DiagnosisClient({
           </SidebarContent>
         </Sidebar>
 
-        <SidebarInset className="backdrop-blur-md dark:bg-cyan-950/50">
+        <SidebarInset className="backdrop-blur-md bg-transparent dark:bg-cyan-950/50">
           <SidebarTrigger
             iconType="ai-diagnosis"
             className="absolute top-2 sm:top-4 left-2 sm:left-4 z-10 duration-200 scale-125 dark:text-white"
           />
           <main
-            className={`flex-1 overflow-hidden max-h-svh ${!initialSelectedChat && "flex items-center justify-center"
-              }`}
+            className={`flex-1 overflow-hidden max-h-svh ${
+              !initialSelectedChat && "flex items-center justify-center"
+            }`}
           >
             <div
-              className={`gap-8 max-w-7xl mx-auto ${initialSelectedChat && "h-full"
-                }`}
+              className={`gap-8 max-w-7xl mx-auto ${
+                initialSelectedChat && "h-full"
+              }`}
             >
               <div
-                className={`flex flex-col relative max-h-[98svh] overflow-hidden h-full  `}
+                className={`flex flex-col relative max-h-[100dvh] overflow-hidden h-full`}
               >
                 <Card
-                  className={`max-h-[96svh] overflow-auto grow shadow-none border-0 bg-transparent ${!initialSelectedChat!?.messages!.length &&
+                  className={`overflow-auto grow shadow-none border-0 bg-transparent pb-10 pt-4 ${
+                    !initialSelectedChat!?.messages!.length &&
                     "flex items-center justify-center"
-                    }`}
+                  }`}
                 >
                   <CardContent className="p-0 w-full">
                     <div
-                      className={`overflow-y-auto p-2 pr-0 sm:p-6 space-y-4 ${initialSelectedChat!?.messages!.length === 0
-                        ? "flex items-center justify-center"
-                        : ""
-                        }`}
+                      className={`overflow-y-auto p-2 sm:p-6 space-y-4 ${
+                        initialSelectedChat!?.messages!.length === 0
+                          ? "flex items-center justify-center"
+                          : "animate-fade-in-down duration-200 opacity-0 delay-500"
+                      }`}
                       ref={chatContainerRef}
                     >
                       <ChatMessages
@@ -225,10 +231,13 @@ export default function DiagnosisClient({
                   </CardContent>
                 </Card>
 
-                <span className="flex items-end justify-center p-1 gap-2">
+                <span className={`flex items-end justify-center pb-2 gap-2 bottom-0 left-2 right-2 z-20 ${initialSelectedChat ? 'absolute' : ''}`}>
                   <Card className="flex-1 grow bg-transparent border-none shadow-none animate-fade-in-down duration-200 opacity-0 delay-500 p-0">
-                    <CardContent className="flex items-start justify-center flex-col p-0 min-w-[80vw] sm:min-w-lg">
-                      <Form initialSelectedId={initialSelectedId} isOpenedInOtherWeb={isOpenedInOtherWeb} />
+                    <CardContent className="mx-1 flex items-start justify-center flex-col p-0 min-w-[80vw] sm:min-w-md">
+                      <Form
+                        initialSelectedId={initialSelectedId}
+                        isOpenedInOtherWeb={isOpenedInOtherWeb}
+                      />
                     </CardContent>
                   </Card>
                   <VoiceButton />
@@ -245,8 +254,9 @@ export default function DiagnosisClient({
         onOpenChange={setIsSidebarOpen}
       >
         <div
-          className={`absolute top-2 right-2 sm:top-4 sm:right-4 ${initialDoctors?.length && "animate-pulse"
-            }`}
+          className={`absolute top-2 right-2 sm:top-4 sm:right-4 ${
+            initialDoctors?.length && "animate-pulse"
+          }`}
         >
           <SidebarTrigger
             iconType="doctors"
@@ -264,7 +274,11 @@ export default function DiagnosisClient({
           className="bg-white/30 border-none transition-all backdrop-blur-xs dark:bg-neutral-800/40"
           style={{ backgroundColor: "transparent" }}
         >
-          <Doctors initialDoctors={initialDoctors} t={t} isOpenedInOtherWeb={isOpenedInOtherWeb} />
+          <Doctors
+            initialDoctors={initialDoctors}
+            t={t}
+            isOpenedInOtherWeb={isOpenedInOtherWeb}
+          />
         </Sidebar>
       </SidebarProvider>
     </div>

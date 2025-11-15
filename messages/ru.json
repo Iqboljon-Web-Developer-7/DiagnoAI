@@ -143,7 +143,7 @@
     "login": {
       "title": "Вход",
       "description": "Войдите, чтобы получить доступ к платформе Diagno AI",
-      "email": "Электронная почта",
+      "email_or_phone": "Электронная почта или номер телефона",
       "emailPlaceholder": "email@example.com",
       "password": "Пароль",
       "submit": "Войти",

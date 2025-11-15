@@ -106,19 +106,12 @@ export function useBookAppointmentMutation() {
   });
 }
 
-export function useDoctorQuery(id: string, token: string | undefined) {
+export function useDoctorQuery(id: string, token: string | undefined, locale:string) {
   return useQuery<Doctor | null>({
     queryKey: ['doctor', id],
     queryFn: async () => {
       try {
-        const response = await serverFetch(`/api/en/doctors/${id}/`)
-        // const res = await fetch(`${API_BASE_URL}/api/en/doctors/${id}/`, {
-        //   headers: token ? { Authorization: `Bearer ${token}` } : {},
-        // });
-        // if (!res.ok) return null;
-        // const data = await res.json();
-
-        // Transform API response to match Doctor interface
+        const response = await serverFetch(`/api/${locale}/doctors/${id}/`)
         return response || {};
       } catch {
         return null;

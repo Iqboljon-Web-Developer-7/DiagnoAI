@@ -21,7 +21,7 @@ import { User, LogOut, LogIn, UserPlus, Hospital } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import axios from 'axios'
-import { serverFetch } from '@/app/[locale]/(root)/ai-diagnosis/actions'
+import { serverFetch } from '@/app/[locale]/ai-diagnosis/actions'
 
 export default function UserMenu({ className }: { className?: string }) {
   const { user, isLoggedIn, logout } = useAppStore()

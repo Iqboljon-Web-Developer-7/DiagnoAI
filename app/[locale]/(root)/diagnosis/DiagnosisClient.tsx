@@ -184,15 +184,15 @@ export function DiagnosisClient({ initialChats, initialSelectedChat, initialDoct
       if ((resp as any)?.doctors?.length) {
         const docIds = (resp as any)?.doctors as number[];
         doctorIds = (resp as any)?.doctors as number[];
-        router.push(`/diagnosis?chatId=${initialSelectedId}?doctorIds=${doctorIds.join(',')}`);
+
+
+        console.log(initialSelectedId);
+        console.log(docIds.join(','));
+        
+        router.push(`/diagnosis?chatId=${initialSelectedId}&doctorIds=${doctorIds.join(',')}`);
 
         const docs = await getDoctors(docIds);
 
-        // Promise.all(docIds.map((d) => axios.get(`${API_BASE_URL}/api/en/doctors/${d}`, {
-        //   headers: {
-        //     'Authorization': `Bearer ${token}`
-        //   }
-        // })));
         setDoctors(docs.map((d) => (d as any).data));
       }
 

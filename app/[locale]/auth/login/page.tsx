@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useAppStore } from "@/store/store"
-import { Loader2, Mail, Lock, Eye, EyeOff, Shield } from "lucide-react"
+import { Loader2, Mail, Lock, Eye, EyeOff, Shield, User } from "lucide-react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Link } from "@/i18n/navigation"
 import { useLoginMutation } from "./api"
@@ -144,7 +144,7 @@ const page = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-5">
               {/* Email Field */}
-              {renderInputField("text", t("login.email"), "text", t("login.emailPlaceholder"), Mail)}
+              {renderInputField("text", t("login.email_or_phone"), "text", '', User)}
 
               {/* Password Field */}
               <div className="space-y-2">

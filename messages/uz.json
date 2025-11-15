@@ -232,7 +232,7 @@
     "login": {
       "title": "Kirish",
       "description": "Diagno AI platformasiga kirish",
-      "email": "Elektron pochta",
+      "email_or_phone": "Elektron pochta yoki telefon raqami",
       "emailPlaceholder": "email@example.com",
       "password": "Parol",
       "submit": "Kirish",
@@ -663,7 +663,7 @@
     "aboutDoctor": "Doktor haqida",
     "specialization": "Mutaxassislik",
     "specializationDescription": "Suyak, bo'g'in va mushak holatlarini ilg'or tibbiy texnikalar bilan davolash bo'yicha mutaxassis.",
-    "servicesOffered": "Taklif etilayotgan xizmatlar",
+    "servicesOffered": "Klinika taklif etayotgan xizmatlar",
     "services": {
       "fractureTreatment": "Siniqni davolash",
       "arthritisManagement": "Artritni boshqarish",

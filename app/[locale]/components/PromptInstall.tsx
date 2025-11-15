@@ -73,6 +73,7 @@ export default function PromptInstall() {
       className="fixed bottom-4 right-4 z-50 flex max-w-xs flex-col gap-3 rounded-lg bg-white p-4 shadow-xl ring-1 ring-gray-200 transition-all hover:shadow-2xl dark:bg-gray-800 dark:ring-gray-700"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      style={{ display: isInstalled ? 'none' : 'flex' }}
     >
       {/* Header */}
       <div className="flex items-center justify-between">

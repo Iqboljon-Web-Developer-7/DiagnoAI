@@ -5,7 +5,7 @@ export async function FeaturesSection() {
   const t = await getTranslations('Index');
 
   return (
-    <section className="py-8 xs:py-10 sm:py-16 md:py-20" >
+    <section className="px-3 py-8 xs:py-10 sm:py-16 md:py-20" >
       <div className="max-w-7xl mx-auto px-1 xs:px-2 sm:px-4 lg:px-6">
         <div className="mb-8 xs:mb-10 sm:mb-12 md:mb-16 text-center">
           <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-3 xs:mb-4">

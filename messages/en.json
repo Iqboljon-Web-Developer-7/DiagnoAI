@@ -143,7 +143,7 @@
     "login": {
       "title": "Login",
       "description": "Login to access Diagno AI platform",
-      "email": "Email",
+      "email_or_phone": "Email or Phone Number",
       "emailPlaceholder": "email@example.com",
       "password": "Password",
       "submit": "Login",

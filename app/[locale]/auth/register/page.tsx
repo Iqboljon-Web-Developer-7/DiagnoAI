@@ -289,7 +289,7 @@ const RegisterPage = () => {
                           <FormLabel className="text-sm dark:text-gray-100">
                             {t("register.acceptTerms")}{" "}
                             <Link
-                              href="privacy"
+                              href="/privacy"
  className="text-blue-600 dark:text-blue-400 hover:underline"
                             >
                               {t("register.privacyPolicy")}

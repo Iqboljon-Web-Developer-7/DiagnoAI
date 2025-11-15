@@ -26,19 +26,19 @@ const InfiniteCarousel =   () => {
   const trackSlides = [...slides, ...slides, ...slides]
 
   return (
-    <div className="relative flex items-center justify-center mx-auto overflow-hidden w-[99vw] py-8 bg-white dark:bg-gray-900 shadow-lg">
+    <div className="relative pt-14 pb-0 flex items-center justify-center mx-auto overflow-hidden w-[99vw] py-8 bg-white dark:bg-gray-900">
       <div
         className="absolute left-0 top-0 h-full w-52 z-10 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to right,var(--gradient-bg,rgba(255,255,255,1)),var(--gradient-bg-transparent,rgba(255,255,255,0)))"
+            "linear-gradient(to right,var(--gradient-bg,rgba(255,255,255,0.7)),var(--gradient-bg-transparent,rgba(255,255,255,0)))"
         }}
       />
       <div
         className="absolute right-0 top-0 h-full w-52 z-10 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to left,var(--gradient-bg,rgba(255,255,255,1)),var(--gradient-bg-transparent,rgba(255,255,255,0)))"
+            "linear-gradient(to left,var(--gradient-bg,rgba(255,255,255,0.7)),var(--gradient-bg-transparent,rgba(255,255,255,0)))"
         }}
       />
       <div

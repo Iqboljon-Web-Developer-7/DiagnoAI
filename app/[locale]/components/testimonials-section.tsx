@@ -21,9 +21,9 @@ export async function TestimonialsSection() {
   const t = await getTranslations('Index');
 
   return (
-    <section className="py-8">
+    <section className="py-6">
       <div className="mx-auto px-1">
-        <div className="mb-12 text-center">
+        <div className="mb-2 md:mb-6 text-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
             {t('testimonials.title')}
           </h2>

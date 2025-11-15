@@ -1,8 +1,6 @@
 import { locales } from '@/i18n';
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
-import { Header } from '@/components/layout/Header/header';
-import { Footer } from '@/components/layout/footer';
 import NextTopLoader from 'nextjs-toploader'
 
 interface LocaleLayout {
