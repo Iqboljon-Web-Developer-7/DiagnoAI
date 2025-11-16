@@ -116,22 +116,6 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
               </div>
             ))}
         </div>
-        <button
-          className="embla__play absolute bottom-6 right-2 z-10 text-slate-500! hover:text-black!"
-          onClick={toggleAutoplay}
-          type="button"
-          aria-label={
-            autoplayIsPlaying
-              ? "Stop auto-play slideshow"
-              : "Start auto-play slideshow"
-          }
-        >
-          {autoplayIsPlaying ? (
-            <StopCircle className="dark:text-gray-200" />
-          ) : (
-            <PlayCircle className="dark:text-gray-200" />
-          )}
-        </button>
       </div>
     </div>
   );
