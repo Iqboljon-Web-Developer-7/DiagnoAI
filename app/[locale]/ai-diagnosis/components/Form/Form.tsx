@@ -166,7 +166,7 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
             placeholder={analyzing ? "Analyzing..." : t("symptomPlaceholder")}
             value={symptoms}
             onChange={(e) => setSymptoms(e.target.value)}
-            className="min-h-5 disabled:opacity-100 shadow-subtle{ md:min-h-8 resize-none text-sm bg-slate-100 dark:bg-gray-800/50 backdrop-blur-2xl md:text-lg max-h-40 w-full pr-16 sm:pr-14 focus:border-blue-400 dark:focus:border-blue-600 rounded-2xl border-none focus-visible:outline-hidden focus-visible:ring-offset-0 text-gray-700 dark:text-gray-200"
+            className="min-h-5 disabled:opacity-100 shadow-subtle{ md:min-h-8 resize-none text-sm bg-slate-100 dark:bg-slate-800 md:text-lg max-h-40 w-full pr-16 sm:pr-14 focus:border-blue-400 dark:focus:border-blue-600 rounded-2xl border-none focus-visible:outline-hidden focus-visible:ring-offset-0 text-gray-700 dark:text-gray-200"
             rows={2}
             cols={2}
             style={{
