@@ -207,7 +207,7 @@ export default function DiagnosisClient({
                 className={`flex flex-col relative max-h-[100dvh] overflow-hidden h-full`}
               >
                 <Card
-                  className={`overflow-auto grow shadow-none border-0 bg-transparent pb-10 pt-4 ${
+                  className={`overflow-auto grow shadow-none border-0 bg-transparent pb-12 pt-4 ${
                     !initialSelectedChat!?.messages!.length &&
                     "flex items-center justify-center"
                   }`}
