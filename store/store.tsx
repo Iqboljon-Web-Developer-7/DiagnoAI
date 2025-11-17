@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { clearTokenCache } from "@/lib/customAxios";
 
 type User = {
   id: string;
@@ -97,7 +98,10 @@ export const useAppStore = create<AppState>()(
           status: "Kutilmoqda",
         },
       ],
-      logout: () => set({ user: null, isLoggedIn: false }),
+      logout: () => {
+        clearTokenCache();
+        set({ user: null, isLoggedIn: false });
+      },
       addDiagnosis: (diagnosis) => {
         const newDiagnosis = {
           ...diagnosis,

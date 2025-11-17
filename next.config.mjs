@@ -10,8 +10,14 @@ const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
     },
+    compress: true, // Enable gzip compression
+    poweredByHeader: false, // Remove X-Powered-By header
     images: {
+        formats: ['image/avif', 'image/webp'], // Modern formats
         dangerouslyAllowSVG: true,
+        minimumCacheTTL: 60 * 60 * 24 * 30, // Cache for 30 days
+        deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+        imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
         remotePatterns: [
             {
                 protocol: "https",
