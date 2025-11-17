@@ -1,28 +1,38 @@
 import { notFound } from "next/navigation"
-import { useTranslations } from "next-intl"
+import { getTranslations } from "next-intl/server"
 import { getPackageById, packages } from "../data"
 import { Check, Clock, FileText, Heart, Stethoscope, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { Suspense } from "react"
+import { locales } from "@/i18n"
 
 interface PackageDetailPageProps {
-  params: {
+  params: Promise<{
     id: string
     locale: string
-  }
+  }>
 }
 
 // Generate static params for all packages
 export async function generateStaticParams() {
-  return packages.map((pkg) => ({
-    id: pkg.id.toString(),
-  }))
+  const params: { locale: string; id: string }[] = []
+  
+  locales.forEach((locale) => {
+    packages.forEach((pkg) => {
+      params.push({
+        locale,
+        id: pkg.id.toString(),
+      })
+    })
+  })
+  
+  return params
 }
 
 // Metadata generation
 export async function generateMetadata({ params }: PackageDetailPageProps) {
-  const pkg = getPackageById(parseInt(params.id))
+  const { id } = await params
+  const pkg = getPackageById(parseInt(id))
   
   if (!pkg) {
     return {
@@ -36,8 +46,14 @@ export async function generateMetadata({ params }: PackageDetailPageProps) {
   }
 }
 
-function PackageDetailContent({ packageData }: { packageData: ReturnType<typeof getPackageById> }) {
-  const t = useTranslations()
+async function PackageDetailContent({ 
+  packageData, 
+  locale 
+}: { 
+  packageData: ReturnType<typeof getPackageById>
+  locale: string 
+}) {
+  const t = await getTranslations({ locale })
 
   if (!packageData) {
     notFound()
@@ -205,7 +221,7 @@ function PackageDetailContent({ packageData }: { packageData: ReturnType<typeof 
         </div>
 
         {/* Package Includes */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl shadow-lg p-6 sm:p-8 md:p-10 mb-8 sm:mb-12 animate-in slide-in-from-bottom-8 duration-700 delay-500">
+        <div className="bg-linear-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl shadow-lg p-6 sm:p-8 md:p-10 mb-8 sm:mb-12 animate-in slide-in-from-bottom-8 duration-700 delay-500">
           <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 mb-8 text-center">
             {t("packages.packageIncludes")}
           </h3>
@@ -264,16 +280,13 @@ function PackageDetailContent({ packageData }: { packageData: ReturnType<typeof 
   )
 }
 
-export default function PackageDetailPage({ params }: PackageDetailPageProps) {
-  const packageData = getPackageById(parseInt(params.id))
+export default async function PackageDetailPage({ params }: PackageDetailPageProps) {
+  const { id, locale } = await params
+  const packageData = getPackageById(parseInt(id))
 
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-blue-900 pt-16 flex items-center justify-center">
-        <div className="animate-pulse text-gray-600 dark:text-gray-400">Loading...</div>
-      </div>
-    }>
-      <PackageDetailContent packageData={packageData} />
-    </Suspense>
-  )
+  if (!packageData) {
+    notFound()
+  }
+
+  return <PackageDetailContent packageData={packageData} locale={locale} />
 }
