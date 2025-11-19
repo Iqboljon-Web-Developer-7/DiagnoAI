@@ -21,6 +21,7 @@ export interface Doctor {
   translations: {
     field: string;
     description: string;
+    fieldDescription:string;
   };
 }
 

@@ -366,10 +366,10 @@ function getDoctorInfo(key:string) {
               </h2>
               <div className="bg-blue-50 dark:bg-blue-950 rounded-lg p-4 border-l-4 border-blue-500 dark:border-blue-700">
                 <h3 className="font-semibold text-blue-900 dark:text-blue-300 text-lg">
-                  {doctor.translations.field}
+                  {doctor.translations?.field}
                 </h3>
                 <p className="text-blue-800 dark:text-blue-400 mt-1">
-                  {getDoctorInfo(doctor.translations.field)}
+                  {doctor?.translations?.fieldDescription || "-"}
                 </p>
               </div>
             </div>
