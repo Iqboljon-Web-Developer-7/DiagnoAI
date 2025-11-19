@@ -1,11 +1,10 @@
 "use client";
 
 import { Clock, FileText } from "lucide-react";
-import PackageModal from "./PackageModal";
 import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import Link from "next/link";
 
 interface PackageProps {
   package: {
@@ -28,8 +27,8 @@ function PackageCard({ package: pkg }: PackageProps) {
   };
 
   return (
-    <Dialog>
-        <Card className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg dark:shadow-gray-900/50 overflow-hidden transition-all duration-300 hover:shadow-2xl dark:hover:shadow-gray-900/70 hover:-translate-y-1">
+    <Link href={`/pakets/${pkg.id}`} prefetch={true} className="block">
+      <Card className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg dark:shadow-gray-900/50 overflow-hidden transition-all duration-300 hover:shadow-2xl dark:hover:shadow-gray-900/70 hover:-translate-y-1 cursor-pointer">
           <div
             className={`relative h-32 sm:h-40 md:h-48 bg-gradient-to-br ${pkg.color} flex items-center justify-center overflow-hidden`}
           >
@@ -126,18 +125,12 @@ function PackageCard({ package: pkg }: PackageProps) {
               </p>
             </div>
 
-            <DialogTrigger asChild>
-              <Button className="w-full text-white bg-neutral-900 hover:underline" variant="default">
-                {t("packages.learnMore")}
-              </Button>
-            </DialogTrigger>
+            <Button className="w-full text-white bg-neutral-900 hover:bg-neutral-800 transition-colors" variant="default">
+              {t("packages.learnMore")}
+            </Button>
           </CardContent>
         </Card>
-
-        <DialogContent className="p-0 rounded-xl flex items-start justify-start border-transparent max-w-[94vw] sm:max-w-4xl">
-          <PackageModal package={pkg} />
-        </DialogContent>
-    </Dialog>
+    </Link>
   );
 }
 
