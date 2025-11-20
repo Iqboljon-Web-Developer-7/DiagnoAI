@@ -69,6 +69,7 @@ const page = () => {
         if (typeof window != undefined) {
           const returnPage = localStorage.getItem("returnPage") || "/";
           localStorage.removeItem("returnPage");
+          localStorage.setItem("redirected", "true");
 
           router.push(
             `${returnPage}${

@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Paperclip, Send, FileText, X } from "lucide-react";
@@ -18,7 +18,7 @@ import AutoWrite from "@/components/shared/AutoWritten";
 
 interface FormProps {
   initialSelectedId?: string;
-  isOpenedInOtherWeb?:string
+  isOpenedInOtherWeb?: string;
 }
 
 function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
@@ -31,6 +31,15 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
   const [analyzing, setAnalyzing] = useState(false);
   const [symptoms, setSymptoms] = useState("");
   const [files, setFiles] = useState<File[]>([]);
+
+  useEffect(() => {
+    if (localStorage.getItem("ai-input-value")) {
+      if (localStorage.getItem("redirected") == "true")
+        setSymptoms(localStorage.getItem("ai-input-value")!);
+      localStorage.removeItem("ai-input-value")
+      localStorage.removeItem("redirected")
+    }
+  }, [localStorage]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -57,10 +66,15 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
 
     if (!isLoggedIn) {
       toast(t("notLoggedIn"));
-      if(typeof window != undefined){
-        localStorage.setItem("returnPage", "/ai-diagnosis")
+      if (typeof window != undefined) {
+        localStorage.setItem("returnPage", "/ai-diagnosis");
+        localStorage.setItem("ai-input-value", symptoms);
       }
-      router.push(`/auth/login${isOpenedInOtherWeb === 'true' ? '?isOpenedInOtherWeb=true' : ''}`);
+      router.push(
+        `/auth/login${
+          isOpenedInOtherWeb === "true" ? "?isOpenedInOtherWeb=true" : ""
+        }`
+      );
       return;
     }
 
@@ -83,8 +97,12 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
       initialSelectedId = resp.id || initialSelectedId;
 
       const url = resp.doctors?.length
-        ? `/ai-diagnosis?chatId=${initialSelectedId}&doctorIds=${resp.doctors.join(",")}${isOpenedInOtherWeb ? '&isOpenedInOtherWeb=true' : ''}`
-        : `/ai-diagnosis?chatId=${initialSelectedId}${isOpenedInOtherWeb ? '&isOpenedInOtherWeb=true' : ''}`;
+        ? `/ai-diagnosis?chatId=${initialSelectedId}&doctorIds=${resp.doctors.join(
+            ","
+          )}${isOpenedInOtherWeb ? "&isOpenedInOtherWeb=true" : ""}`
+        : `/ai-diagnosis?chatId=${initialSelectedId}${
+            isOpenedInOtherWeb ? "&isOpenedInOtherWeb=true" : ""
+          }`;
       router.push(url);
       setAnalyzing(false);
       setFiles([]);
