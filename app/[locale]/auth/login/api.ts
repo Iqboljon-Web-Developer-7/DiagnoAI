@@ -1,6 +1,7 @@
 // api.ts
 import { useMutation } from "@tanstack/react-query"
 import { LoginFormData, LoginResponse } from "./types"
+import { serverFetch } from "@/app/actions"
 
 // Base API URL for login
 const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/users/login/`
@@ -10,22 +11,16 @@ const API_BASE_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/users/login/`
 export const useLoginMutation = () => {
   return useMutation<LoginResponse, Error, LoginFormData>({
     mutationFn: async (data: LoginFormData) => {
-      const response = await fetch(API_BASE_URL, {
+      const response = await serverFetch("/api/users/login/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body:  {
           email_or_phone: data.text || "",
           password: data.password,
-        }),
+        },
       })
 
-      const res = await response.json()
-
-      if (!response.ok) {
-        throw new Error(JSON.stringify({ data: res, status: response.status }))
-      }
-
-      return res
+      return response
     },
   })
 }

@@ -11,6 +11,7 @@ interface TimeSlotGridProps {
     bookedTimes: number[];
     availableSlots: number[];
     onBookAppointment: (time: number) => void;
+    onUnbookAppointment: () => void;
     isBookingPending: boolean;
 }
 
@@ -19,6 +20,7 @@ const TimeSlotGrid = memo(({
     bookedTimes, 
     availableSlots, 
     onBookAppointment,
+    onUnbookAppointment,
     isBookingPending 
 }: TimeSlotGridProps) => {
   const translations = useTranslations('doctors');
@@ -101,12 +103,12 @@ const TimeSlotGrid = memo(({
                     return (
                         <motion.div key={time} variants={itemVariants}>
                             <Button
-                                onClick={() => !isBooked && onBookAppointment(time)}
-                                disabled={isBooked || isBookingPending}
+                                onClick={() => isBooked ? onUnbookAppointment() : onBookAppointment(time)}
+                                disabled={isBookingPending}
                                 className={`
                                     relative h-14 w-full text-sm font-semibold rounded-xl transition-all duration-300 overflow-hidden
                                     ${isBooked 
-                                        ? 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed border-2 border-gray-300 dark:border-gray-600' 
+                                        ? 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 border-2 border-gray-300 dark:border-gray-600' 
                                         : 'bg-linear-to-br from-green-600 to-green-800 hover:from-green-700 hover:to-green-900 text-white shadow-lg hover:shadow-xl border-2 border-transparent hover:border-green-500 transform'
                                     }
                                 `}

@@ -3,6 +3,9 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import React, { memo, useCallback, useState } from 'react';
+
+import "react-medium-image-zoom/dist/styles.css";
+
 import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, MapPin, Award, Star } from 'lucide-react';
 import { Doctor } from './types';
@@ -11,7 +14,6 @@ import { User } from '../hospitals/types';
 import { BookingDialog } from './BookingDialog';
 import { Link } from '@/i18n/navigation';
 import Zoom from "react-medium-image-zoom";
-import "react-medium-image-zoom/dist/styles.css";
 import { motion } from 'framer-motion';
 
 interface DoctorCardProps {

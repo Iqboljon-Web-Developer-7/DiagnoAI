@@ -77,8 +77,10 @@ export default function page({ params }: PageProps) {
     data: freeTimes,
     isLoading: freeTimesLoading,
     refetch: refetchFreeTimes,
-  } = useFreeTimes(id, token, formattedDate);
+  } = useFreeTimes(id, token, formattedDate, true);
 
+  console.log(freeTimes);
+  
   const createBooking = useCreateBookingMutation(token);
   const { data: clinicBookings, isLoading: clinicBookingsLoading } =
     useGetClinicBookings(token, role === "clinic");

@@ -2,16 +2,12 @@ import { getTranslations } from "next-intl/server";
 import { DoctorList } from "./DoctorList";
 import { serverFetch } from "@/app/actions";
 import { Doctor } from "./types";
-import { StethoscopeIcon } from "lucide-react";
 
 export default async function Page({params}: {params:Promise<{ locale: string }>}) {
   const { locale } = await params;
 
-  const t = await getTranslations("doctors")
-
   const doctors:Doctor[] = await serverFetch(`/api/${locale}/doctors/`)
-
-  console.log(doctors);
+  const t = await getTranslations("doctors")
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-12">

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { useAppStore } from "@/store/store";
+import { serverFetch } from "@/app/actions";
 
 interface Booking {
   id: number;
@@ -126,29 +127,18 @@ const BookingSkeleton = () => (
 );
 
 // Hypothetical fetch function
-const fetchBookings = async (token: string): Promise<Booking[]> => {
-  const response = await fetch("https://api.diagnoai.uz/bookings/user/bookings/", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  if (!response.ok) {
-    throw new Error("Failed to fetch bookings");
-  }
-  return response.json();
+const fetchBookings = async () => {
+  const response = await serverFetch("/bookings/user/bookings/");
+  return response
 };
 
 // Hypothetical delete function
 const deleteBooking = async (id: number): Promise<void> => {
-  const response = await fetch(`/api/bookings/${id}`, {
+  const response = await serverFetch(`/bookings/bookings/en/${id}/update/`, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("access-token") || ""}`,
-    },
   });
-  if (!response.ok) {
-    throw new Error("Failed to delete booking");
-  }
+
+  console.log(response);
 };
 
 export default function Bookings() {
@@ -161,10 +151,11 @@ export default function Bookings() {
 
   const { data: bookings, isLoading, error } = useQuery({
     queryKey: ["bookings"],
-    queryFn: () => fetchBookings(token!),
+    queryFn: () => fetchBookings(),
     enabled: role === "client" && !!token, // Only fetch if conditions are met
   });
 
+  console.log(bookings);
   console.log(role);
   
 

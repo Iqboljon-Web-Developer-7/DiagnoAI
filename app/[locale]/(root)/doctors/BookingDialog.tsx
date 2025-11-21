@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, CheckCircle, AlertCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { format } from "date-fns";
-import { useCreateBookingMutation, useFreeTimes } from "./api";
+import { useCreateBookingMutation, useDeleteBookingMutation, useFreeTimes } from "./api";
 import { toast } from "sonner";
 import { Doctor } from "./types";
 import { User } from "../hospitals/types";
@@ -40,9 +40,10 @@ const BookingDialog = memo(
       data: freeTimes,
       isLoading: freeTimesLoading,
       refetch: refetchFreeTimes,
-    } = useFreeTimes(doctor?.id.toString(), token, formattedDate);
+    } = useFreeTimes(doctor?.id.toString(), token, formattedDate, isOpen);
 
     const createBooking = useCreateBookingMutation(user?.token);
+    const deleteBooking = useDeleteBookingMutation("en");
 
     const handleDateChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +77,60 @@ const BookingDialog = memo(
             onSuccess: () => {
               toast.success("Booking created successfully!", {
                 description: `Your appointment is confirmed for ${hour}:00 on ${selectedDate.toLocaleDateString()}`,
+                action: {
+                  label: "View",
+                  onClick: () => router.push("/appointments"),
+                },
+              });
+              refetchFreeTimes();
+              onClose();
+              // invalidate bookings list after successful creation
+              queryClient.invalidateQueries({ queryKey: ["bookings"] });
+            },
+            onError: (error: any) => {
+              toast.error("Failed to create booking", {
+                description: error?.message || "Please try again later",
+              });
+            },
+          }
+        );
+      },
+      [
+        token,
+        formattedDate,
+        selectedDate,
+        doctor.id,
+        createBooking,
+        refetchFreeTimes,
+        onClose,
+        router,
+        translations,
+      ]
+    );
+
+    const handleUnbookAppointment = useCallback(
+      () => {
+        return ''
+        if (!token) {
+          toast(translations("auth"), {
+            action: (
+              <Button
+                className="mx-auto"
+                onClick={() => router.push("/auth/register")}
+              >
+                Register
+              </Button>
+            ),
+          });
+          return;
+        }
+
+        deleteBooking.mutate(
+          { booking_id: doctor?.id },
+          {
+            onSuccess: () => {
+              toast.success("Booking created successfully!", {
+                description: `Your appointment is confirmed for on ${selectedDate.toLocaleDateString()}`,
                 action: {
                   label: "View",
                   onClick: () => router.push("/appointments"),
@@ -208,6 +263,7 @@ const BookingDialog = memo(
                     bookedTimes={bookedTimes}
                     availableSlots={availableSlots}
                     onBookAppointment={handleBookAppointment}
+                    onUnbookAppointment={handleUnbookAppointment}
                     isBookingPending={createBooking.isPending}
                   />
                 </motion.div>

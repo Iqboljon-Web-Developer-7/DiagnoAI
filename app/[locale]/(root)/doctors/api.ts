@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useAppStore } from '@/store/store';
-import { useTranslations } from 'next-intl';
-import { Doctor, Booking } from './types';
-import { toast } from 'sonner';
-import { serverFetch } from '@/app/actions';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAppStore } from "@/store/store";
+import { useTranslations } from "next-intl";
+import { Doctor, Booking } from "./types";
+import { toast } from "sonner";
+import { serverFetch } from "@/app/actions";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function fetchDoctors({
   latitude,
@@ -20,31 +20,38 @@ export async function fetchDoctors({
 }) {
   const params = new URLSearchParams({
     latitude: latitude.toString(),
-    longitude: longitude.toString()
+    longitude: longitude.toString(),
   });
-  if (selectedSpecialty) params.append('field', selectedSpecialty);
+  if (selectedSpecialty) params.append("field", selectedSpecialty);
 
-  const res = await fetch(`${API_BASE_URL}/api/en/doctors/?${params.toString()}` );
-  if (!res.ok) throw new Error('Failed to fetch doctors');
+  const res = await fetch(
+    `${API_BASE_URL}/api/en/doctors/?${params.toString()}`
+  );
+  if (!res.ok) throw new Error("Failed to fetch doctors");
   const rawData = await res.json();
 
   return rawData;
 }
 
-export function useDoctorsQuery(latitude: number, longitude: number, selectedSpecialty?: string) {
+export function useDoctorsQuery(
+  latitude: number,
+  longitude: number,
+  selectedSpecialty?: string
+) {
   return useQuery<Doctor[]>({
-    queryKey: ['doctors', latitude, longitude, selectedSpecialty],
-    queryFn: () => fetchDoctors({
-      latitude,
-      longitude,
-      selectedSpecialty: selectedSpecialty ?? '',
-    }),
+    queryKey: ["doctors", latitude, longitude, selectedSpecialty],
+    queryFn: () =>
+      fetchDoctors({
+        latitude,
+        longitude,
+        selectedSpecialty: selectedSpecialty ?? "",
+      }),
   });
 }
 
 export function useBookAppointmentMutation() {
   const { addAppointment, user } = useAppStore();
-  const translations = useTranslations('doctors');
+  const translations = useTranslations("doctors");
 
   return useMutation({
     mutationFn: async ({
@@ -59,16 +66,16 @@ export function useBookAppointmentMutation() {
       doctorName: string;
     }) => {
       if (!user?.token) {
-        throw new Error('Authentication required');
+        throw new Error("Authentication required");
       }
 
       const formData = new FormData();
-      formData.append('user_id', userId);
-      formData.append('latitude', latitude.toString());
-      formData.append('longitude', longitude.toString());
-      formData.append('message', `Book appointment with ${doctorName}`);
+      formData.append("user_id", userId);
+      formData.append("latitude", latitude.toString());
+      formData.append("longitude", longitude.toString());
+      formData.append("message", `Book appointment with ${doctorName}`);
 
-      return {awesome:'yeaaah'}
+      return { awesome: "yeaaah" };
 
       // const res = {ok:}
       // await fetch(`${API_BASE_URL}/chats/`, {
@@ -85,33 +92,38 @@ export function useBookAppointmentMutation() {
     onSuccess: (_data, variables) => {
       addAppointment({
         doctor: variables.doctorName,
-        specialty: '', // Will be updated in todos.tsx
-        date: new Date().toISOString().split('T')[0],
-        time: '14:00',
-        type: translations('doctorCard.bookButton') || 'Appointment',
-        status: 'Tasdiqlangan',
+        specialty: "", // Will be updated in todos.tsx
+        date: new Date().toISOString().split("T")[0],
+        time: "14:00",
+        type: translations("doctorCard.bookButton") || "Appointment",
+        status: "Tasdiqlangan",
       });
       toast(
-        translations('toastMessages.bookAppointment', { doctorName: variables.doctorName }) ||
-        `Appointment booked with ${variables.doctorName}`,
+        translations("toastMessages.bookAppointment", {
+          doctorName: variables.doctorName,
+        }) || `Appointment booked with ${variables.doctorName}`
       );
       const queryClient = useQueryClient();
-      queryClient.invalidateQueries({ queryKey: ['bookings'] });
+      queryClient.invalidateQueries({ queryKey: ["bookings"] });
     },
     onError: () => {
       toast.error(
-        translations('toastMessages.error') || 'Failed to book appointment'
+        translations("toastMessages.error") || "Failed to book appointment"
       );
     },
   });
 }
 
-export function useDoctorQuery(id: string, token: string | undefined, locale:string) {
+export function useDoctorQuery(
+  id: string,
+  token: string | undefined,
+  locale: string
+) {
   return useQuery<Doctor | null>({
-    queryKey: ['doctor', id],
+    queryKey: ["doctor", id],
     queryFn: async () => {
       try {
-        const response = await serverFetch(`/api/${locale}/doctors/${id}/`)
+        const response = await serverFetch(`/api/${locale}/doctors/${id}/`);
         return response || {};
       } catch {
         return null;
@@ -121,30 +133,26 @@ export function useDoctorQuery(id: string, token: string | undefined, locale:str
   });
 }
 
-export function useFreeTimes(doctorId: string, token: string | undefined, date: string) {
-  return useQuery<{booked_times: string[]}>({
-    queryKey: ['freeTimes', doctorId, date],
+export function useFreeTimes(
+  doctorId: string,
+  token: string | undefined,
+  date: string,
+  isOpen: boolean
+) {
+  return useQuery<{ booked_times: string[] }>({
+    queryKey: ["freeTimes", doctorId, date],
     queryFn: async () => {
       if (!token) {
-        throw new Error('Authentication required');
+        throw new Error("Authentication required");
       }
 
-      const res = await fetch(
-        `${API_BASE_URL}/bookings/doctors/${doctorId}/free-times/?date=${date}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const res = await serverFetch(
+        `/bookings/doctors/${doctorId}/free-times/?date=${date}`
       );
 
-      if (!res.ok) {
-        throw new Error('Failed to fetch free times');
-      }
-
-      return res.json();
+     return res
     },
-    enabled: !!doctorId && !!token && !!date,
+    enabled: !!doctorId && !!token && !!date && !!isOpen
   });
 }
 
@@ -152,33 +160,37 @@ export function useCreateBookingMutation(token: string | undefined) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ doctor, appointment_date }: { doctor: number; appointment_date: string }) => {
-      const res = await fetch(`${API_BASE_URL}/bookings/bookings/create/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ doctor, appointment_date }),
+    mutationFn: async ({
+      doctor,
+      appointment_date,
+    }: {
+      doctor: number;
+      appointment_date: string;
+    }) => {
+      const res = await serverFetch(`/bookings/bookings/create/`, {
+        method: "POST",
+        body: { doctor, appointment_date },
       });
-      if (!res.ok) throw new Error('Failed to create booking');
-      return res.json();
+      return res
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['freeTimes'] });
+      queryClient.invalidateQueries({ queryKey: ["freeTimes"] });
     },
   });
 }
 
-export function useGetClinicBookings(token: string | undefined, enabled: boolean) {
+export function useGetClinicBookings(
+  token: string | undefined,
+  enabled: boolean
+) {
   return useQuery<Booking[]>({
-    queryKey: ['clinicBookings'],
+    queryKey: ["clinicBookings"],
     queryFn: async () => {
-      if (!token) throw new Error('Authentication required');
+      if (!token) throw new Error("Authentication required");
       const res = await fetch(`${API_BASE_URL}/bookings/doctor/bookings/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error('Failed to fetch clinic bookings');
+      if (!res.ok) throw new Error("Failed to fetch clinic bookings");
       return res.json(); // Assumes array of bookings
     },
     enabled: enabled && !!token,
@@ -190,21 +202,30 @@ export function useUpdateBookingMutation(lang_code: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ booking_id, status }: { booking_id: number; status: Booking['status'] }) => {
-      if (!user?.token) throw new Error('Authentication required');
-      const res = await fetch(`${API_BASE_URL}/bookings/bookings/${lang_code}/${booking_id}/update/`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify({ status }),
-      });
-      if (!res.ok) throw new Error('Failed to update booking');
+    mutationFn: async ({
+      booking_id,
+      status,
+    }: {
+      booking_id: number;
+      status: Booking["status"];
+    }) => {
+      if (!user?.token) throw new Error("Authentication required");
+      const res = await fetch(
+        `${API_BASE_URL}/bookings/bookings/${lang_code}/${booking_id}/update/`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify({ status }),
+        }
+      );
+      if (!res.ok) throw new Error("Failed to update booking");
       return res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['clinicBookings'] });
+      queryClient.invalidateQueries({ queryKey: ["clinicBookings"] });
     },
   });
 }
@@ -215,18 +236,21 @@ export function useDeleteBookingMutation(lang_code: string) {
 
   return useMutation({
     mutationFn: async ({ booking_id }: { booking_id: number }) => {
-      if (!user?.token) throw new Error('Authentication required');
-      const res = await fetch(`${API_BASE_URL}/bookings/bookings/${lang_code}/${booking_id}/update/`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      if (!res.ok) throw new Error('Failed to delete booking');
+      if (!user?.token) throw new Error("Authentication required");
+      const res = await fetch(
+        `${API_BASE_URL}/bookings/bookings/${lang_code}/${booking_id}/update/`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      if (!res.ok) throw new Error("Failed to delete booking");
       return res;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['clinicBookings'] });
+      queryClient.invalidateQueries({ queryKey: ["clinicBookings"] });
     },
   });
 }

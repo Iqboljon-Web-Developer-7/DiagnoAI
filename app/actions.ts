@@ -43,10 +43,17 @@ export const serverFetch = async (
     };
 
     const res = await fetch(`${API_BASE_URL}${url}`, fetchOptions);
+      console.log(res);
+      
+
     if (!res.ok) {
         return null;
     }
-    return res.json();
+
+    if(res.status == 204) {
+      return "success"
+    }
+    return res?.json();
 };
 
 // Server Action to delete a booking
@@ -81,9 +88,9 @@ export async function deleteBooking(formData: FormData) {
       throw new Error("Failed to delete booking");
     }
 
-    // return { success: true };
+    return { success: true };
   } catch (error) {
     console.error("Error deleting booking:", error);
-    // throw new Error("Failed to delete booking");
+    throw new Error("Failed to delete booking");
   }
 }

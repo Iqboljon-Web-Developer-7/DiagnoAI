@@ -2,7 +2,6 @@ import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { useRouter } from "next/navigation";
 import React, { memo } from "react";
 import { MessageSquare, Trash } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 interface Chat {
