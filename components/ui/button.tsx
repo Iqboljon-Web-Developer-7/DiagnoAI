@@ -44,8 +44,7 @@ function Button({
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
-    asChild?: boolean,
-    iconType?: "doctors" | "ai-diagnosis" | "panel-left",
+    asChild?: boolean
   }) {
   const Comp = asChild ? Slot : "button"
 
