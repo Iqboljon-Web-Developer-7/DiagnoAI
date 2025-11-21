@@ -142,8 +142,8 @@ export default function VoiceChatButton() {
           hover:from-blue-600 hover:to-blue-700
           rounded-full
           flex items-center justify-center
-          shadow-lg hover:shadow-xl
           active:scale-95
+          animate-fade-in-down duration-200 opacity-0
         `}
         style={getButtonStyle()}
       >

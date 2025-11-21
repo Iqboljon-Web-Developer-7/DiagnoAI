@@ -15,13 +15,9 @@ import { Brain, Plus } from "lucide-react";
 
 import { toast } from "sonner";
 
-import "react-medium-image-zoom/dist/styles.css";
-
 import { DiagnosisClientProps } from "./types";
 import { deleteChat } from "./actions";
 
-import ChatMessages from "./components/CurrentChat/CurrentChat";
-import VoiceButton from "./components/VoiceModeBtn";
 import {
   Sidebar,
   SidebarContent,
@@ -31,20 +27,26 @@ import {
   SidebarMenu,
   SidebarProvider,
   SidebarTrigger,
+  SidebarInset
 } from "@/components/ui/sidebar";
-const SidebarInset = dynamic(
-  () =>
-    import("@/components/ui/sidebar").then((mod) => ({
-      default: mod.SidebarInset,
-    })),
-  { ssr: false }
-);
 
+import "react-medium-image-zoom/dist/styles.css";
+
+const ChatMessages = dynamic(() => import("./components/CurrentChat/CurrentChat"), {
+  ssr: false,
+});
+const VoiceButton = dynamic(() => import("./components/VoiceModeBtn"), {
+  ssr: false,
+});
 const Form = dynamic(() => import("./components/Form/Form"), {
   ssr: false,
   loading: () => (
-    <div className="h-[44px] bg-gray-200 dark:bg-gray-800 animate-pulse text-center">
-      Loading form...
+    <div className="flex items-center justify-center h-[44px] bg-white/20 dark:bg-neutral-800/30 rounded-xl animate-pulse">
+      <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300">
+        <div className="w-2 h-2 rounded-full bg-current animate-bounce [animation-delay:-0.3s]"></div>
+        <div className="w-2 h-2 rounded-full bg-current animate-bounce [animation-delay:-0.15s]"></div>
+        <div className="w-2 h-2 rounded-full bg-current animate-bounce"></div>
+      </div>
     </div>
   ),
 });
@@ -85,7 +87,6 @@ export default function DiagnosisClient({
     startTransition(async () => {
       try {
         await deleteChat(id);
-
         if (initialSelectedChat?.id === id) handleNewChat();
         toast.success(t("deleteSuccess") ?? "Chat deleted");
       } catch {
@@ -231,7 +232,7 @@ export default function DiagnosisClient({
                   </CardContent>
                 </Card>
 
-                <span className={`flex items-end justify-center pb-2 gap-2 bottom-0 left-2 right-2 z-20 ${initialSelectedChat ? 'absolute' : ''}`}>
+                <span className={`flex items-end justify-center mx-2 pb-2 gap-2 bottom-0 left-2 right-2 z-20 ${initialSelectedChat ? 'absolute' : ''}`}>
                   <Card className="flex-1 grow bg-transparent border-none shadow-none animate-fade-in-down duration-200 opacity-0 delay-500 p-0">
                     <CardContent className="mx-1 flex items-start justify-center flex-col p-0 min-w-[80vw] sm:min-w-md">
                       <Form

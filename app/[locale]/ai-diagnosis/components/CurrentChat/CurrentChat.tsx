@@ -13,7 +13,7 @@ interface ChatMessagesProps {
 const ChatMessages = ({ initialSelectedChat, t, isOpenedInOtherWeb }: ChatMessagesProps) => {
   if (!initialSelectedChat?.messages?.length && isOpenedInOtherWeb != 'true') {
     return (
-      <div className="flex flex-row gap-[5%] items-center justify-center flex-wrap text-center animate-fade-in-down duration-200 opacity-0 delay-300">
+      <div className="flex flex-col gap-[5%] items-center justify-center text-center animate-fade-in-down duration-200 opacity-0 delay-300">
         <div className="p-6 bg-linear-to-r from-blue-200 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-full mb-4">
           <Stethoscope className="h-12 w-12 text-blue-600 dark:text-blue-300" />
         </div>

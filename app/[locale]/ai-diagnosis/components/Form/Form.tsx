@@ -36,8 +36,8 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
     if (localStorage.getItem("ai-input-value")) {
       if (localStorage.getItem("redirected") == "true")
         setSymptoms(localStorage.getItem("ai-input-value")!);
-      localStorage.removeItem("ai-input-value")
-      localStorage.removeItem("redirected")
+      localStorage.removeItem("ai-input-value");
+      localStorage.removeItem("redirected");
     }
   }, [localStorage]);
 
@@ -129,8 +129,10 @@ function Form({ initialSelectedId, isOpenedInOtherWeb }: FormProps) {
         />
       )}
       <div
-        className="
-        w-[-webkit-fill-available] max-w-[70vw] sm:max-w-screen overflow-x-auto overflow-y-hidden flex items-center justify-start"
+        className={`
+        w-[-webkit-fill-available] mb-2 max-w-[78vw] sm:max-w-screen overflow-x-auto overflow-y-hidden flex items-center justify-start 
+        ${files!?.length && "pt-4"}
+        `}
       >
         {files!?.length > 0 && (
           <div className="py-2">
